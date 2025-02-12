@@ -15,13 +15,16 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest",
-      "prettier"
+      "prettier",
+      "plugin:storybook/recommended"
     ]
   },
   "lint-staged": {
@@ -41,9 +44,22 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@chromatic-com/storybook": "^3.2.4",
+    "@storybook/addon-essentials": "^8.5.4",
+    "@storybook/addon-interactions": "^8.5.4",
+    "@storybook/addon-onboarding": "^8.5.4",
+    "@storybook/blocks": "^8.5.4",
+    "@storybook/preset-create-react-app": "^8.5.4",
+    "@storybook/react": "^8.5.4",
+    "@storybook/react-webpack5": "^8.5.4",
+    "@storybook/test": "^8.5.4",
     "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-storybook": "^0.11.2",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "prettier": "3.5.0"
+    "prettier": "3.5.0",
+    "prop-types": "^15.8.1",
+    "storybook": "^8.5.4",
+    "webpack": "^5.97.1"
   }
 }

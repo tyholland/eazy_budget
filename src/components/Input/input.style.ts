@@ -7,10 +7,20 @@ export const Input = styled.input`
   height: 12px;
   font-size: 16px;
 
-  &:disabled {
-    border: 1px solid red;
-    background: #ffcccb;
-    color: #000;
+  &.expense {
+    &:disabled {
+      border: 1px solid red;
+      background: #ffcccb;
+      color: #000;
+    }
+  }
+
+  &.income {
+    &:disabled {
+      border: 1px solid green;
+      background: #cefad0;
+      color: #000;
+    }
   }
 
   &.small {

@@ -1,5 +1,5 @@
 import React from "react";
-import { ButtonSize, InputOptions, InputTypes } from "../../types.ts";
+import { InputSize, InputOptions, InputTypes } from "../../types.ts";
 import * as S from "./input.style.ts";
 
 interface InputProps {
@@ -7,11 +7,11 @@ interface InputProps {
   inputOption?: InputOptions;
   disabled?: boolean;
   type?: InputTypes;
-  buttonSize?: ButtonSize;
+  inputSize?: InputSize;
 }
 
 const Input = ({
-  buttonSize = "small",
+  inputSize = "small",
   inputLabel,
   disabled = false,
   type = "text",
@@ -23,7 +23,7 @@ const Input = ({
       <S.Input
         type={type}
         id={inputLabel}
-        className={`${buttonSize} ${inputOption}`}
+        className={`${inputSize} ${inputOption}`}
         disabled={disabled}
         defaultValue={30}
       />

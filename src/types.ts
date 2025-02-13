@@ -1,5 +1,7 @@
-export type InputSize = "small" | "medium" | "big";
+export type ElementSize = "medium" | "big";
 
-export type InputTypes = "number" | "text" | "email" | "password";
+export type InputType = "number" | "text" | "email" | "password";
 
-export type InputOptions = "expense" | "income";
+export type InputOption = "expense" | "income";
+
+export type ButtonType = "register" | "exit";

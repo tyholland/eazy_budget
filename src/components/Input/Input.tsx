@@ -1,17 +1,17 @@
 import React from "react";
-import { InputSize, InputOptions, InputTypes } from "../../types.ts";
+import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./input.style.ts";
 
 interface InputProps {
   inputLabel: string;
-  inputOption?: InputOptions;
+  inputOption?: InputOption;
   disabled?: boolean;
-  type?: InputTypes;
-  inputSize?: InputSize;
+  type?: InputType;
+  inputSize?: ElementSize;
 }
 
 const Input = ({
-  inputSize = "small",
+  inputSize,
   inputLabel,
   disabled = false,
   type = "text",

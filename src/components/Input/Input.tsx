@@ -13,11 +13,11 @@ interface InputProps {
 }
 
 const Input = ({
-  inputSize,
+  inputSize = "small",
   inputLabel,
   disabled = false,
   type = "text",
-  inputOption,
+  inputOption = "default",
   defaultValue = "",
   placeHolder = "",
 }: InputProps) => {

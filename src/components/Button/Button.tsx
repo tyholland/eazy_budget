@@ -12,10 +12,10 @@ interface ButtonProps {
 
 const Button = ({
   children,
-  buttonSize,
+  buttonSize = "small",
   handleClick,
   disabled = false,
-  type,
+  type = "default",
 }: ButtonProps) => {
   return (
     <S.Button

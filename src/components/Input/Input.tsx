@@ -8,14 +8,18 @@ interface InputProps {
   disabled?: boolean;
   type?: InputType;
   inputSize?: ElementSize;
+  defaultValue?: string | number;
+  placeHolder?: string;
 }
 
 const Input = ({
-  inputSize,
+  inputSize = "small",
   inputLabel,
   disabled = false,
   type = "text",
-  inputOption,
+  inputOption = "default",
+  defaultValue = "",
+  placeHolder = "",
 }: InputProps) => {
   return (
     <S.InputWrapper>
@@ -25,7 +29,8 @@ const Input = ({
         id={inputLabel}
         className={`${inputSize} ${inputOption}`}
         disabled={disabled}
-        defaultValue={30}
+        defaultValue={defaultValue}
+        placeholder={placeHolder}
       />
     </S.InputWrapper>
   );

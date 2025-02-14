@@ -4,21 +4,27 @@ export const Button = styled.button`
   border-radius: 30px;
   border: none;
   padding: 15px;
-  width: 100px;
   cursor: pointer;
   font-weight: 700;
-  background: #90d5ff;
-  color: #000;
 
-  &:hover {
-    background: #57b9ff;
+  &.default {
+    background: #90d5ff;
+    color: #000;
+
+    &:hover {
+      background: #57b9ff;
+    }
+  }
+
+  &.small {
+    width: 100px;
   }
 
   &.medium {
     width: 150px;
   }
 
-  &.big {
+  &.large {
     width: 200px;
   }
 

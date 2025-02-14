@@ -6,7 +6,14 @@ export const Input = styled.input`
   padding: 10px;
   height: 12px;
   font-size: 16px;
-  width: 100px;
+
+  &.default {
+    &:disabled {
+      border: 1px solid #000;
+      background: #fff;
+      color: #808080;
+    }
+  }
 
   &.expense {
     &:disabled {
@@ -24,11 +31,15 @@ export const Input = styled.input`
     }
   }
 
+  &.small {
+    width: 100px;
+  }
+
   &.medium {
     width: 150px;
   }
 
-  &.big {
+  &.large {
     width: 200px;
   }
 `;

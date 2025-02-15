@@ -12,6 +12,7 @@ export default {
 export const Primary = {
   args: {
     inputLabel: "Netflix",
-    placeHolder: "Enter amount",
+    valuePlaceHolder: "Enter amount",
+    labelPlaceHolder: "Enter label",
   },
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./input.style.ts";
+import { formatAmount } from "../../functions/helper.ts";
 
 interface InputProps {
   inputLabel: string;
@@ -38,11 +39,13 @@ const Input = ({
         <S.Label htmlFor={inputLabel}>{inputLabel}</S.Label>
       )}
       <S.Input
-        type={type}
+        type={editableValue ? type : "text"}
         id={inputLabel}
         className={`${inputSize} ${inputOption}`}
         disabled={editableValue}
-        defaultValue={defaultValue}
+        defaultValue={
+          !editableValue ? formatAmount(defaultValue as number) : defaultValue
+        }
         placeholder={valuePlaceHolder}
       />
     </S.InputWrapper>

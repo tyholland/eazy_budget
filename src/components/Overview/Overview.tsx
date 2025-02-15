@@ -4,11 +4,18 @@ import Button from "../Button/Button.tsx";
 import { listOfMonths } from "../../constants.ts";
 
 interface OverviewProps {
+  incomeValue: number;
+  expenseValue: number;
   label?: string;
   showLabel?: boolean;
 }
 
-const Overview = ({ label, showLabel = true }: OverviewProps) => {
+const Overview = ({
+  label,
+  showLabel = true,
+  incomeValue,
+  expenseValue,
+}: OverviewProps) => {
   const date = new Date();
   const year = date.getFullYear();
   const month = listOfMonths[date.getMonth()];
@@ -29,23 +36,24 @@ const Overview = ({ label, showLabel = true }: OverviewProps) => {
     : isMonthly
       ? `${month} Remaining Cash`
       : "Total Remaining Cash";
+  const cashFlow = incomeValue - expenseValue;
 
   return (
     <div>
       {showLabel && <div>{label}</div>}
       <Input
         inputLabel={income}
-        defaultValue={30.0}
+        defaultValue={incomeValue}
         type="number"
         inputOption="income"
       />
       <Input
         inputLabel={expense}
-        defaultValue={20.0}
+        defaultValue={expenseValue}
         type="number"
         inputOption="expense"
       />
-      <Input inputLabel={remaining} defaultValue={10.0} type="number" />
+      <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
       {isYearly && (
         <div>
           <div>Predict your cash flow for the next 5 years</div>

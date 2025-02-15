@@ -5,32 +5,45 @@ import * as S from "./input.style.ts";
 interface InputProps {
   inputLabel: string;
   inputOption?: InputOption;
-  disabled?: boolean;
+  editableValue?: boolean;
+  editableLabel?: boolean;
   type?: InputType;
   inputSize?: ElementSize;
   defaultValue?: string | number;
-  placeHolder?: string;
+  valuePlaceHolder?: string;
+  labelPlaceHolder?: string;
 }
 
 const Input = ({
   inputSize = "small",
   inputLabel,
-  disabled = false,
+  editableValue = false,
+  editableLabel = false,
   type = "text",
   inputOption = "default",
   defaultValue = "",
-  placeHolder = "",
+  valuePlaceHolder = "",
+  labelPlaceHolder = "",
 }: InputProps) => {
   return (
     <S.InputWrapper>
-      <S.Label htmlFor={inputLabel}>{inputLabel}</S.Label>
+      {editableLabel ? (
+        <S.Input
+          type="text"
+          className={`${inputSize} ${inputOption}`}
+          defaultValue={inputLabel}
+          placeholder={labelPlaceHolder}
+        />
+      ) : (
+        <S.Label htmlFor={inputLabel}>{inputLabel}</S.Label>
+      )}
       <S.Input
         type={type}
         id={inputLabel}
         className={`${inputSize} ${inputOption}`}
-        disabled={disabled}
+        disabled={editableValue}
         defaultValue={defaultValue}
-        placeholder={placeHolder}
+        placeholder={valuePlaceHolder}
       />
     </S.InputWrapper>
   );

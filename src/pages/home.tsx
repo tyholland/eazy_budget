@@ -33,9 +33,10 @@ const Home = () => {
       <Input
         inputLabel="Netflix"
         inputOption="expense"
-        disabled
+        editableValue
         type="number"
-        placeHolder="Enter Amount"
+        valuePlaceHolder="Enter Amount"
+        labelPlaceHolder="Enter Label"
         defaultValue={30}
       />
       <Button handleClick={handleClick} buttonSize="medium">

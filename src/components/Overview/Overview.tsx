@@ -5,6 +5,7 @@ import { listOfMonths } from "../../constants.ts";
 import * as S from "./overview.style.ts";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface OverviewProps {
   incomeValue: number;
@@ -51,7 +52,9 @@ const Overview = ({
           type="number"
           inputOption="income"
         />
-        <ViewIcon />
+        <span data-tooltip-id={`${label}-income-tooltip`}>
+          <ViewIcon />
+        </span>
       </S.Section>
       <S.Section>
         <Input
@@ -60,7 +63,9 @@ const Overview = ({
           type="number"
           inputOption="expense"
         />
-        <ViewIcon />
+        <span data-tooltip-id={`${label}-expense-tooltip`}>
+          <ViewIcon />
+        </span>
       </S.Section>
       <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
       {isYearly && (
@@ -73,6 +78,18 @@ const Overview = ({
           </Button>
         </S.Prediction>
       )}
+      <ReactTooltip
+        id={`${label}-expense-tooltip`}
+        place="top"
+        variant="info"
+        content={`View a more detailed breakdown of your ${label?.toLowerCase()} expenses`}
+      />
+      <ReactTooltip
+        id={`${label}-income-tooltip`}
+        place="top"
+        variant="info"
+        content={`View a more detailed breakdown of your ${label?.toLowerCase()} income`}
+      />
     </S.OverviewWrapper>
   );
 };

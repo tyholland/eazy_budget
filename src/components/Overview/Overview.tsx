@@ -3,7 +3,6 @@ import Input from "../Input/Input.tsx";
 import Button from "../Button/Button.tsx";
 import { listOfMonths } from "../../constants.ts";
 import * as S from "./overview.style.ts";
-import SaveIcon from "../../svg/SaveIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 

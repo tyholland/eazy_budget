@@ -1,6 +1,6 @@
 import React from "react";
-import Input from "../Input/Input.tsx";
-import Button from "../Button/Button.tsx";
+import Input from "../../components/Input/Input.tsx";
+import Button from "../../components/Button/Button.tsx";
 import { listOfMonths } from "../../constants.ts";
 import * as S from "./overview.style.ts";
 import ViewIcon from "../../svg/ViewIcon.tsx";

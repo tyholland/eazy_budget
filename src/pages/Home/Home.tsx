@@ -1,5 +1,5 @@
 import React from "react";
-import Overview from "../../components/Overview/Overview.tsx";
+import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./home.style.ts";
 
 const Home = () => {

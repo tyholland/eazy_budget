@@ -35,7 +35,7 @@
     ]
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown src/pages/"
+    "**/*": "prettier --write --ignore-unknown src/pages"
   },
   "browserslist": {
     "production": [

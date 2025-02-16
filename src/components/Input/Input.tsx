@@ -42,9 +42,9 @@ const Input = ({
         type={editableValue ? type : "text"}
         id={inputLabel}
         className={`${inputSize} ${inputOption}`}
-        disabled={editableValue}
+        disabled={!editableValue}
         defaultValue={
-          !editableValue ? formatAmount(defaultValue as number) : defaultValue
+          !editableValue ? formatAmount(Number(defaultValue)) : defaultValue
         }
         placeholder={valuePlaceHolder}
       />

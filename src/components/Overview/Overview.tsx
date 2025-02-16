@@ -2,6 +2,7 @@ import React from "react";
 import Input from "../Input/Input.tsx";
 import Button from "../Button/Button.tsx";
 import { listOfMonths } from "../../constants.ts";
+import * as S from "./overview.style.ts";
 
 interface OverviewProps {
   incomeValue: number;
@@ -39,8 +40,8 @@ const Overview = ({
   const cashFlow = incomeValue - expenseValue;
 
   return (
-    <div>
-      {showLabel && <div>{label}</div>}
+    <S.OverviewWrapper>
+      {showLabel && <S.Title>{label}</S.Title>}
       <Input
         inputLabel={income}
         defaultValue={incomeValue}
@@ -55,12 +56,14 @@ const Overview = ({
       />
       <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
       {isYearly && (
-        <div>
-          <div>Predict your cash flow for the next 5 years</div>
-          <Button handleClick={() => {}}>Next</Button>
-        </div>
+        <S.Prediction>
+          <div>Predict your cash flow for the next 3 years</div>
+          <Button handleClick={() => {}} buttonSize="medium">
+            Predict Now
+          </Button>
+        </S.Prediction>
       )}
-    </div>
+    </S.OverviewWrapper>
   );
 };
 

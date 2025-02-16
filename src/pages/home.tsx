@@ -1,8 +1,14 @@
 import React from "react";
 import Overview from "../components/Overview/Overview.tsx";
+import * as S from "./home.style.ts";
 
 const Home = () => {
-  return <Overview label="Yearly" incomeValue={50} expenseValue={20} />;
+  return (
+    <S.HomeWrapper>
+      <Overview label="Yearly" incomeValue={50} expenseValue={20} />
+      <Overview label="Monthly" incomeValue={50} expenseValue={20} />
+    </S.HomeWrapper>
+  );
 };
 
 export default Home;

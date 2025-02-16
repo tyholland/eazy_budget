@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <S.HomeWrapper>
       <Overview label="Yearly" incomeValue={50} expenseValue={20} />
-      <Overview label="Monthly" incomeValue={50} expenseValue={20} />
+      <Overview label="Monthly" incomeValue={90} expenseValue={40} />
     </S.HomeWrapper>
   );
 };

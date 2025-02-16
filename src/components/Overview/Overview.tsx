@@ -3,6 +3,9 @@ import Input from "../Input/Input.tsx";
 import Button from "../Button/Button.tsx";
 import { listOfMonths } from "../../constants.ts";
 import * as S from "./overview.style.ts";
+import SaveIcon from "../../svg/SaveIcon.tsx";
+import ViewIcon from "../../svg/ViewIcon.tsx";
+import ChartIcon from "../../svg/ChartIcon.tsx";
 
 interface OverviewProps {
   incomeValue: number;
@@ -42,24 +45,32 @@ const Overview = ({
   return (
     <S.OverviewWrapper>
       {showLabel && <S.Title>{label}</S.Title>}
-      <Input
-        inputLabel={income}
-        defaultValue={incomeValue}
-        type="number"
-        inputOption="income"
-      />
-      <Input
-        inputLabel={expense}
-        defaultValue={expenseValue}
-        type="number"
-        inputOption="expense"
-      />
+      <S.Section>
+        <Input
+          inputLabel={income}
+          defaultValue={incomeValue}
+          type="number"
+          inputOption="income"
+        />
+        <ViewIcon />
+      </S.Section>
+      <S.Section>
+        <Input
+          inputLabel={expense}
+          defaultValue={expenseValue}
+          type="number"
+          inputOption="expense"
+        />
+        <ViewIcon />
+      </S.Section>
       <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
       {isYearly && (
         <S.Prediction>
           <div>Predict your cash flow for the next 3 years</div>
           <Button handleClick={() => {}} buttonSize="medium">
-            Predict Now
+            <S.Predict>
+              Predict <ChartIcon />
+            </S.Predict>
           </Button>
         </S.Prediction>
       )}

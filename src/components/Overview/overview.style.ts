@@ -17,3 +17,13 @@ export const Prediction = styled.div`
   font-size: 18px;
   font-weight: 700;
 `;
+
+export const Section = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const Predict = styled(Section)`
+  justify-content: center;
+`;

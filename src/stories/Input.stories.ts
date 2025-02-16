@@ -14,5 +14,6 @@ export const Primary = {
     inputLabel: "Netflix",
     valuePlaceHolder: "Enter amount",
     labelPlaceHolder: "Enter label",
+    defaultValue: 30,
   },
 };

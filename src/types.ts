@@ -8,6 +8,8 @@ export type ButtonType = "default" | "register" | "exit";
 
 export type GraphType = "doughnut" | "pie" | "bar";
 
+export type OverviewLabel = "default" | "Yearly" | "Monthly";
+
 export interface AutoCompleteOptions {
   id: number;
   label: string;

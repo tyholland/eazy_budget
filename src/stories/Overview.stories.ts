@@ -10,9 +10,5 @@ export default {
 };
 
 export const Primary = {
-  args: {
-    label: "Yearly",
-    incomeValue: 50,
-    expenseValue: 20,
-  },
+  args: { label: "Yearly", incomeValue: 50, expenseValue: 20 },
 };

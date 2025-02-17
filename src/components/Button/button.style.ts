@@ -47,6 +47,17 @@ export const Button = styled.button`
     }
   }
 
+  &.image {
+    background: transparent;
+    border-radius: 0;
+    width: auto;
+    padding: 0;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
   &:disabled {
     background: #eee;
     color: #999;

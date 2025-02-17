@@ -2,7 +2,12 @@ import React from "react";
 
 const DeleteIcon = () => {
   return (
-    <svg viewBox="0 0 159.60748 159.60748" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 159.60748 159.60748"
+      width={24}
+      height={24}
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <defs>
         <linearGradient id="a">
           <stop stop-color="#fff" offset="0" />

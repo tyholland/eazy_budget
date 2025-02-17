@@ -1,11 +1,11 @@
 import React from "react";
 import Input from "../../components/Input/Input.tsx";
 import Button from "../../components/Button/Button.tsx";
-import { listOfMonths } from "../../constants.ts";
 import * as S from "./overview.style.ts";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { getDateInfo } from "../../functions/helper.ts";
 
 interface OverviewProps {
   incomeValue: number;
@@ -20,9 +20,7 @@ const Overview = ({
   incomeValue,
   expenseValue,
 }: OverviewProps) => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = listOfMonths[date.getMonth()];
+  const { year, month } = getDateInfo();
   const isYearly = label === "Yearly";
   const isMonthly = label === "Monthly";
   const income = isYearly

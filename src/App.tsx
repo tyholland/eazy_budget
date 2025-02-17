@@ -4,7 +4,7 @@ import Home from "./pages/Home/Home.tsx";
 import Monthly from "./pages/Monthly/Monthly.tsx";
 import { BudgetData } from "./types.ts";
 import { useSetAtom } from "jotai";
-import { monthlyExpenseAtom } from "./hook/ExpenseAtom.ts";
+import { expenseAtom } from "./hook/ExpenseAtom.ts";
 
 const App = () => {
   const monthlyExpense: BudgetData[] = [
@@ -28,7 +28,7 @@ const App = () => {
     },
   ];
 
-  const setMonthlyExpense = useSetAtom(monthlyExpenseAtom);
+  const setMonthlyExpense = useSetAtom(expenseAtom);
 
   setMonthlyExpense(monthlyExpense);
 

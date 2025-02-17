@@ -5,14 +5,14 @@ import SaveIcon from "../../svg/SaveIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
 import { BudgetData, InputOption } from "../../types.ts";
 import { useParams } from "react-router-dom";
-import { monthlyExpenseAtom } from "../../hook/ExpenseAtom.ts";
+import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import { useAtom } from "jotai";
 import Button from "../../components/Button/Button.tsx";
 import { getDateInfo } from "../../functions/helper.ts";
 import * as S from "./monthly.style.ts";
 
 const Monthly = () => {
-  const [expense, setExpense] = useAtom(monthlyExpenseAtom);
+  const [expense, setExpense] = useAtom(expenseAtom);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const { year, month } = getDateInfo();
   const { type } = useParams();

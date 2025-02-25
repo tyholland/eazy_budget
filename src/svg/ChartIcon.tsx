@@ -10,7 +10,7 @@ const ChartIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        <filter id="d" color-interpolation-filters="sRGB">
+        <filter id="d" colorInterpolationFilters="sRGB">
           <feGaussianBlur stdDeviation="1.5371249" />
         </filter>
         <linearGradient
@@ -22,8 +22,8 @@ const ChartIcon = () => {
           gradientTransform="matrix(.85995 -.23042 .23042 .85995 -119.9 11.349)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#e88e27" offset="0" />
-          <stop stop-color="#e8c827" stop-opacity=".53659" offset="1" />
+          <stop stopColor="#e88e27" offset="0" />
+          <stop stopColor="#e8c827" stopOpacity=".53659" offset="1" />
         </linearGradient>
         <linearGradient
           id="e"
@@ -34,8 +34,8 @@ const ChartIcon = () => {
           gradientTransform="matrix(.85995 -.23042 .23042 .85995 -408.99 135.38)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#fff" stop-opacity="0" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#fff" stopOpacity="0" offset="1" />
         </linearGradient>
       </defs>
       <g transform="translate(-136.04 -.03125)">
@@ -47,14 +47,14 @@ const ChartIcon = () => {
           height="128"
           fill="none"
           stroke="#f9f9f9"
-          stroke-dashoffset=".175"
-          stroke-width=".1"
+          strokeDashoffset=".175"
+          strokeWidth=".1"
         />
         <path
           transform="matrix(.99725 -.07417 .21966 .97558 340.45 -288.16)"
           d="m-264.33 310.58 79.84-0.92c3.87 0 6.98 3.78 6.98 8.49l2.74 70.97c0 4.7-3.11 8.49-6.97 8.49l-79.67 0.15c-3.87 0-6.98-3.79-6.98-8.49l-2.91-70.2c0-4.7 3.11-8.49 6.97-8.49z"
           fill="#917c6f"
-          fill-opacity=".9451"
+          fillOpacity=".9451"
           filter="url(#d)"
         />
         <rect
@@ -71,17 +71,17 @@ const ChartIcon = () => {
           transform="translate(339.82,-287.5)"
           d="m-192.62 320.54 22.38 83.51m-13.53-85.88 22.38 83.51m-13.53-85.88 22.38 83.51m-13.53-85.88 22.37 83.51m-13.52-85.89 22.37 83.51m-13.53-85.88 22.38 83.51m-13.53-85.88 22.38 83.51m-13.53-85.88 22.38 83.51m-13.53-85.88 22.377 83.51m-13.527-85.88 22.375 83.51m-13.525-85.88 22.374 83.51"
           fill="#ccc"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           stroke="#d45500"
-          stroke-width=".89029px"
+          strokeWidth=".89029px"
         />
         <path
           transform="translate(339.82,-287.5)"
           d="m-179.01 399.58 102.62-27.5m-104.99 18.65 102.62-27.49m-105 18.64 102.62-27.49m-104.99 18.65 102.62-27.5m-104.99 18.65 102.62-27.5m-104.99 18.65 102.62-27.5m-104.99 18.65 102.62-27.5m-104.99 18.65 102.62-27.5m-104.99 18.65 102.62-27.49"
           fill="#ccc"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           stroke="#d45500"
-          stroke-width=".89029px"
+          strokeWidth=".89029px"
         />
         <path
           transform="translate(339.82,-287.5)"
@@ -92,13 +92,13 @@ const ChartIcon = () => {
           transform="translate(339.82,-287.5)"
           d="m-104.22 310.59-17.6 14.94 6.88 3.23-5.95 13.37-15.47-2.82-2.82-0.51-0.07 2.84-0.49 16.43-24.74-8.81-2.35-0.81-0.79 2.35-16.25 47.27 4.64 1.61 15.43-44.95 25.56 9.08 3.19 1.13 0.1-3.37 0.48-16.92 14.62 2.65 1.91 0.35 0.77-1.76 6.68-15.04 6.52 3.04-0.25-23.3z"
           fill="#800000"
-          fill-rule="evenodd"
+          fillRule="evenodd"
         />
         <path
           transform="translate(339.82,-287.5)"
           d="m-104.38 308.95-17.6 14.94 6.88 3.23-5.95 13.37-15.47-2.82-2.82-0.51-0.07 2.84-0.49 16.43-24.74-8.81-2.35-0.81-0.79 2.34-16.25 47.28 4.64 1.6 15.43-44.94 25.56 9.07 3.19 1.14 0.1-3.37 0.48-16.92 14.62 2.65 1.91 0.35 0.77-1.76 6.68-15.04 6.52 3.03-0.25-23.29z"
           fill="#f00"
-          fill-rule="evenodd"
+          fillRule="evenodd"
         />
         <path
           transform="translate(339.82,-287.5)"

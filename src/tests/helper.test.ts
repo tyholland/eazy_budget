@@ -22,8 +22,8 @@ describe("getDateInfo", () => {
     const currentDate = new Date();
 
     const responseDate = JSON.stringify({
-      year: currentDate.getFullYear(),
-      month: listOfMonths[currentDate.getMonth()],
+      currentYear: currentDate.getFullYear(),
+      currentMonth: listOfMonths[currentDate.getMonth()],
     });
 
     expect(JSON.stringify(date)).toBe(responseDate);

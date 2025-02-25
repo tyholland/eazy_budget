@@ -3,13 +3,14 @@ import Input from "../../components/Input/Input.tsx";
 import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
-import { BudgetData, InputOption } from "../../types.ts";
+import { BudgetDataItem, InputOption } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./budgetItem.style.ts";
+import CancelIcon from "../../svg/CancelIcon.tsx";
 
 interface BudgetItemProps {
   monthType: InputOption;
-  item: BudgetData;
+  item: BudgetDataItem;
 }
 
 const BudgetItem = ({ monthType, item }: BudgetItemProps) => {
@@ -33,6 +34,9 @@ const BudgetItem = ({ monthType, item }: BudgetItemProps) => {
         <>
           <Button type="image" handleClick={() => setIsEditable(false)}>
             <SaveIcon />
+          </Button>
+          <Button type="image" handleClick={() => setIsEditable(false)}>
+            <CancelIcon />
           </Button>
           <Button type="image" handleClick={() => setIsEditable(false)}>
             <DeleteIcon />

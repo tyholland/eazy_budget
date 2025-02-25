@@ -10,7 +10,7 @@ export const getDateInfo = () => {
   const month = listOfMonths[date.getMonth()];
 
   return {
-    year,
-    month,
+    currentYear: year,
+    currentMonth: month,
   };
 };

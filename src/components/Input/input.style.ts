@@ -53,4 +53,5 @@ export const InputWrapper = styled.div`
 export const Label = styled.label`
   font-size: 18px;
   font-weight: 700;
+  text-transform: capitalize;
 `;

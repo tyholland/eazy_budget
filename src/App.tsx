@@ -7,27 +7,34 @@ import { useSetAtom } from "jotai";
 import { expenseAtom } from "./hook/ExpenseAtom.ts";
 
 const App = () => {
-  const monthlyExpense: BudgetData[] = [
-    {
-      label: "Netflix",
-      value: 30.57,
-      year: 2025,
-      month: "February",
-    },
-    {
-      label: "Hulu",
-      value: 19.99,
-      year: 2025,
-      month: "February",
-    },
-    {
-      label: "Amazon Prime",
-      value: 10.0,
-      year: 2025,
-      month: "February",
-    },
-  ];
-
+  const monthlyExpense: BudgetData = {
+    year: 2025,
+    month: "February",
+    income: [
+      {
+        label: "husband",
+        value: 50000,
+      },
+      {
+        label: "wife",
+        value: 30000,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 30.57,
+      },
+      {
+        label: "Hulu",
+        value: 19.99,
+      },
+      {
+        label: "Amazon Prime",
+        value: 10.0,
+      },
+    ],
+  };
   const setMonthlyExpense = useSetAtom(expenseAtom);
 
   setMonthlyExpense(monthlyExpense);
@@ -36,7 +43,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/monthly/:type" element={<Monthly />} />
+        <Route path="/monthly/:type/:month" element={<Monthly />} />
       </Routes>
     </Router>
   );

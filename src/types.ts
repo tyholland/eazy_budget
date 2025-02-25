@@ -22,9 +22,14 @@ export interface GraphDataSet {
   label?: string;
 }
 
-export interface BudgetData {
+export interface BudgetDataItem {
   label: string;
   value: number;
+}
+
+export interface BudgetData {
   year: number;
   month: string;
+  income: BudgetDataItem[];
+  expense: BudgetDataItem[];
 }

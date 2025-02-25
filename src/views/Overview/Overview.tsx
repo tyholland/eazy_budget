@@ -6,6 +6,7 @@ import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { getDateInfo } from "../../functions/helper.ts";
+import { Link } from "react-router-dom";
 
 interface OverviewProps {
   incomeValue: number;
@@ -20,23 +21,23 @@ const Overview = ({
   incomeValue,
   expenseValue,
 }: OverviewProps) => {
-  const { year, month } = getDateInfo();
+  const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
   const isMonthly = label === "Monthly";
   const income = isYearly
-    ? `${year} Income`
+    ? `${currentYear} Income`
     : isMonthly
-      ? `${month} Income`
+      ? `${currentMonth} Income`
       : "Total Income";
   const expense = isYearly
-    ? `${year} Expenses`
+    ? `${currentYear} Expenses`
     : isMonthly
-      ? `${month} Expenses`
+      ? `${currentMonth} Expenses`
       : "Total Expenses";
   const remaining = isYearly
-    ? `${year} Remaining Cash`
+    ? `${currentYear} Remaining Cash`
     : isMonthly
-      ? `${month} Remaining Cash`
+      ? `${currentMonth} Remaining Cash`
       : "Total Remaining Cash";
   const cashFlow = incomeValue - expenseValue;
 
@@ -51,7 +52,9 @@ const Overview = ({
           inputOption="income"
         />
         <span data-tooltip-id={`${label}-income-tooltip`}>
-          <ViewIcon />
+          <Link to={`/monthly/income/${currentMonth}`}>
+            <ViewIcon />
+          </Link>
         </span>
       </S.Section>
       <S.Section>
@@ -62,7 +65,9 @@ const Overview = ({
           inputOption="expense"
         />
         <span data-tooltip-id={`${label}-expense-tooltip`}>
-          <ViewIcon />
+          <Link to={`/monthly/expense/${currentMonth}`}>
+            <ViewIcon />
+          </Link>
         </span>
       </S.Section>
       <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />

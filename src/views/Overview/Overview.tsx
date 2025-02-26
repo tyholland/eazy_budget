@@ -6,13 +6,13 @@ import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { getDateInfo } from "../../functions/helper.ts";
-import { Link } from "react-router-dom";
 
 interface OverviewProps {
   incomeValue: number;
   expenseValue: number;
   label?: string;
   showLabel?: boolean;
+  hideViewIcon?: boolean;
 }
 
 const Overview = ({
@@ -20,6 +20,7 @@ const Overview = ({
   showLabel = true,
   incomeValue,
   expenseValue,
+  hideViewIcon = false,
 }: OverviewProps) => {
   const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
@@ -51,11 +52,16 @@ const Overview = ({
           type="number"
           inputOption="income"
         />
-        <span data-tooltip-id={`${label}-income-tooltip`}>
-          <Link to={`/monthly/income/${currentMonth}`}>
-            <ViewIcon />
-          </Link>
-        </span>
+        {!hideViewIcon && (
+          <span data-tooltip-id={`${label}-income-tooltip`}>
+            <a
+              href={`/monthly/income/${currentMonth}`}
+              aria-label="view income"
+            >
+              <ViewIcon />
+            </a>
+          </span>
+        )}
       </S.Section>
       <S.Section>
         <Input
@@ -64,11 +70,16 @@ const Overview = ({
           type="number"
           inputOption="expense"
         />
-        <span data-tooltip-id={`${label}-expense-tooltip`}>
-          <Link to={`/monthly/expense/${currentMonth}`}>
-            <ViewIcon />
-          </Link>
-        </span>
+        {!hideViewIcon && (
+          <span data-tooltip-id={`${label}-expense-tooltip`}>
+            <a
+              href={`/monthly/expense/${currentMonth}`}
+              aria-label="view expenses"
+            >
+              <ViewIcon />
+            </a>
+          </span>
+        )}
       </S.Section>
       <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
       {isYearly && (
@@ -81,18 +92,22 @@ const Overview = ({
           </Button>
         </S.Prediction>
       )}
-      <ReactTooltip
-        id={`${label}-expense-tooltip`}
-        place="top"
-        variant="info"
-        content={`View a more detailed breakdown of your ${label?.toLowerCase()} expenses`}
-      />
-      <ReactTooltip
-        id={`${label}-income-tooltip`}
-        place="top"
-        variant="info"
-        content={`View a more detailed breakdown of your ${label?.toLowerCase()} income`}
-      />
+      {!hideViewIcon && (
+        <>
+          <ReactTooltip
+            id={`${label}-expense-tooltip`}
+            place="top"
+            variant="info"
+            content={`View a more detailed breakdown of your ${label?.toLowerCase()} expenses`}
+          />
+          <ReactTooltip
+            id={`${label}-income-tooltip`}
+            place="top"
+            variant="info"
+            content={`View a more detailed breakdown of your ${label?.toLowerCase()} income`}
+          />
+        </>
+      )}
     </S.OverviewWrapper>
   );
 };

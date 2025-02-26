@@ -32,3 +32,50 @@ export const listOfMonths = [
 ];
 
 export const listOfBudgets = ["expense", "income"];
+
+export const budgetOptions = [
+  {
+    id: 0,
+    label: "Income",
+    link: ``,
+  },
+  {
+    id: 1,
+    label: "Expense",
+    link: ``,
+  },
+];
+
+export const viewOptions = [
+  {
+    id: 0,
+    label: "Text",
+  },
+  {
+    id: 1,
+    label: "Doughnut Chart",
+  },
+  {
+    id: 2,
+    label: "Pie Chart",
+  },
+  {
+    id: 3,
+    label: "Bar Graph",
+  },
+];
+
+export const budgetViewMatch = [
+  {
+    label: "Doughnut Chart",
+    type: "doughnut",
+  },
+  {
+    label: "Pie Chart",
+    type: "pie",
+  },
+  {
+    label: "Bar Graph",
+    type: "bar",
+  },
+];

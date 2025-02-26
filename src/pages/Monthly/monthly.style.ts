@@ -9,3 +9,12 @@ export const ItemWrapper = styled.div`
   flex-direction: column;
   gap: 12px;
 `;
+
+export const TotalBudgetWrapper = styled.div`
+  padding: 15px;
+  border: 1px solid #000;
+  width: 330px;
+  border-radius: 10px;
+  margin-top: 50px;
+  background: #fcfade;
+`;

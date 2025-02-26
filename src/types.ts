@@ -10,9 +10,10 @@ export type GraphType = "doughnut" | "pie" | "bar";
 
 export type OverviewLabel = "default" | "Yearly" | "Monthly";
 
-export interface AutoCompleteOptions {
+export interface SelectOptions {
   id: number;
   label: string;
+  link?: string;
 }
 
 export interface GraphDataSet {

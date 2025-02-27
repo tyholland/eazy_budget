@@ -17,8 +17,8 @@ const SaveIcon = () => {
           y2="387.44"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#0f0" offset="0" />
-          <stop stop-color="#226122" offset="1" />
+          <stop stopColor="#0f0" offset="0" />
+          <stop stopColor="#226122" offset="1" />
         </linearGradient>
         <linearGradient
           id="b"
@@ -28,8 +28,8 @@ const SaveIcon = () => {
           y2="231.97"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" stop-opacity=".72656" offset="0" />
-          <stop stop-color="#fff" offset="1" />
+          <stop stopColor="#fff" stopOpacity=".72656" offset="0" />
+          <stop stopColor="#fff" offset="1" />
         </linearGradient>
         <linearGradient
           id="a"
@@ -40,8 +40,8 @@ const SaveIcon = () => {
           gradientTransform="matrix(1.9519 0 0 1.8418 -426.22 -488.52)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#fff" stop-opacity="0" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#fff" stopOpacity="0" offset="1" />
         </linearGradient>
       </defs>
       <g transform="translate(-164.6 -201.82)">
@@ -55,7 +55,7 @@ const SaveIcon = () => {
           d="m339.54 378.06a13.967 13.967 0 1 1 -27.933 0 13.967 13.967 0 1 1 27.933 0z"
           fill="url(#c)"
           stroke="#fff"
-          stroke-width=".32492"
+          strokeWidth=".32492"
         />
         <path
           d="m173.97809,230.81101c-.22285.22282-.18093.57323.04188.79604l13.52774,14.18788 22.5326-25.48658c.22285-.22283.22281-.53132 0-.75414l-5.02769-5.02769c-.22284-.22284-.58637-.27716-.79604-.04191l-16.82943,18.88214-7.58343-7.58343c-.22282-.22285-.61512-.22285-.83794,0l-5.02769,5.02769z"

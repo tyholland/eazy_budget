@@ -1,17 +1,18 @@
 import React from "react";
 import Input from "../../components/Input/Input.tsx";
 import Button from "../../components/Button/Button.tsx";
-import { listOfMonths } from "../../constants.ts";
 import * as S from "./overview.style.ts";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { getDateInfo } from "../../functions/helper.ts";
 
 interface OverviewProps {
   incomeValue: number;
   expenseValue: number;
   label?: string;
   showLabel?: boolean;
+  hideViewIcon?: boolean;
 }
 
 const Overview = ({
@@ -19,26 +20,25 @@ const Overview = ({
   showLabel = true,
   incomeValue,
   expenseValue,
+  hideViewIcon = false,
 }: OverviewProps) => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = listOfMonths[date.getMonth()];
+  const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
   const isMonthly = label === "Monthly";
   const income = isYearly
-    ? `${year} Income`
+    ? `${currentYear} Income`
     : isMonthly
-      ? `${month} Income`
+      ? `${currentMonth} Income`
       : "Total Income";
   const expense = isYearly
-    ? `${year} Expenses`
+    ? `${currentYear} Expenses`
     : isMonthly
-      ? `${month} Expenses`
+      ? `${currentMonth} Expenses`
       : "Total Expenses";
   const remaining = isYearly
-    ? `${year} Remaining Cash`
+    ? `${currentYear} Remaining Cash`
     : isMonthly
-      ? `${month} Remaining Cash`
+      ? `${currentMonth} Remaining Cash`
       : "Total Remaining Cash";
   const cashFlow = incomeValue - expenseValue;
 
@@ -52,9 +52,16 @@ const Overview = ({
           type="number"
           inputOption="income"
         />
-        <span data-tooltip-id={`${label}-income-tooltip`}>
-          <ViewIcon />
-        </span>
+        {!hideViewIcon && (
+          <span data-tooltip-id={`${label}-income-tooltip`}>
+            <a
+              href={`/${label?.toLowerCase()}/income/${isYearly ? currentYear : currentMonth}${isMonthly ? `/${currentYear}` : ""}`}
+              aria-label="view income"
+            >
+              <ViewIcon />
+            </a>
+          </span>
+        )}
       </S.Section>
       <S.Section>
         <Input
@@ -63,9 +70,16 @@ const Overview = ({
           type="number"
           inputOption="expense"
         />
-        <span data-tooltip-id={`${label}-expense-tooltip`}>
-          <ViewIcon />
-        </span>
+        {!hideViewIcon && (
+          <span data-tooltip-id={`${label}-expense-tooltip`}>
+            <a
+              href={`/${label?.toLowerCase()}/expense/${isYearly ? currentYear : currentMonth}${isMonthly ? `/${currentYear}` : ""}`}
+              aria-label="view expenses"
+            >
+              <ViewIcon />
+            </a>
+          </span>
+        )}
       </S.Section>
       <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
       {isYearly && (
@@ -78,18 +92,22 @@ const Overview = ({
           </Button>
         </S.Prediction>
       )}
-      <ReactTooltip
-        id={`${label}-expense-tooltip`}
-        place="top"
-        variant="info"
-        content={`View a more detailed breakdown of your ${label?.toLowerCase()} expenses`}
-      />
-      <ReactTooltip
-        id={`${label}-income-tooltip`}
-        place="top"
-        variant="info"
-        content={`View a more detailed breakdown of your ${label?.toLowerCase()} income`}
-      />
+      {!hideViewIcon && (
+        <>
+          <ReactTooltip
+            id={`${label}-expense-tooltip`}
+            place="top"
+            variant="info"
+            content={`View a more detailed breakdown of your ${label?.toLowerCase()} expenses`}
+          />
+          <ReactTooltip
+            id={`${label}-income-tooltip`}
+            place="top"
+            variant="info"
+            content={`View a more detailed breakdown of your ${label?.toLowerCase()} income`}
+          />
+        </>
+      )}
     </S.OverviewWrapper>
   );
 };

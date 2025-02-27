@@ -17,7 +17,7 @@ const AddIcon = () => {
           r="16.205"
           fill="none"
           stroke="#000"
-          stroke-width="3.4773"
+          strokeWidth="3.4773"
         />
         <rect
           x="18.079"

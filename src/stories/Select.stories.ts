@@ -1,8 +1,8 @@
-import AutoComplete from "../components/AutoComplete/AutoComplete.tsx";
+import Select from "../components/Select/Select.tsx";
 
 export default {
-  title: "Components/AutoComplete",
-  component: AutoComplete,
+  title: "Components/Select",
+  component: Select,
   parameters: {
     layout: "centered",
   },
@@ -16,5 +16,6 @@ export const Primary = {
       { id: 2, label: "Two" },
     ],
     placeHolder: "Enter label",
+    defaultValue: "One",
   },
 };

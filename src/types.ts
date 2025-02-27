@@ -4,15 +4,16 @@ export type InputType = "number" | "text" | "email" | "password";
 
 export type InputOption = "default" | "expense" | "income";
 
-export type ButtonType = "default" | "register" | "exit";
+export type ButtonType = "default" | "register" | "exit" | "image";
 
 export type GraphType = "doughnut" | "pie" | "bar";
 
 export type OverviewLabel = "default" | "Yearly" | "Monthly";
 
-export interface AutoCompleteOptions {
+export interface SelectOptions {
   id: number;
   label: string;
+  link?: string;
 }
 
 export interface GraphDataSet {
@@ -20,4 +21,16 @@ export interface GraphDataSet {
   backgroundColor: string[];
   borderWidth: number;
   label?: string;
+}
+
+export interface BudgetDataItem {
+  label: string;
+  value: number;
+}
+
+export interface BudgetData {
+  year: number;
+  month: string;
+  income: BudgetDataItem[];
+  expense: BudgetDataItem[];
 }

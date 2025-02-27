@@ -11,7 +11,7 @@ const ViewIcon = () => {
       <defs>
         <linearGradient id="a">
           <stop offset="0" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity="0" offset="1" />
         </linearGradient>
         <linearGradient
           id="l"
@@ -20,9 +20,9 @@ const ViewIcon = () => {
           y2="327.66"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-opacity="0" offset="0" />
+          <stop stopOpacity="0" offset="0" />
           <stop offset=".5" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity="0" offset="1" />
         </linearGradient>
         <linearGradient
           id="o"
@@ -32,8 +32,8 @@ const ViewIcon = () => {
           y2="30.558"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#8a8a8a" offset="0" />
-          <stop stop-color="#484848" offset="1" />
+          <stop stopColor="#8a8a8a" offset="0" />
+          <stop stopColor="#484848" offset="1" />
         </linearGradient>
         <linearGradient
           id="n"
@@ -43,9 +43,9 @@ const ViewIcon = () => {
           y2="32.65"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#7d7d7d" offset="0" />
-          <stop stop-color="#b1b1b1" offset=".5" />
-          <stop stop-color="#686868" offset="1" />
+          <stop stopColor="#7d7d7d" offset="0" />
+          <stop stopColor="#b1b1b1" offset=".5" />
+          <stop stopColor="#686868" offset="1" />
         </linearGradient>
         <linearGradient
           id="m"
@@ -55,9 +55,9 @@ const ViewIcon = () => {
           y2="25.743"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#fff" stop-opacity=".21905" offset=".5" />
-          <stop stop-color="#fff" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#fff" stopOpacity=".21905" offset=".5" />
+          <stop stopColor="#fff" offset="1" />
         </linearGradient>
         <radialGradient
           id="h"
@@ -66,8 +66,8 @@ const ViewIcon = () => {
           r="36.554"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#a3a3a3" offset="0" />
-          <stop stop-color="#4c4c4c" offset="1" />
+          <stop stopColor="#a3a3a3" offset="0" />
+          <stop stopColor="#4c4c4c" offset="1" />
         </radialGradient>
         <radialGradient
           id="g"
@@ -76,8 +76,8 @@ const ViewIcon = () => {
           r="83.283"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fafafa" offset="0" />
-          <stop stop-color="#bbb" offset="1" />
+          <stop stopColor="#fafafa" offset="0" />
+          <stop stopColor="#bbb" offset="1" />
         </radialGradient>
         <radialGradient
           id="f"
@@ -86,8 +86,8 @@ const ViewIcon = () => {
           r="36.948"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#f8f8f8" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#f8f8f8" offset="1" />
         </radialGradient>
         <radialGradient
           id="e"
@@ -96,8 +96,8 @@ const ViewIcon = () => {
           r="1.2073"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#f0f0f0" offset="0" />
-          <stop stop-color="#9a9a9a" offset="1" />
+          <stop stopColor="#f0f0f0" offset="0" />
+          <stop stopColor="#9a9a9a" offset="1" />
         </radialGradient>
         <radialGradient
           id="d"
@@ -106,8 +106,8 @@ const ViewIcon = () => {
           r="1.2076"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#f0f0f0" offset="0" />
-          <stop stop-color="#9a9a9a" offset="1" />
+          <stop stopColor="#f0f0f0" offset="0" />
+          <stop stopColor="#9a9a9a" offset="1" />
         </radialGradient>
         <radialGradient
           id="j"
@@ -116,8 +116,8 @@ const ViewIcon = () => {
           r="8.3085"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#729fcf" stop-opacity=".20784" offset="0" />
-          <stop stop-color="#729fcf" stop-opacity=".67619" offset="1" />
+          <stop stopColor="#729fcf" stopOpacity=".20784" offset="0" />
+          <stop stopColor="#729fcf" stopOpacity=".67619" offset="1" />
         </radialGradient>
         <radialGradient
           id="i"
@@ -127,8 +127,8 @@ const ViewIcon = () => {
           gradientTransform="matrix(2.593 -7.7469e-24 -5.7144e-24 2.2521 -25.06 -18.941)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#fff" stop-opacity=".24762" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#fff" stopOpacity=".24762" offset="1" />
         </radialGradient>
         <radialGradient
           id="b"
@@ -177,16 +177,16 @@ const ViewIcon = () => {
         display="block"
         fill="url(#g)"
         stroke="url(#h)"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="m7.8151,4.58395h32.47779a.14905,.14905 0 0,1 .14905.14905v38.64829a.14905,.14905 0 0,1 -.14905.14905h-32.47779a.14905,.14905 0 0,1 -.14905-.14905v-38.64829a.14905,.14905 0 0,1 .14905-.14905"
         display="block"
         fill="none"
         stroke="url(#f)"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <g transform="translate(.64645 -.037989)">
         <g transform="matrix(.2297 0 0 .2297 4.9671 4.245)" fill="#fff">
@@ -206,19 +206,19 @@ const ViewIcon = () => {
         d="m11.506 5.4943v37.907"
         fill="none"
         stroke="#000"
-        stroke-opacity=".01754"
-        stroke-width=".98855"
+        strokeOpacity=".01754"
+        strokeWidth=".98855"
       />
       <path
         d="m12.5 5.0205v38.018"
         fill="none"
         stroke="#fff"
-        stroke-opacity=".20468"
+        strokeOpacity=".20468"
       />
       <g
         transform="matrix(.90909 0 0 1 2.3636 0)"
         fill="#9b9b9b"
-        fill-opacity=".54971"
+        fillOpacity=".54971"
       >
         <path
           d="m15.152 9h21.697a0.15156 0.065391 0 0 1 0.15156 0.06539v0.86922a0.15156 0.065391 0 0 1 -0.15156 0.06539h-21.697a0.15156 0.065391 0 0 1 -0.15156 -0.06539v-0.86922a0.15156 0.065391 0 0 1 0.15156 -0.06539"
@@ -282,36 +282,36 @@ const ViewIcon = () => {
           transform="matrix(1.4464 0 0 1.52 -10.975 -17.752)"
           d="m40.659 37.968a16.529 3.9333 0 1 1 -33.057 0 16.529 3.9333 0 1 1 33.057 0z"
           fill="url(#k)"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           opacity=".17112"
         />
         <path
           d="m18.628 3.1436c-8.1391 0-14.745 6.6057-14.745 14.745s6.6057 14.745 14.745 14.745c3.4796 0 6.551-1.3844 9.0737-3.4026-0.20538 1.0069-0.07803 2.0354 0.75614 2.7599l10.964 9.5274c1.2334 1.0713 3.0875 0.93096 4.1588-0.30246s0.93096-3.0875-0.30246-4.1588l-10.964-9.5274c-0.67153-0.58328-1.4929-0.75597-2.3062-0.64272 1.9867-2.5124 3.3648-5.5488 3.3648-8.9981 0-8.1391-6.6057-14.745-14.745-14.745zm-0.07562 1.2262c7.6395 0 13.292 4.789 13.292 13.292 0 8.6751-5.8167 13.292-13.292 13.292-7.303 0-13.292-5.4781-13.292-13.292 0-7.9841 5.8246-13.292 13.292-13.292z"
           fill="#dcdcdc"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           stroke="url(#o)"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-          stroke-width="3.0058"
+          strokeLinecap="round"
+          strokeMiterlimit="10"
+          strokeWidth="3.0058"
         />
         <path
           d="m18.603 3.0804c-8.1654 0-14.792 6.627-14.792 14.792s6.627 14.792 14.792 14.792c3.4908 0 6.5722-1.3889 9.1031-3.4136-0.20604 1.0101-0.07829 2.042 0.75859 2.7688l11 9.5582c1.2374 1.0748 3.0974 0.93397 4.1722-0.30344s0.93397-3.0974-0.30344-4.1722l-11-9.5582c-0.6737-0.58516-1.4977-0.75841-2.3137-0.6448 1.9931-2.5205 3.3757-5.5667 3.3757-9.0272 0-8.1654-6.627-14.792-14.792-14.792zm-0.07586 3.1861c6.2811 0 11.379 5.0977 11.379 11.379s-5.0977 11.379-11.379 11.379-11.379-5.0977-11.379-11.379 5.0977-11.379 11.379-11.379z"
           fill="#dcdcdc"
-          fill-rule="evenodd"
+          fillRule="evenodd"
         />
         <path
           d="m39.507 41.578c-0.47867-2.2732 1.3973-4.8114 3.584-4.7884l-10.76-9.2581c-2.9448-0.05671-4.2695 2.2726-3.7768 4.5999l10.953 9.4466z"
           fill="url(#n)"
-          fill-rule="evenodd"
+          fillRule="evenodd"
         />
         <path
           transform="matrix(1.2457 0 0 1.2457 -3.4254 -6.177)"
           d="m28.549 18.92a11.049 11.049 0 1 1 -22.097 0 11.049 11.049 0 1 1 22.097 0z"
           fill="none"
           stroke="url(#m)"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-          stroke-width="1.2064"
+          strokeLinecap="round"
+          strokeMiterlimit="10"
+          strokeWidth="1.2064"
         />
         <path
           transform="matrix(.75299,.65804,-.6489,.76087,0,0)"
@@ -319,24 +319,24 @@ const ViewIcon = () => {
           fill="none"
           opacity=".43316"
           stroke="#fff"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-          stroke-width="1.503"
+          strokeLinecap="round"
+          strokeMiterlimit="10"
+          strokeWidth="1.503"
         />
         <path
           transform="matrix(1.3986 0 0 1.3986 -6.2243 -8.299)"
           d="m25.898 18.478a8.3085 8.3085 0 1 1 -16.617 0 8.3085 8.3085 0 1 1 16.617 0z"
           fill="url(#j)"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           stroke="#3063a3"
-          stroke-linecap="round"
-          stroke-miterlimit="10"
-          stroke-width="1.0746"
+          strokeLinecap="round"
+          strokeMiterlimit="10"
+          strokeWidth="1.0746"
         />
         <path
           d="m18.157 7.3967c-5.2076 0-9.4246 4.217-9.4246 9.4246 0 1.504 0.42031 2.8878 1.0472 4.1499 1.2524 0.46161 2.5828 0.77568 3.9948 0.77568 6.171 0 11.099-4.8616 11.48-10.937-1.731-2.0455-4.21-3.413-7.0975-3.413z"
           fill="url(#i)"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           opacity=".83422"
         />
       </g>

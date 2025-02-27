@@ -18,8 +18,8 @@ const EditIcon = () => {
           transform="matrix(4.0336 0 0 4.0336 -4505.1 -1563.7)"
           fill="none"
           stroke="#808080"
-          stroke-linecap="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeWidth="2"
         >
           <path d="m1123.6 419.35 50.082 0.36291" />
           <path d="m1123.6 459.35 11.522 0.36291" />

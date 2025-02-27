@@ -1,14 +1,23 @@
-import { BudgetDataItem } from "../types";
+import { BudgetData, BudgetDataItem } from "../types";
 
-export const getTotalAmount = (budget: BudgetDataItem[] | undefined) => {
+export const getMonthlyTotalAmount = (
+  budget: BudgetData[] | null,
+  month: string,
+  year: number,
+  type: string,
+) => {
   let amount = 0;
 
   if (!budget) {
     return amount;
   }
 
-  budget.forEach((item) => {
-    amount += item.value;
+  budget.forEach((item: BudgetData) => {
+    if (item.month.toLowerCase() === month && item.year === year) {
+      item[type].forEach((data: BudgetDataItem) => {
+        amount += data.value;
+      });
+    }
   });
 
   return amount;

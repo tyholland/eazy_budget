@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BudgetDataItem, GraphType, InputOption } from "../../types.ts";
+import {
+  BudgetData,
+  BudgetDataItem,
+  GraphType,
+  InputOption,
+} from "../../types.ts";
 import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
@@ -17,7 +22,10 @@ import {
   viewOptions,
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
-import { getBudgetBreakdown, getTotalAmount } from "../../functions/budget.ts";
+import {
+  getBudgetBreakdown,
+  getMonthlyTotalAmount,
+} from "../../functions/budget.ts";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -34,8 +42,18 @@ const Monthly = () => {
     return <div>Error Page</div>;
   }
 
-  const totalIncome = getTotalAmount(budget?.income);
-  const totalExpense = getTotalAmount(budget?.expense);
+  const totalIncome = getMonthlyTotalAmount(
+    budget,
+    month,
+    currentYear,
+    "income",
+  );
+  const totalExpense = getMonthlyTotalAmount(
+    budget,
+    month,
+    currentYear,
+    "expense",
+  );
   const { data, labels } = getBudgetBreakdown(budget?.[type]);
 
   return (
@@ -56,18 +74,20 @@ const Monthly = () => {
       />
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {budget?.[type]?.map((item: BudgetDataItem) => {
+          {budget?.map((item: BudgetData) => {
             if (
-              month === budget.month.toLowerCase() &&
-              currentYear === budget.year
+              month === item.month.toLowerCase() &&
+              currentYear === item.year
             ) {
-              return (
-                <BudgetItem
-                  key={item.label}
-                  monthType={type as InputOption}
-                  item={item}
-                />
-              );
+              return item[type].map((data: BudgetDataItem) => {
+                return (
+                  <BudgetItem
+                    key={data.label}
+                    monthType={type as InputOption}
+                    item={data}
+                  />
+                );
+              });
             }
             return null;
           })}

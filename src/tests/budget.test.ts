@@ -1,25 +1,16 @@
 import { expect, test } from "@jest/globals";
-import { getTotalAmount, getBudgetBreakdown } from "../functions/budget";
+import { getMonthlyTotalAmount, getBudgetBreakdown } from "../functions/budget";
+import { mockBudget, mockBudgetItem } from "./mocks";
 
-describe("getTotalAmount", () => {
+describe("getMonthlyTotalAmount", () => {
   test("should return 0", () => {
-    const amount = getTotalAmount(undefined);
+    const amount = getMonthlyTotalAmount(null, "january", 2025, "income");
 
     expect(amount).toBe(0);
   });
 
-  test("should return decimal number with US currency", () => {
-    const amounts = [
-      {
-        label: "Netflix",
-        value: 19,
-      },
-      {
-        label: "Hulu",
-        value: 17,
-      },
-    ];
-    const amount = getTotalAmount(amounts);
+  test("should return total amount", () => {
+    const amount = getMonthlyTotalAmount(mockBudget, "january", 2025, "income");
 
     expect(amount).toBe(36);
   });
@@ -27,17 +18,7 @@ describe("getTotalAmount", () => {
 
 describe("getBudgetBreakdown", () => {
   test("should return month and year of the current date", () => {
-    const budget = [
-      {
-        label: "Netflix",
-        value: 19,
-      },
-      {
-        label: "Hulu",
-        value: 17,
-      },
-    ];
-    const results = getBudgetBreakdown(budget);
+    const results = getBudgetBreakdown(mockBudgetItem);
     const expectedResults = JSON.stringify({
       data: [19, 17],
       labels: ["Netflix", "Hulu"],

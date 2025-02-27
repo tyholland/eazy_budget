@@ -7,34 +7,36 @@ import { useSetAtom } from "jotai";
 import { budgetAtom } from "./hook/BudgetAtom.ts";
 
 const App = () => {
-  const monthlyExpense: BudgetData = {
-    year: 2025,
-    month: "February",
-    income: [
-      {
-        label: "husband",
-        value: 50000,
-      },
-      {
-        label: "wife",
-        value: 30000,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 30.57,
-      },
-      {
-        label: "Hulu",
-        value: 19.99,
-      },
-      {
-        label: "Amazon Prime",
-        value: 10.0,
-      },
-    ],
-  };
+  const monthlyExpense: BudgetData[] = [
+    {
+      year: 2025,
+      month: "February",
+      income: [
+        {
+          label: "husband",
+          value: 50000,
+        },
+        {
+          label: "wife",
+          value: 30000,
+        },
+      ],
+      expense: [
+        {
+          label: "Netflix",
+          value: 30.57,
+        },
+        {
+          label: "Hulu",
+          value: 19.99,
+        },
+        {
+          label: "Amazon Prime",
+          value: 10.0,
+        },
+      ],
+    },
+  ];
   const setMonthlyExpense = useSetAtom(budgetAtom);
 
   setMonthlyExpense(monthlyExpense);

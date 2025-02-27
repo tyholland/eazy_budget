@@ -14,3 +14,29 @@ export const getDateInfo = () => {
     currentMonth: month,
   };
 };
+
+export const getCurrentPageName = (path: string) => {
+  let pageName = "";
+
+  switch (path) {
+    case "/monthly/income":
+      pageName = "Monthly Income";
+      break;
+    case "/monthly/expense":
+      pageName = "Monthly Expense";
+      break;
+    case "/yearly/income":
+      pageName = "Yearly Income";
+      break;
+    case "/yearly/expense":
+      pageName = "Yearly Expense";
+      break;
+    default:
+      pageName = "";
+      break;
+  }
+
+  console.log(path);
+
+  return pageName;
+};

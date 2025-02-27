@@ -5,6 +5,7 @@ import Monthly from "./pages/Monthly/Monthly.tsx";
 import { BudgetData } from "./types.ts";
 import { useSetAtom } from "jotai";
 import { budgetAtom } from "./hook/BudgetAtom.ts";
+import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
 
 const App = () => {
   const monthlyExpense: BudgetData[] = [
@@ -43,6 +44,7 @@ const App = () => {
 
   return (
     <Router>
+      <Breadcrumb />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/monthly/:type/:month" element={<Monthly />} />

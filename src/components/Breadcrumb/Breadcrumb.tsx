@@ -1,17 +1,15 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 import { getCurrentPageName } from "../../functions/helper.ts";
 import * as S from "./breadcrumb.style.ts";
 
-const Breadcrumb = () => {
-  const { pathname } = useLocation();
+interface BreadcrumbProps {
+  path: string;
+}
 
-  if (pathname === "/") {
+const Breadcrumb = ({ path }: BreadcrumbProps) => {
+  if (path === "") {
     return <></>;
   }
-
-  const page = pathname.split("/");
-  const currentPage = getCurrentPageName(`/${page[1]}/${page[2]}`);
 
   return (
     <S.Wrapper>
@@ -21,7 +19,7 @@ const Breadcrumb = () => {
         </a>
       </S.GreyedOut>
       <S.GreyedOut>&gt;</S.GreyedOut>
-      <div>{currentPage}</div>
+      <div>{path}</div>
     </S.Wrapper>
   );
 };

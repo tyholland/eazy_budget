@@ -36,7 +36,5 @@ export const getCurrentPageName = (path: string) => {
       break;
   }
 
-  console.log(path);
-
   return pageName;
 };

@@ -1,5 +1,9 @@
 import { expect, test } from "@jest/globals";
-import { formatAmount, getDateInfo } from "../functions/helper";
+import {
+  formatAmount,
+  getCurrentPageName,
+  getDateInfo,
+} from "../functions/helper";
 import { listOfMonths } from "../constants";
 
 describe("formatAmount", () => {
@@ -27,5 +31,19 @@ describe("getDateInfo", () => {
     });
 
     expect(JSON.stringify(date)).toBe(responseDate);
+  });
+});
+
+describe("getCurrentPageName", () => {
+  test("should return empty string", () => {
+    const page = getCurrentPageName("/");
+
+    expect(page).toBe("");
+  });
+
+  test("should return the page name", () => {
+    const page = getCurrentPageName("/monthly/income");
+
+    expect(page).toBe("Monthly Income");
   });
 });

@@ -55,7 +55,7 @@ const Overview = ({
         {!hideViewIcon && (
           <span data-tooltip-id={`${label}-income-tooltip`}>
             <a
-              href={`/monthly/income/${currentMonth}`}
+              href={`/${label?.toLowerCase()}/income/${isYearly ? currentYear : currentMonth}${isMonthly ? `/${currentYear}` : ""}`}
               aria-label="view income"
             >
               <ViewIcon />
@@ -73,7 +73,7 @@ const Overview = ({
         {!hideViewIcon && (
           <span data-tooltip-id={`${label}-expense-tooltip`}>
             <a
-              href={`/monthly/expense/${currentMonth}`}
+              href={`/${label?.toLowerCase()}/expense/${isYearly ? currentYear : currentMonth}${isMonthly ? `/${currentYear}` : ""}`}
               aria-label="view expenses"
             >
               <ViewIcon />

@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  BudgetData,
-  BudgetDataItem,
-  GraphType,
-  InputOption,
-} from "../../types.ts";
+import { BudgetDataItem, GraphType, InputOption } from "../../types.ts";
 import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
-import * as S from "./monthly.style.ts";
+import * as S from "./yearly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Select from "../../components/Select/Select.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
@@ -17,18 +12,17 @@ import {
   budgetViewMatch,
   graphColors,
   listOfBudgets,
-  listOfMonths,
   viewOptions,
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
 import {
-  getMonthlyBudgetBreakdown,
-  getMonthlyTotalAmount,
+  getYearlyBudgetBreakdown,
+  getYearlyTotalAmount,
 } from "../../functions/budget.ts";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
-  const { type, month, year } = useParams();
+  const { type, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
     viewOptions[0].label,
   );
@@ -36,36 +30,28 @@ const Monthly = () => {
 
   useEffect(() => {
     if (selectedType !== type) {
-      window.location.href = `/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`;
+      window.location.href = `/yearly/${selectedType?.toLowerCase()}/${theYear}`;
     }
   }, [selectedType]);
 
-  if (
-    !type ||
-    !month ||
-    !year ||
-    !listOfBudgets.includes(type) ||
-    !listOfMonths.includes(month) ||
-    isNaN(Number(year))
-  ) {
+  if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <div>Error Page</div>;
   }
 
   const theYear = Number(year);
 
-  const totalIncome = getMonthlyTotalAmount(budget, month, theYear, "income");
-  const totalExpense = getMonthlyTotalAmount(budget, month, theYear, "expense");
-  const { data, labels } = getMonthlyBudgetBreakdown(
+  const yearlyTotalIncome = getYearlyTotalAmount(budget, theYear, "income");
+  const yearlyTotalExpense = getYearlyTotalAmount(budget, theYear, "expense");
+  const { data, labels, newBudget } = getYearlyBudgetBreakdown(
     budget,
-    month,
-    type,
     theYear,
+    type,
   );
 
   return (
     <div>
       <S.Title>
-        {month} {theYear} {type}
+        {theYear} {type}
       </S.Title>
       <S.SelectWrapper>
         <Select
@@ -83,19 +69,14 @@ const Monthly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {budget?.map((item: BudgetData) => {
-            if (month === item.month.toLowerCase() && theYear === item.year) {
-              return item[type].map((data: BudgetDataItem) => {
-                return (
-                  <BudgetItem
-                    key={data.label}
-                    theType={type as InputOption}
-                    item={data}
-                  />
-                );
-              });
-            }
-            return null;
+          {newBudget.map((data: BudgetDataItem) => {
+            return (
+              <BudgetItem
+                key={data.label}
+                theType={type as InputOption}
+                item={data}
+              />
+            );
           })}
         </S.ItemWrapper>
       )}
@@ -119,8 +100,9 @@ const Monthly = () => {
       <S.TotalBudgetWrapper>
         <Overview
           showLabel={false}
-          incomeValue={totalIncome}
-          expenseValue={totalExpense}
+          label="Yearly"
+          incomeValue={yearlyTotalIncome}
+          expenseValue={yearlyTotalExpense}
           hideViewIcon
         />
       </S.TotalBudgetWrapper>

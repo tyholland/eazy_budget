@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home.tsx";
 import Monthly from "./pages/Monthly/Monthly.tsx";
+import Yearly from "./pages/Yearly/Yearly.tsx";
 import { BudgetData } from "./types.ts";
 import { useSetAtom } from "jotai";
 import { budgetAtom } from "./hook/BudgetAtom.ts";
@@ -38,6 +39,62 @@ const App = () => {
         },
       ],
     },
+    {
+      year: 2024,
+      month: "January",
+      income: [
+        {
+          label: "husband",
+          value: 40000,
+        },
+        {
+          label: "wife",
+          value: 60000,
+        },
+      ],
+      expense: [
+        {
+          label: "AT&T",
+          value: 30.57,
+        },
+        {
+          label: "Internet",
+          value: 19.99,
+        },
+        {
+          label: "Cable",
+          value: 10.0,
+        },
+      ],
+    },
+    {
+      year: 2025,
+      month: "March",
+      income: [
+        {
+          label: "husband",
+          value: 70000,
+        },
+        {
+          label: "wife",
+          value: 50000,
+        },
+      ],
+      expense: [
+        {
+          label: "401K",
+          value: 30.57,
+        },
+        {
+          label: "Savings",
+          value: 19.99,
+        },
+        {
+          label: "Car note",
+          value: 10.0,
+        },
+      ],
+    },
   ];
   const setMonthlyExpense = useSetAtom(budgetAtom);
 
@@ -52,7 +109,8 @@ const App = () => {
       <Breadcrumb path={currentPage} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/monthly/:type/:month" element={<Monthly />} />
+        <Route path="/monthly/:type/:month/:year" element={<Monthly />} />
+        <Route path="/yearly/:type/:year" element={<Yearly />} />
       </Routes>
     </Router>
   );

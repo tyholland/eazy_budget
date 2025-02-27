@@ -9,18 +9,18 @@ import * as S from "./budgetItem.style.ts";
 import CancelIcon from "../../svg/CancelIcon.tsx";
 
 interface BudgetItemProps {
-  monthType: InputOption;
+  theType: InputOption;
   item: BudgetDataItem;
 }
 
-const BudgetItem = ({ monthType, item }: BudgetItemProps) => {
+const BudgetItem = ({ theType, item }: BudgetItemProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
   return (
     <S.Item key={item.label}>
       <Input
         inputLabel={item.label}
-        inputOption={monthType}
+        inputOption={theType}
         defaultValue={item.value}
         editableLabel={isEditable}
         editableValue={isEditable}

@@ -1,5 +1,8 @@
 import { expect, test } from "@jest/globals";
-import { getMonthlyTotalAmount, getBudgetBreakdown } from "../functions/budget";
+import {
+  getMonthlyTotalAmount,
+  getMonthlyBudgetBreakdown,
+} from "../functions/budget";
 import { mockBudget, mockBudgetItem } from "./mocks";
 
 describe("getMonthlyTotalAmount", () => {
@@ -9,16 +12,16 @@ describe("getMonthlyTotalAmount", () => {
     expect(amount).toBe(0);
   });
 
-  test("should return total amount", () => {
+  test("should return total monthly amount", () => {
     const amount = getMonthlyTotalAmount(mockBudget, "january", 2025, "income");
 
     expect(amount).toBe(36);
   });
 });
 
-describe("getBudgetBreakdown", () => {
-  test("should return month and year of the current date", () => {
-    const results = getBudgetBreakdown(mockBudgetItem);
+describe("getMonthlyBudgetBreakdown", () => {
+  test("should return full results of budget", () => {
+    const results = getMonthlyBudgetBreakdown(mockBudgetItem);
     const expectedResults = JSON.stringify({
       data: [19, 17],
       labels: ["Netflix", "Hulu"],

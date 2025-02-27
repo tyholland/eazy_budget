@@ -1,5 +1,4 @@
 import React from "react";
-import { getCurrentPageName } from "../../functions/helper.ts";
 import * as S from "./breadcrumb.style.ts";
 
 interface BreadcrumbProps {

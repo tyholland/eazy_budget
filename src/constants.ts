@@ -36,12 +36,12 @@ export const listOfBudgets = ["expense", "income"];
 export const budgetOptions = [
   {
     id: 0,
-    label: "Income",
+    label: "income",
     link: ``,
   },
   {
     id: 1,
-    label: "Expense",
+    label: "expense",
     link: ``,
   },
 ];

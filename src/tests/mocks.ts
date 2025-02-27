@@ -5,11 +5,11 @@ export const mockBudget = [
     income: [
       {
         label: "husband",
-        value: 19,
+        value: 40000,
       },
       {
         label: "wife",
-        value: 17,
+        value: 30000,
       },
     ],
     expense: [
@@ -22,16 +22,5 @@ export const mockBudget = [
         value: 17,
       },
     ],
-  },
-];
-
-export const mockBudgetItem = [
-  {
-    label: "Netflix",
-    value: 19,
-  },
-  {
-    label: "Hulu",
-    value: 17,
   },
 ];

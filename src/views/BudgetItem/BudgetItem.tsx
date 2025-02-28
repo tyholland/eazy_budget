@@ -15,6 +15,7 @@ interface BudgetItemProps {
   labelPlaceHolder?: string;
   valuePlaceHolder?: string;
   inputType?: InputType;
+  hideBtn?: boolean;
 }
 
 const BudgetItem = ({
@@ -24,6 +25,7 @@ const BudgetItem = ({
   valuePlaceHolder = "",
   labelPlaceHolder = "",
   inputType = "text",
+  hideBtn = false,
 }: BudgetItemProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(editable);
 
@@ -40,22 +42,26 @@ const BudgetItem = ({
         type={inputType}
         inputSize="medium"
       />
-      {!isEditable && (
-        <Button type="image" handleClick={() => setIsEditable(true)}>
-          <EditIcon />
-        </Button>
-      )}
-      {isEditable && (
+      {!hideBtn && (
         <>
-          <Button type="image" handleClick={() => setIsEditable(false)}>
-            <SaveIcon />
-          </Button>
-          <Button type="image" handleClick={() => setIsEditable(false)}>
-            <CancelIcon />
-          </Button>
-          <Button type="image" handleClick={() => setIsEditable(false)}>
-            <DeleteIcon />
-          </Button>
+          {!isEditable && (
+            <Button type="image" handleClick={() => setIsEditable(true)}>
+              <EditIcon />
+            </Button>
+          )}
+          {isEditable && (
+            <>
+              <Button type="image" handleClick={() => setIsEditable(false)}>
+                <SaveIcon />
+              </Button>
+              <Button type="image" handleClick={() => setIsEditable(false)}>
+                <CancelIcon />
+              </Button>
+              <Button type="image" handleClick={() => setIsEditable(false)}>
+                <DeleteIcon />
+              </Button>
+            </>
+          )}
         </>
       )}
     </S.Item>

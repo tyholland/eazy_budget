@@ -42,6 +42,7 @@ const Create = () => {
             labelPlaceHolder={`${type} name`}
             valuePlaceHolder={`${type} value`}
             inputType="number"
+            hideBtn
           />
         );
       })}

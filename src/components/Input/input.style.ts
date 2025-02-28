@@ -6,6 +6,7 @@ export const Input = styled.input`
   padding: 10px;
   height: 12px;
   font-size: 16px;
+  text-transform: capitalize;
 
   &.default {
     &:disabled {

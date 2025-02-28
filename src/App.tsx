@@ -8,6 +8,7 @@ import { useSetAtom } from "jotai";
 import { budgetAtom } from "./hook/BudgetAtom.ts";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
 import { getCurrentPageName } from "./functions/helper.ts";
+import Create from "./pages/Create/Create.tsx";
 
 const App = () => {
   const monthlyExpense: BudgetData[] = [
@@ -111,6 +112,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/monthly/:type/:month/:year" element={<Monthly />} />
         <Route path="/yearly/:type/:year" element={<Yearly />} />
+        <Route path="/create/:type/:month/:year" element={<Create />} />
       </Routes>
     </Router>
   );

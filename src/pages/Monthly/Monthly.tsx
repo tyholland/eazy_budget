@@ -91,6 +91,9 @@ const Monthly = () => {
                     key={data.label}
                     theType={type as InputOption}
                     item={data}
+                    labelPlaceHolder={`${type} name`}
+                    valuePlaceHolder={`${type} value`}
+                    inputType="number"
                   />
                 );
               });

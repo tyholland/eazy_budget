@@ -31,6 +31,12 @@ export const getCurrentPageName = (path: string) => {
     case "/yearly/expense":
       pageName = "Yearly Expense";
       break;
+    case "/create/expense":
+      pageName = "Create Expense";
+      break;
+    case "/create/income":
+      pageName = "Create Income";
+      break;
     default:
       pageName = "";
       break;

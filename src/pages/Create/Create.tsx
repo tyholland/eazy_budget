@@ -50,7 +50,9 @@ const Create = () => {
       <Button
         buttonSize="large"
         handleClick={handleAddNewBudget}
+        type="register"
       >{`Add another ${type}`}</Button>
+      <Button handleClick={() => {}}>Save</Button>
     </div>
   );
 };

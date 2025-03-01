@@ -1,6 +1,13 @@
 import React from "react";
 
-const SaveIcon = () => {
+interface SaveIconProps {
+  isDisabled?: boolean;
+}
+
+const SaveIcon = ({ isDisabled = false }: SaveIconProps) => {
+  const color1 = isDisabled ? "#ddd" : "#0f0";
+  const color2 = isDisabled ? "#ddd" : "#226122";
+
   return (
     <svg
       viewBox="0 0 52.963348 52.963348"
@@ -17,8 +24,8 @@ const SaveIcon = () => {
           y2="387.44"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#0f0" offset="0" />
-          <stop stopColor="#226122" offset="1" />
+          <stop stopColor={color1} offset="0" />
+          <stop stopColor={color2} offset="1" />
         </linearGradient>
         <linearGradient
           id="b"
@@ -48,7 +55,7 @@ const SaveIcon = () => {
         <path
           transform="matrix(1.8961 0 0 1.8961 -426.22 -488.52)"
           d="m339.54 378.06a13.967 13.967 0 1 1 -27.933 0 13.967 13.967 0 1 1 27.933 0z"
-          fill="#226122"
+          fill={color2}
         />
         <path
           transform="matrix(1.7312 0 0 1.7312 -372.54 -426.19)"

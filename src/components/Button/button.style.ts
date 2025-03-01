@@ -6,6 +6,10 @@ export const Button = styled.button`
   padding: 10px;
   cursor: pointer;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
 
   &.default {
     background: #90d5ff;

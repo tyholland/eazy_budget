@@ -26,6 +26,7 @@ export interface GraphDataSet {
 export interface BudgetDataItem {
   label: string;
   value: number;
+  paid?: boolean;
 }
 
 export interface BudgetData {

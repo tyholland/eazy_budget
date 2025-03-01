@@ -86,9 +86,9 @@ const Overview = ({
         <S.Prediction>
           <div>Predict your cash flow for the next 3 years</div>
           <Button handleClick={() => {}} buttonSize="medium">
-            <S.Predict>
+            <>
               Predict <ChartIcon />
-            </S.Predict>
+            </>
           </Button>
         </S.Prediction>
       )}

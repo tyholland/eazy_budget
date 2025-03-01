@@ -97,9 +97,9 @@ const App = () => {
       ],
     },
   ];
-  const setMonthlyExpense = useSetAtom(budgetAtom);
+  // const setMonthlyExpense = useSetAtom(budgetAtom);
 
-  setMonthlyExpense(monthlyExpense);
+  // setMonthlyExpense(monthlyExpense);
 
   const pathname = window.location.pathname;
   const page = pathname.split("/");

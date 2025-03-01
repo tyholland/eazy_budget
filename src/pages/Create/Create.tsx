@@ -5,6 +5,7 @@ import { listOfBudgets, listOfMonths } from "../../constants.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import { InputOption } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
+import AddIcon from "../../svg/AddIcon.tsx";
 
 const Create = () => {
   const { type, month, year } = useParams();
@@ -51,7 +52,11 @@ const Create = () => {
         buttonSize="large"
         handleClick={handleAddNewBudget}
         type="register"
-      >{`Add another ${type}`}</Button>
+      >
+        <>
+          {`Add another ${type}`} <AddIcon />
+        </>
+      </Button>
       <Button handleClick={() => {}}>Save</Button>
     </div>
   );

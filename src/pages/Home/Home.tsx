@@ -13,6 +13,7 @@ import {
 import { getDateInfo } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
+import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -70,7 +71,7 @@ const Home = () => {
             >
               Add income
             </Button>{" "}
-            <SaveIcon isDisabled={budgetIncome.length === 0} />
+            {budgetIncome.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
           </S.NoBudgetSection>
           <S.NoBudgetSection>
             <Button
@@ -81,7 +82,7 @@ const Home = () => {
             >
               Add expense
             </Button>{" "}
-            <SaveIcon isDisabled={budgetExpense.length === 0} />
+            {budgetExpense.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
           </S.NoBudgetSection>
           <S.SubmitBudget>
             <Button

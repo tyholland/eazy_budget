@@ -19,3 +19,7 @@ export const NoBudgetSection = styled.div`
   gap: 10px;
   align-items: center;
 `;
+
+export const SubmitBudget = styled.div`
+  margin-top: 30px;
+`;

@@ -9,7 +9,7 @@ import { mockBudget } from "./mocks";
 
 describe("getMonthlyTotalAmount", () => {
   test("should return 0", () => {
-    const amount = getMonthlyTotalAmount(null, "january", 2025, "income");
+    const amount = getMonthlyTotalAmount([], "january", 2025, "income");
 
     expect(amount).toBe(0);
   });
@@ -28,7 +28,7 @@ describe("getMonthlyTotalAmount", () => {
 
 describe("getYearlyTotalAmount", () => {
   test("should return 0", () => {
-    const amount = getYearlyTotalAmount(null, 2025, "income");
+    const amount = getYearlyTotalAmount([], 2025, "income");
 
     expect(amount).toBe(0);
   });

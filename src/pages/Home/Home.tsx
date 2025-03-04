@@ -1,9 +1,12 @@
 import React from "react";
 import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./home.style.ts";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
+import { incomeAtom } from "../../hook/IncomeAtom.ts";
+import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
+  createInitialBudget,
   getMonthlyTotalAmount,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
@@ -12,7 +15,9 @@ import Button from "../../components/Button/Button.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 
 const Home = () => {
-  const budget = useAtomValue(budgetAtom);
+  const [budget, setBudget] = useAtom(budgetAtom);
+  const budgetIncome = useAtomValue(incomeAtom);
+  const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -33,9 +38,13 @@ const Home = () => {
     "expense",
   );
 
+  const handleBudgetSubmission = () => {
+    setBudget(createInitialBudget(budgetIncome, budgetExpense));
+  };
+
   return (
     <S.HomeWrapper>
-      {budget && (
+      {budget.length > 0 && (
         <>
           <Overview
             label="Monthly"
@@ -49,7 +58,7 @@ const Home = () => {
           />
         </>
       )}
-      {!budget && (
+      {budget.length === 0 && (
         <S.NoBudgetWrapper>
           <h2>You haven't entered any Budget info.</h2>
           <S.NoBudgetSection>
@@ -61,7 +70,7 @@ const Home = () => {
             >
               Add income
             </Button>{" "}
-            <SaveIcon isDisabled />
+            <SaveIcon isDisabled={budgetIncome.length === 0} />
           </S.NoBudgetSection>
           <S.NoBudgetSection>
             <Button
@@ -72,8 +81,17 @@ const Home = () => {
             >
               Add expense
             </Button>{" "}
-            <SaveIcon isDisabled />
+            <SaveIcon isDisabled={budgetExpense.length === 0} />
           </S.NoBudgetSection>
+          <S.SubmitBudget>
+            <Button
+              handleClick={handleBudgetSubmission}
+              buttonSize="large"
+              disabled={budgetExpense.length === 0 || budgetIncome.length === 0}
+            >
+              Submit Budget Overview
+            </Button>
+          </S.SubmitBudget>
         </S.NoBudgetWrapper>
       )}
     </S.HomeWrapper>

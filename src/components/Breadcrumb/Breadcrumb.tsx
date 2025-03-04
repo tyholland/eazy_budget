@@ -1,5 +1,6 @@
 import React from "react";
 import * as S from "./breadcrumb.style.ts";
+import { Link } from "react-router-dom";
 
 interface BreadcrumbProps {
   path: string;
@@ -13,9 +14,9 @@ const Breadcrumb = ({ path }: BreadcrumbProps) => {
   return (
     <S.Wrapper>
       <S.GreyedOut>
-        <a href="/" aria-label="Overview">
+        <Link to="/" aria-label="Overview">
           Overview
-        </a>
+        </Link>
       </S.GreyedOut>
       <S.GreyedOut>&gt;</S.GreyedOut>
       <div>{path}</div>

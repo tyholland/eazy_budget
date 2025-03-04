@@ -2,12 +2,13 @@ import React, { ChangeEvent, useState } from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./input.style.ts";
 import { formatAmount } from "../../functions/helper.ts";
+import { UseFormRegister } from "react-hook-form";
 
 interface InputProps {
   inputLabel: string;
+  register: UseFormRegister<any>;
   inputOption?: InputOption;
-  editableValue?: boolean;
-  editableLabel?: boolean;
+  isEditable?: boolean;
   type?: InputType;
   inputSize?: ElementSize;
   defaultValue?: string | number;
@@ -18,13 +19,13 @@ interface InputProps {
 const Input = ({
   inputSize = "small",
   inputLabel,
-  editableValue = false,
-  editableLabel = false,
+  isEditable = false,
   type = "text",
   inputOption = "default",
   defaultValue = "",
   valuePlaceHolder = "",
   labelPlaceHolder = "",
+  register,
 }: InputProps) => {
   const [inputValue, setInputValue] = useState<number | string>(defaultValue);
   const [updatedLabel, setUpdatedLabel] = useState<string>(inputLabel);
@@ -39,26 +40,38 @@ const Input = ({
 
   return (
     <S.InputWrapper>
-      {editableLabel ? (
-        <S.Input
-          type="text"
-          className={`${inputSize} ${inputOption}`}
-          value={updatedLabel}
-          onChange={handleLabelOnChange}
-          placeholder={labelPlaceHolder}
-        />
-      ) : (
-        <S.Label htmlFor={updatedLabel}>{updatedLabel}</S.Label>
+      {isEditable && (
+        <>
+          <S.Input
+            type="text"
+            className={`${inputSize} ${inputOption}`}
+            value={updatedLabel}
+            onChange={handleLabelOnChange}
+            placeholder={labelPlaceHolder}
+          />
+          <S.Input
+            type={type}
+            className={`${inputSize} ${inputOption}`}
+            onChange={handleValueOnChange}
+            value={inputValue}
+            placeholder={valuePlaceHolder}
+          />
+        </>
       )}
-      <S.Input
-        type={editableValue ? type : "text"}
-        id={updatedLabel}
-        className={`${inputSize} ${inputOption}`}
-        disabled={!editableValue}
-        onChange={handleValueOnChange}
-        value={!editableValue ? formatAmount(Number(inputValue)) : inputValue}
-        placeholder={valuePlaceHolder}
-      />
+
+      {!isEditable && (
+        <>
+          <S.Label htmlFor={updatedLabel}>{updatedLabel}</S.Label>
+          <S.Input
+            type={"text"}
+            id={updatedLabel}
+            {...register(updatedLabel)}
+            className={`${inputSize} ${inputOption}`}
+            disabled
+            value={formatAmount(Number(inputValue))}
+          />
+        </>
+      )}
     </S.InputWrapper>
   );
 };

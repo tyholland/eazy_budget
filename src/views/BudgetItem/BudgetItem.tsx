@@ -7,9 +7,11 @@ import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./budgetItem.style.ts";
 import CancelIcon from "../../svg/CancelIcon.tsx";
+import { UseFormRegister } from "react-hook-form";
 
 interface BudgetItemProps {
   theType: InputOption;
+  register: UseFormRegister<any>;
   item?: BudgetDataItem;
   editable?: boolean;
   labelPlaceHolder?: string;
@@ -26,6 +28,7 @@ const BudgetItem = ({
   labelPlaceHolder = "",
   inputType = "text",
   hideBtn = false,
+  register,
 }: BudgetItemProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(editable);
 
@@ -35,29 +38,38 @@ const BudgetItem = ({
         inputLabel={item?.label || ""}
         inputOption={theType}
         defaultValue={item?.value}
-        editableLabel={isEditable}
-        editableValue={isEditable}
+        isEditable={isEditable}
         labelPlaceHolder={labelPlaceHolder}
         valuePlaceHolder={valuePlaceHolder}
         type={inputType}
         inputSize="medium"
+        register={register}
       />
       {!hideBtn && (
         <>
           {!isEditable && (
-            <Button type="image" handleClick={() => setIsEditable(true)}>
+            <Button classType="image" handleClick={() => setIsEditable(true)}>
               <EditIcon />
             </Button>
           )}
           {isEditable && (
             <>
-              <Button type="image" handleClick={() => setIsEditable(false)}>
+              <Button
+                classType="image"
+                handleClick={() => setIsEditable(false)}
+              >
                 <SaveIcon />
               </Button>
-              <Button type="image" handleClick={() => setIsEditable(false)}>
+              <Button
+                classType="image"
+                handleClick={() => setIsEditable(false)}
+              >
                 <CancelIcon />
               </Button>
-              <Button type="image" handleClick={() => setIsEditable(false)}>
+              <Button
+                classType="image"
+                handleClick={() => setIsEditable(false)}
+              >
                 <DeleteIcon />
               </Button>
             </>

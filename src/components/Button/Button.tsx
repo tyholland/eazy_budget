@@ -1,10 +1,11 @@
 import React from "react";
-import { ElementSize, ButtonType } from "../../types.ts";
+import { ElementSize, ButtonType, ButtonClassType } from "../../types.ts";
 import * as S from "./button.style.ts";
 
 interface ButtonProps {
   children: string | JSX.Element;
-  handleClick: () => void;
+  handleClick?: () => void;
+  classType?: ButtonClassType;
   type?: ButtonType;
   buttonSize?: ElementSize;
   disabled?: boolean;
@@ -13,15 +14,17 @@ interface ButtonProps {
 const Button = ({
   children,
   buttonSize = "small",
-  handleClick,
+  handleClick = () => {},
   disabled = false,
-  type = "default",
+  classType = "default",
+  type = "button",
 }: ButtonProps) => {
   return (
     <S.Button
-      className={`${buttonSize} ${type}`}
+      className={`${buttonSize} ${classType}`}
       onClick={handleClick}
       disabled={disabled}
+      type={type}
     >
       {children}
     </S.Button>

@@ -6,8 +6,11 @@ export const Title = styled.h2`
 
 export const ItemWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 12px;
+  flex-wrap: wrap;
+  width: 750px;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const TotalBudgetWrapper = styled.div`

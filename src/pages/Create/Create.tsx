@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as S from "./create.style.ts";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { listOfBudgets, listOfMonths } from "../../constants.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import { BudgetDataItem, InputOption } from "../../types.ts";
@@ -15,6 +15,7 @@ import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 const Create = () => {
   const { register, handleSubmit } = useForm<any>();
   const { type, month, year } = useParams();
+  const navigate = useNavigate();
   const [arr, setArr] = useState<number[]>([1]);
   const setIncome = useSetAtom(incomeAtom);
   const setExpense = useSetAtom(expenseAtom);
@@ -51,10 +52,12 @@ const Create = () => {
 
     if (type === "income") {
       setIncome(budgetEntries);
+      navigate("/");
       return;
     }
 
     setExpense(budgetEntries);
+    navigate("/");
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../components/Input/Input.tsx";
 import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
@@ -11,7 +11,8 @@ import { UseFormRegister } from "react-hook-form";
 
 interface BudgetItemProps {
   theType: InputOption;
-  register: UseFormRegister<any>;
+  children?: string | JSX.Element;
+  register?: UseFormRegister<any>;
   item?: BudgetDataItem;
   editable?: boolean;
   labelPlaceHolder?: string;
@@ -22,6 +23,7 @@ interface BudgetItemProps {
 
 const BudgetItem = ({
   theType,
+  children,
   item,
   editable = false,
   valuePlaceHolder = "",
@@ -45,6 +47,7 @@ const BudgetItem = ({
         inputSize="medium"
         register={register}
       />
+      {children}
       {!hideBtn && (
         <>
           {!isEditable && (

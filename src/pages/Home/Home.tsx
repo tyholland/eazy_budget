@@ -14,6 +14,7 @@ import { getDateInfo } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
+import Link from "../../components/Link/Link.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -63,25 +64,25 @@ const Home = () => {
         <S.NoBudgetWrapper>
           <h2>You haven't entered any Budget info.</h2>
           <S.NoBudgetSection>
-            <Button
-              handleClick={() =>
-                (window.location.href = `/create/income/${currentMonth}/${currentYear}`)
-              }
-              buttonSize="medium"
+            <Link
+              url={`/create/income/${currentMonth}/${currentYear}`}
+              linkSize="medium"
+              classType="default"
+              label="Add income"
             >
               Add income
-            </Button>{" "}
+            </Link>{" "}
             {budgetIncome.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
           </S.NoBudgetSection>
           <S.NoBudgetSection>
-            <Button
-              handleClick={() =>
-                (window.location.href = `/create/expense/${currentMonth}/${currentYear}`)
-              }
-              buttonSize="medium"
+            <Link
+              url={`/create/expense/${currentMonth}/${currentYear}`}
+              linkSize="medium"
+              classType="default"
+              label="Add expense"
             >
               Add expense
-            </Button>{" "}
+            </Link>{" "}
             {budgetExpense.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
           </S.NoBudgetSection>
           <S.SubmitBudget>

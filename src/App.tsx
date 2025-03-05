@@ -7,7 +7,6 @@ import { BudgetData } from "./types.ts";
 import { useSetAtom } from "jotai";
 import { budgetAtom } from "./hook/BudgetAtom.ts";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
-import { getCurrentPageName } from "./functions/helper.ts";
 import Create from "./pages/Create/Create.tsx";
 
 const App = () => {
@@ -101,13 +100,9 @@ const App = () => {
 
   // setMonthlyExpense(monthlyExpense);
 
-  const pathname = window.location.pathname;
-  const page = pathname.split("/");
-  const currentPage = getCurrentPageName(`/${page[1]}/${page[2]}`);
-
   return (
     <Router>
-      <Breadcrumb path={currentPage} />
+      <Breadcrumb />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/monthly/:type/:month/:year" element={<Monthly />} />

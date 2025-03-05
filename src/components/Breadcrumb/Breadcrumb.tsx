@@ -1,25 +1,27 @@
 import React from "react";
 import * as S from "./breadcrumb.style.ts";
-import { Link } from "react-router-dom";
+import Link from "../Link/Link.tsx";
+import { useLocation } from "react-router-dom";
+import { getCurrentPageName } from "../../functions/helper.ts";
 
-interface BreadcrumbProps {
-  path: string;
-}
+const Breadcrumb = () => {
+  const { pathname } = useLocation();
+  const page = pathname.split("/");
+  const pageName = getCurrentPageName(`/${page[1]}/${page[2]}`);
 
-const Breadcrumb = ({ path }: BreadcrumbProps) => {
-  if (path === "") {
+  if (pathname === "/") {
     return <></>;
   }
 
   return (
     <S.Wrapper>
       <S.GreyedOut>
-        <Link to="/" aria-label="Overview">
+        <Link url="/" label="Overview">
           Overview
         </Link>
       </S.GreyedOut>
       <S.GreyedOut>&gt;</S.GreyedOut>
-      <div>{path}</div>
+      <div>{pageName}</div>
     </S.Wrapper>
   );
 };

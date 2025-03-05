@@ -8,6 +8,8 @@ export type ButtonType = "submit" | "button";
 
 export type ButtonClassType = "default" | "register" | "exit" | "image";
 
+export type LinkClassType = "default" | "text";
+
 export type GraphType = "doughnut" | "pie" | "bar";
 
 export type OverviewLabel = "default" | "Yearly" | "Monthly";

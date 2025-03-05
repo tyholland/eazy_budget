@@ -1,5 +1,4 @@
 import { fn } from "@storybook/test";
-
 import Button from "../components/Button/Button.tsx";
 
 export default {

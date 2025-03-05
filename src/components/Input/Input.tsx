@@ -6,7 +6,7 @@ import { UseFormRegister } from "react-hook-form";
 
 interface InputProps {
   inputLabel: string;
-  register: UseFormRegister<any>;
+  register?: UseFormRegister<any>;
   inputOption?: InputOption;
   isEditable?: boolean;
   type?: InputType;
@@ -62,14 +62,25 @@ const Input = ({
       {!isEditable && (
         <>
           <S.Label htmlFor={updatedLabel}>{updatedLabel}</S.Label>
-          <S.Input
-            type={"text"}
-            id={updatedLabel}
-            {...register(updatedLabel)}
-            className={`${inputSize} ${inputOption}`}
-            disabled
-            value={formatAmount(Number(inputValue))}
-          />
+          {register && (
+            <S.Input
+              type={"text"}
+              id={updatedLabel}
+              {...register(updatedLabel)}
+              className={`${inputSize} ${inputOption}`}
+              disabled
+              value={formatAmount(Number(inputValue))}
+            />
+          )}
+          {!register && (
+            <S.Input
+              type={"text"}
+              id={updatedLabel}
+              className={`${inputSize} ${inputOption}`}
+              disabled
+              value={formatAmount(Number(inputValue))}
+            />
+          )}
         </>
       )}
     </S.InputWrapper>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BudgetDataItem, GraphType, InputOption } from "../../types.ts";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import * as S from "./yearly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Select from "../../components/Select/Select.tsx";
@@ -19,9 +19,13 @@ import {
   getYearlyBudgetBreakdown,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import ViewIcon from "../../svg/ViewIcon.tsx";
+import Link from "../../components/Link/Link.tsx";
 
 const Monthly = () => {
-  const [budget, setBudget] = useAtom(budgetAtom);
+  const budget = useAtomValue(budgetAtom);
+  const navigate = useNavigate();
   const { type, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
     viewOptions[0].label,
@@ -30,7 +34,7 @@ const Monthly = () => {
 
   useEffect(() => {
     if (selectedType !== type) {
-      window.location.href = `/yearly/${selectedType?.toLowerCase()}/${theYear}`;
+      navigate(`/yearly/${selectedType?.toLowerCase()}/${theYear}`);
     }
   }, [selectedType]);
 
@@ -75,7 +79,17 @@ const Monthly = () => {
                 key={data.label}
                 theType={type as InputOption}
                 item={data}
-              />
+                hideBtn
+              >
+                <span data-tooltip-id={`monthly-${type}-tooltip`}>
+                  <Link
+                    url={`/monthly/${type}/${data.label}/${theYear}`}
+                    label={`view breakdown of ${data.label} ${type}`}
+                  >
+                    <ViewIcon />
+                  </Link>
+                </span>
+              </BudgetItem>
             );
           })}
         </S.ItemWrapper>
@@ -106,6 +120,12 @@ const Monthly = () => {
           hideViewIcon
         />
       </S.TotalBudgetWrapper>
+      <ReactTooltip
+        id={`monthly-${type}-tooltip`}
+        place="top"
+        variant="info"
+        content={`View a more detailed breakdown of this ${type}`}
+      />
     </div>
   );
 };

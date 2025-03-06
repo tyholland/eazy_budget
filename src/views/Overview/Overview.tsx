@@ -6,6 +6,7 @@ import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { getDateInfo } from "../../functions/helper.ts";
+import Link from "../../components/Link/Link.tsx";
 
 interface OverviewProps {
   incomeValue: number;
@@ -25,22 +26,21 @@ const Overview = ({
   const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
   const isMonthly = label === "Monthly";
-  const income = isYearly
-    ? `${currentYear} Income`
-    : isMonthly
-      ? `${currentMonth} Income`
-      : "Total Income";
-  const expense = isYearly
-    ? `${currentYear} Expenses`
-    : isMonthly
-      ? `${currentMonth} Expenses`
-      : "Total Expenses";
+  const incomeOptions = isMonthly ? `${currentMonth} Income` : "Total Income";
+  const income = isYearly ? `${currentYear} Income` : incomeOptions;
+  const expenseOptions = isMonthly
+    ? `${currentMonth} Expenses`
+    : "Total Expenses";
+  const expense = isYearly ? `${currentYear} Expenses` : expenseOptions;
+  const remainingOptions = isMonthly
+    ? `${currentMonth} Remaining Cash`
+    : "Total Remaining Cash";
   const remaining = isYearly
     ? `${currentYear} Remaining Cash`
-    : isMonthly
-      ? `${currentMonth} Remaining Cash`
-      : "Total Remaining Cash";
+    : remainingOptions;
   const cashFlow = incomeValue - expenseValue;
+  const theDate = isYearly ? currentYear : currentMonth;
+  const theYear = isMonthly ? `/${currentYear}` : "";
 
   return (
     <S.OverviewWrapper>
@@ -54,12 +54,12 @@ const Overview = ({
         />
         {!hideViewIcon && (
           <span data-tooltip-id={`${label}-income-tooltip`}>
-            <a
-              href={`/${label?.toLowerCase()}/income/${isYearly ? currentYear : currentMonth}${isMonthly ? `/${currentYear}` : ""}`}
-              aria-label="view income"
+            <Link
+              url={`/${label?.toLowerCase()}/income/${theDate}${theYear}`}
+              label="view income"
             >
               <ViewIcon />
-            </a>
+            </Link>
           </span>
         )}
       </S.Section>
@@ -72,12 +72,12 @@ const Overview = ({
         />
         {!hideViewIcon && (
           <span data-tooltip-id={`${label}-expense-tooltip`}>
-            <a
-              href={`/${label?.toLowerCase()}/expense/${isYearly ? currentYear : currentMonth}${isMonthly ? `/${currentYear}` : ""}`}
-              aria-label="view expenses"
+            <Link
+              url={`/${label?.toLowerCase()}/expense/${theDate}${theYear}`}
+              label="view expenses"
             >
               <ViewIcon />
-            </a>
+            </Link>
           </span>
         )}
       </S.Section>
@@ -86,9 +86,9 @@ const Overview = ({
         <S.Prediction>
           <div>Predict your cash flow for the next 3 years</div>
           <Button handleClick={() => {}} buttonSize="medium">
-            <S.Predict>
+            <>
               Predict <ChartIcon />
-            </S.Predict>
+            </>
           </Button>
         </S.Prediction>
       )}

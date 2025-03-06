@@ -4,7 +4,11 @@ export type InputType = "number" | "text" | "email" | "password";
 
 export type InputOption = "default" | "expense" | "income";
 
-export type ButtonType = "default" | "register" | "exit" | "image";
+export type ButtonType = "submit" | "button";
+
+export type ButtonClassType = "default" | "register" | "exit" | "image";
+
+export type LinkClassType = "button" | "text";
 
 export type GraphType = "doughnut" | "pie" | "bar";
 
@@ -26,6 +30,7 @@ export interface GraphDataSet {
 export interface BudgetDataItem {
   label: string;
   value: number;
+  paid?: boolean;
 }
 
 export interface BudgetData {

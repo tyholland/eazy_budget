@@ -5,9 +5,9 @@ import {
   GraphType,
   InputOption,
 } from "../../types.ts";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Select from "../../components/Select/Select.tsx";
@@ -27,7 +27,8 @@ import {
 } from "../../functions/budget.ts";
 
 const Monthly = () => {
-  const [budget, setBudget] = useAtom(budgetAtom);
+  const budget = useAtomValue(budgetAtom);
+  const navigate = useNavigate();
   const { type, month, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
     viewOptions[0].label,
@@ -36,7 +37,7 @@ const Monthly = () => {
 
   useEffect(() => {
     if (selectedType !== type) {
-      window.location.href = `/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`;
+      navigate(`/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`);
     }
   }, [selectedType]);
 
@@ -91,6 +92,9 @@ const Monthly = () => {
                     key={data.label}
                     theType={type as InputOption}
                     item={data}
+                    labelPlaceHolder={`${type} name`}
+                    valuePlaceHolder={`${type} value`}
+                    inputType="number"
                   />
                 );
               });

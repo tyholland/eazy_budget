@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const Button = styled.button`
+export const LinkElement = styled(Link)`
   border-radius: 30px;
   border: none;
   padding: 10px;
@@ -10,8 +11,9 @@ export const Button = styled.button`
   align-items: center;
   gap: 8px;
   justify-content: center;
+  text-decoration: none;
 
-  &.default {
+  &.button {
     background: #90d5ff;
     color: #000;
 
@@ -32,46 +34,18 @@ export const Button = styled.button`
     width: 200px;
   }
 
-  &.register {
-    background: #fff;
-    border: 1px solid #000;
-    color: #000;
-
-    &:hover {
-      border: 1px solid #57b9ff;
-    }
-  }
-
-  &.exit {
-    background: #000;
-    color: #fff;
-
-    &:hover {
-      background: #555;
-    }
-  }
-
-  &.image {
+  &.text {
     background: transparent;
     border-radius: 0;
-    width: auto;
     padding: 0;
-
-    &:hover {
-      background: transparent;
-    }
-  }
-
-  &:disabled {
-    background: #eee;
     color: #999;
-    cursor: not-allowed;
-    border: none;
+    text-decoration: none;
+    font-weight: 400;
+    width: auto;
 
     &:hover {
-      background: #eee;
-      color: #999;
-      border: none;
+      text-decoration: underline;
+      color: #333;
     }
   }
 `;

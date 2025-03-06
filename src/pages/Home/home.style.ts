@@ -7,3 +7,19 @@ export const HomeWrapper = styled.div`
   gap: 40px;
   flex-direction: column;
 `;
+
+export const NoBudgetWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+`;
+
+export const NoBudgetSection = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+
+export const SubmitBudget = styled.div`
+  margin-top: 30px;
+`;

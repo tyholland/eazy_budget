@@ -1,9 +1,9 @@
-import Overview from "../views/Overview/Overview.tsx";
+import Link from "../components/Link/Link.tsx";
 import { withRouter } from "storybook-addon-remix-react-router";
 
 export default {
-  title: "Views/Overview",
-  component: Overview,
+  title: "Components/Link",
+  component: Link,
   decorators: [withRouter],
   parameters: {
     layout: "centered",
@@ -12,5 +12,9 @@ export default {
 };
 
 export const Primary = {
-  args: { label: "Yearly", incomeValue: 50, expenseValue: 20 },
+  args: {
+    url: "/",
+    label: "Overview",
+    children: "Overview",
+  },
 };

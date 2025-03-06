@@ -23,7 +23,3 @@ export const Section = styled.div`
   align-items: center;
   gap: 8px;
 `;
-
-export const Predict = styled(Section)`
-  justify-content: center;
-`;

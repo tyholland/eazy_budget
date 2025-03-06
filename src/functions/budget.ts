@@ -1,14 +1,16 @@
+import { listOfMonths } from "../constants.ts";
 import { BudgetData, BudgetDataItem } from "../types";
+import { getDateInfo } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
-  budget: BudgetData[] | null,
+  budget: BudgetData[],
   month: string,
   year: number,
   type: string,
 ) => {
   let amount = 0;
 
-  if (!budget) {
+  if (!budget.length) {
     return amount;
   }
 
@@ -24,13 +26,13 @@ export const getMonthlyTotalAmount = (
 };
 
 export const getYearlyTotalAmount = (
-  budget: BudgetData[] | null,
+  budget: BudgetData[],
   year: number,
   type: string,
 ) => {
   let amount = 0;
 
-  if (!budget) {
+  if (!budget.length) {
     return amount;
   }
 
@@ -46,7 +48,7 @@ export const getYearlyTotalAmount = (
 };
 
 export const getMonthlyBudgetBreakdown = (
-  budget: BudgetData[] | null,
+  budget: BudgetData[],
   month: string,
   type: string,
   year: number,
@@ -54,7 +56,7 @@ export const getMonthlyBudgetBreakdown = (
   const dataSet: number[] = [];
   const labelSet: string[] = [];
 
-  budget?.forEach((item: BudgetData) => {
+  budget.forEach((item: BudgetData) => {
     if (month === item.month.toLowerCase() && year === item.year) {
       item[type].forEach((data: BudgetDataItem) => {
         dataSet.push(data.value);
@@ -70,7 +72,7 @@ export const getMonthlyBudgetBreakdown = (
 };
 
 export const getYearlyBudgetBreakdown = (
-  budget: BudgetData[] | null,
+  budget: BudgetData[],
   year: number,
   type: string,
 ) => {
@@ -78,7 +80,7 @@ export const getYearlyBudgetBreakdown = (
   const labelSet: string[] = [];
   const budgetSet: BudgetDataItem[] = [];
 
-  budget?.forEach((item: BudgetData) => {
+  budget.forEach((item: BudgetData) => {
     if (item.year === year) {
       labelSet.push(item.month);
       let count = 0;
@@ -98,4 +100,50 @@ export const getYearlyBudgetBreakdown = (
     labels: labelSet,
     newBudget: budgetSet,
   };
+};
+
+export const createInitialBudget = (
+  income: BudgetDataItem[],
+  expense: BudgetDataItem[],
+) => {
+  if (!income.length || !expense.length) {
+    return [];
+  }
+
+  const initialBudget: BudgetData[] = [];
+  const { currentYear } = getDateInfo();
+
+  for (let i = 0; i <= 11; i++) {
+    initialBudget.push({
+      year: currentYear,
+      month: listOfMonths[i],
+      income,
+      expense,
+    });
+  }
+
+  return initialBudget;
+};
+
+export const addAdditionalBudget = (current: number[]) => {
+  const newBudget: number[] = [];
+  newBudget.push(current.length + 1);
+
+  return current.concat(newBudget);
+};
+
+export const formatBudgetTypes = (data: Object) => {
+  const budgetEntries: BudgetDataItem[] = [];
+
+  Object.entries(data).forEach((item) => {
+    const val = item[1] as string;
+
+    budgetEntries.push({
+      label: item[0],
+      value: Number(val.replace("$", "")),
+      paid: false,
+    });
+  });
+
+  return budgetEntries;
 };

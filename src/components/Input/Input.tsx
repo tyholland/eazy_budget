@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./input.style.ts";
 import { formatAmount } from "../../functions/helper.ts";

@@ -9,6 +9,7 @@ import {
   formatBudgetTypes,
 } from "../functions/budget";
 import { mockBudget, mockBudgetEntries } from "./mocks";
+import { getDateInfo } from "../functions/helper";
 
 describe("getMonthlyTotalAmount", () => {
   test("should return 0", () => {
@@ -44,7 +45,7 @@ describe("getYearlyTotalAmount", () => {
 });
 
 describe("getMonthlyBudgetBreakdown", () => {
-  test("should return emoty arrays", () => {
+  test("should return empty arrays", () => {
     const results = getMonthlyBudgetBreakdown([], "january", "expense", 2025);
     const expectedResults = JSON.stringify({
       data: [],
@@ -71,7 +72,7 @@ describe("getMonthlyBudgetBreakdown", () => {
 });
 
 describe("getYearlyBudgetBreakdown", () => {
-  test("should return emoty arrays", () => {
+  test("should return empty arrays", () => {
     const results = getYearlyBudgetBreakdown([], 2025, "expense");
     const expectedResults = JSON.stringify({
       data: [],
@@ -100,36 +101,99 @@ describe("getYearlyBudgetBreakdown", () => {
 });
 
 describe("createInitialBudget", () => {
-  test("should return emoty arrays", () => {
-    const results = createInitialBudget([], 2025, "expense");
-    const expectedResults = JSON.stringify({
-      data: [],
-      labels: [],
-      newBudget: [],
-    });
+  test("should return empty array", () => {
+    const results = createInitialBudget([], []);
+    const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
-  test("should return full results of yearly budget", () => {
-    const results = createInitialBudget(mockBudget, 2025, "expense");
-    const expectedResults = JSON.stringify({
-      data: [36],
-      labels: ["january"],
-      newBudget: [
-        {
-          label: "january",
-          value: 36,
-        },
-      ],
-    });
+  test("should return initial budget", () => {
+    const income = mockBudget[0].income;
+    const expense = mockBudget[0].expense;
+    const results = createInitialBudget(income, expense);
+    const { currentYear } = getDateInfo();
+    const expectedResults = JSON.stringify([
+      {
+        year: currentYear,
+        month: "january",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "february",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "march",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "april",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "may",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "june",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "july",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "august",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "september",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "october",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "november",
+        income,
+        expense,
+      },
+      {
+        year: currentYear,
+        month: "december",
+        income,
+        expense,
+      },
+    ]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 });
 
 describe("addAdditionalBudget", () => {
-  test("should work with emoty array", () => {
+  test("should work with empty array", () => {
     const results = addAdditionalBudget([]);
     const expectedResults = JSON.stringify([1]);
 
@@ -145,7 +209,7 @@ describe("addAdditionalBudget", () => {
 });
 
 describe("formatBudgetTypes", () => {
-  test("should return an emoty array", () => {
+  test("should return an empty array", () => {
     const results = formatBudgetTypes({});
     const expectedResults = JSON.stringify([]);
 

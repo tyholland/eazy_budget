@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as S from "./create.style.ts";
 import { useNavigate, useParams } from "react-router-dom";

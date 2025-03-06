@@ -13,7 +13,7 @@ export const LinkElement = styled(Link)`
   justify-content: center;
   text-decoration: none;
 
-  &.default {
+  &.button {
     background: #90d5ff;
     color: #000;
 

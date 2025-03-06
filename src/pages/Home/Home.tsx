@@ -67,7 +67,7 @@ const Home = () => {
             <Link
               url={`/create/income/${currentMonth}/${currentYear}`}
               linkSize="medium"
-              classType="default"
+              classType="button"
               label="Add income"
             >
               Add income
@@ -78,7 +78,7 @@ const Home = () => {
             <Link
               url={`/create/expense/${currentMonth}/${currentYear}`}
               linkSize="medium"
-              classType="default"
+              classType="button"
               label="Add expense"
             >
               Add expense

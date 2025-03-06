@@ -24,3 +24,9 @@ export const mockBudget = [
     ],
   },
 ];
+
+export const mockBudgetEntries = {
+  netflix: "$19.99",
+  hulu: "$20.99",
+  internet: "$70.70",
+};

@@ -6,9 +6,11 @@ import { UseFormRegister } from "react-hook-form";
 
 interface InputProps {
   inputLabel: string;
+  isEditable?: boolean;
+  setInputValue?: (val: number | string) => void;
+  setUpdatedLabel?: (val: string) => void;
   register?: UseFormRegister<any>;
   inputOption?: InputOption;
-  isEditable?: boolean;
   type?: InputType;
   inputSize?: ElementSize;
   defaultValue?: string | number;
@@ -26,10 +28,9 @@ const Input = ({
   valuePlaceHolder = "",
   labelPlaceHolder = "",
   register,
+  setInputValue = () => {},
+  setUpdatedLabel = () => {},
 }: InputProps) => {
-  const [inputValue, setInputValue] = useState<number | string>(defaultValue);
-  const [updatedLabel, setUpdatedLabel] = useState<string>(inputLabel);
-
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUpdatedLabel(e.target.value);
   };
@@ -38,10 +39,6 @@ const Input = ({
     setInputValue(e.target.value);
   };
 
-  useEffect(() => {
-    setInputValue(defaultValue);
-  }, [defaultValue]);
-
   return (
     <S.InputWrapper>
       {isEditable && (
@@ -49,7 +46,7 @@ const Input = ({
           <S.Input
             type="text"
             className={`${inputSize} ${inputOption}`}
-            value={updatedLabel}
+            value={inputLabel}
             onChange={handleLabelOnChange}
             placeholder={labelPlaceHolder}
           />
@@ -57,7 +54,7 @@ const Input = ({
             type={type}
             className={`${inputSize} ${inputOption}`}
             onChange={handleValueOnChange}
-            value={inputValue}
+            value={defaultValue}
             placeholder={valuePlaceHolder}
           />
         </>
@@ -65,24 +62,24 @@ const Input = ({
 
       {!isEditable && (
         <>
-          <S.Label htmlFor={updatedLabel}>{updatedLabel}</S.Label>
+          <S.Label htmlFor={inputLabel}>{inputLabel}</S.Label>
           {register && (
             <S.Input
               type={"text"}
-              id={updatedLabel}
-              {...register(updatedLabel)}
+              id={inputLabel}
+              {...register(inputLabel)}
               className={`${inputSize} ${inputOption}`}
               disabled
-              value={formatAmount(Number(inputValue))}
+              value={formatAmount(Number(defaultValue))}
             />
           )}
           {!register && (
             <S.Input
               type={"text"}
-              id={updatedLabel}
+              id={inputLabel}
               className={`${inputSize} ${inputOption}`}
               disabled
-              value={formatAmount(Number(inputValue))}
+              value={formatAmount(Number(defaultValue))}
             />
           )}
         </>

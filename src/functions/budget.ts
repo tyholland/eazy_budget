@@ -124,3 +124,26 @@ export const createInitialBudget = (
 
   return initialBudget;
 };
+
+export const addAdditionalBudget = (current: number[]) => {
+  const newBudget: number[] = [];
+  newBudget.push(current.length + 1);
+
+  return current.concat(newBudget);
+};
+
+export const formatBudgetTypes = (data: Object) => {
+  const budgetEntries: BudgetDataItem[] = [];
+
+  Object.entries(data).forEach((item) => {
+    const val = item[1] as string;
+
+    budgetEntries.push({
+      label: item[0],
+      value: Number(val.replace("$", "")),
+      paid: false,
+    });
+  });
+
+  return budgetEntries;
+};

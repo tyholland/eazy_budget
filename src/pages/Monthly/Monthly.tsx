@@ -63,6 +63,11 @@ const Monthly = () => {
     theYear,
   );
 
+  const handleSaveEvent = (item: Object) => {
+    console.log(item);
+    // Need to update income in budget for this specific month and year
+  };
+
   return (
     <div>
       <S.Title>
@@ -95,6 +100,7 @@ const Monthly = () => {
                     labelPlaceHolder={`${type} name`}
                     valuePlaceHolder={`${type} value`}
                     inputType="number"
+                    saveEvent={handleSaveEvent}
                   />
                 );
               });

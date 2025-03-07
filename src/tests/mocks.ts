@@ -30,3 +30,9 @@ export const mockBudgetEntries = {
   hulu: "$20.99",
   internet: "$70.70",
 };
+
+export const mockBudgetEntriesNoDollar = {
+  netflix: 19.99,
+  hulu: 20.99,
+  internet: 70.7,
+};

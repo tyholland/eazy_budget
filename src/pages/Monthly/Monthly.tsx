@@ -7,7 +7,7 @@ import {
 } from "../../types.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Select from "../../components/Select/Select.tsx";
@@ -24,23 +24,31 @@ import Overview from "../../views/Overview/Overview.tsx";
 import {
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
-  updateIndividualBudgetItem,
+  reformatBudgetItem,
 } from "../../functions/budget.ts";
 
 const Monthly = () => {
-  const budget = useAtomValue(budgetAtom);
+  const [budget, setBudget] = useAtom(budgetAtom);
   const navigate = useNavigate();
   const { type, month, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
     viewOptions[0].label,
   );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
+  const [budgetChange, setBudgetChange] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedType !== type) {
       navigate(`/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`);
     }
   }, [selectedType]);
+
+  useEffect(() => {
+    if (budgetChange) {
+      setBudget(budget);
+      setBudgetChange(false);
+    }
+  }, [budgetChange]);
 
   if (
     !type ||
@@ -87,10 +95,11 @@ const Monthly = () => {
         <S.ItemWrapper>
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
-              return item[type].map((data: BudgetDataItem) => {
-                const handleSaveEvent = (item: Object) => {
-                  updateIndividualBudgetItem(data, item);
-                  console.log(budget);
+              return item[type].map((data: BudgetDataItem, i: number) => {
+                const handleSaveEvent = (obj: Object) => {
+                  const updatedItem = reformatBudgetItem(obj);
+                  item[type] = updatedItem;
+                  setBudgetChange(true);
                 };
 
                 return (

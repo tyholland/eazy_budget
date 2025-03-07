@@ -13,7 +13,7 @@ import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
   addAdditionalBudget,
-  formatBudgetTypes,
+  formatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
@@ -43,7 +43,7 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    const budgetEntries = formatBudgetTypes(data);
+    const budgetEntries = formatBudgetItem(data);
 
     if (type === "income") {
       setIncome(budgetEntries);

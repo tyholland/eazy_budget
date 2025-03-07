@@ -12,7 +12,7 @@ export const Input = styled.input`
     &:disabled {
       border: 1px solid #000;
       background: #fff;
-      color: #808080;
+      color: #333;
     }
   }
 

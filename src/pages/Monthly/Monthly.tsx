@@ -24,6 +24,7 @@ import Overview from "../../views/Overview/Overview.tsx";
 import {
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
+  updateIndividualBudgetItem,
 } from "../../functions/budget.ts";
 
 const Monthly = () => {
@@ -63,11 +64,6 @@ const Monthly = () => {
     theYear,
   );
 
-  const handleSaveEvent = (item: Object) => {
-    console.log(item);
-    // Need to update income in budget for this specific month and year
-  };
-
   return (
     <div>
       <S.Title>
@@ -92,6 +88,11 @@ const Monthly = () => {
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem) => {
+                const handleSaveEvent = (item: Object) => {
+                  updateIndividualBudgetItem(data, item);
+                  console.log(budget);
+                };
+
                 return (
                   <BudgetItem
                     key={data.label}

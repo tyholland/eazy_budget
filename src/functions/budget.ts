@@ -1,5 +1,5 @@
 import { listOfMonths } from "../constants.ts";
-import { BudgetData, BudgetDataItem } from "../types";
+import { BudgetData, BudgetDataItem, InputOption } from "../types";
 import { getDateInfo } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
@@ -146,4 +146,21 @@ export const formatBudgetTypes = (data: Object) => {
   });
 
   return budgetEntries;
+};
+
+export const updateIndividualBudgetItem = (
+  budgetItem: BudgetDataItem,
+  updatedItem: Object,
+) => {
+  const refactoredItem: BudgetDataItem = Object.entries(updatedItem).map(
+    (item) => {
+      return {
+        label: item[0],
+        value: item[1],
+        paid: false,
+      };
+    },
+  )[0];
+
+  Object.assign(budgetItem, refactoredItem);
 };

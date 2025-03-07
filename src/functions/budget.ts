@@ -1,5 +1,5 @@
 import { listOfMonths } from "../constants.ts";
-import { BudgetData, BudgetDataItem, InputOption } from "../types";
+import { BudgetData, BudgetDataItem } from "../types";
 import { getDateInfo } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (

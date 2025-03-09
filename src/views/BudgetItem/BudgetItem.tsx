@@ -20,7 +20,7 @@ interface BudgetItemProps {
   inputType?: InputType;
   hideBtn?: boolean;
   hideCheckbox?: boolean;
-  saveEvent?: (val: Object, paid: boolean, add?: boolean) => void;
+  saveEvent?: (val: Object, paid?: boolean) => void;
 }
 
 const BudgetItem = ({

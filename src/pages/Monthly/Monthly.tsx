@@ -81,7 +81,7 @@ const Monthly = () => {
     setBudgetArr(updatedBudgetArray);
   };
 
-  const handleAdditionSaveEvent = (obj: Object, isPaid: boolean) => {
+  const handleAdditionSaveEvent = (obj: Object, isPaid?: boolean) => {
     const updatedItem = reformatBudgetItem(obj, isPaid);
     const specificBudget = budget.filter(
       (item: BudgetData) =>
@@ -116,7 +116,7 @@ const Monthly = () => {
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {
-                const handleSaveEvent = (obj: Object, isPaid: boolean) => {
+                const handleSaveEvent = (obj: Object, isPaid?: boolean) => {
                   const updatedItem = reformatBudgetItem(obj, isPaid);
                   const currentItems = [...item[type]];
                   currentItems[i] = updatedItem[0];

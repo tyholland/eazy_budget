@@ -148,13 +148,13 @@ export const formatBudgetItem = (data: Object) => {
   return budgetEntries;
 };
 
-export const reformatBudgetItem = (updatedItem: Object, isPaid: boolean) => {
+export const reformatBudgetItem = (updatedItem: Object, isPaid?: boolean) => {
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
       return {
         label: item[0],
         value: item[1],
-        paid: isPaid,
+        paid: isPaid || false,
       };
     },
   );

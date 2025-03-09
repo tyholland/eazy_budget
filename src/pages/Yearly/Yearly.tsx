@@ -80,6 +80,7 @@ const Monthly = () => {
                 theType={type as InputOption}
                 item={data}
                 hideBtn
+                hideCheckbox
               >
                 <span data-tooltip-id={`monthly-${type}-tooltip`}>
                   <Link

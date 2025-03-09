@@ -7,6 +7,7 @@ import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./budgetItem.style.ts";
 import { UseFormRegister } from "react-hook-form";
+import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -18,7 +19,8 @@ interface BudgetItemProps {
   valuePlaceHolder?: string;
   inputType?: InputType;
   hideBtn?: boolean;
-  saveEvent?: (val: Object) => void;
+  hideCheckbox?: boolean;
+  saveEvent?: (val: Object, paid: boolean) => void;
 }
 
 const BudgetItem = ({
@@ -30,6 +32,7 @@ const BudgetItem = ({
   labelPlaceHolder = "",
   inputType = "text",
   hideBtn = false,
+  hideCheckbox = false,
   register,
   saveEvent,
 }: BudgetItemProps) => {
@@ -38,6 +41,7 @@ const BudgetItem = ({
     item?.value || "",
   );
   const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
+  const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
 
   useEffect(() => {
     item && setInputValue(item.value);
@@ -58,6 +62,14 @@ const BudgetItem = ({
         setInputValue={setInputValue}
         setUpdatedLabel={setUpdatedLabel}
       />
+      {!hideCheckbox && (
+        <CheckboxComponent
+          label="Paid"
+          isDisabled={!isEditable}
+          setCheckedVal={setCheckedVal}
+          isChecked={checkedVal}
+        />
+      )}
       {children}
       {!hideBtn && (
         <>
@@ -72,7 +84,7 @@ const BudgetItem = ({
                 classType="image"
                 handleClick={() => {
                   const item = JSON.parse(`{"${updatedLabel}": ${inputValue}}`);
-                  saveEvent && saveEvent(item);
+                  saveEvent && saveEvent(item, checkedVal);
                   setIsEditable(false);
                 }}
               >

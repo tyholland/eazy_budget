@@ -96,8 +96,8 @@ const Monthly = () => {
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {
-                const handleSaveEvent = (obj: Object) => {
-                  const updatedItem = reformatBudgetItem(obj);
+                const handleSaveEvent = (obj: Object, isPaid: boolean) => {
+                  const updatedItem = reformatBudgetItem(obj, isPaid);
                   item[type] = updatedItem;
                   setBudgetChange(true);
                 };
@@ -111,6 +111,7 @@ const Monthly = () => {
                     valuePlaceHolder={`${type} value`}
                     inputType="number"
                     saveEvent={handleSaveEvent}
+                    hideCheckbox={type === "income"}
                   />
                 );
               });

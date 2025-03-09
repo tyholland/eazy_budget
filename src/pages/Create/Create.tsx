@@ -76,6 +76,7 @@ const Create = () => {
               inputType="number"
               register={register}
               saveEvent={handleSaveEvent}
+              hideCheckbox
             />
           );
         })}

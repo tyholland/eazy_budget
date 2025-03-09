@@ -246,13 +246,13 @@ describe("formatBudgetItem", () => {
 
 describe("reformatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = reformatBudgetItem({});
+    const results = reformatBudgetItem({}, true);
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
   test("should return budget items", () => {
-    const results = reformatBudgetItem(mockBudgetEntriesNoDollar);
+    const results = reformatBudgetItem(mockBudgetEntriesNoDollar, false);
     const expectedResults = JSON.stringify([
       {
         label: "netflix",

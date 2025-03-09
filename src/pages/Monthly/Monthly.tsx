@@ -22,10 +22,13 @@ import {
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
 import {
+  addAdditionalBudget,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   reformatBudgetItem,
 } from "../../functions/budget.ts";
+import Button from "../../components/Button/Button.tsx";
+import AddIcon from "../../svg/AddIcon.tsx";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -36,6 +39,7 @@ const Monthly = () => {
   );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
+  const [budgetArr, setBudgetArr] = useState<number[]>([]);
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -72,6 +76,22 @@ const Monthly = () => {
     theYear,
   );
 
+  const handleAddNewBudget = () => {
+    const updatedBudgetArray = addAdditionalBudget(budgetArr);
+    setBudgetArr(updatedBudgetArray);
+  };
+
+  const handleAdditionSaveEvent = (obj: Object, isPaid: boolean) => {
+    const updatedItem = reformatBudgetItem(obj, isPaid);
+    const specificBudget = budget.filter(
+      (item: BudgetData) =>
+        month === item.month.toLowerCase() && theYear === item.year,
+    )[0];
+    specificBudget[type].push(updatedItem[0]);
+    setBudgetArr([]);
+    setBudgetChange(true);
+  };
+
   return (
     <div>
       <S.Title>
@@ -98,7 +118,9 @@ const Monthly = () => {
               return item[type].map((data: BudgetDataItem, i: number) => {
                 const handleSaveEvent = (obj: Object, isPaid: boolean) => {
                   const updatedItem = reformatBudgetItem(obj, isPaid);
-                  item[type] = updatedItem;
+                  const currentItems = [...item[type]];
+                  currentItems[i] = updatedItem[0];
+                  item[type] = currentItems;
                   setBudgetChange(true);
                 };
 
@@ -118,6 +140,30 @@ const Monthly = () => {
             }
             return null;
           })}
+
+          {budgetArr.map((item) => {
+            return (
+              <BudgetItem
+                key={item}
+                editable
+                theType={type as InputOption}
+                labelPlaceHolder={`${type} name`}
+                valuePlaceHolder={`${type} value`}
+                inputType="number"
+                saveEvent={handleAdditionSaveEvent}
+                hideCheckbox={type === "income"}
+              />
+            );
+          })}
+          <Button
+            buttonSize="large"
+            handleClick={handleAddNewBudget}
+            classType="register"
+          >
+            <>
+              {`Add another ${type}`} <AddIcon />
+            </>
+          </Button>
         </S.ItemWrapper>
       )}
       {selectedView !== "Text" && (

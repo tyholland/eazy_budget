@@ -20,7 +20,7 @@ interface BudgetItemProps {
   inputType?: InputType;
   hideBtn?: boolean;
   hideCheckbox?: boolean;
-  saveEvent?: (val: Object, paid: boolean) => void;
+  saveEvent?: (val: Object, paid: boolean, add?: boolean) => void;
 }
 
 const BudgetItem = ({
@@ -83,8 +83,10 @@ const BudgetItem = ({
               <Button
                 classType="image"
                 handleClick={() => {
-                  const item = JSON.parse(`{"${updatedLabel}": ${inputValue}}`);
-                  saveEvent && saveEvent(item, checkedVal);
+                  const budgetItem = JSON.parse(
+                    `{"${updatedLabel}": ${inputValue}}`,
+                  );
+                  saveEvent && saveEvent(budgetItem, checkedVal);
                   setIsEditable(false);
                 }}
               >

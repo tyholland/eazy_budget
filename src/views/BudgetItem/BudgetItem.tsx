@@ -21,6 +21,7 @@ interface BudgetItemProps {
   hideBtn?: boolean;
   hideCheckbox?: boolean;
   saveEvent?: (val: Object, paid?: boolean) => void;
+  deleteEvent?: () => void;
 }
 
 const BudgetItem = ({
@@ -35,6 +36,7 @@ const BudgetItem = ({
   hideCheckbox = false,
   register,
   saveEvent,
+  deleteEvent,
 }: BudgetItemProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(editable);
   const [inputValue, setInputValue] = useState<number | string>(
@@ -94,7 +96,10 @@ const BudgetItem = ({
               </Button>
               <Button
                 classType="image"
-                handleClick={() => setIsEditable(false)}
+                handleClick={() => {
+                  deleteEvent && deleteEvent();
+                  setIsEditable(false);
+                }}
               >
                 <DeleteIcon />
               </Button>

@@ -54,6 +54,10 @@ const Monthly = () => {
     }
   }, [budgetChange]);
 
+  if (!budget.length) {
+    navigate("/");
+  }
+
   if (
     !type ||
     !month ||
@@ -81,17 +85,6 @@ const Monthly = () => {
     setBudgetArr(updatedBudgetArray);
   };
 
-  const handleAdditionSaveEvent = (obj: Object, isPaid?: boolean) => {
-    const updatedItem = reformatBudgetItem(obj, isPaid);
-    const specificBudget = budget.filter(
-      (item: BudgetData) =>
-        month === item.month.toLowerCase() && theYear === item.year,
-    )[0];
-    specificBudget[type].push(updatedItem[0]);
-    setBudgetArr([]);
-    setBudgetChange(true);
-  };
-
   return (
     <div>
       <S.Title>
@@ -116,10 +109,17 @@ const Monthly = () => {
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {
+                const currentItems = [...item[type]];
+
                 const handleSaveEvent = (obj: Object, isPaid?: boolean) => {
                   const updatedItem = reformatBudgetItem(obj, isPaid);
-                  const currentItems = [...item[type]];
                   currentItems[i] = updatedItem[0];
+                  item[type] = currentItems;
+                  setBudgetChange(true);
+                };
+
+                const handleDeleteEvent = () => {
+                  delete currentItems[i];
                   item[type] = currentItems;
                   setBudgetChange(true);
                 };
@@ -133,6 +133,7 @@ const Monthly = () => {
                     valuePlaceHolder={`${type} value`}
                     inputType="number"
                     saveEvent={handleSaveEvent}
+                    deleteEvent={handleDeleteEvent}
                     hideCheckbox={type === "income"}
                   />
                 );
@@ -141,7 +142,26 @@ const Monthly = () => {
             return null;
           })}
 
-          {budgetArr.map((item) => {
+          {budgetArr.map((item: number, i: number) => {
+            const specificBudget = budget.filter(
+              (item: BudgetData) =>
+                month === item.month.toLowerCase() && theYear === item.year,
+            )[0];
+
+            const handleAdditionSaveEvent = (obj: Object, isPaid?: boolean) => {
+              const updatedItem = reformatBudgetItem(obj, isPaid);
+              specificBudget[type].push(updatedItem[0]);
+              setBudgetArr([]);
+              setBudgetChange(true);
+            };
+
+            const handleAdditionDeleteEvent = () => {
+              const newArr = [...budgetArr];
+              delete newArr[i];
+              setBudgetArr(newArr);
+              setBudgetChange(true);
+            };
+
             return (
               <BudgetItem
                 key={item}
@@ -151,6 +171,7 @@ const Monthly = () => {
                 valuePlaceHolder={`${type} value`}
                 inputType="number"
                 saveEvent={handleAdditionSaveEvent}
+                deleteEvent={handleAdditionDeleteEvent}
                 hideCheckbox={type === "income"}
               />
             );

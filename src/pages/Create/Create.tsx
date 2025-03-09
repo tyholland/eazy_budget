@@ -18,7 +18,7 @@ import {
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
 const Create = () => {
-  const { register, handleSubmit } = useForm<any>();
+  const { register, handleSubmit, getValues, unregister } = useForm<any>();
   const { type, month, year } = useParams();
   const navigate = useNavigate();
   const [budgetArr, setBudgetArr] = useState<number[]>([1]);
@@ -64,8 +64,15 @@ const Create = () => {
       <S.Title>
         Create {type} for {month} {year}
       </S.Title>
-      <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
-        {budgetArr.map((item) => {
+      <S.Wrapper name="create" onSubmit={handleSubmit(handleSubmitBudgetType)}>
+        {budgetArr.map((item: number, i: number) => {
+          const handleAdditionDeleteEvent = () => {
+            const newArr = [...budgetArr];
+            newArr.splice(i, 1);
+            unregister(Object.keys(getValues())[i]);
+            setBudgetArr(newArr);
+          };
+
           return (
             <BudgetItem
               key={item}
@@ -76,6 +83,7 @@ const Create = () => {
               inputType="number"
               register={register}
               saveEvent={handleSaveEvent}
+              deleteEvent={handleAdditionDeleteEvent}
               hideCheckbox
             />
           );

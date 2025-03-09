@@ -38,6 +38,10 @@ const Monthly = () => {
     }
   }, [selectedType]);
 
+  if (!budget.length) {
+    navigate("/");
+  }
+
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <div>Error Page</div>;
   }

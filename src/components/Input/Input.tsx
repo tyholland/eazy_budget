@@ -62,7 +62,9 @@ const Input = ({
 
       {!isEditable && (
         <>
-          <S.Label htmlFor={inputLabel}>{inputLabel}</S.Label>
+          <S.Label aria-label={inputLabel} htmlFor={inputLabel}>
+            {inputLabel}
+          </S.Label>
           {register && (
             <S.Input
               type={"text"}
@@ -71,6 +73,7 @@ const Input = ({
               className={`${inputSize} ${inputOption}`}
               disabled
               value={formatAmount(Number(defaultValue))}
+              aria-label={`${inputLabel} value`}
             />
           )}
           {!register && (
@@ -80,6 +83,7 @@ const Input = ({
               className={`${inputSize} ${inputOption}`}
               disabled
               value={formatAmount(Number(defaultValue))}
+              aria-label={`${inputLabel} value`}
             />
           )}
         </>

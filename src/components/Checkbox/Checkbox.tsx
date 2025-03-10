@@ -33,6 +33,7 @@ const CheckboxComponent = ({
             onChange={handleChange}
             color="success"
             size="medium"
+            aria-label={`${label} checkbox`}
           />
         }
       />

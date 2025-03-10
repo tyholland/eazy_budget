@@ -28,15 +28,18 @@ const SelectComponent = ({
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <InputLabel id="demo-simple-select-label">{placeHolder}</InputLabel>
+      <InputLabel aria-label={placeHolder} id="demo-simple-select-label">
+        {placeHolder}
+      </InputLabel>
       <Select
         label={placeHolder}
         value={selectedItem}
         onChange={handleChange}
         size="small"
+        aria-label={`${placeHolder} options`}
       >
         {options.map((item) => (
-          <MenuItem key={item.id} value={item.label}>
+          <MenuItem aria-label={item.label} key={item.id} value={item.label}>
             <S.SelectedOption>{item.label}</S.SelectedOption>
           </MenuItem>
         ))}

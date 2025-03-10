@@ -14,7 +14,6 @@ import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
   addAdditionalBudget,
   formatBudgetItem,
-  reformatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 

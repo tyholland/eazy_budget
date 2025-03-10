@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../components/Input/Input.tsx";
+import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
@@ -51,7 +51,7 @@ const BudgetItem = ({
 
   return (
     <S.Item>
-      <Input
+      <BudgetInput
         inputLabel={updatedLabel}
         inputOption={theType}
         defaultValue={inputValue}

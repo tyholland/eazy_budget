@@ -24,6 +24,7 @@ export const LinkElement = styled(Link)`
 
   &.small {
     width: 100px;
+    font-size: 16px;
   }
 
   &.medium {
@@ -32,6 +33,7 @@ export const LinkElement = styled(Link)`
 
   &.large {
     width: 200px;
+    font-size: 20px;
   }
 
   &.text {

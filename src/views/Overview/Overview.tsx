@@ -1,6 +1,5 @@
 import React from "react";
-import Input from "../../components/Input/Input.tsx";
-import Button from "../../components/Button/Button.tsx";
+import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import * as S from "./overview.style.ts";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import ChartIcon from "../../svg/ChartIcon.tsx";
@@ -14,6 +13,7 @@ interface OverviewProps {
   label?: string;
   showLabel?: boolean;
   hideViewIcon?: boolean;
+  predictYear?: number;
 }
 
 const Overview = ({
@@ -22,6 +22,7 @@ const Overview = ({
   incomeValue,
   expenseValue,
   hideViewIcon = false,
+  predictYear,
 }: OverviewProps) => {
   const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
@@ -46,7 +47,7 @@ const Overview = ({
     <S.OverviewWrapper>
       {showLabel && <S.Title>{label}</S.Title>}
       <S.Section>
-        <Input
+        <BudgetInput
           inputLabel={income}
           defaultValue={incomeValue}
           type="number"
@@ -64,7 +65,7 @@ const Overview = ({
         )}
       </S.Section>
       <S.Section>
-        <Input
+        <BudgetInput
           inputLabel={expense}
           defaultValue={expenseValue}
           type="number"
@@ -81,15 +82,24 @@ const Overview = ({
           </span>
         )}
       </S.Section>
-      <Input inputLabel={remaining} defaultValue={cashFlow} type="number" />
+      <BudgetInput
+        inputLabel={remaining}
+        defaultValue={cashFlow}
+        type="number"
+      />
       {isYearly && (
         <S.Prediction>
           <div>Predict your cash flow for the next 3 years</div>
-          <Button handleClick={() => {}} buttonSize="medium">
+          <Link
+            url={`predict/${predictYear || theYear}`}
+            label="Predict"
+            classType="button"
+            linkSize="medium"
+          >
             <>
               Predict <ChartIcon />
             </>
-          </Button>
+          </Link>
         </S.Prediction>
       )}
       {!hideViewIcon && (

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as S from "./create.style.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { listOfBudgets, listOfMonths } from "../../constants.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
-import { InputOption } from "../../types.ts";
+import { BudgetDataItem, InputOption } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
-import { useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
@@ -21,10 +21,20 @@ const Create = () => {
   const { register, handleSubmit, getValues, unregister } = useForm<any>();
   const { type, month, year } = useParams();
   const navigate = useNavigate();
-  const [budgetArr, setBudgetArr] = useState<number[]>([1]);
   const [hasItems, setHasItems] = useState<boolean>(false);
-  const setIncome = useSetAtom(incomeAtom);
-  const setExpense = useSetAtom(expenseAtom);
+  const [income, setIncome] = useAtom(incomeAtom);
+  const [expense, setExpense] = useAtom(expenseAtom);
+  const [budgetArr, setBudgetArr] = useState<number[]>([1]);
+
+  useEffect(() => {
+    if (
+      (type === "income" && income.length > 0) ||
+      (type === "expense" && expense.length > 0)
+    ) {
+      setBudgetArr([]);
+      setHasItems(true);
+    }
+  }, [type]);
 
   if (
     !type ||
@@ -36,6 +46,8 @@ const Create = () => {
   ) {
     return <div>Error Page</div>;
   }
+
+  const populatedArray: BudgetDataItem[] = type === "income" ? income : expense;
 
   const handleAddNewBudget = () => {
     const updatedBudgetArray = addAdditionalBudget(budgetArr);
@@ -65,6 +77,27 @@ const Create = () => {
         Create {type} for {month} {year}
       </S.Title>
       <S.Wrapper name="create" onSubmit={handleSubmit(handleSubmitBudgetType)}>
+        {populatedArray.map((item: BudgetDataItem, i: number) => {
+          const handleDeleteEvent = () => {
+            delete populatedArray[i];
+            unregister(Object.keys(getValues())[i]);
+          };
+
+          return (
+            <BudgetItem
+              key={i}
+              theType={type as InputOption}
+              item={item}
+              labelPlaceHolder={`${type} name`}
+              valuePlaceHolder={`${type} value`}
+              inputType="number"
+              register={register}
+              saveEvent={handleSaveEvent}
+              deleteEvent={handleDeleteEvent}
+              hideCheckbox
+            />
+          );
+        })}
         {budgetArr.map((item: number, i: number) => {
           const handleAdditionDeleteEvent = () => {
             const newArr = [...budgetArr];

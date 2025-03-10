@@ -77,10 +77,10 @@ const Monthly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {newBudget.map((data: BudgetDataItem) => {
+          {newBudget.map((data: BudgetDataItem, i: number) => {
             return (
               <BudgetItem
-                key={data.label}
+                key={i}
                 theType={type as InputOption}
                 item={data}
                 hideBtn

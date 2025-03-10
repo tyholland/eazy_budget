@@ -109,7 +109,7 @@ const Monthly = () => {
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {
-                const currentItems = [...item[type]];
+                const currentItems: BudgetDataItem[] = [...item[type]];
 
                 const handleSaveEvent = (obj: Object, isPaid?: boolean) => {
                   const updatedItem = reformatBudgetItem(obj, isPaid);
@@ -126,7 +126,7 @@ const Monthly = () => {
 
                 return (
                   <BudgetItem
-                    key={data.label}
+                    key={i}
                     theType={type as InputOption}
                     item={data}
                     labelPlaceHolder={`${type} name`}

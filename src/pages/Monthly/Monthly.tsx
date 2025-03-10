@@ -29,6 +29,7 @@ import {
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
+import ModalComponent from "../../components/Modal/Modal.tsx";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -40,6 +41,7 @@ const Monthly = () => {
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [budgetArr, setBudgetArr] = useState<number[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -119,6 +121,11 @@ const Monthly = () => {
                 };
 
                 const handleDeleteEvent = () => {
+                  if (currentItems.length === 1) {
+                    setIsOpen(true);
+                    return;
+                  }
+
                   delete currentItems[i];
                   item[type] = currentItems;
                   setBudgetChange(true);
@@ -185,6 +192,25 @@ const Monthly = () => {
               {`Add another ${type}`} <AddIcon />
             </>
           </Button>
+          <ModalComponent
+            isOpen={isOpen}
+            title={`Want to remove the last ${type}???`}
+            handleClose={() => setIsOpen(false)}
+          >
+            <S.ModalWrapper>
+              <span>
+                You can't delete this {type} because it is the only one you have
+                left. Please edit it instead.
+              </span>
+              <Button
+                buttonSize="small"
+                handleClick={() => setIsOpen(false)}
+                classType="exit"
+              >
+                Close
+              </Button>
+            </S.ModalWrapper>
+          </ModalComponent>
         </S.ItemWrapper>
       )}
       {selectedView !== "Text" && (

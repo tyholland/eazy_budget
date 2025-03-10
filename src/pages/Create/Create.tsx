@@ -14,6 +14,7 @@ import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
   addAdditionalBudget,
   formatBudgetItem,
+  reformatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
@@ -81,6 +82,7 @@ const Create = () => {
           const handleDeleteEvent = () => {
             delete populatedArray[i];
             unregister(Object.keys(getValues())[i]);
+            setHasItems(Object.keys(getValues()).length > 0);
           };
 
           return (
@@ -104,6 +106,7 @@ const Create = () => {
             newArr.splice(i, 1);
             unregister(Object.keys(getValues())[i]);
             setBudgetArr(newArr);
+            setHasItems(Object.keys(getValues()).length > 0);
           };
 
           return (

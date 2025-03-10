@@ -25,3 +25,9 @@ export const SelectWrapper = styled.div`
   gap: 40px;
   margin-bottom: 50px;
 `;
+
+export const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;

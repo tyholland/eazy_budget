@@ -57,7 +57,7 @@ const Monthly = () => {
   );
 
   return (
-    <div>
+    <S.YearlylyWrapper>
       <S.Title>
         {theYear} {type}
       </S.Title>
@@ -123,6 +123,7 @@ const Monthly = () => {
           incomeValue={yearlyTotalIncome}
           expenseValue={yearlyTotalExpense}
           hideViewIcon
+          hidePredict
         />
       </S.TotalBudgetWrapper>
       <ReactTooltip
@@ -131,7 +132,7 @@ const Monthly = () => {
         variant="info"
         content={`View a more detailed breakdown of this ${type}`}
       />
-    </div>
+    </S.YearlylyWrapper>
   );
 };
 

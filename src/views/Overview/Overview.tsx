@@ -13,6 +13,7 @@ interface OverviewProps {
   label?: string;
   showLabel?: boolean;
   hideViewIcon?: boolean;
+  hidePredict?: boolean;
   predictYear?: number;
 }
 
@@ -22,6 +23,7 @@ const Overview = ({
   incomeValue,
   expenseValue,
   hideViewIcon = false,
+  hidePredict = false,
   predictYear,
 }: OverviewProps) => {
   const { currentYear, currentMonth } = getDateInfo();
@@ -87,7 +89,7 @@ const Overview = ({
         defaultValue={cashFlow}
         type="number"
       />
-      {isYearly && (
+      {isYearly && !hidePredict && (
         <S.Prediction>
           <div>Predict your cash flow for the next 3 years</div>
           <Link

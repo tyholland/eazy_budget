@@ -88,7 +88,7 @@ const Monthly = () => {
   };
 
   return (
-    <div>
+    <S.MonthlyWrapper>
       <S.Title>
         {month} {theYear} {type}
       </S.Title>
@@ -238,7 +238,7 @@ const Monthly = () => {
           hideViewIcon
         />
       </S.TotalBudgetWrapper>
-    </div>
+    </S.MonthlyWrapper>
   );
 };
 

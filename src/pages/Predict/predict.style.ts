@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const PredictWrapper = styled.div`
-  width: 800px;
-  margin: 30px auto 0;
+  margin-top: 30px;
   display: flex;
   gap: 40px;
   flex-direction: column;

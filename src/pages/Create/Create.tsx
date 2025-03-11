@@ -76,7 +76,7 @@ const Create = () => {
       <S.Title>
         Create {type} for {month} {year}
       </S.Title>
-      <S.Wrapper name="create" onSubmit={handleSubmit(handleSubmitBudgetType)}>
+      <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
         {populatedArray.map((item: BudgetDataItem, i: number) => {
           const handleDeleteEvent = () => {
             delete populatedArray[i];

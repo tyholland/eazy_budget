@@ -30,6 +30,11 @@ export const Button = styled.button`
 
   &.large {
     width: 200px;
+
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+      font-size: 16px;
+    }
   }
 
   &.register {

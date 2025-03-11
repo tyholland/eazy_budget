@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const HomeWrapper = styled.div`
-  width: 800px;
-  margin: 0 auto;
   display: flex;
   gap: 40px;
   flex-direction: column;
@@ -12,6 +10,12 @@ export const NoBudgetWrapper = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: column;
+
+  h2 {
+    @media only screen and (max-width: 600px) {
+      font-size: 18px;
+    }
+  }
 `;
 
 export const NoBudgetSection = styled.div`

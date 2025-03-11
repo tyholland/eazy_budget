@@ -1,21 +1,21 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  width: 800px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
+  font-size: 14px;
 `;
 
 export const GreyedOut = styled.div`
   color: #999;
+  font-size: 14px;
 
   a {
     color: #999;
     text-decoration: none;
+    font-size: 14px !important;
 
     &:hover {
       text-decoration: underline;

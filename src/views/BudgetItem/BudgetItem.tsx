@@ -81,7 +81,7 @@ const BudgetItem = ({
             </Button>
           )}
           {isEditable && (
-            <>
+            <S.BtnWrapper>
               <Button
                 classType="image"
                 handleClick={() => {
@@ -103,7 +103,7 @@ const BudgetItem = ({
               >
                 <DeleteIcon />
               </Button>
-            </>
+            </S.BtnWrapper>
           )}
         </>
       )}

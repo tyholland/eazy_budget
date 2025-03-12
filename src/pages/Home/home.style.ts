@@ -22,6 +22,13 @@ export const NoBudgetSection = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+
+  a {
+    @media only screen and (max-width: 800px) {
+      width: 80% !important;
+      font-size: 18px;
+    }
+  }
 `;
 
 export const SubmitBudget = styled.div`

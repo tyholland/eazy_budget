@@ -4,15 +4,20 @@ import * as S from "./predict.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { getYearlyTotalAmount } from "../../functions/budget.ts";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Input from "../../components/Input/Input.tsx";
 
 const Predict = () => {
   const budget = useAtomValue(budgetAtom);
+  const navigate = useNavigate();
   const { year } = useParams();
   const [predictOne, setPredictOne] = useState<string>("");
   const [predictTwo, setPredictTwo] = useState<string>("");
   const [predictThree, setPredictThree] = useState<string>("");
+
+  if (!budget.length) {
+    navigate("/");
+  }
 
   if (!year || isNaN(Number(year))) {
     return <div>Error Page</div>;

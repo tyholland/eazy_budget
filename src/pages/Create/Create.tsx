@@ -105,7 +105,9 @@ const Create = () => {
             newArr.splice(i, 1);
             unregister(Object.keys(getValues())[i]);
             setBudgetArr(newArr);
-            setHasItems(Object.keys(getValues()).length > 0);
+            const hasBudgetItems =
+              type === "income" ? income.length > 0 : expense.length > 0;
+            setHasItems(Object.keys(getValues()).length > 0 || hasBudgetItems);
           };
 
           return (

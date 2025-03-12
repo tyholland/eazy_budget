@@ -38,6 +38,10 @@ const Monthly = () => {
     }
   }, [selectedType]);
 
+  if (!budget.length) {
+    navigate("/");
+  }
+
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <div>Error Page</div>;
   }
@@ -53,7 +57,7 @@ const Monthly = () => {
   );
 
   return (
-    <div>
+    <S.YearlylyWrapper>
       <S.Title>
         {theYear} {type}
       </S.Title>
@@ -73,13 +77,14 @@ const Monthly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {newBudget.map((data: BudgetDataItem) => {
+          {newBudget.map((data: BudgetDataItem, i: number) => {
             return (
               <BudgetItem
-                key={data.label}
+                key={i}
                 theType={type as InputOption}
                 item={data}
                 hideBtn
+                hideCheckbox
               >
                 <span data-tooltip-id={`monthly-${type}-tooltip`}>
                   <Link
@@ -118,6 +123,7 @@ const Monthly = () => {
           incomeValue={yearlyTotalIncome}
           expenseValue={yearlyTotalExpense}
           hideViewIcon
+          hidePredict
         />
       </S.TotalBudgetWrapper>
       <ReactTooltip
@@ -126,7 +132,7 @@ const Monthly = () => {
         variant="info"
         content={`View a more detailed breakdown of this ${type}`}
       />
-    </div>
+    </S.YearlylyWrapper>
   );
 };
 

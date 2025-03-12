@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../components/Input/Input.tsx";
+import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
@@ -7,6 +7,7 @@ import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./budgetItem.style.ts";
 import { UseFormRegister } from "react-hook-form";
+import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -18,7 +19,9 @@ interface BudgetItemProps {
   valuePlaceHolder?: string;
   inputType?: InputType;
   hideBtn?: boolean;
-  saveEvent?: (val: Object) => void;
+  hideCheckbox?: boolean;
+  saveEvent?: (val: Object, paid?: boolean) => void;
+  deleteEvent?: () => void;
 }
 
 const BudgetItem = ({
@@ -30,14 +33,17 @@ const BudgetItem = ({
   labelPlaceHolder = "",
   inputType = "text",
   hideBtn = false,
+  hideCheckbox = false,
   register,
   saveEvent,
+  deleteEvent,
 }: BudgetItemProps) => {
   const [isEditable, setIsEditable] = useState<boolean>(editable);
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
   const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
+  const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
 
   useEffect(() => {
     item && setInputValue(item.value);
@@ -45,7 +51,7 @@ const BudgetItem = ({
 
   return (
     <S.Item>
-      <Input
+      <BudgetInput
         inputLabel={updatedLabel}
         inputOption={theType}
         defaultValue={inputValue}
@@ -58,6 +64,14 @@ const BudgetItem = ({
         setInputValue={setInputValue}
         setUpdatedLabel={setUpdatedLabel}
       />
+      {!hideCheckbox && (
+        <CheckboxComponent
+          label="Paid"
+          isDisabled={!isEditable}
+          setCheckedVal={setCheckedVal}
+          isChecked={checkedVal}
+        />
+      )}
       {children}
       {!hideBtn && (
         <>
@@ -67,12 +81,14 @@ const BudgetItem = ({
             </Button>
           )}
           {isEditable && (
-            <>
+            <S.BtnWrapper>
               <Button
                 classType="image"
                 handleClick={() => {
-                  const item = JSON.parse(`{"${updatedLabel}": ${inputValue}}`);
-                  saveEvent && saveEvent(item);
+                  const budgetItem = JSON.parse(
+                    `{"${updatedLabel}": ${inputValue}}`,
+                  );
+                  saveEvent && saveEvent(budgetItem, checkedVal);
                   setIsEditable(false);
                 }}
               >
@@ -80,11 +96,14 @@ const BudgetItem = ({
               </Button>
               <Button
                 classType="image"
-                handleClick={() => setIsEditable(false)}
+                handleClick={() => {
+                  deleteEvent && deleteEvent();
+                  setIsEditable(false);
+                }}
               >
                 <DeleteIcon />
               </Button>
-            </>
+            </S.BtnWrapper>
           )}
         </>
       )}

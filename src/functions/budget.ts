@@ -132,7 +132,7 @@ export const addAdditionalBudget = (current: number[]) => {
   return current.concat(newBudget);
 };
 
-export const formatBudgetTypes = (data: Object) => {
+export const formatBudgetItem = (data: Object) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.entries(data).forEach((item) => {
@@ -146,4 +146,18 @@ export const formatBudgetTypes = (data: Object) => {
   });
 
   return budgetEntries;
+};
+
+export const reformatBudgetItem = (updatedItem: Object, isPaid?: boolean) => {
+  const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
+    (item) => {
+      return {
+        label: item[0],
+        value: item[1],
+        paid: isPaid || false,
+      };
+    },
+  );
+
+  return refactoredItem;
 };

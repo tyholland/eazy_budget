@@ -25,6 +25,7 @@ const Button = ({
       onClick={handleClick}
       disabled={disabled}
       type={type}
+      aria-label="button click"
     >
       {children}
     </S.Button>

@@ -57,6 +57,7 @@ const Home = () => {
             label="Yearly"
             incomeValue={yearlyTotalIncome}
             expenseValue={yearlyTotalExpense}
+            predictYear={currentYear}
           />
         </>
       )}

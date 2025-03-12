@@ -1,3 +1,4 @@
+import { fn } from "@storybook/test";
 import Input from "../components/Input/Input.tsx";
 
 export default {
@@ -7,13 +8,13 @@ export default {
     layout: "centered",
   },
   tags: ["autodocs"],
+  args: { onChange: fn() },
 };
 
 export const Primary = {
   args: {
-    inputLabel: "Netflix",
-    valuePlaceHolder: "Enter amount",
-    labelPlaceHolder: "Enter label",
-    defaultValue: 30,
+    label: "Netflix",
+    labelValue: "Enter amount",
+    placeHolder: "Enter label",
   },
 };

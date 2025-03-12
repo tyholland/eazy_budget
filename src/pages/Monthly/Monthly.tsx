@@ -7,7 +7,7 @@ import {
 } from "../../types.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Select from "../../components/Select/Select.tsx";
@@ -22,24 +22,43 @@ import {
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
 import {
+  addAdditionalBudget,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
+  reformatBudgetItem,
 } from "../../functions/budget.ts";
+import Button from "../../components/Button/Button.tsx";
+import AddIcon from "../../svg/AddIcon.tsx";
+import ModalComponent from "../../components/Modal/Modal.tsx";
 
 const Monthly = () => {
-  const budget = useAtomValue(budgetAtom);
+  const [budget, setBudget] = useAtom(budgetAtom);
   const navigate = useNavigate();
   const { type, month, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
     viewOptions[0].label,
   );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
+  const [budgetChange, setBudgetChange] = useState<boolean>(false);
+  const [budgetArr, setBudgetArr] = useState<number[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedType !== type) {
       navigate(`/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`);
     }
   }, [selectedType]);
+
+  useEffect(() => {
+    if (budgetChange) {
+      setBudget(budget);
+      setBudgetChange(false);
+    }
+  }, [budgetChange]);
+
+  if (!budget.length) {
+    navigate("/");
+  }
 
   if (
     !type ||
@@ -63,8 +82,13 @@ const Monthly = () => {
     theYear,
   );
 
+  const handleAddNewBudget = () => {
+    const updatedBudgetArray = addAdditionalBudget(budgetArr);
+    setBudgetArr(updatedBudgetArray);
+  };
+
   return (
-    <div>
+    <S.MonthlyWrapper>
       <S.Title>
         {month} {theYear} {type}
       </S.Title>
@@ -86,21 +110,106 @@ const Monthly = () => {
         <S.ItemWrapper>
           {budget?.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
-              return item[type].map((data: BudgetDataItem) => {
+              return item[type].map((data: BudgetDataItem, i: number) => {
+                const currentItems: BudgetDataItem[] = [...item[type]];
+
+                const handleSaveEvent = (obj: Object, isPaid?: boolean) => {
+                  const updatedItem = reformatBudgetItem(obj, isPaid);
+                  currentItems[i] = updatedItem[0];
+                  item[type] = currentItems;
+                  setBudgetChange(true);
+                };
+
+                const handleDeleteEvent = () => {
+                  if (currentItems.length === 1) {
+                    setIsOpen(true);
+                    return;
+                  }
+
+                  delete currentItems[i];
+                  item[type] = currentItems;
+                  setBudgetChange(true);
+                };
+
                 return (
                   <BudgetItem
-                    key={data.label}
+                    key={i}
                     theType={type as InputOption}
                     item={data}
                     labelPlaceHolder={`${type} name`}
                     valuePlaceHolder={`${type} value`}
                     inputType="number"
+                    saveEvent={handleSaveEvent}
+                    deleteEvent={handleDeleteEvent}
+                    hideCheckbox={type === "income"}
                   />
                 );
               });
             }
             return null;
           })}
+
+          {budgetArr.map((item: number, i: number) => {
+            const specificBudget = budget.filter(
+              (item: BudgetData) =>
+                month === item.month.toLowerCase() && theYear === item.year,
+            )[0];
+
+            const handleAdditionSaveEvent = (obj: Object, isPaid?: boolean) => {
+              const updatedItem = reformatBudgetItem(obj, isPaid);
+              specificBudget[type].push(updatedItem[0]);
+              setBudgetArr([]);
+              setBudgetChange(true);
+            };
+
+            const handleAdditionDeleteEvent = () => {
+              const newArr = [...budgetArr];
+              newArr.splice(i, 1);
+              setBudgetArr(newArr);
+            };
+
+            return (
+              <BudgetItem
+                key={item}
+                editable
+                theType={type as InputOption}
+                labelPlaceHolder={`${type} name`}
+                valuePlaceHolder={`${type} value`}
+                inputType="number"
+                saveEvent={handleAdditionSaveEvent}
+                deleteEvent={handleAdditionDeleteEvent}
+                hideCheckbox={type === "income"}
+              />
+            );
+          })}
+          <Button
+            buttonSize="large"
+            handleClick={handleAddNewBudget}
+            classType="register"
+          >
+            <>
+              {`Add another ${type}`} <AddIcon />
+            </>
+          </Button>
+          <ModalComponent
+            isOpen={isOpen}
+            title={`Want to remove the last ${type}???`}
+            handleClose={() => setIsOpen(false)}
+          >
+            <S.ModalWrapper>
+              <span>
+                You can't delete this {type} because it is the only one you have
+                left. Please edit it instead.
+              </span>
+              <Button
+                buttonSize="small"
+                handleClick={() => setIsOpen(false)}
+                classType="exit"
+              >
+                Close
+              </Button>
+            </S.ModalWrapper>
+          </ModalComponent>
         </S.ItemWrapper>
       )}
       {selectedView !== "Text" && (
@@ -128,7 +237,7 @@ const Monthly = () => {
           hideViewIcon
         />
       </S.TotalBudgetWrapper>
-    </div>
+    </S.MonthlyWrapper>
   );
 };
 

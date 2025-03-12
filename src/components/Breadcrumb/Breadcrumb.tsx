@@ -7,12 +7,16 @@ import { getCurrentPageName } from "../../functions/helper.ts";
 const Breadcrumb = () => {
   const { pathname } = useLocation();
   const page = pathname.split("/");
-  const pageName = getCurrentPageName(`/${page[1]}/${page[2]}`);
+  let pageName = getCurrentPageName(`/${page[1]}/${page[2]}`);
   const isMonthly = pathname.includes("monthly");
   const page2Name = isMonthly ? getCurrentPageName(`/yearly/${page[2]}`) : "";
 
   if (pathname === "/") {
     return <></>;
+  }
+
+  if (pathname.includes("/predict/")) {
+    pageName = "Budget Prediction";
   }
 
   return (

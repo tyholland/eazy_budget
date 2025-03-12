@@ -1,30 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as S from "./create.style.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { listOfBudgets, listOfMonths } from "../../constants.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
-import { InputOption } from "../../types.ts";
+import { BudgetDataItem, InputOption } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
-import { useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
   addAdditionalBudget,
-  formatBudgetTypes,
+  formatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
 const Create = () => {
-  const { register, handleSubmit } = useForm<any>();
+  const { register, handleSubmit, getValues, unregister } = useForm<any>();
   const { type, month, year } = useParams();
   const navigate = useNavigate();
-  const [budgetArr, setBudgetArr] = useState<number[]>([1]);
   const [hasItems, setHasItems] = useState<boolean>(false);
-  const setIncome = useSetAtom(incomeAtom);
-  const setExpense = useSetAtom(expenseAtom);
+  const [income, setIncome] = useAtom(incomeAtom);
+  const [expense, setExpense] = useAtom(expenseAtom);
+  const [budgetArr, setBudgetArr] = useState<number[]>([1]);
+
+  useEffect(() => {
+    if (
+      (type === "income" && income.length > 0) ||
+      (type === "expense" && expense.length > 0)
+    ) {
+      setBudgetArr([]);
+      setHasItems(true);
+    }
+  }, [type]);
 
   if (
     !type ||
@@ -37,13 +47,15 @@ const Create = () => {
     return <div>Error Page</div>;
   }
 
+  const populatedArray: BudgetDataItem[] = type === "income" ? income : expense;
+
   const handleAddNewBudget = () => {
     const updatedBudgetArray = addAdditionalBudget(budgetArr);
     setBudgetArr(updatedBudgetArray);
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    const budgetEntries = formatBudgetTypes(data);
+    const budgetEntries = formatBudgetItem(data);
 
     if (type === "income") {
       setIncome(budgetEntries);
@@ -65,7 +77,39 @@ const Create = () => {
         Create {type} for {month} {year}
       </S.Title>
       <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
-        {budgetArr.map((item) => {
+        {populatedArray.map((item: BudgetDataItem, i: number) => {
+          const handleDeleteEvent = () => {
+            delete populatedArray[i];
+            unregister(Object.keys(getValues())[i]);
+            setHasItems(Object.keys(getValues()).length > 0);
+          };
+
+          return (
+            <BudgetItem
+              key={i}
+              theType={type as InputOption}
+              item={item}
+              labelPlaceHolder={`${type} name`}
+              valuePlaceHolder={`${type} value`}
+              inputType="number"
+              register={register}
+              saveEvent={handleSaveEvent}
+              deleteEvent={handleDeleteEvent}
+              hideCheckbox
+            />
+          );
+        })}
+        {budgetArr.map((item: number, i: number) => {
+          const handleAdditionDeleteEvent = () => {
+            const newArr = [...budgetArr];
+            newArr.splice(i, 1);
+            unregister(Object.keys(getValues())[i]);
+            setBudgetArr(newArr);
+            const hasBudgetItems =
+              type === "income" ? income.length > 0 : expense.length > 0;
+            setHasItems(Object.keys(getValues()).length > 0 || hasBudgetItems);
+          };
+
           return (
             <BudgetItem
               key={item}
@@ -76,6 +120,8 @@ const Create = () => {
               inputType="number"
               register={register}
               saveEvent={handleSaveEvent}
+              deleteEvent={handleAdditionDeleteEvent}
+              hideCheckbox
             />
           );
         })}

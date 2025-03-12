@@ -32,6 +32,12 @@ export const Input = styled.input`
     }
   }
 
+  &:disabled {
+    @media only screen and (max-width: 800px) {
+      font-size: 20px;
+    }
+  }
+
   &.small {
     width: 100px;
   }
@@ -42,6 +48,10 @@ export const Input = styled.input`
 
   &.large {
     width: 200px;
+  }
+
+  @media only screen and (max-width: 800px) {
+    font-size: 18px;
   }
 `;
 

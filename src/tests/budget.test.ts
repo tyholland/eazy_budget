@@ -6,9 +6,14 @@ import {
   getYearlyBudgetBreakdown,
   createInitialBudget,
   addAdditionalBudget,
-  formatBudgetTypes,
+  formatBudgetItem,
+  reformatBudgetItem,
 } from "../functions/budget";
-import { mockBudget, mockBudgetEntries } from "./mocks";
+import {
+  mockBudget,
+  mockBudgetEntries,
+  mockBudgetEntriesNoDollar,
+} from "./mocks";
 import { getDateInfo } from "../functions/helper";
 
 describe("getMonthlyTotalAmount", () => {
@@ -208,15 +213,46 @@ describe("addAdditionalBudget", () => {
   });
 });
 
-describe("formatBudgetTypes", () => {
+describe("formatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = formatBudgetTypes({});
+    const results = formatBudgetItem({});
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
   test("should return budget entries", () => {
-    const results = formatBudgetTypes(mockBudgetEntries);
+    const results = formatBudgetItem(mockBudgetEntries);
+    const expectedResults = JSON.stringify([
+      {
+        label: "netflix",
+        value: 19.99,
+        paid: false,
+      },
+      {
+        label: "hulu",
+        value: 20.99,
+        paid: false,
+      },
+      {
+        label: "internet",
+        value: 70.7,
+        paid: false,
+      },
+    ]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+});
+
+describe("reformatBudgetItem", () => {
+  test("should return an empty array", () => {
+    const results = reformatBudgetItem({}, true);
+    const expectedResults = JSON.stringify([]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+  test("should return budget items", () => {
+    const results = reformatBudgetItem(mockBudgetEntriesNoDollar, false);
     const expectedResults = JSON.stringify([
       {
         label: "netflix",

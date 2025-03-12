@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const MonthlyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
 export const Title = styled.h2`
   text-transform: capitalize;
 `;
@@ -8,6 +14,10 @@ export const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  @media only screen and (max-width: 800px) {
+    gap: 20px;
+  }
 `;
 
 export const TotalBudgetWrapper = styled.div`
@@ -17,6 +27,18 @@ export const TotalBudgetWrapper = styled.div`
   border-radius: 10px;
   margin-top: 50px;
   background: #fcfade;
+
+  @media only screen and (max-width: 800px) {
+    width: 90%;
+    margin-top: 20px;
+  }
+
+  > div {
+    @media only screen and (max-width: 800px) {
+      border: 0;
+      padding: 0;
+    }
+  }
 `;
 
 export const SelectWrapper = styled.div`
@@ -24,4 +46,15 @@ export const SelectWrapper = styled.div`
   align-items: center;
   gap: 40px;
   margin-bottom: 50px;
+
+  @media only screen and (max-width: 800px) {
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+`;
+
+export const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;

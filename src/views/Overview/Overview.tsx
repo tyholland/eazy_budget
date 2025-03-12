@@ -91,7 +91,7 @@ const Overview = ({
       />
       {isYearly && !hidePredict && (
         <S.Prediction>
-          <div>Predict your cash flow for the next 3 years</div>
+          <div>Predict cash flow for the next 3 years</div>
           <Link
             url={`predict/${predictYear || theYear}`}
             label="Predict"

@@ -164,9 +164,8 @@ const Monthly = () => {
 
             const handleAdditionDeleteEvent = () => {
               const newArr = [...budgetArr];
-              delete newArr[i];
+              newArr.splice(i, 1);
               setBudgetArr(newArr);
-              setBudgetChange(true);
             };
 
             return (

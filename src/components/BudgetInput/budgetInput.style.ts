@@ -32,6 +32,12 @@ export const Input = styled.input`
     }
   }
 
+  &:disabled {
+    @media only screen and (max-width: 800px) {
+      font-size: 20px;
+    }
+  }
+
   &.small {
     width: 100px;
   }
@@ -43,17 +49,16 @@ export const Input = styled.input`
   &.large {
     width: 200px;
   }
+
+  @media only screen and (max-width: 800px) {
+    font-size: 18px;
+  }
 `;
 
 export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
-
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 `;
 
 export const Label = styled.label`

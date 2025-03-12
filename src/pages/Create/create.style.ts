@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Title = styled.h2`
   text-transform: capitalize;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     font-size: 18px;
   }
 `;
@@ -19,7 +19,7 @@ export const BtnWrapper = styled.div`
   gap: 10px;
   align-items: center;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     flex-direction: column;
   }
 `;

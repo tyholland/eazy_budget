@@ -31,9 +31,9 @@ export const Button = styled.button`
   &.large {
     width: 200px;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 800px) {
       width: 100%;
-      font-size: 16px;
+      font-size: 18px;
     }
   }
 

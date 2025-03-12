@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const YearlylyWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 `;
 
 export const Title = styled.h2`
@@ -15,6 +17,21 @@ export const ItemWrapper = styled.div`
   width: 750px;
   align-items: center;
   justify-content: space-between;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+    gap: 20px;
+  }
+
+  > div {
+    @media only screen and (max-width: 800px) {
+      flex-direction: row;
+      width: 100%;
+      align-items: center;
+      border: 0;
+      padding: 0;
+    }
+  }
 `;
 
 export const TotalBudgetWrapper = styled.div`
@@ -24,6 +41,24 @@ export const TotalBudgetWrapper = styled.div`
   border-radius: 10px;
   margin-top: 50px;
   background: #fcfade;
+
+  @media only screen and (max-width: 800px) {
+    margin-top: 20px;
+    width: 90%;
+  }
+
+  input {
+    @media only screen and (max-width: 800px) {
+      font-size: 18px;
+    }
+  }
+
+  > div {
+    @media only screen and (max-width: 800px) {
+      border: 0;
+      padding: 0;
+    }
+  }
 `;
 
 export const SelectWrapper = styled.div`
@@ -31,4 +66,8 @@ export const SelectWrapper = styled.div`
   align-items: center;
   gap: 40px;
   margin-bottom: 50px;
+
+  @media only screen and (max-width: 800px) {
+    margin-bottom: 20px;
+  }
 `;

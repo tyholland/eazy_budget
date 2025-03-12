@@ -12,7 +12,7 @@ export const NoBudgetWrapper = styled.div`
   flex-direction: column;
 
   h2 {
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 800px) {
       font-size: 18px;
     }
   }

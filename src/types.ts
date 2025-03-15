@@ -39,3 +39,7 @@ export interface BudgetData {
   income: BudgetDataItem[];
   expense: BudgetDataItem[];
 }
+
+export interface User {
+  email: string;
+}

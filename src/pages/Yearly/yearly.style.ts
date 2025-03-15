@@ -4,6 +4,10 @@ export const YearlylyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+
+  .tooltip {
+    width: 150px;
+  }
 `;
 
 export const Title = styled.h2`

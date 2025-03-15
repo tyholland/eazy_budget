@@ -11,6 +11,10 @@ export const OverviewWrapper = styled.div`
     padding: 20px 10px;
     border-radius: 10px;
   }
+
+  .tooltip {
+    width: 150px;
+  }
 `;
 
 export const Title = styled.h2`

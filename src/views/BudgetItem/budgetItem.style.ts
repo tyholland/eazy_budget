@@ -12,6 +12,11 @@ export const Item = styled.div`
     border-radius: 10px;
     padding: 10px;
   }
+
+  .tooltip {
+    width: 130px;
+    text-align: center;
+  }
 `;
 
 export const BtnWrapper = styled.div`

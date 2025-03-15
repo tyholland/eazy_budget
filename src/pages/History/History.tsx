@@ -8,7 +8,7 @@ import { getDateInfo } from "../../functions/helper.ts";
 import { BudgetData } from "../../types.ts";
 import StopIcon from "../../svg/StopIcon.tsx";
 
-const Home = () => {
+const History = () => {
   const budget = useAtomValue(budgetAtom);
   const { currentYear } = getDateInfo();
 
@@ -52,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default History;

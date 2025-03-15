@@ -19,6 +19,10 @@ const Breadcrumb = () => {
     pageName = "Budget Prediction";
   }
 
+  if (pathname.includes("/history")) {
+    pageName = "Budget History";
+  }
+
   return (
     <S.Wrapper>
       <S.GreyedOut>

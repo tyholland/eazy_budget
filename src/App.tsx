@@ -6,6 +6,7 @@ import Yearly from "./pages/Yearly/Yearly.tsx";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
 import Create from "./pages/Create/Create.tsx";
 import Predict from "./pages/Predict/Predict.tsx";
+import History from "./pages/History/History.tsx";
 import Header from "./components/Header/Header.tsx";
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/yearly/:type/:year" element={<Yearly />} />
         <Route path="/create/:type/:month/:year" element={<Create />} />
         <Route path="/predict/:year" element={<Predict />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </Router>
   );

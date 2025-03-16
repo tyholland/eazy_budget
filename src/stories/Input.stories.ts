@@ -14,7 +14,7 @@ export default {
 export const Primary = {
   args: {
     label: "Netflix",
-    labelValue: "Enter amount",
-    placeHolder: "Enter label",
+    labelValue: "Label",
+    placeHolder: "Enter amount",
   },
 };

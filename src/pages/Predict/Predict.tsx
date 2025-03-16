@@ -6,6 +6,7 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { getYearlyTotalAmount } from "../../functions/budget.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import Input from "../../components/Input/Input.tsx";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Predict = () => {
   const budget = useAtomValue(budgetAtom);
@@ -20,7 +21,7 @@ const Predict = () => {
   }
 
   if (!year || isNaN(Number(year))) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const theYear = Number(year);

@@ -17,6 +17,7 @@ import {
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 import { removeItemFromArray } from "../../functions/helper.ts";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Create = () => {
   const { register, handleSubmit, getValues, unregister } = useForm<any>();
@@ -45,7 +46,7 @@ const Create = () => {
     !listOfMonths.includes(month) ||
     isNaN(Number(year))
   ) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const populatedArray: BudgetDataItem[] = type === "income" ? income : expense;

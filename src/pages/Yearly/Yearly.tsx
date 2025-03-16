@@ -22,6 +22,7 @@ import {
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Monthly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -43,7 +44,7 @@ const Monthly = () => {
   }
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const theYear = Number(year);

@@ -31,6 +31,7 @@ import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { removeItemFromArray } from "../../functions/helper.ts";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -69,7 +70,7 @@ const Monthly = () => {
     !listOfMonths.includes(month) ||
     isNaN(Number(year))
   ) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const theYear = Number(year);

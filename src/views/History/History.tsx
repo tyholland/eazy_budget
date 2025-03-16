@@ -1,5 +1,5 @@
 import React from "react";
-import Overview from "../../views/Overview/Overview.tsx";
+import Overview from "../Overview/Overview.tsx";
 import * as S from "./history.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";

@@ -8,6 +8,7 @@ const Breadcrumb = () => {
   const { pathname } = useLocation();
   const page = pathname.split("/");
   let pageName = getCurrentPageName(`/${page[1]}/${page[2]}`);
+  const singlePageName = getCurrentPageName(`/${page[1]}`);
   const isMonthly = pathname.includes("monthly");
   const page2Name = isMonthly ? getCurrentPageName(`/yearly/${page[2]}`) : "";
 
@@ -15,12 +16,8 @@ const Breadcrumb = () => {
     return <></>;
   }
 
-  if (pathname.includes("/predict/")) {
-    pageName = "Budget Prediction";
-  }
-
-  if (pathname.includes("/history")) {
-    pageName = "Budget History";
+  if (!!singlePageName) {
+    pageName = singlePageName;
   }
 
   return (

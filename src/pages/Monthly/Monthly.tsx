@@ -30,6 +30,7 @@ import {
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
+import { removeItemFromArray } from "../../functions/helper.ts";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -163,8 +164,7 @@ const Monthly = () => {
             };
 
             const handleAdditionDeleteEvent = () => {
-              const newArr = [...budgetArr];
-              newArr.splice(i, 1);
+              const newArr = removeItemFromArray(budgetArr, i);
               setBudgetArr(newArr);
             };
 

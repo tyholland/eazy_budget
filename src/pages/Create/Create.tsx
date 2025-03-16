@@ -16,6 +16,7 @@ import {
   formatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
+import { removeItemFromArray } from "../../functions/helper.ts";
 
 const Create = () => {
   const { register, handleSubmit, getValues, unregister } = useForm<any>();
@@ -56,14 +57,7 @@ const Create = () => {
 
   const handleSubmitBudgetType = (data: Object) => {
     const budgetEntries = formatBudgetItem(data);
-
-    if (type === "income") {
-      setIncome(budgetEntries);
-      navigate("/");
-      return;
-    }
-
-    setExpense(budgetEntries);
+    type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
     navigate("/");
   };
 
@@ -101,13 +95,14 @@ const Create = () => {
         })}
         {budgetArr.map((item: number, i: number) => {
           const handleAdditionDeleteEvent = () => {
-            const newArr = [...budgetArr];
-            newArr.splice(i, 1);
-            unregister(Object.keys(getValues())[i]);
+            const newArr = removeItemFromArray(budgetArr, i);
+            const budgetValues = Object.keys(getValues());
+            unregister(budgetValues[i]);
             setBudgetArr(newArr);
+
             const hasBudgetItems =
               type === "income" ? income.length > 0 : expense.length > 0;
-            setHasItems(Object.keys(getValues()).length > 0 || hasBudgetItems);
+            setHasItems(budgetValues.length > 0 || hasBudgetItems);
           };
 
           return (

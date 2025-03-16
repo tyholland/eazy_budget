@@ -37,10 +37,23 @@ export const getCurrentPageName = (path: string) => {
     case "/create/income":
       pageName = "Create Income";
       break;
+    case "/predict":
+      pageName = "Budget Prediction";
+      break;
+    case "/history":
+      pageName = "Budget History";
+      break;
     default:
       pageName = "";
       break;
   }
 
   return pageName;
+};
+
+export const removeItemFromArray = (budgetArr: number[], index: number) => {
+  const newArr = [...budgetArr];
+  newArr.splice(index, 1);
+
+  return newArr;
 };

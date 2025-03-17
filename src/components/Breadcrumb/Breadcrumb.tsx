@@ -23,7 +23,7 @@ const Breadcrumb = () => {
   return (
     <S.Wrapper>
       <S.GreyedOut>
-        <Link url="/" label="Overview">
+        <Link url="/overview" label="Overview">
           Overview
         </Link>
       </S.GreyedOut>

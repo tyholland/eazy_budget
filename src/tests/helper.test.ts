@@ -38,14 +38,32 @@ describe("getDateInfo", () => {
 describe("getCurrentPageName", () => {
   test("should return empty string", () => {
     const page = getCurrentPageName("/");
+    const result = JSON.stringify({
+      pageName: "",
+      page2Name: "",
+    });
 
-    expect(page).toBe("");
+    expect(JSON.stringify(page)).toBe(result);
   });
 
-  test("should return the page name", () => {
-    const page = getCurrentPageName("/monthly/income");
+  test("should return single pathname", () => {
+    const page = getCurrentPageName("/account");
+    const result = JSON.stringify({
+      pageName: "Account",
+      page2Name: "",
+    });
 
-    expect(page).toBe("Monthly Income");
+    expect(JSON.stringify(page)).toBe(result);
+  });
+
+  test("should return multiple pathname", () => {
+    const page = getCurrentPageName("/monthly/income");
+    const result = JSON.stringify({
+      pageName: "Monthly Income",
+      page2Name: "Yearly Income",
+    });
+
+    expect(JSON.stringify(page)).toBe(result);
   });
 });
 

@@ -15,15 +15,20 @@ export const getDateInfo = () => {
   };
 };
 
-export const getCurrentPageName = (path: string) => {
+export const getCurrentPageName = (pathName: string) => {
+  const page = pathName.split("/");
+  const path = page.length === 2 ? `/${page[1]}` : `/${page[1]}/${page[2]}`;
   let pageName = "";
+  let page2Name = "";
 
   switch (path) {
     case "/monthly/income":
       pageName = "Monthly Income";
+      page2Name = "Yearly Income";
       break;
     case "/monthly/expense":
       pageName = "Monthly Expense";
+      page2Name = "Yearly Expense";
       break;
     case "/yearly/income":
       pageName = "Yearly Income";
@@ -42,6 +47,7 @@ export const getCurrentPageName = (path: string) => {
       break;
     case "/account/history":
       pageName = "Budget History";
+      page2Name = "Account";
       break;
     case "/account":
       pageName = "Account";
@@ -51,7 +57,10 @@ export const getCurrentPageName = (path: string) => {
       break;
   }
 
-  return pageName;
+  return {
+    pageName,
+    page2Name,
+  };
 };
 
 export const removeItemFromArray = (budgetArr: number[], index: number) => {

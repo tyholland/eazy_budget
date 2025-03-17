@@ -7,19 +7,12 @@ import { getCurrentPageName } from "../../functions/helper.ts";
 const Breadcrumb = () => {
   const { pathname } = useLocation();
   const page = pathname.split("/");
-  let pageName = getCurrentPageName(`/${page[1]}/${page[2]}`);
-  const singlePageName =
-    page.length === 2 ? getCurrentPageName(`/${page[1]}`) : null;
+  const { pageName, page2Name } = getCurrentPageName(pathname);
   const isMonthly = pathname.includes("monthly");
-  const isHistory = pathname.includes("history");
-  const page2Name = isMonthly ? getCurrentPageName(`/yearly/${page[2]}`) : "";
+  const isAccount = pathname.includes("/account/");
 
   if (pathname === "/" || pathname === "/overview") {
     return <></>;
-  }
-
-  if (!!singlePageName) {
-    pageName = singlePageName;
   }
 
   return (
@@ -40,11 +33,11 @@ const Breadcrumb = () => {
           <S.GreyedOut>&gt;</S.GreyedOut>
         </>
       )}
-      {isHistory && (
+      {isAccount && (
         <>
           <S.GreyedOut>
-            <Link url={`/account`} label="Account">
-              Account
+            <Link url={`/account`} label={page2Name}>
+              {page2Name}
             </Link>
           </S.GreyedOut>
           <S.GreyedOut>&gt;</S.GreyedOut>

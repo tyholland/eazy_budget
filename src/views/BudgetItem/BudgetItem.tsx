@@ -78,7 +78,7 @@ const BudgetItem = ({
         <>
           {!isEditable && (
             <span data-tooltip-id="edit-tooltip">
-              <Button classType="image" handleClick={() => setIsEditable(true)}>
+              <Button classType="text" handleClick={() => setIsEditable(true)}>
                 <EditIcon />
               </Button>
             </span>
@@ -87,7 +87,7 @@ const BudgetItem = ({
             <S.BtnWrapper>
               <span data-tooltip-id="save-tooltip">
                 <Button
-                  classType="image"
+                  classType="text"
                   handleClick={() => {
                     const budgetItem = JSON.parse(
                       `{"${updatedLabel}": ${inputValue}}`,
@@ -101,7 +101,7 @@ const BudgetItem = ({
               </span>
               <span data-tooltip-id="delete-tooltip">
                 <Button
-                  classType="image"
+                  classType="text"
                   handleClick={() => {
                     deleteEvent && deleteEvent();
                     setIsEditable(false);

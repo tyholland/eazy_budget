@@ -56,7 +56,7 @@ export const Button = styled.button`
     }
   }
 
-  &.image {
+  &.text {
     background: transparent;
     border-radius: 0;
     width: auto;

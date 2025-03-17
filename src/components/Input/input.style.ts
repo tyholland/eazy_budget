@@ -25,4 +25,5 @@ export const Label = styled.label`
   text-transform: capitalize;
   min-width: 100px;
   width: auto;
+  text-align: right;
 `;

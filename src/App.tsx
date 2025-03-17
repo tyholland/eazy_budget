@@ -11,6 +11,7 @@ import Header from "./components/Header/Header.tsx";
 import Auth0ProviderRedirect from "./components/Auth0ProviderRedirect/Auth0ProviderRedirect.tsx";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.tsx";
 import Login from "./pages/Login/Login.tsx";
+import Account from "./pages/Account/Account.tsx";
 
 const App = () => {
   return (
@@ -38,8 +39,12 @@ const App = () => {
             element={<PrivateRoute component={Predict} />}
           />
           <Route
-            path="/history"
+            path="/account/history"
             element={<PrivateRoute component={History} />}
+          />
+          <Route
+            path="/account"
+            element={<PrivateRoute component={Account} />}
           />
         </Routes>
       </Auth0ProviderRedirect>

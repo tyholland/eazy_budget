@@ -8,8 +8,10 @@ const Breadcrumb = () => {
   const { pathname } = useLocation();
   const page = pathname.split("/");
   let pageName = getCurrentPageName(`/${page[1]}/${page[2]}`);
-  const singlePageName = getCurrentPageName(`/${page[1]}`);
+  const singlePageName =
+    page.length === 2 ? getCurrentPageName(`/${page[1]}`) : null;
   const isMonthly = pathname.includes("monthly");
+  const isHistory = pathname.includes("history");
   const page2Name = isMonthly ? getCurrentPageName(`/yearly/${page[2]}`) : "";
 
   if (pathname === "/" || pathname === "/overview") {
@@ -33,6 +35,16 @@ const Breadcrumb = () => {
           <S.GreyedOut>
             <Link url={`/yearly/${page[2]}/${page[4]}`} label={page2Name}>
               {page2Name}
+            </Link>
+          </S.GreyedOut>
+          <S.GreyedOut>&gt;</S.GreyedOut>
+        </>
+      )}
+      {isHistory && (
+        <>
+          <S.GreyedOut>
+            <Link url={`/account`} label="Account">
+              Account
             </Link>
           </S.GreyedOut>
           <S.GreyedOut>&gt;</S.GreyedOut>

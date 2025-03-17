@@ -4,7 +4,7 @@ import Button from "../../components/Button/Button.tsx";
 import * as S from "./login.style.ts";
 
 const Login = () => {
-  const { loginWithRedirect, logout } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <S.Wrapper>
@@ -19,13 +19,6 @@ const Login = () => {
       <Button handleClick={() => loginWithRedirect()} buttonSize="medium">
         Log In / Sign Up
       </Button>
-      <button
-        onClick={() =>
-          logout({ logoutParams: { returnTo: window.location.origin } })
-        }
-      >
-        Log Out
-      </button>
     </S.Wrapper>
   );
 };

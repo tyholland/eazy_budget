@@ -59,7 +59,7 @@ const Monthly = () => {
   }, [budgetChange]);
 
   if (!budget.length) {
-    navigate("/");
+    navigate("/overview");
   }
 
   if (

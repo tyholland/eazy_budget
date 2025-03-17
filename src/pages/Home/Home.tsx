@@ -5,6 +5,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 import {
   createInitialBudget,
   getMonthlyTotalAmount,
@@ -12,12 +13,13 @@ import {
 } from "../../functions/budget.ts";
 import { getDateInfo } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
-import SaveIcon from "../../svg/SaveIcon.tsx";
-import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
-import Link from "../../components/Link/Link.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
+import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const { isAuthenticated, user } = useAuth0();
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
@@ -44,6 +46,10 @@ const Home = () => {
     setBudget(createInitialBudget(budgetIncome, budgetExpense));
   };
 
+  if (isAuthenticated && !currentUser) {
+    setCurrentUser(user);
+  }
+
   return (
     <S.HomeWrapper>
       {budget.length > 0 && (
@@ -62,30 +68,7 @@ const Home = () => {
         </>
       )}
       {budget.length === 0 && (
-        <S.NoBudgetWrapper>
-          <h2>You haven't entered any Budget info.</h2>
-          <S.NoBudgetSection>
-            <Link
-              url={`/create/income/${currentMonth}/${currentYear}`}
-              linkSize="medium"
-              classType="button"
-              label="Add income"
-            >
-              Add income
-            </Link>{" "}
-            {budgetIncome.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
-          </S.NoBudgetSection>
-          <S.NoBudgetSection>
-            <Link
-              url={`/create/expense/${currentMonth}/${currentYear}`}
-              linkSize="medium"
-              classType="button"
-              label="Add expense"
-            >
-              Add expense
-            </Link>{" "}
-            {budgetExpense.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
-          </S.NoBudgetSection>
+        <SetupBudget month={currentMonth} year={currentYear}>
           <S.SubmitBudget>
             <Button
               handleClick={handleBudgetSubmission}
@@ -95,7 +78,7 @@ const Home = () => {
               Submit Budget Overview
             </Button>
           </S.SubmitBudget>
-        </S.NoBudgetWrapper>
+        </SetupBudget>
       )}
     </S.HomeWrapper>
   );

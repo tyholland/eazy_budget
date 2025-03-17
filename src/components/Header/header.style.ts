@@ -7,6 +7,12 @@ export const HeaderWrapper = styled.div`
   border-bottom: 1px solid #333;
   justify-content: space-between;
   align-items: flex-end;
+
+  img {
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+  }
 `;
 
 export const Title = styled.div`

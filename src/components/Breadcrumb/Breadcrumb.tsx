@@ -12,7 +12,7 @@ const Breadcrumb = () => {
   const isMonthly = pathname.includes("monthly");
   const page2Name = isMonthly ? getCurrentPageName(`/yearly/${page[2]}`) : "";
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/overview") {
     return <></>;
   }
 

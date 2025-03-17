@@ -59,7 +59,7 @@ const Create = () => {
   const handleSubmitBudgetType = (data: Object) => {
     const budgetEntries = formatBudgetItem(data);
     type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
-    navigate("/");
+    navigate("/overview");
   };
 
   const handleSaveEvent = (item: Object) => {

@@ -17,7 +17,7 @@ const Predict = () => {
   const [predictThree, setPredictThree] = useState<string>("");
 
   if (!budget.length) {
-    navigate("/");
+    navigate("/overview");
   }
 
   if (!year || isNaN(Number(year))) {
@@ -57,30 +57,32 @@ const Predict = () => {
           }
         />
       </S.PredictInputs>
-      <Overview
-        label={`Current ${theYear} Budget`}
-        incomeValue={yearlyTotalIncome}
-        expenseValue={yearlyTotalExpense}
-        hideViewIcon
-      />
-      <Overview
-        label={`${theYear + 1} Budget Prediction`}
-        incomeValue={Number(predictOne)}
-        expenseValue={yearlyTotalExpense}
-        hideViewIcon
-      />
-      <Overview
-        label={`${theYear + 2} Budget Prediction`}
-        incomeValue={Number(predictTwo)}
-        expenseValue={yearlyTotalExpense}
-        hideViewIcon
-      />
-      <Overview
-        label={`${theYear + 3} Budget Prediction`}
-        incomeValue={Number(predictThree)}
-        expenseValue={yearlyTotalExpense}
-        hideViewIcon
-      />
+      <S.PredictBudgets>
+        <Overview
+          label={`Current ${theYear} Budget`}
+          incomeValue={yearlyTotalIncome}
+          expenseValue={yearlyTotalExpense}
+          hideViewIcon
+        />
+        <Overview
+          label={`${theYear + 1} Budget Prediction`}
+          incomeValue={Number(predictOne)}
+          expenseValue={yearlyTotalExpense}
+          hideViewIcon
+        />
+        <Overview
+          label={`${theYear + 2} Budget Prediction`}
+          incomeValue={Number(predictTwo)}
+          expenseValue={yearlyTotalExpense}
+          hideViewIcon
+        />
+        <Overview
+          label={`${theYear + 3} Budget Prediction`}
+          incomeValue={Number(predictThree)}
+          expenseValue={yearlyTotalExpense}
+          hideViewIcon
+        />
+      </S.PredictBudgets>
     </S.PredictWrapper>
   );
 };

@@ -40,7 +40,7 @@ const Monthly = () => {
   }, [selectedType]);
 
   if (!budget.length) {
-    navigate("/");
+    navigate("/overview");
   }
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {

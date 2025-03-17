@@ -41,5 +41,10 @@ export interface BudgetData {
 }
 
 export interface User {
-  email: string;
+  name?: string;
+  email_verified?: boolean;
+  sub?: string;
+  nickname?: string;
+  picture?: string;
+  updated_at?: string;
 }

@@ -21,19 +21,21 @@ export const Button = styled.button`
   }
 
   &.small {
-    width: 100px;
+    width: 150px;
+    font-size: 14px;
   }
 
   &.medium {
-    width: 150px;
+    width: 200px;
+    font-size: 16px;
   }
 
   &.large {
-    width: 200px;
+    width: 250px;
+    font-size: 18px;
 
     @media only screen and (max-width: 800px) {
       width: 100%;
-      font-size: 18px;
     }
   }
 

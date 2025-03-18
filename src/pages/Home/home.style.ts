@@ -7,5 +7,12 @@ export const HomeWrapper = styled.div`
 `;
 
 export const SubmitBudget = styled.div`
-  margin-top: 30px;
+  margin: 0 auto;
+`;
+
+export const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  gap: 10px;
 `;

@@ -69,7 +69,7 @@ const Create = () => {
   return (
     <>
       <S.Title>
-        Create {type} for {month} {year}
+        Add {type}s for {month} {year}
       </S.Title>
       <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
         {populatedArray.map((item: BudgetDataItem, i: number) => {
@@ -129,7 +129,7 @@ const Create = () => {
             classType="register"
           >
             <>
-              {`Add another ${type}`} <AddIcon />
+              {`Additional ${type}`} <AddIcon />
             </>
           </Button>
           <Button type="submit" buttonSize="large" disabled={!hasItems}>

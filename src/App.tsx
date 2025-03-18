@@ -35,7 +35,7 @@ const App = () => {
               element={<PrivateRoute component={Yearly} />}
             />
             <Route
-              path="/create/:type/:month/:year"
+              path="/add/:type/:month/:year"
               element={<PrivateRoute component={Create} />}
             />
             <Route

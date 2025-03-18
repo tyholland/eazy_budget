@@ -189,7 +189,7 @@ const Monthly = () => {
             classType="register"
           >
             <>
-              {`Add another ${type}`} <AddIcon />
+              {`Add ${type}`} <AddIcon />
             </>
           </Button>
           <ModalComponent

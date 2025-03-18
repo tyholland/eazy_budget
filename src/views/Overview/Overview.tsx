@@ -14,7 +14,6 @@ interface OverviewProps {
   showLabel?: boolean;
   hideViewIcon?: boolean;
   hidePredict?: boolean;
-  predictYear?: number;
 }
 
 const Overview = ({
@@ -24,7 +23,6 @@ const Overview = ({
   expenseValue,
   hideViewIcon = false,
   hidePredict = false,
-  predictYear,
 }: OverviewProps) => {
   const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";

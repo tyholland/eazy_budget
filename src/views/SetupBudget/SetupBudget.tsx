@@ -19,10 +19,18 @@ const SetupBudget = ({ children, month, year }: SetupBudgetProps) => {
 
   return (
     <S.Wrapper>
-      <h2>You haven't entered any Budget info.</h2>
+      <S.ContentSection>
+        <span>
+          <strong>Welcome to Eazy Budgeting.</strong>
+        </span>
+        <span>
+          Please enter your income and expenses to generate your full 12 months
+          of budgeting.
+        </span>
+      </S.ContentSection>
       <S.Section>
         <Link
-          url={`/create/income/${month}/${year}`}
+          url={`/add/income/${month}/${year}`}
           linkSize="medium"
           classType="button"
           label="Add income"
@@ -33,7 +41,7 @@ const SetupBudget = ({ children, month, year }: SetupBudgetProps) => {
       </S.Section>
       <S.Section>
         <Link
-          url={`/create/expense/${month}/${year}`}
+          url={`/add/expense/${month}/${year}`}
           linkSize="medium"
           classType="button"
           label="Add expense"

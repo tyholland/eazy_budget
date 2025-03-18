@@ -50,6 +50,16 @@ const Home = () => {
     <S.HomeWrapper>
       {budget.length > 0 && (
         <>
+          <S.Section>
+            <span>
+              An overview of your budget for the month of {currentMonth} and for
+              the full year of {currentYear}.
+            </span>
+            <span>
+              Click on the view items to view the full breakdown of each income
+              or expense.
+            </span>
+          </S.Section>
           <Overview
             label="Monthly"
             incomeValue={montlyTotalIncome}
@@ -59,7 +69,6 @@ const Home = () => {
             label="Yearly"
             incomeValue={yearlyTotalIncome}
             expenseValue={yearlyTotalExpense}
-            predictYear={currentYear}
           />
         </>
       )}
@@ -71,7 +80,7 @@ const Home = () => {
               buttonSize="large"
               disabled={budgetExpense.length === 0 || budgetIncome.length === 0}
             >
-              Submit Budget Overview
+              Submit Budget
             </Button>
           </S.SubmitBudget>
         </SetupBudget>

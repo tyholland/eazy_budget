@@ -23,17 +23,18 @@ export const LinkElement = styled(Link)`
   }
 
   &.small {
-    width: 100px;
-    font-size: 16px;
+    width: 150px;
+    font-size: 14px;
   }
 
   &.medium {
-    width: 150px;
+    width: 200px;
+    font-size: 16px;
   }
 
   &.large {
-    width: 200px;
-    font-size: 20px;
+    width: 250px;
+    font-size: 18px;
   }
 
   &.text {

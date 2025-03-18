@@ -4,9 +4,8 @@ import * as S from "./predict.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { getYearlyTotalAmount } from "../../functions/budget.ts";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input.tsx";
-import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import { getDateInfo } from "../../functions/helper.ts";
 
 const Predict = () => {

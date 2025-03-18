@@ -16,37 +16,42 @@ import Account from "./pages/Account/Account.tsx";
 const App = () => {
   return (
     <Router>
-      <Header />
-      <Breadcrumb />
       <Auth0ProviderRedirect>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/overview" element={<PrivateRoute component={Home} />} />
-          <Route
-            path="/monthly/:type/:month/:year"
-            element={<PrivateRoute component={Monthly} />}
-          />
-          <Route
-            path="/yearly/:type/:year"
-            element={<PrivateRoute component={Yearly} />}
-          />
-          <Route
-            path="/create/:type/:month/:year"
-            element={<PrivateRoute component={Create} />}
-          />
-          <Route
-            path="/predict"
-            element={<PrivateRoute component={Predict} />}
-          />
-          <Route
-            path="/account/history"
-            element={<PrivateRoute component={History} />}
-          />
-          <Route
-            path="/account"
-            element={<PrivateRoute component={Account} />}
-          />
-        </Routes>
+        <>
+          <Header />
+          <Breadcrumb />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route
+              path="/overview"
+              element={<PrivateRoute component={Home} />}
+            />
+            <Route
+              path="/monthly/:type/:month/:year"
+              element={<PrivateRoute component={Monthly} />}
+            />
+            <Route
+              path="/yearly/:type/:year"
+              element={<PrivateRoute component={Yearly} />}
+            />
+            <Route
+              path="/create/:type/:month/:year"
+              element={<PrivateRoute component={Create} />}
+            />
+            <Route
+              path="/predict"
+              element={<PrivateRoute component={Predict} />}
+            />
+            <Route
+              path="/account/history"
+              element={<PrivateRoute component={History} />}
+            />
+            <Route
+              path="/account"
+              element={<PrivateRoute component={Account} />}
+            />
+          </Routes>
+        </>
       </Auth0ProviderRedirect>
     </Router>
   );

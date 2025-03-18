@@ -1,12 +1,11 @@
 import React from "react";
 import * as S from "./header.style.ts";
 import UserIcon from "../../svg/UserIcon.tsx";
-import { useAtomValue } from "jotai";
-import { userAtom } from "../../hook/UserAtom.ts";
 import Link from "../Link/Link.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Header = () => {
-  const user = useAtomValue(userAtom);
+  const { user } = useAuth0();
 
   return (
     <S.HeaderWrapper>

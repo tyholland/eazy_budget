@@ -5,7 +5,6 @@ import { useAtom, useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
-import { userAtom } from "../../hook/UserAtom.ts";
 import {
   createInitialBudget,
   getMonthlyTotalAmount,
@@ -13,29 +12,30 @@ import {
 } from "../../functions/budget.ts";
 import { getDateInfo } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
-import { useAuth0 } from "@auth0/auth0-react";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
-  const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const { isAuthenticated, user } = useAuth0();
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
+
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
     currentMonth,
     currentYear,
     "income",
   );
+
   const monthlyTotalExpense = getMonthlyTotalAmount(
     budget,
     currentMonth,
     currentYear,
     "expense",
   );
+
   const yearlyTotalIncome = getYearlyTotalAmount(budget, currentYear, "income");
+
   const yearlyTotalExpense = getYearlyTotalAmount(
     budget,
     currentYear,
@@ -45,10 +45,6 @@ const Home = () => {
   const handleBudgetSubmission = () => {
     setBudget(createInitialBudget(budgetIncome, budgetExpense));
   };
-
-  if (isAuthenticated && !currentUser) {
-    setCurrentUser(user);
-  }
 
   return (
     <S.HomeWrapper>

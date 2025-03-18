@@ -3,27 +3,27 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./account.style.ts";
 import Link from "../../components/Link/Link.tsx";
-import { useAtom, useSetAtom } from "jotai";
-import { userAtom } from "../../hook/UserAtom.ts";
+import { useSetAtom } from "jotai";
 import Input from "../../components/Input/Input.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
+import Loading from "../../components/Loading/Loading.tsx";
 
 const Account = () => {
-  const { logout } = useAuth0();
-  const [user, setUser] = useAtom(userAtom);
+  const { logout, user } = useAuth0();
+  const [isLoading, setIsloading] = useState<boolean>(false);
   const setBudget = useSetAtom(budgetAtom);
   const setIncome = useSetAtom(incomeAtom);
   const setExpense = useSetAtom(expenseAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const logOutAccount = () => {
+    setIsloading(true);
     setBudget([]);
     setIncome([]);
     setExpense([]);
-    setUser(undefined);
     logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
@@ -31,6 +31,10 @@ const Account = () => {
     logOutAccount();
     // Add code to remove account
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <S.Wrapper>
@@ -41,7 +45,7 @@ const Account = () => {
           onChange={() => {}}
           placeHolder="Enter your email"
           isDisabled
-          defaultValue={user?.name || ""}
+          defaultValue={user?.email || ""}
           inputType="text"
         />
       </S.Section>

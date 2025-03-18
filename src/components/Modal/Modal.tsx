@@ -38,7 +38,7 @@ const ModalComponent = ({
         <Typography id="modal-modal-title" variant="h6" component="h2">
           {title}
         </Typography>
-        <Typography sx={{ mt: 2 }}>{children}</Typography>
+        <Box sx={{ mt: 2 }}>{children}</Box>
       </Box>
     </Modal>
   );

@@ -93,7 +93,7 @@ const Overview = ({
         <S.Prediction>
           <div>Predict cash flow for the next 3 years</div>
           <Link
-            url={`predict/${predictYear || theYear}`}
+            url="/predict"
             label="Predict"
             classType="button"
             linkSize="medium"

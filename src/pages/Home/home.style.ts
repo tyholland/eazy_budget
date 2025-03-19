@@ -15,4 +15,8 @@ export const Section = styled.div`
   flex-direction: column;
   font-size: 18px;
   gap: 10px;
+
+  .capital {
+    text-transform: capitalize;
+  }
 `;

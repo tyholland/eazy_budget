@@ -16,7 +16,7 @@ import {
   formatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
-import { removeItemFromArray } from "../../functions/helper.ts";
+import { removeItemFromNumberArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Create = () => {
@@ -96,7 +96,7 @@ const Create = () => {
         })}
         {budgetArr.map((item: number, i: number) => {
           const handleAdditionDeleteEvent = () => {
-            const newArr = removeItemFromArray(budgetArr, i);
+            const newArr = removeItemFromNumberArray(budgetArr, i);
             const budgetValues = Object.keys(getValues());
             unregister(budgetValues[i]);
             setBudgetArr(newArr);

@@ -24,7 +24,7 @@ import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
-const Monthly = () => {
+const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
   const navigate = useNavigate();
   const { type, year } = useParams();
@@ -38,10 +38,6 @@ const Monthly = () => {
       navigate(`/yearly/${selectedType?.toLowerCase()}/${theYear}`);
     }
   }, [selectedType]);
-
-  if (!budget.length) {
-    navigate("/overview");
-  }
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <ErrorPage />;
@@ -138,4 +134,4 @@ const Monthly = () => {
   );
 };
 
-export default Monthly;
+export default Yearly;

@@ -1,4 +1,5 @@
 import { listOfMonths } from "../constants.ts";
+import { BudgetDataItem } from "../types.ts";
 
 export const formatAmount = (amount: number) => {
   return `$${amount.toFixed(2)}`;
@@ -63,7 +64,20 @@ export const getCurrentPageName = (pathName: string) => {
   };
 };
 
-export const removeItemFromArray = (budgetArr: number[], index: number) => {
+export const removeItemFromNumberArray = (
+  budgetArr: number[],
+  index: number,
+) => {
+  const newArr = [...budgetArr];
+  newArr.splice(index, 1);
+
+  return newArr;
+};
+
+export const removeItemFromBudgetArray = (
+  budgetArr: BudgetDataItem[],
+  index: number,
+) => {
   const newArr = [...budgetArr];
   newArr.splice(index, 1);
 

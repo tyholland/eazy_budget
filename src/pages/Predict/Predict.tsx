@@ -16,10 +16,6 @@ const Predict = () => {
   const [predictTwo, setPredictTwo] = useState<string>("");
   const [predictThree, setPredictThree] = useState<string>("");
 
-  if (!budget.length) {
-    navigate("/overview");
-  }
-
   const yearlyTotalIncome = getYearlyTotalAmount(budget, currentYear, "income");
   const yearlyTotalExpense = getYearlyTotalAmount(
     budget,

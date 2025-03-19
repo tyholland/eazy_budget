@@ -3,7 +3,7 @@ import {
   formatAmount,
   getCurrentPageName,
   getDateInfo,
-  removeItemFromArray,
+  removeItemFromNumberArray,
 } from "../functions/helper";
 import { listOfMonths } from "../constants";
 
@@ -67,10 +67,10 @@ describe("getCurrentPageName", () => {
   });
 });
 
-describe("removeItemFromArray", () => {
+describe("removeItemFromNumberArray", () => {
   test("should return array with removed index", () => {
     const arr: number[] = [1, 2, 3];
-    const page = removeItemFromArray(arr, 1);
+    const page = removeItemFromNumberArray(arr, 1);
     const response = JSON.stringify([1, 3]);
 
     expect(JSON.stringify(page)).toBe(response);
@@ -78,7 +78,7 @@ describe("removeItemFromArray", () => {
 
   test("should return an empty array", () => {
     const arr: number[] = [1];
-    const page = removeItemFromArray(arr, 0);
+    const page = removeItemFromNumberArray(arr, 0);
     const response = JSON.stringify([]);
 
     expect(JSON.stringify(page)).toBe(response);

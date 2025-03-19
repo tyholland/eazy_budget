@@ -4,8 +4,10 @@ import {
   getCurrentPageName,
   getDateInfo,
   removeItemFromNumberArray,
+  removeItemFromBudgetArray,
 } from "../functions/helper";
 import { listOfMonths } from "../constants";
+import { mockBudgetItemArray } from "./mocks";
 
 describe("formatAmount", () => {
   test("should return whole number with US currency", () => {
@@ -79,6 +81,25 @@ describe("removeItemFromNumberArray", () => {
   test("should return an empty array", () => {
     const arr: number[] = [1];
     const page = removeItemFromNumberArray(arr, 0);
+    const response = JSON.stringify([]);
+
+    expect(JSON.stringify(page)).toBe(response);
+  });
+});
+
+describe("removeItemFromBudgetArray", () => {
+  test("should return array with removed index", () => {
+    const page = removeItemFromBudgetArray(mockBudgetItemArray, 1);
+    const response = JSON.stringify([
+      { ...mockBudgetItemArray[0] },
+      { ...mockBudgetItemArray[2] },
+    ]);
+
+    expect(JSON.stringify(page)).toBe(response);
+  });
+
+  test("should return an empty array", () => {
+    const page = removeItemFromBudgetArray([{ ...mockBudgetItemArray[0] }], 0);
     const response = JSON.stringify([]);
 
     expect(JSON.stringify(page)).toBe(response);

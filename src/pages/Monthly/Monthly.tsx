@@ -22,6 +22,7 @@ import {
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
 import {
+  addNewBudgetItem,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   reformatBudgetItem,
@@ -80,22 +81,9 @@ const Monthly = () => {
   );
 
   const handleAddNewBudget = () => {
-    // Write helper function for this
-    clonedBudget.forEach((item: BudgetData) => {
-      if (month === item.month.toLowerCase() && theYear === item.year) {
-        const currentItems: BudgetDataItem[] = [...item[type]];
+    const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
 
-        currentItems.push({
-          label: "",
-          value: 0,
-          paid: false,
-        });
-
-        item[type] = currentItems;
-      }
-    });
-
-    setBudget(clonedBudget);
+    setBudget(updatedBudget);
   };
 
   return (

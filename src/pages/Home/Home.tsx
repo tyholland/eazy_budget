@@ -43,7 +43,8 @@ const Home = () => {
   );
 
   const handleBudgetSubmission = () => {
-    setBudget(createInitialBudget(budgetIncome, budgetExpense));
+    const initialBudget = createInitialBudget(budgetIncome, budgetExpense);
+    setBudget(initialBudget);
   };
 
   return (

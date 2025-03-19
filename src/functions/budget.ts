@@ -132,6 +132,29 @@ export const addAdditionalBudget = (current: number[]) => {
   return current.concat(newBudget);
 };
 
+export const addNewBudgetItem = (
+  clonedBudget: BudgetData[],
+  month: string,
+  year: number,
+  type: string,
+) => {
+  clonedBudget.forEach((item: BudgetData) => {
+    if (month === item.month.toLowerCase() && year === item.year) {
+      const currentItems: BudgetDataItem[] = [...item[type]];
+
+      currentItems.push({
+        label: "",
+        value: 0,
+        paid: false,
+      });
+
+      item[type] = currentItems;
+    }
+  });
+
+  return clonedBudget;
+};
+
 export const formatBudgetItem = (data: Object) => {
   const budgetEntries: BudgetDataItem[] = [];
 

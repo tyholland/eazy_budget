@@ -12,28 +12,30 @@ import {
 } from "../../functions/budget.ts";
 import { getDateInfo } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
-import SaveIcon from "../../svg/SaveIcon.tsx";
-import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
-import Link from "../../components/Link/Link.tsx";
+import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
+
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
     currentMonth,
     currentYear,
     "income",
   );
+
   const monthlyTotalExpense = getMonthlyTotalAmount(
     budget,
     currentMonth,
     currentYear,
     "expense",
   );
+
   const yearlyTotalIncome = getYearlyTotalAmount(budget, currentYear, "income");
+
   const yearlyTotalExpense = getYearlyTotalAmount(
     budget,
     currentYear,
@@ -41,13 +43,25 @@ const Home = () => {
   );
 
   const handleBudgetSubmission = () => {
-    setBudget(createInitialBudget(budgetIncome, budgetExpense));
+    const initialBudget = createInitialBudget(budgetIncome, budgetExpense);
+    setBudget(initialBudget);
   };
 
   return (
     <S.HomeWrapper>
       {budget.length > 0 && (
         <>
+          <S.Section>
+            <span>
+              Here is an overview of your budget for the month of{" "}
+              <span className="capital">{currentMonth}</span> and for the full
+              year of {currentYear}.
+            </span>
+            <span>
+              Click on the view icons to see a full breakdown of each income or
+              expense.
+            </span>
+          </S.Section>
           <Overview
             label="Monthly"
             incomeValue={montlyTotalIncome}
@@ -57,45 +71,21 @@ const Home = () => {
             label="Yearly"
             incomeValue={yearlyTotalIncome}
             expenseValue={yearlyTotalExpense}
-            predictYear={currentYear}
           />
         </>
       )}
       {budget.length === 0 && (
-        <S.NoBudgetWrapper>
-          <h2>You haven't entered any Budget info.</h2>
-          <S.NoBudgetSection>
-            <Link
-              url={`/create/income/${currentMonth}/${currentYear}`}
-              linkSize="medium"
-              classType="button"
-              label="Add income"
-            >
-              Add income
-            </Link>{" "}
-            {budgetIncome.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
-          </S.NoBudgetSection>
-          <S.NoBudgetSection>
-            <Link
-              url={`/create/expense/${currentMonth}/${currentYear}`}
-              linkSize="medium"
-              classType="button"
-              label="Add expense"
-            >
-              Add expense
-            </Link>{" "}
-            {budgetExpense.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
-          </S.NoBudgetSection>
+        <SetupBudget month={currentMonth} year={currentYear}>
           <S.SubmitBudget>
             <Button
               handleClick={handleBudgetSubmission}
               buttonSize="large"
               disabled={budgetExpense.length === 0 || budgetIncome.length === 0}
             >
-              Submit Budget Overview
+              Submit Budget
             </Button>
           </S.SubmitBudget>
-        </S.NoBudgetWrapper>
+        </SetupBudget>
       )}
     </S.HomeWrapper>
   );

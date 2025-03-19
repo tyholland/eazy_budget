@@ -8,40 +8,8 @@ export const Input = styled.input`
   font-size: 16px;
   text-transform: capitalize;
 
-  &.default {
-    &:disabled {
-      border: 1px solid #000;
-      background: #fff;
-      color: #333;
-    }
-  }
-
-  &.expense {
-    &:disabled {
-      border: 1px solid #f00;
-      background: #ffcccb;
-      color: #000;
-    }
-  }
-
-  &.income {
-    &:disabled {
-      border: 1px solid #00ff00;
-      background: #cefad0;
-      color: #000;
-    }
-  }
-
-  &.small {
-    width: 100px;
-  }
-
-  &.medium {
-    width: 150px;
-  }
-
-  &.large {
-    width: 200px;
+  &.text {
+    text-transform: none;
   }
 `;
 
@@ -57,4 +25,5 @@ export const Label = styled.label`
   text-transform: capitalize;
   min-width: 100px;
   width: auto;
+  text-align: right;
 `;

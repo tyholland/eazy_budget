@@ -8,6 +8,7 @@ import Button from "../../components/Button/Button.tsx";
 import * as S from "./budgetItem.style.ts";
 import { UseFormRegister } from "react-hook-form";
 import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -76,35 +77,62 @@ const BudgetItem = ({
       {!hideBtn && (
         <>
           {!isEditable && (
-            <Button classType="image" handleClick={() => setIsEditable(true)}>
-              <EditIcon />
-            </Button>
+            <span data-tooltip-id="edit-tooltip">
+              <Button classType="text" handleClick={() => setIsEditable(true)}>
+                <EditIcon />
+              </Button>
+            </span>
           )}
           {isEditable && (
             <S.BtnWrapper>
-              <Button
-                classType="image"
-                handleClick={() => {
-                  const budgetItem = JSON.parse(
-                    `{"${updatedLabel}": ${inputValue}}`,
-                  );
-                  saveEvent && saveEvent(budgetItem, checkedVal);
-                  setIsEditable(false);
-                }}
-              >
-                <SaveIcon />
-              </Button>
-              <Button
-                classType="image"
-                handleClick={() => {
-                  deleteEvent && deleteEvent();
-                  setIsEditable(false);
-                }}
-              >
-                <DeleteIcon />
-              </Button>
+              <span data-tooltip-id="save-tooltip">
+                <Button
+                  classType="text"
+                  handleClick={() => {
+                    const budgetItem = JSON.parse(
+                      `{"${updatedLabel}": ${inputValue}}`,
+                    );
+                    saveEvent && saveEvent(budgetItem, checkedVal);
+                    setIsEditable(false);
+                  }}
+                >
+                  <SaveIcon />
+                </Button>
+              </span>
+              <span data-tooltip-id="delete-tooltip">
+                <Button
+                  classType="text"
+                  handleClick={() => {
+                    deleteEvent && deleteEvent();
+                    setIsEditable(false);
+                  }}
+                >
+                  <DeleteIcon />
+                </Button>
+              </span>
             </S.BtnWrapper>
           )}
+          <ReactTooltip
+            id="edit-tooltip"
+            place="top"
+            variant="info"
+            content={`Edit ${theType} item`}
+            className="tooltip"
+          />
+          <ReactTooltip
+            id="save-tooltip"
+            place="top"
+            variant="info"
+            content={`Save ${theType} item`}
+            className="tooltip"
+          />
+          <ReactTooltip
+            id="delete-tooltip"
+            place="top"
+            variant="info"
+            content={`Delete ${theType} item`}
+            className="tooltip"
+          />
         </>
       )}
     </S.Item>

@@ -1,4 +1,5 @@
 import { listOfMonths } from "../constants.ts";
+import { BudgetDataItem } from "../types.ts";
 
 export const formatAmount = (amount: number) => {
   return `$${amount.toFixed(2)}`;
@@ -15,15 +16,20 @@ export const getDateInfo = () => {
   };
 };
 
-export const getCurrentPageName = (path: string) => {
+export const getCurrentPageName = (pathName: string) => {
+  const page = pathName.split("/");
+  const path = page.length === 2 ? `/${page[1]}` : `/${page[1]}/${page[2]}`;
   let pageName = "";
+  let page2Name = "";
 
   switch (path) {
     case "/monthly/income":
       pageName = "Monthly Income";
+      page2Name = "Yearly Income";
       break;
     case "/monthly/expense":
       pageName = "Monthly Expense";
+      page2Name = "Yearly Expense";
       break;
     case "/yearly/income":
       pageName = "Yearly Income";
@@ -31,16 +37,49 @@ export const getCurrentPageName = (path: string) => {
     case "/yearly/expense":
       pageName = "Yearly Expense";
       break;
-    case "/create/expense":
-      pageName = "Create Expense";
+    case "/add/expense":
+      pageName = "Add Expense";
       break;
-    case "/create/income":
-      pageName = "Create Income";
+    case "/add/income":
+      pageName = "Add Income";
+      break;
+    case "/predict":
+      pageName = "Budget Prediction";
+      break;
+    case "/account/history":
+      pageName = "Budget History";
+      page2Name = "Account";
+      break;
+    case "/account":
+      pageName = "Account";
       break;
     default:
       pageName = "";
       break;
   }
 
-  return pageName;
+  return {
+    pageName,
+    page2Name,
+  };
+};
+
+export const removeItemFromNumberArray = (
+  budgetArr: number[],
+  index: number,
+) => {
+  const newArr = [...budgetArr];
+  newArr.splice(index, 1);
+
+  return newArr;
+};
+
+export const removeItemFromBudgetArray = (
+  budgetArr: BudgetDataItem[],
+  index: number,
+) => {
+  const newArr = [...budgetArr];
+  newArr.splice(index, 1);
+
+  return newArr;
 };

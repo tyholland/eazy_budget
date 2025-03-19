@@ -6,7 +6,12 @@ export type InputOption = "default" | "expense" | "income";
 
 export type ButtonType = "submit" | "button";
 
-export type ButtonClassType = "default" | "register" | "exit" | "image";
+export type ButtonClassType =
+  | "default"
+  | "register"
+  | "exit"
+  | "image"
+  | "text";
 
 export type LinkClassType = "button" | "text";
 

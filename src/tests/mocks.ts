@@ -36,3 +36,21 @@ export const mockBudgetEntriesNoDollar = {
   hulu: 20.99,
   internet: 70.7,
 };
+
+export const mockBudgetItemArray = [
+  {
+    label: "netflix",
+    value: 19.99,
+    paid: false,
+  },
+  {
+    label: "hulu",
+    value: 20.99,
+    paid: false,
+  },
+  {
+    label: "internet",
+    value: 70.7,
+    paid: false,
+  },
+];

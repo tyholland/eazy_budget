@@ -16,6 +16,8 @@ import {
   formatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
+import { removeItemFromNumberArray } from "../../functions/helper.ts";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Create = () => {
   const { register, handleSubmit, getValues, unregister } = useForm<any>();
@@ -44,7 +46,7 @@ const Create = () => {
     !listOfMonths.includes(month) ||
     isNaN(Number(year))
   ) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const populatedArray: BudgetDataItem[] = type === "income" ? income : expense;
@@ -56,15 +58,8 @@ const Create = () => {
 
   const handleSubmitBudgetType = (data: Object) => {
     const budgetEntries = formatBudgetItem(data);
-
-    if (type === "income") {
-      setIncome(budgetEntries);
-      navigate("/");
-      return;
-    }
-
-    setExpense(budgetEntries);
-    navigate("/");
+    type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
+    navigate("/overview");
   };
 
   const handleSaveEvent = (item: Object) => {
@@ -74,7 +69,7 @@ const Create = () => {
   return (
     <>
       <S.Title>
-        Create {type} for {month} {year}
+        Add {type}s for {month} {year}
       </S.Title>
       <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
         {populatedArray.map((item: BudgetDataItem, i: number) => {
@@ -101,13 +96,14 @@ const Create = () => {
         })}
         {budgetArr.map((item: number, i: number) => {
           const handleAdditionDeleteEvent = () => {
-            const newArr = [...budgetArr];
-            newArr.splice(i, 1);
-            unregister(Object.keys(getValues())[i]);
+            const newArr = removeItemFromNumberArray(budgetArr, i);
+            const budgetValues = Object.keys(getValues());
+            unregister(budgetValues[i]);
             setBudgetArr(newArr);
+
             const hasBudgetItems =
               type === "income" ? income.length > 0 : expense.length > 0;
-            setHasItems(Object.keys(getValues()).length > 0 || hasBudgetItems);
+            setHasItems(budgetValues.length > 0 || hasBudgetItems);
           };
 
           return (
@@ -133,7 +129,7 @@ const Create = () => {
             classType="register"
           >
             <>
-              {`Add another ${type}`} <AddIcon />
+              {`Additional ${type}`} <AddIcon />
             </>
           </Button>
           <Button type="submit" buttonSize="large" disabled={!hasItems}>

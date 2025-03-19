@@ -22,8 +22,9 @@ import {
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
-const Monthly = () => {
+const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
   const navigate = useNavigate();
   const { type, year } = useParams();
@@ -38,12 +39,8 @@ const Monthly = () => {
     }
   }, [selectedType]);
 
-  if (!budget.length) {
-    navigate("/");
-  }
-
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const theYear = Number(year);
@@ -131,9 +128,10 @@ const Monthly = () => {
         place="top"
         variant="info"
         content={`View a more detailed breakdown of this ${type}`}
+        className="tooltip"
       />
     </S.YearlylyWrapper>
   );
 };
 
-export default Monthly;
+export default Yearly;

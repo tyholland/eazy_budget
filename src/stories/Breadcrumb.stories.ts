@@ -14,7 +14,7 @@ export default {
       location: {
         pathParams: { type: "income", month: "january", year: "2025" },
       },
-      routing: { path: "/create/:type/:month/:year" },
+      routing: { path: "/add/:type/:month/:year" },
     }),
   },
   tags: ["autodocs"],

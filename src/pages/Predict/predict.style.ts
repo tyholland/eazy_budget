@@ -18,3 +18,29 @@ export const PredictInputs = styled.div`
   gap: 8px;
   flex-direction: column;
 `;
+
+export const PredictBudgets = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 800px) {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+`;
+
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 18px;
+  width: 40%;
+`;

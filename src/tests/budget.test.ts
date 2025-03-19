@@ -8,11 +8,13 @@ import {
   addAdditionalBudget,
   formatBudgetItem,
   reformatBudgetItem,
+  addNewBudgetItem,
 } from "../functions/budget";
 import {
   mockBudget,
   mockBudgetEntries,
   mockBudgetEntriesNoDollar,
+  mockBudgetItemArray,
 } from "./mocks";
 import { getDateInfo } from "../functions/helper";
 
@@ -220,25 +222,10 @@ describe("formatBudgetItem", () => {
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
+
   test("should return budget entries", () => {
     const results = formatBudgetItem(mockBudgetEntries);
-    const expectedResults = JSON.stringify([
-      {
-        label: "netflix",
-        value: 19.99,
-        paid: false,
-      },
-      {
-        label: "hulu",
-        value: 20.99,
-        paid: false,
-      },
-      {
-        label: "internet",
-        value: 70.7,
-        paid: false,
-      },
-    ]);
+    const expectedResults = JSON.stringify(mockBudgetItemArray);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
@@ -251,25 +238,24 @@ describe("reformatBudgetItem", () => {
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
+
   test("should return budget items", () => {
     const results = reformatBudgetItem(mockBudgetEntriesNoDollar, false);
-    const expectedResults = JSON.stringify([
-      {
-        label: "netflix",
-        value: 19.99,
-        paid: false,
-      },
-      {
-        label: "hulu",
-        value: 20.99,
-        paid: false,
-      },
-      {
-        label: "internet",
-        value: 70.7,
-        paid: false,
-      },
-    ]);
+    const expectedResults = JSON.stringify(mockBudgetItemArray);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+});
+
+describe("addNewBudgetItem", () => {
+  test("should add a new budget item", () => {
+    const results = addNewBudgetItem(mockBudget, "january", 2025, "income");
+    const newBudget = [...mockBudget];
+    newBudget[0].income.push({
+      label: "",
+      value: 0,
+    });
+    const expectedResults = JSON.stringify(newBudget);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });

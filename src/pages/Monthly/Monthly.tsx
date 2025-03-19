@@ -22,7 +22,7 @@ import {
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
 import {
-  addAdditionalBudget,
+  addNewBudgetItem,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   reformatBudgetItem,
@@ -30,9 +30,12 @@ import {
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
+import { removeItemFromBudgetArray } from "../../functions/helper.ts";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
+  const clonedBudget = [...budget];
   const navigate = useNavigate();
   const { type, month, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
@@ -40,7 +43,6 @@ const Monthly = () => {
   );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
-  const [budgetArr, setBudgetArr] = useState<number[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -56,10 +58,6 @@ const Monthly = () => {
     }
   }, [budgetChange]);
 
-  if (!budget.length) {
-    navigate("/");
-  }
-
   if (
     !type ||
     !month ||
@@ -68,7 +66,7 @@ const Monthly = () => {
     !listOfMonths.includes(month) ||
     isNaN(Number(year))
   ) {
-    return <div>Error Page</div>;
+    return <ErrorPage />;
   }
 
   const theYear = Number(year);
@@ -83,8 +81,9 @@ const Monthly = () => {
   );
 
   const handleAddNewBudget = () => {
-    const updatedBudgetArray = addAdditionalBudget(budgetArr);
-    setBudgetArr(updatedBudgetArray);
+    const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
+
+    setBudget(updatedBudget);
   };
 
   return (
@@ -126,8 +125,11 @@ const Monthly = () => {
                     return;
                   }
 
-                  delete currentItems[i];
-                  item[type] = currentItems;
+                  const updatedItems = removeItemFromBudgetArray(
+                    currentItems,
+                    i,
+                  );
+                  item[type] = updatedItems;
                   setBudgetChange(true);
                 };
 
@@ -142,55 +144,13 @@ const Monthly = () => {
                     saveEvent={handleSaveEvent}
                     deleteEvent={handleDeleteEvent}
                     hideCheckbox={type === "income"}
+                    editable={data.label === ""}
                   />
                 );
               });
             }
             return null;
           })}
-
-          {budgetArr.map((item: number, i: number) => {
-            const specificBudget = budget.filter(
-              (item: BudgetData) =>
-                month === item.month.toLowerCase() && theYear === item.year,
-            )[0];
-
-            const handleAdditionSaveEvent = (obj: Object, isPaid?: boolean) => {
-              const updatedItem = reformatBudgetItem(obj, isPaid);
-              specificBudget[type].push(updatedItem[0]);
-              setBudgetArr([]);
-              setBudgetChange(true);
-            };
-
-            const handleAdditionDeleteEvent = () => {
-              const newArr = [...budgetArr];
-              newArr.splice(i, 1);
-              setBudgetArr(newArr);
-            };
-
-            return (
-              <BudgetItem
-                key={item}
-                editable
-                theType={type as InputOption}
-                labelPlaceHolder={`${type} name`}
-                valuePlaceHolder={`${type} value`}
-                inputType="number"
-                saveEvent={handleAdditionSaveEvent}
-                deleteEvent={handleAdditionDeleteEvent}
-                hideCheckbox={type === "income"}
-              />
-            );
-          })}
-          <Button
-            buttonSize="large"
-            handleClick={handleAddNewBudget}
-            classType="register"
-          >
-            <>
-              {`Add another ${type}`} <AddIcon />
-            </>
-          </Button>
           <ModalComponent
             isOpen={isOpen}
             title={`Want to remove the last ${type}???`}
@@ -212,6 +172,15 @@ const Monthly = () => {
           </ModalComponent>
         </S.ItemWrapper>
       )}
+      <Button
+        buttonSize="large"
+        handleClick={handleAddNewBudget}
+        classType="register"
+      >
+        <>
+          {`Additional ${type}`} <AddIcon />
+        </>
+      </Button>
       {selectedView !== "Text" && (
         <Graph
           type={

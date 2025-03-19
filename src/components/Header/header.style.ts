@@ -5,6 +5,14 @@ export const HeaderWrapper = styled.div`
   padding-bottom: 10px;
   margin: 10px 0 20px;
   border-bottom: 1px solid #333;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  img {
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+  }
 `;
 
 export const Title = styled.div`

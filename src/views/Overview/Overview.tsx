@@ -14,7 +14,6 @@ interface OverviewProps {
   showLabel?: boolean;
   hideViewIcon?: boolean;
   hidePredict?: boolean;
-  predictYear?: number;
 }
 
 const Overview = ({
@@ -24,7 +23,6 @@ const Overview = ({
   expenseValue,
   hideViewIcon = false,
   hidePredict = false,
-  predictYear,
 }: OverviewProps) => {
   const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
@@ -93,7 +91,7 @@ const Overview = ({
         <S.Prediction>
           <div>Predict cash flow for the next 3 years</div>
           <Link
-            url={`predict/${predictYear || theYear}`}
+            url="/predict"
             label="Predict"
             classType="button"
             linkSize="medium"
@@ -110,13 +108,15 @@ const Overview = ({
             id={`${label}-expense-tooltip`}
             place="top"
             variant="info"
-            content={`View a more detailed breakdown of your ${label?.toLowerCase()} expenses`}
+            content={`View a more detailed breakdown of your expenses`}
+            className="tooltip"
           />
           <ReactTooltip
             id={`${label}-income-tooltip`}
             place="top"
             variant="info"
-            content={`View a more detailed breakdown of your ${label?.toLowerCase()} income`}
+            content={`View a more detailed breakdown of your income`}
+            className="tooltip"
           />
         </>
       )}

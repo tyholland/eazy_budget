@@ -30,3 +30,17 @@ export const PredictBudgets = styled.div`
     flex-direction: column;
   }
 `;
+
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 18px;
+  width: 40%;
+`;

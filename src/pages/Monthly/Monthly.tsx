@@ -22,7 +22,6 @@ import {
 } from "../../constants.ts";
 import Overview from "../../views/Overview/Overview.tsx";
 import {
-  addAdditionalBudget,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   reformatBudgetItem,
@@ -30,10 +29,7 @@ import {
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
-import {
-  removeItemFromBudgetArray,
-  removeItemFromNumberArray,
-} from "../../functions/helper.ts";
+import { removeItemFromBudgetArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Monthly = () => {
@@ -46,7 +42,6 @@ const Monthly = () => {
   );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
-  const [budgetArr, setBudgetArr] = useState<number[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -85,6 +80,7 @@ const Monthly = () => {
   );
 
   const handleAddNewBudget = () => {
+    // Write helper function for this
     clonedBudget.forEach((item: BudgetData) => {
       if (month === item.month.toLowerCase() && theYear === item.year) {
         const currentItems: BudgetDataItem[] = [...item[type]];

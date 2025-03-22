@@ -32,8 +32,11 @@ import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { removeItemFromBudgetArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
+import { updateBudgetItem } from "../../requests/budget.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Monthly = () => {
+  const { getAccessTokenSilently, user } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
   const clonedBudget = [...budget];
   const navigate = useNavigate();
@@ -44,6 +47,7 @@ const Monthly = () => {
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const user_id = user?.sub?.split("|")[1];
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -112,11 +116,35 @@ const Monthly = () => {
               return item[type].map((data: BudgetDataItem, i: number) => {
                 const currentItems: BudgetDataItem[] = [...item[type]];
 
-                const handleSaveEvent = (obj: Object, isPaid?: boolean) => {
-                  const updatedItem = reformatBudgetItem(obj, isPaid);
-                  currentItems[i] = updatedItem[0];
-                  item[type] = currentItems;
-                  setBudgetChange(true);
+                const handleSaveEvent = async (
+                  obj: Object,
+                  isPaid?: boolean,
+                ) => {
+                  try {
+                    const accessToken = await getAccessTokenSilently({
+                      authorizationParams: {
+                        audience: process.env.REACT_APP_AUDIENCE,
+                        scope: "read:user",
+                      },
+                    });
+                    const updatedItem = reformatBudgetItem(
+                      obj,
+                      data.budget_id,
+                      isPaid,
+                    );
+
+                    await updateBudgetItem(
+                      accessToken,
+                      user_id,
+                      updatedItem[0],
+                    );
+
+                    currentItems[i] = updatedItem[0];
+                    item[type] = currentItems;
+                    setBudgetChange(true);
+                  } catch (err) {
+                    console.log(err);
+                  }
                 };
 
                 const handleDeleteEvent = () => {

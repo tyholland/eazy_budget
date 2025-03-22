@@ -45,3 +45,12 @@ export interface BudgetData {
   income: BudgetDataItem[];
   expense: BudgetDataItem[];
 }
+
+export interface BudgetBodyInfo {
+  year: number;
+  month: string;
+  type: string;
+  label: string;
+  amount: number;
+  paid?: boolean;
+}

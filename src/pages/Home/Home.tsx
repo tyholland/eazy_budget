@@ -7,18 +7,23 @@ import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
   createInitialBudget,
+  formatBudgetData,
   getMonthlyTotalAmount,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
 import { getDateInfo } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
+import { createBudget } from "../../requests/budget.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
+  const { getAccessTokenSilently, user } = useAuth0();
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
+  const user_id = user?.sub?.split("|")[1];
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -42,9 +47,23 @@ const Home = () => {
     "expense",
   );
 
-  const handleBudgetSubmission = () => {
-    const initialBudget = createInitialBudget(budgetIncome, budgetExpense);
-    setBudget(initialBudget);
+  const handleBudgetSubmission = async () => {
+    const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
+
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+          scope: "read:user",
+        },
+      });
+      const insertIds = await createBudget(accessToken, user_id, initialBudget);
+
+      const formattedBudget = createInitialBudget(initialBudget, insertIds);
+      setBudget(formattedBudget);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

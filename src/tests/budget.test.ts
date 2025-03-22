@@ -1,4 +1,4 @@
-import { expect, test } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import {
   getMonthlyTotalAmount,
   getMonthlyBudgetBreakdown,
@@ -99,6 +99,7 @@ describe("getYearlyBudgetBreakdown", () => {
         {
           label: "january",
           value: 36,
+          budget_id: null,
         },
       ],
     });
@@ -233,14 +234,14 @@ describe("formatBudgetItem", () => {
 
 describe("reformatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = reformatBudgetItem({}, true);
+    const results = reformatBudgetItem({}, null, true);
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return budget items", () => {
-    const results = reformatBudgetItem(mockBudgetEntriesNoDollar, false);
+    const results = reformatBudgetItem(mockBudgetEntriesNoDollar, null, false);
     const expectedResults = JSON.stringify(mockBudgetItemArray);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -254,6 +255,7 @@ describe("addNewBudgetItem", () => {
     newBudget[0].income.push({
       label: "",
       value: 0,
+      budget_id: null,
     });
     const expectedResults = JSON.stringify(newBudget);
 

@@ -32,7 +32,7 @@ import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { removeItemFromBudgetArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
-import { updateBudgetItem } from "../../requests/budget.ts";
+import { deleteBudgetItem, updateBudgetItem } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Monthly = () => {
@@ -127,6 +127,7 @@ const Monthly = () => {
                         scope: "read:user",
                       },
                     });
+
                     const updatedItem = reformatBudgetItem(
                       obj,
                       data.budget_id,
@@ -147,18 +148,35 @@ const Monthly = () => {
                   }
                 };
 
-                const handleDeleteEvent = () => {
+                const handleDeleteEvent = async () => {
                   if (currentItems.length === 1) {
                     setIsOpen(true);
                     return;
                   }
 
-                  const updatedItems = removeItemFromBudgetArray(
-                    currentItems,
-                    i,
-                  );
-                  item[type] = updatedItems;
-                  setBudgetChange(true);
+                  try {
+                    const accessToken = await getAccessTokenSilently({
+                      authorizationParams: {
+                        audience: process.env.REACT_APP_AUDIENCE,
+                        scope: "read:user",
+                      },
+                    });
+
+                    await deleteBudgetItem(
+                      accessToken,
+                      user_id,
+                      data.budget_id,
+                    );
+
+                    const updatedItems = removeItemFromBudgetArray(
+                      currentItems,
+                      i,
+                    );
+                    item[type] = updatedItems;
+                    setBudgetChange(true);
+                  } catch (err) {
+                    console.log(err);
+                  }
                 };
 
                 return (

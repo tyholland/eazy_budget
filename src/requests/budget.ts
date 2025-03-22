@@ -29,10 +29,6 @@ export const updateBudgetItem = async (
   user_id: string | undefined,
   budgetItem: BudgetDataItem,
 ) => {
-  if (!user_id) {
-    throw new Error(`Failed, you need a user_id`);
-  }
-
   try {
     const budgetResponse = await fetch(`${api}/budget/update`, {
       method: "PUT",
@@ -45,5 +41,25 @@ export const updateBudgetItem = async (
     return await budgetResponse.json();
   } catch (err) {
     throw new Error(`Failed to update budget item for auth0|${user_id}`);
+  }
+};
+
+export const deleteBudgetItem = async (
+  accessToken: string,
+  user_id: string | undefined,
+  budgetItemId: number | null,
+) => {
+  try {
+    const budgetResponse = await fetch(`${api}/budget/remove`, {
+      method: "DELETE",
+      body: JSON.stringify({ budget_id: budgetItemId }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return await budgetResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to delete budget item for auth0|${user_id}`);
   }
 };

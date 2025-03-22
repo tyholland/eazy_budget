@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,8 @@ const Auth0ProviderRedirect = ({ children }: Auth0ProviderRedirectProps) => {
       clientId={process.env.REACT_APP_CLIENT_ID as string}
       authorizationParams={{
         redirect_uri: `${window.location.origin}/overview`,
+        audience: process.env.REACT_APP_AUDIENCE,
+        scope: "read:user",
       }}
     >
       {children}

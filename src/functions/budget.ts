@@ -116,14 +116,12 @@ export const createInitialBudget = (
   }
 
   const initialBudget: BudgetData[] = [];
-  let income: BudgetDataItem[] = [];
-  let expense: BudgetDataItem[] = [];
   const { currentYear } = getDateInfo();
   const count = listOfMonths.length - 1;
 
   for (let i = 0; i <= count; i++) {
-    income = [];
-    expense = [];
+    const income: BudgetDataItem[] = [];
+    const expense: BudgetDataItem[] = [];
 
     budget.forEach((item: BudgetBodyInfo, index: number) => {
       if (listOfMonths[i] === item.month) {

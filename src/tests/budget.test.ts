@@ -19,7 +19,6 @@ import {
   mockBudgetInsertIds,
   mockBudgetItemArray,
 } from "./mocks";
-import { getDateInfo } from "../functions/helper";
 
 describe("getMonthlyTotalAmount", () => {
   test("should return 0", () => {

@@ -22,7 +22,7 @@ const Auth0ProviderRedirect = ({ children }: Auth0ProviderRedirectProps) => {
       authorizationParams={{
         redirect_uri: `${window.location.origin}/overview`,
         audience: process.env.REACT_APP_AUDIENCE,
-        scope: "read:user",
+        scope: "openid profile email",
       }}
     >
       {children}

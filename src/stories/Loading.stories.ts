@@ -1,6 +1,6 @@
 import Loading from "../components/Loading/Loading.tsx";
 
-export default {
+const LoadingStory = {
   title: "Components/Loading",
   component: Loading,
   parameters: {
@@ -12,3 +12,5 @@ export default {
 export const Primary = {
   args: {},
 };
+
+export default LoadingStory;

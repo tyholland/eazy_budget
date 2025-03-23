@@ -1,7 +1,7 @@
 import { fn } from "@storybook/test";
 import Modal from "../components/Modal/Modal.tsx";
 
-export default {
+const ModalStory = {
   title: "Components/Modal",
   component: Modal,
   parameters: {
@@ -18,3 +18,5 @@ export const Primary = {
     children: "Body of modal",
   },
 };
+
+export default ModalStory;

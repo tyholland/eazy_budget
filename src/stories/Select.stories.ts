@@ -1,6 +1,6 @@
 import Select from "../components/Select/Select.tsx";
 
-export default {
+const SelectStory = {
   title: "Components/Select",
   component: Select,
   parameters: {
@@ -19,3 +19,5 @@ export const Primary = {
     defaultValue: "One",
   },
 };
+
+export default SelectStory;

@@ -1,7 +1,7 @@
 import SetupBudget from "../views/SetupBudget/SetupBudget.tsx";
 import { withRouter } from "storybook-addon-remix-react-router";
 
-export default {
+const SetupBudgetStory = {
   title: "Views/SetupBudget",
   component: SetupBudget,
   decorators: [withRouter],
@@ -14,3 +14,5 @@ export default {
 export const Primary = {
   args: { month: "january", year: 2025 },
 };
+
+export default SetupBudgetStory;

@@ -19,11 +19,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
-  const user_id = user?.sub?.split("|")[1];
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -57,7 +56,7 @@ const Home = () => {
           scope: "read:user",
         },
       });
-      const insertIds = await createBudget(accessToken, user_id, initialBudget);
+      const insertIds = await createBudget(accessToken, initialBudget);
 
       const formattedBudget = createInitialBudget(initialBudget, insertIds);
       setBudget(formattedBudget);

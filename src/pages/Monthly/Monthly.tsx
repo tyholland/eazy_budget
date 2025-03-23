@@ -36,7 +36,7 @@ import { deleteBudgetItem, updateBudgetItem } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Monthly = () => {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
   const clonedBudget = [...budget];
   const navigate = useNavigate();
@@ -47,7 +47,6 @@ const Monthly = () => {
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const user_id = user?.sub?.split("|")[1];
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -134,11 +133,7 @@ const Monthly = () => {
                       isPaid,
                     );
 
-                    await updateBudgetItem(
-                      accessToken,
-                      user_id,
-                      updatedItem[0],
-                    );
+                    await updateBudgetItem(accessToken, updatedItem[0]);
 
                     currentItems[i] = updatedItem[0];
                     item[type] = currentItems;
@@ -162,11 +157,7 @@ const Monthly = () => {
                       },
                     });
 
-                    await deleteBudgetItem(
-                      accessToken,
-                      user_id,
-                      data.budget_id,
-                    );
+                    await deleteBudgetItem(accessToken, data.budget_id);
 
                     const updatedItems = removeItemFromBudgetArray(
                       currentItems,

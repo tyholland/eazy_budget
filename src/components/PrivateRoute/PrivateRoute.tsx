@@ -6,15 +6,9 @@ import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 
 const PrivateRoute = ({ component, ...args }) => {
-  const { isLoading, getAccessTokenSilently, user } = useAuth0();
+  const { isLoading, getAccessTokenSilently } = useAuth0();
   const budget = useAtomValue(budgetAtom);
-  const [userId, getUserId] = useState<string | undefined>(undefined);
   const Component = withAuthenticationRequired(component, args);
-
-  useEffect(() => {
-    const user_id = user?.sub?.split("|")[1];
-    getUserId(user_id);
-  }, [user]);
 
   if (budget.length === 0) {
     (async () => {
@@ -26,7 +20,7 @@ const PrivateRoute = ({ component, ...args }) => {
           },
         });
 
-        await getBudget(accessToken, userId);
+        await getBudget(accessToken);
       } catch (err) {
         console.log(err);
       }

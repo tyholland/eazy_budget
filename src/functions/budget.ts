@@ -170,23 +170,23 @@ export const formatBudgetData = (
   for (let i = 0; i <= count; i++) {
     income.forEach((response: BudgetDataItem) => {
       formattedBudget.push({
-        year: currentYear,
-        month: listOfMonths[i],
         label: response.label,
         type: "income",
         amount: response.value,
         paid: response.paid,
+        month: listOfMonths[i],
+        year: currentYear,
       });
     });
 
     expense.forEach((response: BudgetDataItem) => {
       formattedBudget.push({
-        year: currentYear,
-        month: listOfMonths[i],
         label: response.label,
         type: "expense",
         amount: response.value,
         paid: response.paid,
+        month: listOfMonths[i],
+        year: currentYear,
       });
     });
   }

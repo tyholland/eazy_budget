@@ -64,13 +64,51 @@ export const mockBudgetItemArray: BudgetDataItem[] = [
   },
 ];
 
+export const mockBudgetTwo: BudgetData[] = [
+  {
+    year: 2025,
+    month: "january",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: null,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        budget_id: null,
+        paid: false,
+      },
+    ],
+  },
+];
+
 export const mockBudgetBody: BudgetBodyInfo[] = [
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "january",
+    year: 2025,
+  },
   {
     label: "Netflix",
     type: "expense",
     amount: 19.99,
     paid: false,
     month: "january",
+    year: 2025,
+  },
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "february",
     year: 2025,
   },
   {
@@ -82,11 +120,27 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     year: 2025,
   },
   {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "march",
+    year: 2025,
+  },
+  {
     label: "Netflix",
     type: "expense",
     amount: 19.99,
     paid: false,
     month: "march",
+    year: 2025,
+  },
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "april",
     year: 2025,
   },
   {
@@ -98,11 +152,27 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     year: 2025,
   },
   {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "may",
+    year: 2025,
+  },
+  {
     label: "Netflix",
     type: "expense",
     amount: 19.99,
     paid: false,
     month: "may",
+    year: 2025,
+  },
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "june",
     year: 2025,
   },
   {
@@ -114,11 +184,27 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     year: 2025,
   },
   {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "july",
+    year: 2025,
+  },
+  {
     label: "Netflix",
     type: "expense",
     amount: 19.99,
     paid: false,
     month: "july",
+    year: 2025,
+  },
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "august",
     year: 2025,
   },
   {
@@ -130,11 +216,27 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     year: 2025,
   },
   {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "september",
+    year: 2025,
+  },
+  {
     label: "Netflix",
     type: "expense",
     amount: 19.99,
     paid: false,
     month: "september",
+    year: 2025,
+  },
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
+    month: "october",
     year: 2025,
   },
   {
@@ -146,10 +248,10 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     year: 2025,
   },
   {
-    label: "Netflix",
-    type: "expense",
-    amount: 19.99,
-    paid: false,
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
     month: "november",
     year: 2025,
   },
@@ -158,102 +260,22 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     type: "expense",
     amount: 19.99,
     paid: false,
+    month: "november",
+    year: 2025,
+  },
+  {
+    label: "husband",
+    type: "income",
+    amount: 40000,
+    paid: undefined,
     month: "december",
     year: 2025,
   },
   {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "january",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "february",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "march",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "april",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "may",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "june",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "july",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "august",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "september",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "october",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
-    month: "november",
-    year: 2025,
-  },
-  {
-    label: "husband",
-    type: "income",
-    amount: 40000,
-    paid: undefined,
+    label: "Netflix",
+    type: "expense",
+    amount: 19.99,
+    paid: false,
     month: "december",
     year: 2025,
   },
@@ -267,26 +289,7 @@ export const mockBudgetFull: BudgetData[] = [
       {
         label: "husband",
         value: 40000,
-        budget_id: 13,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 19.99,
-        paid: false,
         budget_id: 1,
-      },
-    ],
-  },
-  {
-    year: 2025,
-    month: "february",
-    income: [
-      {
-        label: "husband",
-        value: 40000,
-        budget_id: 14,
       },
     ],
     expense: [
@@ -300,31 +303,12 @@ export const mockBudgetFull: BudgetData[] = [
   },
   {
     year: 2025,
-    month: "march",
+    month: "february",
     income: [
       {
         label: "husband",
         value: 40000,
-        budget_id: 15,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 19.99,
-        paid: false,
         budget_id: 3,
-      },
-    ],
-  },
-  {
-    year: 2025,
-    month: "april",
-    income: [
-      {
-        label: "husband",
-        value: 40000,
-        budget_id: 16,
       },
     ],
     expense: [
@@ -338,31 +322,12 @@ export const mockBudgetFull: BudgetData[] = [
   },
   {
     year: 2025,
-    month: "may",
+    month: "march",
     income: [
       {
         label: "husband",
         value: 40000,
-        budget_id: 17,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 19.99,
-        paid: false,
         budget_id: 5,
-      },
-    ],
-  },
-  {
-    year: 2025,
-    month: "june",
-    income: [
-      {
-        label: "husband",
-        value: 40000,
-        budget_id: 18,
       },
     ],
     expense: [
@@ -376,31 +341,12 @@ export const mockBudgetFull: BudgetData[] = [
   },
   {
     year: 2025,
-    month: "july",
+    month: "april",
     income: [
       {
         label: "husband",
         value: 40000,
-        budget_id: 19,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 19.99,
-        paid: false,
         budget_id: 7,
-      },
-    ],
-  },
-  {
-    year: 2025,
-    month: "august",
-    income: [
-      {
-        label: "husband",
-        value: 40000,
-        budget_id: 20,
       },
     ],
     expense: [
@@ -414,31 +360,12 @@ export const mockBudgetFull: BudgetData[] = [
   },
   {
     year: 2025,
-    month: "september",
+    month: "may",
     income: [
       {
         label: "husband",
         value: 40000,
-        budget_id: 21,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 19.99,
-        paid: false,
         budget_id: 9,
-      },
-    ],
-  },
-  {
-    year: 2025,
-    month: "october",
-    income: [
-      {
-        label: "husband",
-        value: 40000,
-        budget_id: 22,
       },
     ],
     expense: [
@@ -452,7 +379,121 @@ export const mockBudgetFull: BudgetData[] = [
   },
   {
     year: 2025,
+    month: "june",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: 11,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: 12,
+      },
+    ],
+  },
+  {
+    year: 2025,
+    month: "july",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: 13,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: 14,
+      },
+    ],
+  },
+  {
+    year: 2025,
+    month: "august",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: 15,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: 16,
+      },
+    ],
+  },
+  {
+    year: 2025,
+    month: "september",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: 17,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: 18,
+      },
+    ],
+  },
+  {
+    year: 2025,
+    month: "october",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: 19,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: 20,
+      },
+    ],
+  },
+  {
+    year: 2025,
     month: "november",
+    income: [
+      {
+        label: "husband",
+        value: 40000,
+        budget_id: 21,
+      },
+    ],
+    expense: [
+      {
+        label: "Netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: 22,
+      },
+    ],
+  },
+  {
+    year: 2025,
+    month: "december",
     income: [
       {
         label: "husband",
@@ -465,26 +506,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "Netflix",
         value: 19.99,
         paid: false,
-        budget_id: 11,
-      },
-    ],
-  },
-  {
-    year: 2025,
-    month: "december",
-    income: [
-      {
-        label: "husband",
-        value: 40000,
         budget_id: 24,
-      },
-    ],
-    expense: [
-      {
-        label: "Netflix",
-        value: 19.99,
-        paid: false,
-        budget_id: 12,
       },
     ],
   },

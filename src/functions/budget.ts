@@ -111,32 +111,41 @@ export const createInitialBudget = (
   budget: BudgetBodyInfo[],
   insertIds: string[],
 ) => {
+  if (!budget.length) {
+    return [];
+  }
+
   const initialBudget: BudgetData[] = [];
-  const income: BudgetDataItem[] = [];
-  const expense: BudgetDataItem[] = [];
+  let income: BudgetDataItem[] = [];
+  let expense: BudgetDataItem[] = [];
   const { currentYear } = getDateInfo();
   const count = listOfMonths.length - 1;
 
-  budget.forEach((item: BudgetBodyInfo, i: number) => {
-    if (item.type === "income") {
-      income.push({
-        label: item.label,
-        value: item.amount,
-        paid: item.paid,
-        budget_id: Number(insertIds[i]),
-      });
-    }
-    if (item.type === "expense") {
-      expense.push({
-        label: item.label,
-        value: item.amount,
-        paid: item.paid,
-        budget_id: Number(insertIds[i]),
-      });
-    }
-  });
-
   for (let i = 0; i <= count; i++) {
+    income = [];
+    expense = [];
+
+    budget.forEach((item: BudgetBodyInfo, index: number) => {
+      if (listOfMonths[i] === item.month) {
+        if (item.type === "income") {
+          income.push({
+            label: item.label,
+            value: item.amount,
+            paid: item.paid,
+            budget_id: Number(insertIds[index]),
+          });
+        }
+        if (item.type === "expense") {
+          expense.push({
+            label: item.label,
+            value: item.amount,
+            paid: item.paid,
+            budget_id: Number(insertIds[index]),
+          });
+        }
+      }
+    });
+
     initialBudget.push({
       year: currentYear,
       month: listOfMonths[i],

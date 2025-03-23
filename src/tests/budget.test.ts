@@ -12,8 +12,11 @@ import {
 } from "../functions/budget";
 import {
   mockBudget,
+  mockBudgetBody,
   mockBudgetEntries,
   mockBudgetEntriesNoDollar,
+  mockBudgetFull,
+  mockBudgetInsertIds,
   mockBudgetItemArray,
 } from "./mocks";
 import { getDateInfo } from "../functions/helper";
@@ -117,84 +120,8 @@ describe("createInitialBudget", () => {
   });
 
   test("should return initial budget", () => {
-    const income = mockBudget[0].income;
-    const expense = mockBudget[0].expense;
-    const results = createInitialBudget(income, expense);
-    const { currentYear } = getDateInfo();
-    const expectedResults = JSON.stringify([
-      {
-        year: currentYear,
-        month: "january",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "february",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "march",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "april",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "may",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "june",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "july",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "august",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "september",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "october",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "november",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "december",
-        income,
-        expense,
-      },
-    ]);
+    const results = createInitialBudget(mockBudgetBody, mockBudgetInsertIds);
+    const expectedResults = JSON.stringify(mockBudgetFull);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });

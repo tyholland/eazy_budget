@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Loading from "../Loading/Loading.tsx";
 import { getBudget } from "../../requests/budget.ts";
-import { useAtomValue } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { createUser } from "../../requests/users.ts";
-import { User } from "../../types.ts";
+import { BudgetData, UserResponse } from "../../types.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const PrivateRoute = ({ component, ...args }) => {
   const { isLoading, getAccessTokenSilently, user } = useAuth0();
-  const budget = useAtomValue(budgetAtom);
+  const setBudget = useSetAtom(budgetAtom);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [hasBudget, setHasBudget] = useState<boolean>(false);
   const Component = withAuthenticationRequired(component, args);
 
   const addUser = async () => {
@@ -20,33 +23,43 @@ const PrivateRoute = ({ component, ...args }) => {
         },
       });
 
-      console.log(user);
+      if (user) {
+        const userResponse: UserResponse =
+          user.email && (await createUser(accessToken, { email: user.email }));
+        setCurrentUser(user);
+        setHasBudget(userResponse.hasBudget);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-      user?.email && (await createUser(accessToken, { email: user.email }));
+  const getBudgetInfo = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      const budgetResponse: BudgetData[] = await getBudget(accessToken);
+      setBudget(budgetResponse);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    user && addUser();
+    if (!currentUser) {
+      user && addUser();
+    }
   }, [user]);
 
-  if (budget.length === 0) {
-    (async () => {
-      try {
-        const accessToken = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: process.env.REACT_APP_AUDIENCE,
-          },
-        });
-
-        await getBudget(accessToken);
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }
+  useEffect(() => {
+    if (hasBudget) {
+      getBudgetInfo();
+    }
+  }, [hasBudget]);
 
   return isLoading ? <Loading /> : <Component />;
 };

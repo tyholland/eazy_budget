@@ -55,16 +55,21 @@ export interface BudgetBodyInfo {
   paid?: boolean;
 }
 
-export interface UserResponse {
+export interface UserRequest {
   email: string;
 }
 
+export interface UserResponse {
+  action: string;
+  hasBudget: boolean;
+}
+
 export interface User {
-  email: string;
-  email_verified: boolean;
-  name: string;
-  nickname: string;
-  picture: string;
-  sub: string;
-  updated_at: string;
+  email?: string;
+  email_verified?: boolean;
+  name?: string;
+  nickname?: string;
+  picture?: string;
+  sub?: string;
+  updated_at?: string;
 }

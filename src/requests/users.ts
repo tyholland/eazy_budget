@@ -1,10 +1,10 @@
-import { UserResponse } from "../types";
+import { UserRequest } from "../types";
 
 const api = process.env.REACT_APP_API;
 
 export const createUser = async (
   accessToken: string,
-  userInfo: UserResponse,
+  userInfo: UserRequest,
 ) => {
   try {
     const budgetResponse = await fetch(`${api}/user/create`, {

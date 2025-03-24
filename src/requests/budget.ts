@@ -8,6 +8,7 @@ export const getBudget = async (accessToken: string) => {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     });
 
@@ -27,6 +28,7 @@ export const createBudget = async (
       body: JSON.stringify(budgetData),
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     });
 
@@ -46,6 +48,7 @@ export const updateBudgetItem = async (
       body: JSON.stringify({ ...budgetItem }),
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     });
 
@@ -65,6 +68,7 @@ export const deleteBudgetItem = async (
       body: JSON.stringify({ budget_id: budgetItemId }),
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     });
 

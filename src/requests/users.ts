@@ -28,6 +28,7 @@ export const deleteUser = async (accessToken: string) => {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
       },
     });
 

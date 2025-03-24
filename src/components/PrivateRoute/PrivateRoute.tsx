@@ -30,7 +30,7 @@ const PrivateRoute = ({ component, ...args }) => {
         setHasBudget(userResponse.hasBudget);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -45,7 +45,7 @@ const PrivateRoute = ({ component, ...args }) => {
       const budgetResponse: BudgetData[] = await getBudget(accessToken);
       setBudget(budgetResponse);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

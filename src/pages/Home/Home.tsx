@@ -61,7 +61,7 @@ const Home = () => {
       const formattedBudget = createInitialBudget(initialBudget, insertIds);
       setBudget(formattedBudget);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

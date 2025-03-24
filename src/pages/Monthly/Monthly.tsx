@@ -139,7 +139,7 @@ const Monthly = () => {
                     item[type] = currentItems;
                     setBudgetChange(true);
                   } catch (err) {
-                    console.log(err);
+                    console.error(err);
                   }
                 };
 
@@ -166,7 +166,7 @@ const Monthly = () => {
                     item[type] = updatedItems;
                     setBudgetChange(true);
                   } catch (err) {
-                    console.log(err);
+                    console.error(err);
                   }
                 };
 

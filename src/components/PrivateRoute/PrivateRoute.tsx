@@ -5,7 +5,7 @@ import { getBudget } from "../../requests/budget.ts";
 import { useAtom, useSetAtom } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { createUser } from "../../requests/users.ts";
-import { BudgetData, UserResponse } from "../../types.ts";
+import { UserResponse } from "../../types.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
 
 const PrivateRoute = ({ component, ...args }) => {

@@ -42,8 +42,9 @@ const PrivateRoute = ({ component, ...args }) => {
         },
       });
 
-      const budgetResponse: BudgetData[] = await getBudget(accessToken);
-      setBudget(budgetResponse);
+      const response = await getBudget(accessToken);
+
+      setBudget(response.budget);
     } catch (err) {
       console.error(err);
     }

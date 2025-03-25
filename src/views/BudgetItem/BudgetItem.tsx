@@ -50,6 +50,14 @@ const BudgetItem = ({
     item && setInputValue(item.value);
   }, [item?.value]);
 
+  useEffect(() => {
+    item && setUpdatedLabel(item.label);
+  }, [item?.label]);
+
+  useEffect(() => {
+    item && setCheckedVal(item.paid || false);
+  }, [item?.paid]);
+
   return (
     <S.Item>
       <BudgetInput

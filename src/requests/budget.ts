@@ -25,7 +25,7 @@ export const createBudget = async (
   try {
     const budgetResponse = await fetch(`${api}/budget/create`, {
       method: "POST",
-      body: JSON.stringify(budgetData),
+      body: JSON.stringify({ budgetData }),
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-type": "application/json",

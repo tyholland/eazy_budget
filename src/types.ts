@@ -36,6 +36,7 @@ export interface BudgetDataItem {
   label: string;
   value: number;
   budget_id: number | null;
+  budget_date_id: number | null;
   paid?: boolean;
 }
 
@@ -72,4 +73,9 @@ export interface User {
   picture?: string;
   sub?: string;
   updated_at?: string;
+}
+
+export interface BudgetInsertIds {
+  budget_id: number;
+  budget_date_id: number;
 }

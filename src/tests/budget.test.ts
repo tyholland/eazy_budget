@@ -104,6 +104,7 @@ describe("getYearlyBudgetBreakdown", () => {
           label: "january",
           value: 36,
           budget_id: null,
+          budget_date_id: null,
         },
       ],
     });
@@ -162,14 +163,19 @@ describe("formatBudgetItem", () => {
 
 describe("reformatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = reformatBudgetItem({}, null, true);
+    const results = reformatBudgetItem({}, null, null, true);
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return budget items", () => {
-    const results = reformatBudgetItem(mockBudgetEntriesNoDollar, null, false);
+    const results = reformatBudgetItem(
+      mockBudgetEntriesNoDollar,
+      null,
+      null,
+      false,
+    );
     const expectedResults = JSON.stringify(mockBudgetItemArray);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -184,6 +190,7 @@ describe("addNewBudgetItem", () => {
       label: "",
       value: 0,
       budget_id: null,
+      budget_date_id: null,
     });
     const expectedResults = JSON.stringify(newBudget);
 

@@ -1,5 +1,10 @@
 import { listOfMonths } from "../constants.ts";
-import { BudgetBodyInfo, BudgetData, BudgetDataItem } from "../types";
+import {
+  BudgetBodyInfo,
+  BudgetData,
+  BudgetDataItem,
+  BudgetInsertIds,
+} from "../types";
 import { getDateInfo } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
@@ -85,6 +90,7 @@ export const getYearlyBudgetBreakdown = (
       labelSet.push(item.month);
       let count = 0;
       let budgetId: number | null = null;
+      let budgetDateId: number | null = null;
 
       item[type].forEach((data: BudgetDataItem) => {
         count += data.value;
@@ -96,6 +102,7 @@ export const getYearlyBudgetBreakdown = (
         label: item.month,
         value: count,
         budget_id: budgetId,
+        budget_date_id: budgetDateId,
       });
     }
   });
@@ -109,7 +116,7 @@ export const getYearlyBudgetBreakdown = (
 
 export const createInitialBudget = (
   budget: BudgetBodyInfo[],
-  insertIds: string[],
+  insertIds: BudgetInsertIds[],
 ) => {
   if (!budget.length) {
     return [];
@@ -130,7 +137,8 @@ export const createInitialBudget = (
             label: item.label,
             value: item.amount,
             paid: item.paid,
-            budget_id: Number(insertIds[index]),
+            budget_id: insertIds[index].budget_id,
+            budget_date_id: insertIds[index].budget_date_id,
           });
         }
         if (item.type === "expense") {
@@ -138,7 +146,8 @@ export const createInitialBudget = (
             label: item.label,
             value: item.amount,
             paid: item.paid,
-            budget_id: Number(insertIds[index]),
+            budget_id: insertIds[index].budget_id,
+            budget_date_id: insertIds[index].budget_date_id,
           });
         }
       }
@@ -216,6 +225,7 @@ export const addNewBudgetItem = (
         value: 0,
         paid: false,
         budget_id: null,
+        budget_date_id: null,
       });
 
       item[type] = currentItems;
@@ -236,6 +246,7 @@ export const formatBudgetItem = (data: Object) => {
       value: Number(val.replace("$", "")),
       paid: false,
       budget_id: null,
+      budget_date_id: null,
     });
   });
 
@@ -245,6 +256,7 @@ export const formatBudgetItem = (data: Object) => {
 export const reformatBudgetItem = (
   updatedItem: Object,
   budgetId: number | null,
+  budgetDateId: number | null,
   isPaid?: boolean,
 ) => {
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
@@ -254,6 +266,7 @@ export const reformatBudgetItem = (
         value: item[1],
         paid: isPaid || false,
         budget_id: budgetId,
+        budget_date_id: budgetDateId,
       };
     },
   );

@@ -130,6 +130,7 @@ const Monthly = () => {
                     const updatedItem = reformatBudgetItem(
                       obj,
                       data.budget_id,
+                      data.budget_date_id,
                       isPaid,
                     );
 

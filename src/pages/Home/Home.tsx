@@ -58,7 +58,10 @@ const Home = () => {
       });
       const insertIds = await createBudget(accessToken, initialBudget);
 
-      const formattedBudget = createInitialBudget(initialBudget, insertIds);
+      const formattedBudget = createInitialBudget(
+        initialBudget,
+        insertIds.budget_ids,
+      );
       setBudget(formattedBudget);
     } catch (err) {
       console.error(err);

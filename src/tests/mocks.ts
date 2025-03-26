@@ -1,4 +1,9 @@
-import { BudgetBodyInfo, BudgetData, BudgetDataItem } from "../types";
+import {
+  BudgetBodyInfo,
+  BudgetData,
+  BudgetDataItem,
+  BudgetInsertIds,
+} from "../types";
 
 export const mockBudget: BudgetData[] = [
   {
@@ -9,11 +14,13 @@ export const mockBudget: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: null,
+        budget_date_id: null,
       },
       {
         label: "wife",
         value: 30000,
         budget_id: null,
+        budget_date_id: null,
       },
     ],
     expense: [
@@ -21,11 +28,13 @@ export const mockBudget: BudgetData[] = [
         label: "Netflix",
         value: 19,
         budget_id: null,
+        budget_date_id: null,
       },
       {
         label: "Hulu",
         value: 17,
         budget_id: null,
+        budget_date_id: null,
       },
     ],
   },
@@ -49,18 +58,21 @@ export const mockBudgetItemArray: BudgetDataItem[] = [
     value: 19.99,
     paid: false,
     budget_id: null,
+    budget_date_id: null,
   },
   {
     label: "hulu",
     value: 20.99,
     paid: false,
     budget_id: null,
+    budget_date_id: null,
   },
   {
     label: "internet",
     value: 70.7,
     paid: false,
     budget_id: null,
+    budget_date_id: null,
   },
 ];
 
@@ -73,6 +85,7 @@ export const mockBudgetTwo: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: null,
+        budget_date_id: null,
       },
     ],
     expense: [
@@ -80,6 +93,7 @@ export const mockBudgetTwo: BudgetData[] = [
         label: "Netflix",
         value: 19.99,
         budget_id: null,
+        budget_date_id: null,
         paid: false,
       },
     ],
@@ -290,6 +304,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 1,
+        budget_date_id: 1,
       },
     ],
     expense: [
@@ -298,6 +313,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 2,
+        budget_date_id: 1,
       },
     ],
   },
@@ -309,6 +325,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 3,
+        budget_date_id: 2,
       },
     ],
     expense: [
@@ -317,6 +334,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 4,
+        budget_date_id: 2,
       },
     ],
   },
@@ -328,6 +346,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 5,
+        budget_date_id: 3,
       },
     ],
     expense: [
@@ -336,6 +355,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 6,
+        budget_date_id: 3,
       },
     ],
   },
@@ -347,6 +367,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 7,
+        budget_date_id: 4,
       },
     ],
     expense: [
@@ -355,6 +376,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 8,
+        budget_date_id: 4,
       },
     ],
   },
@@ -366,6 +388,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 9,
+        budget_date_id: 5,
       },
     ],
     expense: [
@@ -374,6 +397,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 10,
+        budget_date_id: 5,
       },
     ],
   },
@@ -385,6 +409,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 11,
+        budget_date_id: 6,
       },
     ],
     expense: [
@@ -393,6 +418,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 12,
+        budget_date_id: 6,
       },
     ],
   },
@@ -404,6 +430,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 13,
+        budget_date_id: 7,
       },
     ],
     expense: [
@@ -412,6 +439,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 14,
+        budget_date_id: 7,
       },
     ],
   },
@@ -423,6 +451,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 15,
+        budget_date_id: 8,
       },
     ],
     expense: [
@@ -431,6 +460,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 16,
+        budget_date_id: 8,
       },
     ],
   },
@@ -442,6 +472,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 17,
+        budget_date_id: 9,
       },
     ],
     expense: [
@@ -450,6 +481,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 18,
+        budget_date_id: 9,
       },
     ],
   },
@@ -461,6 +493,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 19,
+        budget_date_id: 10,
       },
     ],
     expense: [
@@ -469,6 +502,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 20,
+        budget_date_id: 10,
       },
     ],
   },
@@ -480,6 +514,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 21,
+        budget_date_id: 11,
       },
     ],
     expense: [
@@ -488,6 +523,7 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 22,
+        budget_date_id: 11,
       },
     ],
   },
@@ -499,6 +535,7 @@ export const mockBudgetFull: BudgetData[] = [
         label: "husband",
         value: 40000,
         budget_id: 23,
+        budget_date_id: 12,
       },
     ],
     expense: [
@@ -507,34 +544,107 @@ export const mockBudgetFull: BudgetData[] = [
         value: 19.99,
         paid: false,
         budget_id: 24,
+        budget_date_id: 12,
       },
     ],
   },
 ];
 
-export const mockBudgetInsertIds: string[] = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
-  "15",
-  "16",
-  "17",
-  "18",
-  "19",
-  "20",
-  "21",
-  "22",
-  "23",
-  "24",
+export const mockBudgetInsertIds: BudgetInsertIds[] = [
+  {
+    budget_id: 1,
+    budget_date_id: 1,
+  },
+  {
+    budget_id: 2,
+    budget_date_id: 1,
+  },
+  {
+    budget_id: 3,
+    budget_date_id: 2,
+  },
+  {
+    budget_id: 4,
+    budget_date_id: 2,
+  },
+  {
+    budget_id: 5,
+    budget_date_id: 3,
+  },
+  {
+    budget_id: 6,
+    budget_date_id: 3,
+  },
+  {
+    budget_id: 7,
+    budget_date_id: 4,
+  },
+  {
+    budget_id: 8,
+    budget_date_id: 4,
+  },
+  {
+    budget_id: 9,
+    budget_date_id: 5,
+  },
+  {
+    budget_id: 10,
+    budget_date_id: 5,
+  },
+  {
+    budget_id: 11,
+    budget_date_id: 6,
+  },
+  {
+    budget_id: 12,
+    budget_date_id: 6,
+  },
+  {
+    budget_id: 13,
+    budget_date_id: 7,
+  },
+  {
+    budget_id: 14,
+    budget_date_id: 7,
+  },
+  {
+    budget_id: 15,
+    budget_date_id: 8,
+  },
+  {
+    budget_id: 16,
+    budget_date_id: 8,
+  },
+  {
+    budget_id: 17,
+    budget_date_id: 9,
+  },
+  {
+    budget_id: 18,
+    budget_date_id: 9,
+  },
+  {
+    budget_id: 19,
+    budget_date_id: 10,
+  },
+  {
+    budget_id: 20,
+    budget_date_id: 10,
+  },
+  {
+    budget_id: 21,
+    budget_date_id: 11,
+  },
+  {
+    budget_id: 22,
+    budget_date_id: 11,
+  },
+  {
+    budget_id: 23,
+    budget_date_id: 12,
+  },
+  {
+    budget_id: 24,
+    budget_date_id: 12,
+  },
 ];

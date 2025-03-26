@@ -58,6 +58,26 @@ export const updateBudgetItem = async (
   }
 };
 
+export const addBudgetItem = async (
+  accessToken: string,
+  budgetItem: BudgetDataItem,
+) => {
+  try {
+    const budgetResponse = await fetch(`${api}/budget/add`, {
+      method: "POST",
+      body: JSON.stringify({ ...budgetItem }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await budgetResponse.json();
+  } catch (err) {
+    throw new Error("Failed to add budget item");
+  }
+};
+
 export const deleteBudgetItem = async (
   accessToken: string,
   budgetItemId: number | null,

@@ -216,7 +216,7 @@ export const addNewBudgetItem = (
   year: number,
   type: string,
 ) => {
-  clonedBudget.forEach((item: BudgetData) => {
+  clonedBudget.forEach((item: BudgetData, i: number) => {
     if (month === item.month.toLowerCase() && year === item.year) {
       const currentItems: BudgetDataItem[] = [...item[type]];
 
@@ -225,7 +225,7 @@ export const addNewBudgetItem = (
         value: 0,
         paid: false,
         budget_id: null,
-        budget_date_id: null,
+        budget_date_id: currentItems[0].budget_date_id,
       });
 
       item[type] = currentItems;

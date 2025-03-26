@@ -32,7 +32,11 @@ import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { removeItemFromBudgetArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
-import { deleteBudgetItem, updateBudgetItem } from "../../requests/budget.ts";
+import {
+  addBudgetItem,
+  deleteBudgetItem,
+  updateBudgetItem,
+} from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Monthly = () => {
@@ -110,7 +114,8 @@ const Monthly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {budget?.map((item: BudgetData) => {
+          {!budget && <div>Loading...</div>}
+          {budget.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {
                 const currentItems: BudgetDataItem[] = [...item[type]];
@@ -134,7 +139,18 @@ const Monthly = () => {
                       isPaid,
                     );
 
-                    await updateBudgetItem(accessToken, updatedItem[0]);
+                    if (!!data.budget_id) {
+                      await updateBudgetItem(accessToken, updatedItem[0]);
+                    } else {
+                      updatedItem[0].type = type;
+                      const updatedBudgetItem = await addBudgetItem(
+                        accessToken,
+                        updatedItem[0],
+                      );
+
+                      updatedItem[0].budget_id = updatedBudgetItem.budget_id;
+                      delete updatedItem[0].type;
+                    }
 
                     currentItems[i] = updatedItem[0];
                     item[type] = currentItems;
@@ -158,7 +174,9 @@ const Monthly = () => {
                       },
                     });
 
-                    await deleteBudgetItem(accessToken, data.budget_id);
+                    if (!!data.budget_id) {
+                      await deleteBudgetItem(accessToken, data.budget_id);
+                    }
 
                     const updatedItems = removeItemFromBudgetArray(
                       currentItems,

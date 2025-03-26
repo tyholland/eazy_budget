@@ -38,6 +38,7 @@ export interface BudgetDataItem {
   budget_id: number | null;
   budget_date_id: number | null;
   paid?: boolean;
+  type?: string;
 }
 
 export interface BudgetData {

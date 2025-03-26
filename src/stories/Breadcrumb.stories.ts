@@ -4,7 +4,7 @@ import {
   reactRouterParameters,
 } from "storybook-addon-remix-react-router";
 
-export default {
+const BreadcrumbStory = {
   title: "Components/Breadcrumb",
   component: Breadcrumb,
   decorators: [withRouter],
@@ -23,3 +23,5 @@ export default {
 export const Primary = {
   args: {},
 };
+
+export default BreadcrumbStory;

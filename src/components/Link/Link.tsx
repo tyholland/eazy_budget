@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { ElementSize, LinkClassType } from "../../types.ts";
 import * as S from "./link.style.ts";
 

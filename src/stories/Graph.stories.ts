@@ -1,7 +1,7 @@
 import Graph from "../components/Graph/Graph.tsx";
 import { graphColors } from "../constants.ts";
 
-export default {
+const GraphStory = {
   title: "Components/Graph",
   component: Graph,
   parameters: {
@@ -31,3 +31,5 @@ export const Primary = {
     title: "Expenses",
   },
 };
+
+export default GraphStory;

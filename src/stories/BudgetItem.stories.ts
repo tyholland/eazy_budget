@@ -1,6 +1,6 @@
 import BudgetItem from "../views/BudgetItem/BudgetItem.tsx";
 
-export default {
+const BudgetItemStory = {
   title: "Views/BudgetItem",
   component: BudgetItem,
   parameters: {
@@ -18,3 +18,5 @@ export const Primary = {
     },
   },
 };
+
+export default BudgetItemStory;

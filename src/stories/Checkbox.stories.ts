@@ -1,7 +1,7 @@
 import { fn } from "@storybook/test";
 import Checkbox from "../components/Checkbox/Checkbox.tsx";
 
-export default {
+const CheckboxStory = {
   title: "Components/Checkbox",
   component: Checkbox,
   parameters: {
@@ -18,3 +18,5 @@ export const Primary = {
     isChecked: true,
   },
 };
+
+export default CheckboxStory;

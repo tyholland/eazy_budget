@@ -1,7 +1,7 @@
 import { fn } from "@storybook/test";
 import Button from "../components/Button/Button.tsx";
 
-export default {
+const ButtonStory = {
   title: "Components/Button",
   component: Button,
   parameters: {
@@ -18,3 +18,5 @@ export const Primary = {
     children: "Save",
   },
 };
+
+export default ButtonStory;

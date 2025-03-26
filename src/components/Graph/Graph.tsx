@@ -38,7 +38,18 @@ const Graph = ({ title, label, dataset, type = "doughnut" }: GraphProps) => {
     plugins: {
       title: {
         display: true,
-        text: title,
+        text: title.toUpperCase(),
+      },
+    },
+  };
+
+  const options2 = {
+    ...options,
+    plugins: {
+      ...options.plugins,
+      legend: {
+        display: true,
+        position: "right" as const,
       },
     },
   };
@@ -47,13 +58,13 @@ const Graph = ({ title, label, dataset, type = "doughnut" }: GraphProps) => {
     case "doughnut":
       return (
         <S.GraphWraper>
-          <Doughnut data={data} options={options} />
+          <Doughnut data={data} options={options2} />
         </S.GraphWraper>
       );
     case "pie":
       return (
         <S.GraphWraper>
-          <Pie data={data} options={options} />
+          <Pie data={data} options={options2} />
         </S.GraphWraper>
       );
     case "bar":

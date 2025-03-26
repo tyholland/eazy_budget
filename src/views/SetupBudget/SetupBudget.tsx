@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import * as S from "./setupBudget.style.ts";
 import Link from "../../components/Link/Link.tsx";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";

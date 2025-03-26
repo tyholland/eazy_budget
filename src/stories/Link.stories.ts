@@ -1,7 +1,7 @@
 import Link from "../components/Link/Link.tsx";
 import { withRouter } from "storybook-addon-remix-react-router";
 
-export default {
+const LinkStory = {
   title: "Components/Link",
   component: Link,
   decorators: [withRouter],
@@ -18,3 +18,5 @@ export const Primary = {
     children: "Overview",
   },
 };
+
+export default LinkStory;

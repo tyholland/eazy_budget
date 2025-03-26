@@ -1,4 +1,4 @@
-import { expect, test } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import {
   getMonthlyTotalAmount,
   getMonthlyBudgetBreakdown,
@@ -9,14 +9,18 @@ import {
   formatBudgetItem,
   reformatBudgetItem,
   addNewBudgetItem,
+  formatBudgetData,
 } from "../functions/budget";
 import {
   mockBudget,
+  mockBudgetBody,
   mockBudgetEntries,
   mockBudgetEntriesNoDollar,
+  mockBudgetFull,
+  mockBudgetInsertIds,
   mockBudgetItemArray,
+  mockBudgetTwo,
 } from "./mocks";
-import { getDateInfo } from "../functions/helper";
 
 describe("getMonthlyTotalAmount", () => {
   test("should return 0", () => {
@@ -99,6 +103,8 @@ describe("getYearlyBudgetBreakdown", () => {
         {
           label: "january",
           value: 36,
+          budget_id: null,
+          budget_date_id: null,
         },
       ],
     });
@@ -116,84 +122,8 @@ describe("createInitialBudget", () => {
   });
 
   test("should return initial budget", () => {
-    const income = mockBudget[0].income;
-    const expense = mockBudget[0].expense;
-    const results = createInitialBudget(income, expense);
-    const { currentYear } = getDateInfo();
-    const expectedResults = JSON.stringify([
-      {
-        year: currentYear,
-        month: "january",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "february",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "march",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "april",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "may",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "june",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "july",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "august",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "september",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "october",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "november",
-        income,
-        expense,
-      },
-      {
-        year: currentYear,
-        month: "december",
-        income,
-        expense,
-      },
-    ]);
+    const results = createInitialBudget(mockBudgetBody, mockBudgetInsertIds);
+    const expectedResults = JSON.stringify(mockBudgetFull);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
@@ -233,14 +163,19 @@ describe("formatBudgetItem", () => {
 
 describe("reformatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = reformatBudgetItem({}, true);
+    const results = reformatBudgetItem({}, null, null, true);
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return budget items", () => {
-    const results = reformatBudgetItem(mockBudgetEntriesNoDollar, false);
+    const results = reformatBudgetItem(
+      mockBudgetEntriesNoDollar,
+      null,
+      null,
+      false,
+    );
     const expectedResults = JSON.stringify(mockBudgetItemArray);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -254,8 +189,36 @@ describe("addNewBudgetItem", () => {
     newBudget[0].income.push({
       label: "",
       value: 0,
+      budget_id: null,
+      budget_date_id: null,
     });
     const expectedResults = JSON.stringify(newBudget);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+});
+
+describe("formatBudgetData", () => {
+  test("should return empty array for empty income", () => {
+    const results = formatBudgetData([], mockBudget[0].expense);
+    const expectedResults = JSON.stringify([]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return empty array for empty expense", () => {
+    const results = formatBudgetData(mockBudget[0].income, []);
+    const expectedResults = JSON.stringify([]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return formatted budget", () => {
+    const results = formatBudgetData(
+      mockBudgetTwo[0].income,
+      mockBudgetTwo[0].expense,
+    );
+    const expectedResults = JSON.stringify(mockBudgetBody);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });

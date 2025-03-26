@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { ElementSize, ButtonType, ButtonClassType } from "../../types.ts";
 import * as S from "./button.style.ts";
 

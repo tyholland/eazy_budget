@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, JSX } from "react";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
@@ -49,6 +49,14 @@ const BudgetItem = ({
   useEffect(() => {
     item && setInputValue(item.value);
   }, [item?.value]);
+
+  useEffect(() => {
+    item && setUpdatedLabel(item.label);
+  }, [item?.label]);
+
+  useEffect(() => {
+    item && setCheckedVal(item.paid || false);
+  }, [item?.paid]);
 
   return (
     <S.Item>

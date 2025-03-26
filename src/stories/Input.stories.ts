@@ -1,7 +1,7 @@
 import { fn } from "@storybook/test";
 import Input from "../components/Input/Input.tsx";
 
-export default {
+const InputStory = {
   title: "Components/Input",
   component: Input,
   parameters: {
@@ -18,3 +18,5 @@ export const Primary = {
     placeHolder: "Enter amount",
   },
 };
+
+export default InputStory;

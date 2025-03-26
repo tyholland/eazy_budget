@@ -1,5 +1,10 @@
 import { listOfMonths } from "../constants.ts";
-import { BudgetData, BudgetDataItem } from "../types";
+import {
+  BudgetBodyInfo,
+  BudgetData,
+  BudgetDataItem,
+  BudgetInsertIds,
+} from "../types";
 import { getDateInfo } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
@@ -84,13 +89,20 @@ export const getYearlyBudgetBreakdown = (
     if (item.year === year) {
       labelSet.push(item.month);
       let count = 0;
+      let budgetId: number | null = null;
+      let budgetDateId: number | null = null;
+
       item[type].forEach((data: BudgetDataItem) => {
         count += data.value;
+        budgetId = data.budget_id;
       });
+
       dataSet.push(count);
       budgetSet.push({
         label: item.month,
         value: count,
+        budget_id: budgetId,
+        budget_date_id: budgetDateId,
       });
     }
   });
@@ -103,17 +115,44 @@ export const getYearlyBudgetBreakdown = (
 };
 
 export const createInitialBudget = (
-  income: BudgetDataItem[],
-  expense: BudgetDataItem[],
+  budget: BudgetBodyInfo[],
+  insertIds: BudgetInsertIds[],
 ) => {
-  if (!income.length || !expense.length) {
+  if (!budget.length) {
     return [];
   }
 
   const initialBudget: BudgetData[] = [];
   const { currentYear } = getDateInfo();
+  const count = listOfMonths.length - 1;
 
-  for (let i = 0; i <= 11; i++) {
+  for (let i = 0; i <= count; i++) {
+    const income: BudgetDataItem[] = [];
+    const expense: BudgetDataItem[] = [];
+
+    budget.forEach((item: BudgetBodyInfo, index: number) => {
+      if (listOfMonths[i] === item.month) {
+        if (item.type === "income") {
+          income.push({
+            label: item.label,
+            value: item.amount,
+            paid: item.paid,
+            budget_id: insertIds[index].budget_id,
+            budget_date_id: insertIds[index].budget_date_id,
+          });
+        }
+        if (item.type === "expense") {
+          expense.push({
+            label: item.label,
+            value: item.amount,
+            paid: item.paid,
+            budget_id: insertIds[index].budget_id,
+            budget_date_id: insertIds[index].budget_date_id,
+          });
+        }
+      }
+    });
+
     initialBudget.push({
       year: currentYear,
       month: listOfMonths[i],
@@ -123,6 +162,45 @@ export const createInitialBudget = (
   }
 
   return initialBudget;
+};
+
+export const formatBudgetData = (
+  income: BudgetDataItem[],
+  expense: BudgetDataItem[],
+) => {
+  if (!income.length || !expense.length) {
+    return [];
+  }
+
+  const formattedBudget: BudgetBodyInfo[] = [];
+  const { currentYear } = getDateInfo();
+  const count = listOfMonths.length - 1;
+
+  for (let i = 0; i <= count; i++) {
+    income.forEach((response: BudgetDataItem) => {
+      formattedBudget.push({
+        label: response.label,
+        type: "income",
+        amount: response.value,
+        paid: response.paid,
+        month: listOfMonths[i],
+        year: currentYear,
+      });
+    });
+
+    expense.forEach((response: BudgetDataItem) => {
+      formattedBudget.push({
+        label: response.label,
+        type: "expense",
+        amount: response.value,
+        paid: response.paid,
+        month: listOfMonths[i],
+        year: currentYear,
+      });
+    });
+  }
+
+  return formattedBudget;
 };
 
 export const addAdditionalBudget = (current: number[]) => {
@@ -138,7 +216,7 @@ export const addNewBudgetItem = (
   year: number,
   type: string,
 ) => {
-  clonedBudget.forEach((item: BudgetData) => {
+  clonedBudget.forEach((item: BudgetData, i: number) => {
     if (month === item.month.toLowerCase() && year === item.year) {
       const currentItems: BudgetDataItem[] = [...item[type]];
 
@@ -146,6 +224,8 @@ export const addNewBudgetItem = (
         label: "",
         value: 0,
         paid: false,
+        budget_id: null,
+        budget_date_id: currentItems[0].budget_date_id,
       });
 
       item[type] = currentItems;
@@ -165,19 +245,28 @@ export const formatBudgetItem = (data: Object) => {
       label: item[0],
       value: Number(val.replace("$", "")),
       paid: false,
+      budget_id: null,
+      budget_date_id: null,
     });
   });
 
   return budgetEntries;
 };
 
-export const reformatBudgetItem = (updatedItem: Object, isPaid?: boolean) => {
+export const reformatBudgetItem = (
+  updatedItem: Object,
+  budgetId: number | null,
+  budgetDateId: number | null,
+  isPaid?: boolean,
+) => {
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
       return {
         label: item[0],
         value: item[1],
         paid: isPaid || false,
+        budget_id: budgetId,
+        budget_date_id: budgetDateId,
       };
     },
   );

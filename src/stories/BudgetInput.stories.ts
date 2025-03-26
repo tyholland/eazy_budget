@@ -1,6 +1,6 @@
 import BudgetInput from "../components/BudgetInput/BudgetInput.tsx";
 
-export default {
+const BudgetInputStory = {
   title: "Components/BudgetInput",
   component: BudgetInput,
   parameters: {
@@ -17,3 +17,5 @@ export const Primary = {
     defaultValue: 30,
   },
 };
+
+export default BudgetInputStory;

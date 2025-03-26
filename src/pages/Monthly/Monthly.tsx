@@ -32,8 +32,15 @@ import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { removeItemFromBudgetArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
+import {
+  addBudgetItem,
+  deleteBudgetItem,
+  updateBudgetItem,
+} from "../../requests/budget.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Monthly = () => {
+  const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
   const clonedBudget = [...budget];
   const navigate = useNavigate();
@@ -107,30 +114,79 @@ const Monthly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {budget?.map((item: BudgetData) => {
+          {!budget && <div>Loading...</div>}
+          {budget.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {
                 const currentItems: BudgetDataItem[] = [...item[type]];
 
-                const handleSaveEvent = (obj: Object, isPaid?: boolean) => {
-                  const updatedItem = reformatBudgetItem(obj, isPaid);
-                  currentItems[i] = updatedItem[0];
-                  item[type] = currentItems;
-                  setBudgetChange(true);
+                const handleSaveEvent = async (
+                  obj: Object,
+                  isPaid?: boolean,
+                ) => {
+                  try {
+                    const accessToken = await getAccessTokenSilently({
+                      authorizationParams: {
+                        audience: process.env.REACT_APP_AUDIENCE,
+                        scope: "read:user",
+                      },
+                    });
+
+                    const updatedItem = reformatBudgetItem(
+                      obj,
+                      data.budget_id,
+                      data.budget_date_id,
+                      isPaid,
+                    );
+
+                    if (!!data.budget_id) {
+                      await updateBudgetItem(accessToken, updatedItem[0]);
+                    } else {
+                      updatedItem[0].type = type;
+                      const updatedBudgetItem = await addBudgetItem(
+                        accessToken,
+                        updatedItem[0],
+                      );
+
+                      updatedItem[0].budget_id = updatedBudgetItem.budget_id;
+                      delete updatedItem[0].type;
+                    }
+
+                    currentItems[i] = updatedItem[0];
+                    item[type] = currentItems;
+                    setBudgetChange(true);
+                  } catch (err) {
+                    console.error(err);
+                  }
                 };
 
-                const handleDeleteEvent = () => {
+                const handleDeleteEvent = async () => {
                   if (currentItems.length === 1) {
                     setIsOpen(true);
                     return;
                   }
 
-                  const updatedItems = removeItemFromBudgetArray(
-                    currentItems,
-                    i,
-                  );
-                  item[type] = updatedItems;
-                  setBudgetChange(true);
+                  try {
+                    const accessToken = await getAccessTokenSilently({
+                      authorizationParams: {
+                        audience: process.env.REACT_APP_AUDIENCE,
+                        scope: "read:user",
+                      },
+                    });
+
+                    if (!!data.budget_id) {
+                      await deleteBudgetItem(accessToken, data.budget_id);
+                    }
+
+                    const updatedItems = removeItemFromBudgetArray(
+                      currentItems,
+                      i,
+                    );
+                    item[type] = updatedItems;
+                    setBudgetChange(true);
+                  } catch (err) {
+                    console.error(err);
+                  }
                 };
 
                 return (

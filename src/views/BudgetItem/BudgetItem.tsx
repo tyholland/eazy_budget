@@ -59,28 +59,30 @@ const BudgetItem = ({
   }, [item?.paid]);
 
   return (
-    <S.Item>
-      <BudgetInput
-        inputLabel={updatedLabel}
-        inputOption={theType}
-        defaultValue={inputValue}
-        isEditable={isEditable}
-        labelPlaceHolder={labelPlaceHolder}
-        valuePlaceHolder={valuePlaceHolder}
-        type={inputType}
-        inputSize="medium"
-        register={register}
-        setInputValue={setInputValue}
-        setUpdatedLabel={setUpdatedLabel}
-      />
-      {!hideCheckbox && (
-        <CheckboxComponent
-          label="Paid"
-          isDisabled={!isEditable}
-          setCheckedVal={setCheckedVal}
-          isChecked={checkedVal}
+    <S.ItemWrapper>
+      <S.Item>
+        <BudgetInput
+          inputLabel={updatedLabel}
+          inputOption={theType}
+          defaultValue={inputValue}
+          isEditable={isEditable}
+          labelPlaceHolder={labelPlaceHolder}
+          valuePlaceHolder={valuePlaceHolder}
+          type={inputType}
+          inputSize="medium"
+          register={register}
+          setInputValue={setInputValue}
+          setUpdatedLabel={setUpdatedLabel}
         />
-      )}
+        {!hideCheckbox && (
+          <CheckboxComponent
+            label="Paid"
+            isDisabled={!isEditable}
+            setCheckedVal={setCheckedVal}
+            isChecked={checkedVal}
+          />
+        )}
+      </S.Item>
       {children}
       {!hideBtn && (
         <>
@@ -143,7 +145,7 @@ const BudgetItem = ({
           />
         </>
       )}
-    </S.Item>
+    </S.ItemWrapper>
   );
 };
 

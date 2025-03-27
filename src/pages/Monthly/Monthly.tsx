@@ -194,8 +194,8 @@ const Monthly = () => {
                     key={i}
                     theType={type as InputOption}
                     item={data}
-                    labelPlaceHolder={`${type} name`}
-                    valuePlaceHolder={`${type} value`}
+                    labelPlaceHolder="name"
+                    valuePlaceHolder="value"
                     inputType="number"
                     saveEvent={handleSaveEvent}
                     deleteEvent={handleDeleteEvent}

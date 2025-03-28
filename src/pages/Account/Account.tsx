@@ -10,9 +10,10 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
+import { deleteUser } from "../../requests/users.ts";
 
 const Account = () => {
-  const { logout, user } = useAuth0();
+  const { logout, user, getAccessTokenSilently } = useAuth0();
   const [isLoading, setIsloading] = useState<boolean>(false);
   const setBudget = useSetAtom(budgetAtom);
   const setIncome = useSetAtom(incomeAtom);
@@ -27,9 +28,20 @@ const Account = () => {
     logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
-  const deleteAccount = () => {
+  const deleteAccount = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      await deleteUser(accessToken);
+    } catch (err) {
+      console.error(err);
+    }
+
     logOutAccount();
-    // Add code to remove account
   };
 
   if (isLoading) {

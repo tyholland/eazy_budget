@@ -1,5 +1,7 @@
 node_modules/
 build/
 .env
+public/.DS_Store
+.DS_Store
 
 *storybook.log

@@ -30,7 +30,8 @@ const Predict = () => {
             in the next 3 years.
           </span>
           <span>
-            To the right, enter your projected income for the next 3 years.
+            Enter your projected income for the next 3 years to see your
+            projected remaining cash.
           </span>
         </S.Content>
         <S.PredictInputs>

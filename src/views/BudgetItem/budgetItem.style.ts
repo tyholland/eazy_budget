@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Item = styled.div`
+export const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
@@ -16,6 +16,17 @@ export const Item = styled.div`
   .tooltip {
     width: 130px;
     text-align: center;
+  }
+`;
+
+export const Item = styled.div`
+  display: flex;
+  gap: 16px;
+
+  input {
+    @media only screen and (max-width: 800px) {
+      width: 110px !important;
+    }
   }
 `;
 

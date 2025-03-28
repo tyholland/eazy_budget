@@ -84,8 +84,8 @@ const Create = () => {
               key={i}
               theType={type as InputOption}
               item={item}
-              labelPlaceHolder={`${type} name`}
-              valuePlaceHolder={`${type} value`}
+              labelPlaceHolder="name"
+              valuePlaceHolder="value"
               inputType="number"
               register={register}
               saveEvent={handleSaveEvent}
@@ -111,8 +111,8 @@ const Create = () => {
               key={item}
               theType={type as InputOption}
               editable
-              labelPlaceHolder={`${type} name`}
-              valuePlaceHolder={`${type} value`}
+              labelPlaceHolder="name"
+              valuePlaceHolder="value"
               inputType="number"
               register={register}
               saveEvent={handleSaveEvent}

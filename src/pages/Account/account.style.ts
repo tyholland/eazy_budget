@@ -7,11 +7,19 @@ export const Wrapper = styled.div`
   gap: 30px;
   width: 500px;
   margin: 30px auto 0;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 export const Section = styled.div`
   width: 300px;
   display: flex;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 
   > div {
     width: 100%;

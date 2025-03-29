@@ -114,7 +114,7 @@ const Monthly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
-          {!budget && <div>Loading...</div>}
+          {!budget.length && <div>Loading...</div>}
           {budget.map((item: BudgetData) => {
             if (month === item.month.toLowerCase() && theYear === item.year) {
               return item[type].map((data: BudgetDataItem, i: number) => {

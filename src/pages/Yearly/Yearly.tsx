@@ -74,6 +74,7 @@ const Yearly = () => {
       </S.SelectWrapper>
       {selectedView === "Text" && (
         <S.ItemWrapper>
+          {!newBudget.length && <div>Loading...</div>}
           {newBudget.map((data: BudgetDataItem, i: number) => {
             return (
               <BudgetItem

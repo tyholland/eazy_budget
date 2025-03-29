@@ -8,6 +8,7 @@ interface LinkProps {
   label: string;
   classType?: LinkClassType;
   linkSize?: ElementSize;
+  isDisabled?: boolean;
 }
 
 const Link = ({
@@ -16,10 +17,11 @@ const Link = ({
   url,
   label,
   classType = "text",
+  isDisabled = false,
 }: LinkProps) => {
   return (
     <S.LinkElement
-      className={`${linkSize} ${classType}`}
+      className={`${linkSize} ${classType} ${isDisabled ? "disabled" : ""}`}
       to={url}
       aria-label={label}
     >

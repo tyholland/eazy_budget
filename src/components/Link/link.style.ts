@@ -51,4 +51,18 @@ export const LinkElement = styled(Link)`
       color: #333;
     }
   }
+
+  &.disabled {
+    background: #eee;
+    color: #999;
+    border: none;
+    pointer-events: none;
+
+    &:hover {
+      background: #eee;
+      color: #999;
+      border: none;
+      pointer-events: none;
+    }
+  }
 `;

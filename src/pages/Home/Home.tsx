@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./home.style.ts";
 import { useAtom, useAtomValue } from "jotai";
@@ -23,6 +23,7 @@ const Home = () => {
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const { currentYear, currentMonth } = getDateInfo();
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -48,6 +49,7 @@ const Home = () => {
 
   const handleBudgetSubmission = async () => {
     const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
+    setIsDisabled(true);
 
     try {
       const accessToken = await getAccessTokenSilently({
@@ -65,6 +67,7 @@ const Home = () => {
       setBudget(formattedBudget);
     } catch (err) {
       console.error(err);
+      setIsDisabled(false);
     }
   };
 
@@ -96,12 +99,20 @@ const Home = () => {
         </>
       )}
       {budget.length === 0 && (
-        <SetupBudget month={currentMonth} year={currentYear}>
+        <SetupBudget
+          month={currentMonth}
+          year={currentYear}
+          isDisabled={isDisabled}
+        >
           <S.SubmitBudget>
             <Button
               handleClick={handleBudgetSubmission}
               buttonSize="large"
-              disabled={budgetExpense.length === 0 || budgetIncome.length === 0}
+              disabled={
+                budgetExpense.length === 0 ||
+                budgetIncome.length === 0 ||
+                isDisabled
+              }
             >
               Submit Budget
             </Button>

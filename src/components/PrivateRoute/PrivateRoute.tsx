@@ -26,7 +26,10 @@ const PrivateRoute = ({ component, ...args }) => {
       if (user) {
         const userResponse: UserResponse =
           user.email && (await createUser(accessToken, { email: user.email }));
-        setCurrentUser(user);
+        setCurrentUser({
+          ...user,
+          hasBudget: userResponse.hasBudget,
+        });
         setHasBudget(userResponse.hasBudget);
       }
     } catch (err) {

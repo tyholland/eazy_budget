@@ -16,12 +16,15 @@ import Button from "../../components/Button/Button.tsx";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 import { createBudget } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
+import { userAtom } from "../../hook/UserAtom.ts";
+import Loading from "../../components/Loading/Loading.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
   const { getAccessTokenSilently } = useAuth0();
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
+  const currentUser = useAtomValue(userAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
@@ -69,6 +72,10 @@ const Home = () => {
       console.error(err);
     }
   };
+
+  if (!budget.length && currentUser?.hasBudget) {
+    return <Loading />;
+  }
 
   return (
     <S.HomeWrapper>

@@ -23,10 +23,13 @@ export const ItemWrapper = styled.div`
   width: 750px;
   align-items: center;
   justify-content: space-between;
+  height: 300px;
+  flex-direction: column;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
     gap: 20px;
+    height: auto;
   }
 
   > div {

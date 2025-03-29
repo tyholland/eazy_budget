@@ -11,9 +11,15 @@ interface SetupBudgetProps {
   children: JSX.Element;
   month: string;
   year: number;
+  isDisabled: boolean;
 }
 
-const SetupBudget = ({ children, month, year }: SetupBudgetProps) => {
+const SetupBudget = ({
+  children,
+  month,
+  year,
+  isDisabled,
+}: SetupBudgetProps) => {
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
 
@@ -33,6 +39,7 @@ const SetupBudget = ({ children, month, year }: SetupBudgetProps) => {
           linkSize="medium"
           classType="button"
           label="Add income"
+          isDisabled={isDisabled}
         >
           Add income
         </Link>{" "}
@@ -44,6 +51,7 @@ const SetupBudget = ({ children, month, year }: SetupBudgetProps) => {
           linkSize="medium"
           classType="button"
           label="Add expense"
+          isDisabled={isDisabled}
         >
           Add expense
         </Link>{" "}

@@ -67,6 +67,11 @@ const Account = () => {
         </Link>
       </S.Section>
       <S.Section>
+        <Link url="mailto:info.eazybudget@gmail.com" label="Contact Us">
+          Contact Us
+        </Link>
+      </S.Section>
+      <S.Section>
         <Button
           handleClick={() => setIsOpen(true)}
           buttonSize="medium"

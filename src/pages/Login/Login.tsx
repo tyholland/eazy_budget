@@ -13,15 +13,14 @@ const Login = () => {
       <S.Section>
         <PenPaperIcon />
         <span>
-          Tired of using pen and paper to fill out your monthly expenses for
-          each and every single month?
+          Tired of using pen and paper to track your monthly expenses every
+          single month?
         </span>
       </S.Section>
       <S.Section>
         <span>
-          Eazy Budgeting will make your budgeting life easier. Just enter your
-          expenses once, and they'll be dynamically added to each month of the
-          year.
+          Eazy Budgeting makes budgeting effortless—just enter your expenses
+          once, and they'll be automatically applied to each month of the year.
         </span>
         <DataIcon />
       </S.Section>

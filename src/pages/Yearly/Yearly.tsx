@@ -127,7 +127,7 @@ const Yearly = () => {
         id={`monthly-${type}-tooltip`}
         place="top"
         variant="info"
-        content={`View a more detailed breakdown of this ${type}`}
+        content={`View a detailed breakdown of this ${type}`}
         className="tooltip"
       />
     </S.YearlylyWrapper>

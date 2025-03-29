@@ -24,8 +24,7 @@ const SetupBudget = ({ children, month, year }: SetupBudgetProps) => {
           <strong>Welcome to Eazy Budgeting</strong>
         </span>
         <span>
-          Please enter your income and expenses to generate your full 12 months
-          of budgeting.
+          Enter your income and expenses to generate a complete 12-month budget.
         </span>
       </S.ContentSection>
       <S.Section>

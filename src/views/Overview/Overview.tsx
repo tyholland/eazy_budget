@@ -108,14 +108,14 @@ const Overview = ({
             id={`${label}-expense-tooltip`}
             place="top"
             variant="info"
-            content={`View a more detailed breakdown of your expenses`}
+            content={`View a detailed breakdown of your expenses`}
             className="tooltip"
           />
           <ReactTooltip
             id={`${label}-income-tooltip`}
             place="top"
             variant="info"
-            content={`View a more detailed breakdown of your income`}
+            content={`View a detailed breakdown of your income`}
             className="tooltip"
           />
         </>

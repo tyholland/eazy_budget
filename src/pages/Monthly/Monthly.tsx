@@ -124,6 +124,17 @@ const Monthly = () => {
                   obj: Object,
                   isPaid?: boolean,
                 ) => {
+                  const updatedItem = reformatBudgetItem(
+                    obj,
+                    data.budget_id,
+                    data.budget_date_id,
+                    isPaid,
+                  );
+
+                  currentItems[i] = updatedItem[0];
+                  item[type] = currentItems;
+                  setBudgetChange(true);
+
                   try {
                     const accessToken = await getAccessTokenSilently({
                       authorizationParams: {
@@ -131,13 +142,6 @@ const Monthly = () => {
                         scope: "read:user",
                       },
                     });
-
-                    const updatedItem = reformatBudgetItem(
-                      obj,
-                      data.budget_id,
-                      data.budget_date_id,
-                      isPaid,
-                    );
 
                     if (!!data.budget_id) {
                       await updateBudgetItem(accessToken, updatedItem[0]);
@@ -151,10 +155,6 @@ const Monthly = () => {
                       updatedItem[0].budget_id = updatedBudgetItem.budget_id;
                       delete updatedItem[0].type;
                     }
-
-                    currentItems[i] = updatedItem[0];
-                    item[type] = currentItems;
-                    setBudgetChange(true);
                   } catch (err) {
                     console.error(err);
                   }
@@ -165,6 +165,13 @@ const Monthly = () => {
                     setIsOpen(true);
                     return;
                   }
+
+                  const updatedItems = removeItemFromBudgetArray(
+                    currentItems,
+                    i,
+                  );
+                  item[type] = updatedItems;
+                  setBudgetChange(true);
 
                   try {
                     const accessToken = await getAccessTokenSilently({
@@ -177,13 +184,6 @@ const Monthly = () => {
                     if (!!data.budget_id) {
                       await deleteBudgetItem(accessToken, data.budget_id);
                     }
-
-                    const updatedItems = removeItemFromBudgetArray(
-                      currentItems,
-                      i,
-                    );
-                    item[type] = updatedItems;
-                    setBudgetChange(true);
                   } catch (err) {
                     console.error(err);
                   }

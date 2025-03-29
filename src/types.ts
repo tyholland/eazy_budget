@@ -67,6 +67,7 @@ export interface UserResponse {
 }
 
 export interface User {
+  hasBudget: boolean;
   email?: string;
   email_verified?: boolean;
   name?: string;

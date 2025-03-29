@@ -43,7 +43,7 @@ const History = () => {
         <S.NoHistory>
           <SadIcon />
           <div className="content">
-            <span>YYou don't have any records before {currentYear}.</span>
+            <span>You don't have any records before {currentYear}.</span>
             <span>Come back next year to view past records.</span>
           </div>
         </S.NoHistory>

@@ -6,7 +6,7 @@ export const OverviewWrapper = styled.div`
   flex-direction: column;
 
   @media only screen and (max-width: 800px) {
-    gap: 18px;
+    gap: 25px;
     border: 1px solid #ddd;
     padding: 20px 10px;
     border-radius: 10px;
@@ -21,7 +21,7 @@ export const Title = styled.h2`
   border-bottom: 1px solid #000;
 
   @media only screen and (max-width: 800px) {
-    margin-top: 0;
+    margin: 0;
   }
 `;
 
@@ -48,4 +48,10 @@ export const Section = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
 `;

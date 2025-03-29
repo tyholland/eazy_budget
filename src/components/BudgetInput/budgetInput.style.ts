@@ -40,10 +40,26 @@ export const Input = styled.input`
 
   &.small {
     width: 100px;
+
+    &:disabled {
+      @media only screen and (max-width: 800px) {
+        width: 160px;
+      }
+    }
   }
 
   &.medium {
     width: 150px;
+
+    @media only screen and (max-width: 800px) {
+      width: 135px;
+    }
+
+    &:disabled {
+      @media only screen and (max-width: 800px) {
+        width: 160px;
+      }
+    }
   }
 
   &.large {
@@ -59,6 +75,11 @@ export const InputWrapper = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const Label = styled.label`

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import * as S from "./index.style.ts";
 import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals.ts";
 
@@ -9,6 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <S.GlobalStyles />
     <App />
   </React.StrictMode>,
 );

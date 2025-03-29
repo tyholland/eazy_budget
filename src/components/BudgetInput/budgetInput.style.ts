@@ -50,6 +50,16 @@ export const Input = styled.input`
 
   &.medium {
     width: 150px;
+
+    @media only screen and (max-width: 800px) {
+      width: 135px;
+    }
+
+    &:disabled {
+      @media only screen and (max-width: 800px) {
+        width: 160px;
+      }
+    }
   }
 
   &.large {

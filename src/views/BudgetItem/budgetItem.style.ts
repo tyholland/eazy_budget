@@ -10,7 +10,7 @@ export const ItemWrapper = styled.div`
     flex-direction: column;
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px 20px;
   }
 
   .tooltip {
@@ -23,10 +23,9 @@ export const Item = styled.div`
   display: flex;
   gap: 16px;
 
-  input {
-    @media only screen and (max-width: 800px) {
-      width: 110px !important;
-    }
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+    flex-direction: column;
   }
 `;
 

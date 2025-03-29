@@ -40,6 +40,12 @@ export const Input = styled.input`
 
   &.small {
     width: 100px;
+
+    &:disabled {
+      @media only screen and (max-width: 800px) {
+        width: 140px;
+      }
+    }
   }
 
   &.medium {

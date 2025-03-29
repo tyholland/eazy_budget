@@ -67,7 +67,6 @@ const Home = () => {
       setBudget(formattedBudget);
     } catch (err) {
       console.error(err);
-      setIsDisabled(false);
     }
   };
 

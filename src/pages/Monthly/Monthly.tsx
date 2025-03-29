@@ -139,6 +139,10 @@ const Monthly = () => {
                       isPaid,
                     );
 
+                    currentItems[i] = updatedItem[0];
+                    item[type] = currentItems;
+                    setBudgetChange(true);
+
                     if (!!data.budget_id) {
                       await updateBudgetItem(accessToken, updatedItem[0]);
                     } else {
@@ -151,10 +155,6 @@ const Monthly = () => {
                       updatedItem[0].budget_id = updatedBudgetItem.budget_id;
                       delete updatedItem[0].type;
                     }
-
-                    currentItems[i] = updatedItem[0];
-                    item[type] = currentItems;
-                    setBudgetChange(true);
                   } catch (err) {
                     console.error(err);
                   }
@@ -174,16 +174,16 @@ const Monthly = () => {
                       },
                     });
 
-                    if (!!data.budget_id) {
-                      await deleteBudgetItem(accessToken, data.budget_id);
-                    }
-
                     const updatedItems = removeItemFromBudgetArray(
                       currentItems,
                       i,
                     );
                     item[type] = updatedItems;
                     setBudgetChange(true);
+
+                    if (!!data.budget_id) {
+                      await deleteBudgetItem(accessToken, data.budget_id);
+                    }
                   } catch (err) {
                     console.error(err);
                   }

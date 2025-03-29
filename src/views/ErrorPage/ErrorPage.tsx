@@ -8,7 +8,7 @@ const ErrorPage = () => {
     <S.Wrapper>
       <StopIcon />
       <div className="content">
-        <span>The page you're looking for might not exist.</span>
+        <span>The page you're looking for may not exist.</span>
         <span>Please return to the homepage</span>
         <Link url="/" label="Return Home" classType="button" linkSize="medium">
           Return Home

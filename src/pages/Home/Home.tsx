@@ -74,13 +74,13 @@ const Home = () => {
         <>
           <S.Section>
             <span>
-              Here is an overview of your budget for the month of{" "}
-              <span className="capital">{currentMonth}</span> and for the full
+              Here is an overview of your budget for{" "}
+              <span className="capital">{currentMonth}</span> and the entire
               year of {currentYear}.
             </span>
             <span>
-              Click on the view icons to see a full breakdown of each income or
-              expense.
+              Click on the view icons to see a detailed breakdown of each income
+              and expense.
             </span>
           </S.Section>
           <Overview

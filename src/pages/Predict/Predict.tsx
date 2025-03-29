@@ -26,12 +26,12 @@ const Predict = () => {
       <S.HeaderWrapper>
         <S.Content>
           <span>
-            This tool assumes that you know how much income you expect to have
-            in the next 3 years.
+            This tool assumes you have an estimate of your expected income for
+            the next three years.
           </span>
           <span>
-            Enter your projected income for the next 3 years to see your
-            projected remaining cash.
+            Enter your projected income to see your estimated remaining cash
+            over that period.
           </span>
         </S.Content>
         <S.PredictInputs>

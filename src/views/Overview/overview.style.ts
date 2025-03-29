@@ -48,4 +48,10 @@ export const Section = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
 `;

@@ -23,6 +23,10 @@ export const Item = styled.div`
   display: flex;
   gap: 16px;
 
+  > div {
+    flex-direction: row;
+  }
+
   @media only screen and (max-width: 800px) {
     width: 100%;
     flex-direction: column;

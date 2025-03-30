@@ -39,7 +39,7 @@ const History = () => {
           />
         );
       })}
-      {previousYears.length === 0 && (
+      {!previousYears.length && (
         <S.NoHistory>
           <SadIcon />
           <div className="content">

@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
+import Box from "@mui/material/Box";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import * as S from "./checkbox.style.ts";
 

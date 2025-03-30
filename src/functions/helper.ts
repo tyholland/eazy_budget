@@ -2,12 +2,13 @@ import { listOfMonths } from "../constants.ts";
 import { BudgetDataItem } from "../types.ts";
 
 export const formatAmount = (amount: number) => {
-  const numObj = new Intl.NumberFormat("en-US");
+  const numObj = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   const formattedNum = numObj.format(amount);
-  const hasDecimal = amount % 1 !== 0;
-  const displayNum = hasDecimal ? formattedNum : `${formattedNum}.00`;
 
-  return `$${displayNum}`;
+  return `$${formattedNum}`;
 };
 
 export const getDateInfo = () => {

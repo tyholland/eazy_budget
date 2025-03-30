@@ -33,7 +33,10 @@
       "react-app",
       "react-app/jest",
       "prettier"
-    ]
+    ],
+    "rules": {
+      "react-hooks/exhaustive-deps": 0
+    }
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown src/"

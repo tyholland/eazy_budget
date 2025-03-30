@@ -43,7 +43,7 @@ const SetupBudget = ({
         >
           Add income
         </Link>{" "}
-        {budgetIncome.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
+        {!budgetIncome.length ? <DisabledSaveIcon /> : <SaveIcon />}
       </S.Section>
       <S.Section>
         <Link
@@ -55,7 +55,7 @@ const SetupBudget = ({
         >
           Add expense
         </Link>{" "}
-        {budgetExpense.length === 0 ? <DisabledSaveIcon /> : <SaveIcon />}
+        {!budgetExpense.length ? <DisabledSaveIcon /> : <SaveIcon />}
       </S.Section>
       {children}
     </S.Wrapper>

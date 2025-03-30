@@ -30,8 +30,8 @@ const Create = () => {
 
   useEffect(() => {
     if (
-      (type === "income" && income.length > 0) ||
-      (type === "expense" && expense.length > 0)
+      (type === "income" && !!income.length) ||
+      (type === "expense" && !!expense.length)
     ) {
       setBudgetArr([]);
       setHasItems(true);
@@ -63,7 +63,7 @@ const Create = () => {
   };
 
   const handleSaveEvent = (item: Object) => {
-    setHasItems(Object.keys(item).length > 0);
+    setHasItems(!!Object.keys(item).length);
   };
 
   return (
@@ -76,7 +76,7 @@ const Create = () => {
           const handleDeleteEvent = () => {
             delete populatedArray[i];
             unregister(Object.keys(getValues())[i]);
-            setHasItems(Object.keys(getValues()).length > 0);
+            setHasItems(!!Object.keys(getValues()).length);
           };
 
           return (
@@ -102,8 +102,8 @@ const Create = () => {
             setBudgetArr(newArr);
 
             const hasBudgetItems =
-              type === "income" ? income.length > 0 : expense.length > 0;
-            setHasItems(budgetValues.length > 0 || hasBudgetItems);
+              type === "income" ? !!income.length : !!expense.length;
+            setHasItems(!!budgetValues.length || hasBudgetItems);
           };
 
           return (

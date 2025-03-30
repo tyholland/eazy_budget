@@ -10,16 +10,28 @@ import { listOfMonths } from "../constants";
 import { mockBudgetItemArray } from "./mocks";
 
 describe("formatAmount", () => {
-  test("should return whole number with US currency", () => {
+  test("should return whole number", () => {
     const amount = formatAmount(40);
 
     expect(amount).toBe("$40.00");
   });
 
-  test("should return decimal number with US currency", () => {
+  test("should return decimal number", () => {
     const amount = formatAmount(10.55);
 
     expect(amount).toBe("$10.55");
+  });
+
+  test("should return commas in number", () => {
+    const amount = formatAmount(1946720.55);
+
+    expect(amount).toBe("$1,946,720.55");
+  });
+
+  test("should return commas and '.00' in number", () => {
+    const amount = formatAmount(9238465);
+
+    expect(amount).toBe("$9,238,465.00");
   });
 });
 

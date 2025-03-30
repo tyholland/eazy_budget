@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   body {
-    margin: 0 auto;
+    margin: 0 auto 5%;
     width: 800px;
     font-family:
       -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
@@ -12,7 +12,7 @@ export const GlobalStyles = createGlobalStyle`
 
     @media only screen and (max-width: 800px) {
       width: 90%;
-      padding: 0 5% 10%;
+      padding: 0 5%;
     }
   }
 

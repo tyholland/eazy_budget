@@ -14,7 +14,6 @@ import {
   listOfBudgets,
   viewOptions,
 } from "../../constants.ts";
-import Overview from "../../views/Overview/Overview.tsx";
 import {
   getYearlyBudgetBreakdown,
   getYearlyTotalAmount,

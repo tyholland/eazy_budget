@@ -15,6 +15,11 @@ export const OverviewWrapper = styled.div`
   .tooltip {
     width: 150px;
   }
+
+  .override {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 export const Title = styled.h2`

@@ -47,25 +47,20 @@ export const ItemWrapper = styled.div`
 export const TotalBudgetWrapper = styled.div`
   padding: 15px;
   border: 1px solid #000;
-  width: 330px;
+  width: 50px;
+  height: 80px;
   border-radius: 10px;
   background: #fcfade;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  justify-content: center;
 
-  @media only screen and (max-width: 800px) {
-    width: 90%;
-  }
-
-  input {
-    @media only screen and (max-width: 800px) {
-      font-size: 18px;
-    }
-  }
-
-  > div {
-    @media only screen and (max-width: 800px) {
-      border: 0;
-      padding: 0;
-    }
+  &.emblaSlide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 20%;
+    min-width: 0;
+    margin: 0 10px;
   }
 `;
 

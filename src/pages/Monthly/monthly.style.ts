@@ -12,27 +12,32 @@ export const Title = styled.h2`
   margin-bottom: 0;
 `;
 
-export const ItemWrapper = styled.div`
+export const ItemContainer = styled.div`
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  justify-content: space-between;
+`;
+
+export const ItemWrapper = styled.div`
+  width: 100%;
+  margin: 0 auto;
 `;
 
 export const TotalBudgetWrapper = styled.div`
   padding: 15px;
   border: 1px solid #000;
   width: 50px;
-  height: 100px;
+  height: 80px;
   border-radius: 10px;
   background: #fcfade;
   display: flex;
   gap: 12px;
   flex-direction: column;
+  justify-content: center;
 
   &.emblaSlide {
     transform: translate3d(0, 0, 0);
-    flex: 0 0 20%;
+    flex: 0 0 150px;
     min-width: 0;
     margin: 0 10px;
   }

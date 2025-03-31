@@ -3,7 +3,9 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
   body {
     margin: 0 auto 5%;
-    width: 800px;
+    max-width: 1200px;
+    min-width: 800px;
+    width: 90%;
     font-family:
       -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
       "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -11,8 +13,9 @@ export const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
 
     @media only screen and (max-width: 800px) {
-      width: 90%;
       padding: 0 5%;
+      min-width: auto;
+      max-width: none;
     }
   }
 

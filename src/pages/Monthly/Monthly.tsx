@@ -103,6 +103,9 @@ const Monthly = () => {
       </S.Title>
       <Carousel>
         <>
+          {/*
+            Start tier 2 option
+          */}
           <S.TotalBudgetWrapper className="emblaSlide">
             <BudgetInput
               inputLabel="Expense to Income Ratio"
@@ -111,6 +114,9 @@ const Monthly = () => {
               percent
             />
           </S.TotalBudgetWrapper>
+          {/*
+            End tier 2 option
+          */}
           <S.TotalBudgetWrapper className="emblaSlide">
             <BudgetInput
               inputLabel={`Total ${month} income`}
@@ -153,118 +159,124 @@ const Monthly = () => {
       {selectedView === "Text" && (
         <>
           <S.ItemWrapper>
-            {!budget.length && <div>Loading...</div>}
-            {budget.map((item: BudgetData) => {
-              if (month === item.month.toLowerCase() && theYear === item.year) {
-                return item[type].map((data: BudgetDataItem, i: number) => {
-                  const currentItems: BudgetDataItem[] = [...item[type]];
+            <S.ItemContainer>
+              {!budget.length && <div>Loading...</div>}
+              {budget.map((item: BudgetData) => {
+                if (
+                  month === item.month.toLowerCase() &&
+                  theYear === item.year
+                ) {
+                  return item[type].map((data: BudgetDataItem, i: number) => {
+                    const currentItems: BudgetDataItem[] = [...item[type]];
 
-                  const handleSaveEvent = async (
-                    obj: Object,
-                    isPaid?: boolean,
-                  ) => {
-                    const updatedItem = reformatBudgetItem(
-                      obj,
-                      data.budget_id,
-                      data.budget_date_id,
-                      isPaid,
-                    );
+                    const handleSaveEvent = async (
+                      obj: Object,
+                      isPaid?: boolean,
+                    ) => {
+                      const updatedItem = reformatBudgetItem(
+                        obj,
+                        data.budget_id,
+                        data.budget_date_id,
+                        isPaid,
+                      );
 
-                    currentItems[i] = updatedItem[0];
-                    item[type] = currentItems;
-                    setBudgetChange(true);
+                      currentItems[i] = updatedItem[0];
+                      item[type] = currentItems;
+                      setBudgetChange(true);
 
-                    try {
-                      const accessToken = await getAccessTokenSilently({
-                        authorizationParams: {
-                          audience: process.env.REACT_APP_AUDIENCE,
-                          scope: "read:user",
-                        },
-                      });
+                      try {
+                        const accessToken = await getAccessTokenSilently({
+                          authorizationParams: {
+                            audience: process.env.REACT_APP_AUDIENCE,
+                            scope: "read:user",
+                          },
+                        });
 
-                      if (!!data.budget_id) {
-                        await updateBudgetItem(accessToken, updatedItem[0]);
-                      } else {
-                        updatedItem[0].type = type;
-                        const updatedBudgetItem = await addBudgetItem(
-                          accessToken,
-                          updatedItem[0],
-                        );
+                        if (!!data.budget_id) {
+                          await updateBudgetItem(accessToken, updatedItem[0]);
+                        } else {
+                          updatedItem[0].type = type;
+                          const updatedBudgetItem = await addBudgetItem(
+                            accessToken,
+                            updatedItem[0],
+                          );
 
-                        updatedItem[0].budget_id = updatedBudgetItem.budget_id;
-                        delete updatedItem[0].type;
+                          updatedItem[0].budget_id =
+                            updatedBudgetItem.budget_id;
+                          delete updatedItem[0].type;
+                        }
+                      } catch (err) {
+                        console.error(err);
                       }
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  };
+                    };
 
-                  const handleDeleteEvent = async () => {
-                    if (currentItems.length === 1) {
-                      setIsOpen(true);
-                      return;
-                    }
-
-                    const updatedItems = removeItemFromBudgetArray(
-                      currentItems,
-                      i,
-                    );
-                    item[type] = updatedItems;
-                    setBudgetChange(true);
-
-                    try {
-                      const accessToken = await getAccessTokenSilently({
-                        authorizationParams: {
-                          audience: process.env.REACT_APP_AUDIENCE,
-                          scope: "read:user",
-                        },
-                      });
-
-                      if (!!data.budget_id) {
-                        await deleteBudgetItem(accessToken, data.budget_id);
+                    const handleDeleteEvent = async () => {
+                      if (currentItems.length === 1) {
+                        setIsOpen(true);
+                        return;
                       }
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  };
 
-                  return (
-                    <BudgetItem
-                      key={i}
-                      theType={type as InputOption}
-                      item={data}
-                      labelPlaceHolder="name"
-                      valuePlaceHolder="value"
-                      inputType="number"
-                      saveEvent={handleSaveEvent}
-                      deleteEvent={handleDeleteEvent}
-                      hideCheckbox={type === "income"}
-                      editable={data.label === ""}
-                    />
-                  );
-                });
-              }
-              return null;
-            })}
-            <ModalComponent
-              isOpen={isOpen}
-              title={`Want to remove the last ${type}???`}
-              handleClose={() => setIsOpen(false)}
-            >
-              <S.ModalWrapper>
-                <span>
-                  You can't delete this {type} because it is the only one you
-                  have left. Please edit it instead.
-                </span>
-                <Button
-                  buttonSize="small"
-                  handleClick={() => setIsOpen(false)}
-                  classType="exit"
-                >
-                  Close
-                </Button>
-              </S.ModalWrapper>
-            </ModalComponent>
+                      const updatedItems = removeItemFromBudgetArray(
+                        currentItems,
+                        i,
+                      );
+                      item[type] = updatedItems;
+                      setBudgetChange(true);
+
+                      try {
+                        const accessToken = await getAccessTokenSilently({
+                          authorizationParams: {
+                            audience: process.env.REACT_APP_AUDIENCE,
+                            scope: "read:user",
+                          },
+                        });
+
+                        if (!!data.budget_id) {
+                          await deleteBudgetItem(accessToken, data.budget_id);
+                        }
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    };
+
+                    return (
+                      <BudgetItem
+                        key={i}
+                        theType={type as InputOption}
+                        item={data}
+                        labelPlaceHolder="name"
+                        valuePlaceHolder="value"
+                        inputType="number"
+                        saveEvent={handleSaveEvent}
+                        deleteEvent={handleDeleteEvent}
+                        hideCheckbox={type === "income"}
+                        editable={data.label === ""}
+                      />
+                    );
+                  });
+                }
+                return null;
+              })}
+              <ModalComponent
+                isOpen={isOpen}
+                title={`Want to remove the last ${type}???`}
+                handleClose={() => setIsOpen(false)}
+              >
+                <S.ModalWrapper>
+                  <span>
+                    You can't delete this {type} because it is the only one you
+                    have left. Please edit it instead.
+                  </span>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setIsOpen(false)}
+                    classType="exit"
+                  >
+                    Close
+                  </Button>
+                </S.ModalWrapper>
+              </ModalComponent>
+            </S.ItemContainer>
           </S.ItemWrapper>
           <Button
             buttonSize="large"

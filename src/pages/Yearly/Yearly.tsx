@@ -23,6 +23,8 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
+import Carousel from "../../components/Carousel/Carousel.tsx";
+import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -47,6 +49,11 @@ const Yearly = () => {
 
   const yearlyTotalIncome = getYearlyTotalAmount(budget, theYear, "income");
   const yearlyTotalExpense = getYearlyTotalAmount(budget, theYear, "expense");
+  const cashFlow = yearlyTotalIncome - yearlyTotalExpense;
+  const expenseToIncome = (
+    (yearlyTotalExpense / yearlyTotalIncome) *
+    100
+  ).toFixed(2);
   const { data, labels, newBudget } = getYearlyBudgetBreakdown(
     budget,
     theYear,
@@ -58,6 +65,47 @@ const Yearly = () => {
       <S.Title>
         {theYear} {type}
       </S.Title>
+      <Carousel>
+        <>
+          {/*
+            Start tier 2 option
+          */}
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel="Expense to Income Ratio"
+              defaultValue={expenseToIncome}
+              type="number"
+              percent
+            />
+          </S.TotalBudgetWrapper>
+          {/*
+            End tier 2 option
+          */}
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel={`Total ${theYear} income`}
+              defaultValue={yearlyTotalIncome}
+              type="number"
+              inputOption="income"
+            />
+          </S.TotalBudgetWrapper>
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel={`Total ${theYear} expenses`}
+              defaultValue={yearlyTotalExpense}
+              type="number"
+              inputOption="expense"
+            />
+          </S.TotalBudgetWrapper>
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel={`Total ${theYear} remaining cash`}
+              defaultValue={cashFlow}
+              type="number"
+            />
+          </S.TotalBudgetWrapper>
+        </>
+      </Carousel>
       <S.SelectWrapper>
         <Select
           options={budgetOptions}
@@ -114,16 +162,6 @@ const Yearly = () => {
           title={type}
         />
       )}
-      <S.TotalBudgetWrapper>
-        <Overview
-          showLabel={false}
-          label="Yearly"
-          incomeValue={yearlyTotalIncome}
-          expenseValue={yearlyTotalExpense}
-          hideViewIcon
-          hidePredict
-        />
-      </S.TotalBudgetWrapper>
       <ReactTooltip
         id={`monthly-${type}-tooltip`}
         place="top"

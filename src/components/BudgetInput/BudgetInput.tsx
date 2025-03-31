@@ -42,7 +42,7 @@ const BudgetInput = ({
   };
 
   return (
-    <S.InputWrapper>
+    <S.InputWrapper className="override">
       {isEditable && (
         <>
           <S.Input

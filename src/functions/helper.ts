@@ -89,3 +89,11 @@ export const removeItemFromBudgetArray = (
 
   return newArr;
 };
+
+export const getSubscriptionStatus = (subscription_id: number) => {
+  const ogPlan = subscription_id === 1;
+  const starterPlan = subscription_id === 3 || ogPlan;
+  const proPlan = subscription_id === 4 || ogPlan;
+
+  return proPlan ? "Pro" : starterPlan ? "Starter" : "Free";
+};

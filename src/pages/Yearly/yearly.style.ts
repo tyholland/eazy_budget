@@ -33,12 +33,13 @@ export const ItemWrapper = styled.div`
   }
 
   > div {
+    flex-direction: row;
+    align-items: center;
+    border: 0;
+    padding: 0;
+
     @media only screen and (max-width: 800px) {
-      flex-direction: row;
       width: 100%;
-      align-items: center;
-      border: 0;
-      padding: 0;
     }
   }
 `;

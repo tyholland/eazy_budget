@@ -20,7 +20,6 @@ import {
   listOfMonths,
   viewOptions,
 } from "../../constants.ts";
-import Overview from "../../views/Overview/Overview.tsx";
 import {
   addNewBudgetItem,
   getMonthlyBudgetBreakdown,
@@ -38,6 +37,8 @@ import {
   updateBudgetItem,
 } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
+import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
+import Carousel from "../../components/Carousel/Carousel.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -80,6 +81,8 @@ const Monthly = () => {
 
   const totalIncome = getMonthlyTotalAmount(budget, month, theYear, "income");
   const totalExpense = getMonthlyTotalAmount(budget, month, theYear, "expense");
+  const cashFlow = totalIncome - totalExpense;
+  const expenseToIncome = ((totalExpense / totalIncome) * 100).toFixed(2);
   const { data, labels } = getMonthlyBudgetBreakdown(
     budget,
     month,
@@ -98,6 +101,41 @@ const Monthly = () => {
       <S.Title>
         {month} {theYear} {type}
       </S.Title>
+      <Carousel>
+        <>
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel="Expense to Income Ratio"
+              defaultValue={expenseToIncome}
+              type="number"
+              percent
+            />
+          </S.TotalBudgetWrapper>
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel={`Total ${month} income`}
+              defaultValue={totalIncome}
+              type="number"
+              inputOption="income"
+            />
+          </S.TotalBudgetWrapper>
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel={`Total ${month} expenses`}
+              defaultValue={totalExpense}
+              type="number"
+              inputOption="expense"
+            />
+          </S.TotalBudgetWrapper>
+          <S.TotalBudgetWrapper className="emblaSlide">
+            <BudgetInput
+              inputLabel={`Total ${month} remaining cash`}
+              defaultValue={cashFlow}
+              type="number"
+            />
+          </S.TotalBudgetWrapper>
+        </>
+      </Carousel>
       <S.SelectWrapper>
         <Select
           options={budgetOptions}
@@ -113,130 +151,132 @@ const Monthly = () => {
         />
       </S.SelectWrapper>
       {selectedView === "Text" && (
-        <S.ItemWrapper>
-          {!budget.length && <div>Loading...</div>}
-          {budget.map((item: BudgetData) => {
-            if (month === item.month.toLowerCase() && theYear === item.year) {
-              return item[type].map((data: BudgetDataItem, i: number) => {
-                const currentItems: BudgetDataItem[] = [...item[type]];
-
-                const handleSaveEvent = async (
-                  obj: Object,
-                  isPaid?: boolean,
-                ) => {
-                  const updatedItem = reformatBudgetItem(
-                    obj,
-                    data.budget_id,
-                    data.budget_date_id,
-                    isPaid,
-                  );
-
-                  currentItems[i] = updatedItem[0];
-                  item[type] = currentItems;
-                  setBudgetChange(true);
-
-                  try {
-                    const accessToken = await getAccessTokenSilently({
-                      authorizationParams: {
-                        audience: process.env.REACT_APP_AUDIENCE,
-                        scope: "read:user",
-                      },
-                    });
-
-                    if (!!data.budget_id) {
-                      await updateBudgetItem(accessToken, updatedItem[0]);
-                    } else {
-                      updatedItem[0].type = type;
-                      const updatedBudgetItem = await addBudgetItem(
-                        accessToken,
-                        updatedItem[0],
-                      );
-
-                      updatedItem[0].budget_id = updatedBudgetItem.budget_id;
-                      delete updatedItem[0].type;
-                    }
-                  } catch (err) {
-                    console.error(err);
-                  }
-                };
-
-                const handleDeleteEvent = async () => {
-                  if (currentItems.length === 1) {
-                    setIsOpen(true);
-                    return;
-                  }
-
-                  const updatedItems = removeItemFromBudgetArray(
-                    currentItems,
-                    i,
-                  );
-                  item[type] = updatedItems;
-                  setBudgetChange(true);
-
-                  try {
-                    const accessToken = await getAccessTokenSilently({
-                      authorizationParams: {
-                        audience: process.env.REACT_APP_AUDIENCE,
-                        scope: "read:user",
-                      },
-                    });
-
-                    if (!!data.budget_id) {
-                      await deleteBudgetItem(accessToken, data.budget_id);
-                    }
-                  } catch (err) {
-                    console.error(err);
-                  }
-                };
-
-                return (
-                  <BudgetItem
-                    key={i}
-                    theType={type as InputOption}
-                    item={data}
-                    labelPlaceHolder="name"
-                    valuePlaceHolder="value"
-                    inputType="number"
-                    saveEvent={handleSaveEvent}
-                    deleteEvent={handleDeleteEvent}
-                    hideCheckbox={type === "income"}
-                    editable={data.label === ""}
-                  />
-                );
-              });
-            }
-            return null;
-          })}
-          <ModalComponent
-            isOpen={isOpen}
-            title={`Want to remove the last ${type}???`}
-            handleClose={() => setIsOpen(false)}
-          >
-            <S.ModalWrapper>
-              <span>
-                You can't delete this {type} because it is the only one you have
-                left. Please edit it instead.
-              </span>
-              <Button
-                buttonSize="small"
-                handleClick={() => setIsOpen(false)}
-                classType="exit"
-              >
-                Close
-              </Button>
-            </S.ModalWrapper>
-          </ModalComponent>
-        </S.ItemWrapper>
-      )}
-      <Button
-        buttonSize="large"
-        handleClick={handleAddNewBudget}
-        classType="register"
-      >
         <>
-          {`Additional ${type}`} <AddIcon />
+          <S.ItemWrapper>
+            {!budget.length && <div>Loading...</div>}
+            {budget.map((item: BudgetData) => {
+              if (month === item.month.toLowerCase() && theYear === item.year) {
+                return item[type].map((data: BudgetDataItem, i: number) => {
+                  const currentItems: BudgetDataItem[] = [...item[type]];
+
+                  const handleSaveEvent = async (
+                    obj: Object,
+                    isPaid?: boolean,
+                  ) => {
+                    const updatedItem = reformatBudgetItem(
+                      obj,
+                      data.budget_id,
+                      data.budget_date_id,
+                      isPaid,
+                    );
+
+                    currentItems[i] = updatedItem[0];
+                    item[type] = currentItems;
+                    setBudgetChange(true);
+
+                    try {
+                      const accessToken = await getAccessTokenSilently({
+                        authorizationParams: {
+                          audience: process.env.REACT_APP_AUDIENCE,
+                          scope: "read:user",
+                        },
+                      });
+
+                      if (!!data.budget_id) {
+                        await updateBudgetItem(accessToken, updatedItem[0]);
+                      } else {
+                        updatedItem[0].type = type;
+                        const updatedBudgetItem = await addBudgetItem(
+                          accessToken,
+                          updatedItem[0],
+                        );
+
+                        updatedItem[0].budget_id = updatedBudgetItem.budget_id;
+                        delete updatedItem[0].type;
+                      }
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  };
+
+                  const handleDeleteEvent = async () => {
+                    if (currentItems.length === 1) {
+                      setIsOpen(true);
+                      return;
+                    }
+
+                    const updatedItems = removeItemFromBudgetArray(
+                      currentItems,
+                      i,
+                    );
+                    item[type] = updatedItems;
+                    setBudgetChange(true);
+
+                    try {
+                      const accessToken = await getAccessTokenSilently({
+                        authorizationParams: {
+                          audience: process.env.REACT_APP_AUDIENCE,
+                          scope: "read:user",
+                        },
+                      });
+
+                      if (!!data.budget_id) {
+                        await deleteBudgetItem(accessToken, data.budget_id);
+                      }
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  };
+
+                  return (
+                    <BudgetItem
+                      key={i}
+                      theType={type as InputOption}
+                      item={data}
+                      labelPlaceHolder="name"
+                      valuePlaceHolder="value"
+                      inputType="number"
+                      saveEvent={handleSaveEvent}
+                      deleteEvent={handleDeleteEvent}
+                      hideCheckbox={type === "income"}
+                      editable={data.label === ""}
+                    />
+                  );
+                });
+              }
+              return null;
+            })}
+            <ModalComponent
+              isOpen={isOpen}
+              title={`Want to remove the last ${type}???`}
+              handleClose={() => setIsOpen(false)}
+            >
+              <S.ModalWrapper>
+                <span>
+                  You can't delete this {type} because it is the only one you
+                  have left. Please edit it instead.
+                </span>
+                <Button
+                  buttonSize="small"
+                  handleClick={() => setIsOpen(false)}
+                  classType="exit"
+                >
+                  Close
+                </Button>
+              </S.ModalWrapper>
+            </ModalComponent>
+          </S.ItemWrapper>
+          <Button
+            buttonSize="large"
+            handleClick={handleAddNewBudget}
+            classType="register"
+          >
+            <>
+              {`Additional ${type}`} <AddIcon />
+            </>
+          </Button>
         </>
-      </Button>
+      )}
       {selectedView !== "Text" && (
         <Graph
           type={
@@ -254,14 +294,6 @@ const Monthly = () => {
           title={type}
         />
       )}
-      <S.TotalBudgetWrapper>
-        <Overview
-          showLabel={false}
-          incomeValue={totalIncome}
-          expenseValue={totalExpense}
-          hideViewIcon
-        />
-      </S.TotalBudgetWrapper>
     </S.MonthlyWrapper>
   );
 };

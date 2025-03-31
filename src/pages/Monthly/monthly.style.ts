@@ -14,30 +14,27 @@ export const Title = styled.h2`
 
 export const ItemWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  @media only screen and (max-width: 800px) {
-    gap: 20px;
-  }
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 export const TotalBudgetWrapper = styled.div`
   padding: 15px;
   border: 1px solid #000;
-  width: 330px;
+  width: 50px;
+  height: 100px;
   border-radius: 10px;
   background: #fcfade;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
 
-  @media only screen and (max-width: 800px) {
-    width: 90%;
-  }
-
-  > div {
-    @media only screen and (max-width: 800px) {
-      border: 0;
-      padding: 0;
-    }
+  &.emblaSlide {
+    transform: translate3d(0, 0, 0);
+    flex: 0 0 20%;
+    min-width: 0;
+    margin: 0 10px;
   }
 `;
 

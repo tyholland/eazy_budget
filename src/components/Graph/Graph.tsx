@@ -49,7 +49,10 @@ const Graph = ({ title, label, dataset, type = "doughnut" }: GraphProps) => {
       ...options.plugins,
       legend: {
         display: true,
-        position: "right" as const,
+        position: "bottom" as const,
+        labels: {
+          padding: 30,
+        },
       },
     },
   };

@@ -5,6 +5,7 @@ import {
   getDateInfo,
   removeItemFromNumberArray,
   removeItemFromBudgetArray,
+  getSubscriptionStatus,
 } from "../functions/helper";
 import { listOfMonths } from "../constants";
 import { mockBudgetItemArray } from "./mocks";
@@ -115,5 +116,28 @@ describe("removeItemFromBudgetArray", () => {
     const response = JSON.stringify([]);
 
     expect(JSON.stringify(page)).toBe(response);
+  });
+});
+
+describe("getSubscriptionStatus", () => {
+  test("should return true for Pro plan", () => {
+    const plan = getSubscriptionStatus(4, "Pro");
+    const response = true;
+
+    expect(plan).toBe(response);
+  });
+
+  test("should return true for Starter plan even if grandfather in", () => {
+    const plan = getSubscriptionStatus(1, "Starter");
+    const response = true;
+
+    expect(plan).toBe(response);
+  });
+
+  test("should return false for Pro plan", () => {
+    const plan = getSubscriptionStatus(2, "Pro");
+    const response = false;
+
+    expect(plan).toBe(response);
   });
 });

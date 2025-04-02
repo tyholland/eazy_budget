@@ -1,7 +1,6 @@
 import React from "react";
 import * as S from "./budgetNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
-import { viewOptions } from "../../constants.ts";
 
 interface BudgetNavProps {
   setSelectedOption: (val: string) => void;

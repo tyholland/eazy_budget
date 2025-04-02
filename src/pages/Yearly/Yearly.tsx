@@ -22,6 +22,7 @@ import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
+import Loading from "../../components/Loading/Loading.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -69,7 +70,7 @@ const Yearly = () => {
         </S.Title>
         {selectedOption === type && (
           <S.ItemWrapper>
-            {!newBudget.length && <div>Loading...</div>}
+            {!newBudget.length && <Loading />}
             {newBudget.map((data: BudgetDataItem, i: number) => {
               return (
                 <BudgetItem

@@ -37,6 +37,7 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
+import Loading from "../../components/Loading/Loading.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -111,7 +112,7 @@ const Monthly = () => {
           <>
             <S.ItemWrapper>
               <S.ItemContainer>
-                {!budget.length && <div>Loading...</div>}
+                {!budget.length && <Loading />}
                 {budget.map((item: BudgetData) => {
                   if (
                     month === item.month.toLowerCase() &&

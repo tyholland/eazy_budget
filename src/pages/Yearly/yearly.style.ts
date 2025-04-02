@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 export const YearlylyWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  gap: 30px;
+  gap: 20px;
+  margin: 20px 0;
 
   .tooltip {
     width: 150px;
@@ -13,15 +12,13 @@ export const YearlylyWrapper = styled.div`
 
 export const Title = styled.h2`
   text-transform: capitalize;
-  margin-bottom: 0;
+  margin: 0;
 `;
 
 export const ItemWrapper = styled.div`
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  width: 750px;
-  align-items: center;
   justify-content: space-between;
   height: 300px;
   flex-direction: column;
@@ -44,28 +41,15 @@ export const ItemWrapper = styled.div`
   }
 `;
 
-export const TotalBudgetWrapper = styled.div`
-  padding: 15px;
-  border: 1px solid #000;
-  width: 50px;
-  height: 80px;
-  border-radius: 10px;
-  background: #fcfade;
-  display: flex;
-  gap: 12px;
-  flex-direction: column;
-  justify-content: center;
-
-  &.emblaSlide {
-    transform: translate3d(0, 0, 0);
-    flex: 0 0 20%;
-    min-width: 0;
-    margin: 0 10px;
-  }
-`;
-
 export const SelectWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
+`;
+
+export const ContentWrapper = styled.div`
+  width: 85%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
 `;

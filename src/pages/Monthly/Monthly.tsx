@@ -37,6 +37,7 @@ import {
 } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
+import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -97,49 +98,12 @@ const Monthly = () => {
 
   return (
     <S.MonthlyWrapper>
-      <S.NavWrapper>
-        <S.NavItem className={selectedOption === "income" ? "open" : "close"}>
-          <Button
-            classType="text"
-            handleClick={() => {
-              setSelectedOption("income");
-              setSelectedType("income");
-            }}
-          >
-            Income
-          </Button>
-        </S.NavItem>
-        <S.NavItem className={selectedOption === "expense" ? "open" : "close"}>
-          <Button
-            classType="text"
-            handleClick={() => {
-              setSelectedOption("expense");
-              setSelectedType("expense");
-            }}
-          >
-            Expense
-          </Button>
-        </S.NavItem>
-        <S.NavItem className={selectedOption === "details" ? "open" : "close"}>
-          <Button
-            classType="text"
-            handleClick={() => setSelectedOption("details")}
-          >
-            Details
-          </Button>
-        </S.NavItem>
-        <S.NavItem className={selectedOption === "charts" ? "open" : "close"}>
-          <Button
-            classType="text"
-            handleClick={() => {
-              setSelectedOption("charts");
-              setSelectedView(viewOptions[0].label);
-            }}
-          >
-            Charts
-          </Button>
-        </S.NavItem>
-      </S.NavWrapper>
+      <BudgetNav
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        setSelectedType={setSelectedType}
+        setSelectedView={setSelectedView}
+      />
       <S.ContentWrapper>
         <S.Title>
           {month} {theYear} {type}

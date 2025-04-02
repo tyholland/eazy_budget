@@ -22,10 +22,11 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
-import Carousel from "../../components/Carousel/Carousel.tsx";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
+import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
+import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -36,6 +37,9 @@ const Yearly = () => {
     viewOptions[0].label,
   );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    type,
+  );
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -64,109 +68,82 @@ const Yearly = () => {
 
   return (
     <S.YearlylyWrapper>
-      <S.Title>
-        {theYear} {type}
-      </S.Title>
-      <Carousel>
-        <>
-          <S.TotalBudgetWrapper className="emblaSlide">
-            <BudgetInput
-              inputLabel={`Total ${theYear} income`}
-              defaultValue={yearlyTotalIncome}
-              type="number"
-              inputOption="income"
-            />
-          </S.TotalBudgetWrapper>
-          <S.TotalBudgetWrapper className="emblaSlide">
-            <BudgetInput
-              inputLabel={`Total ${theYear} expenses`}
-              defaultValue={yearlyTotalExpense}
-              type="number"
-              inputOption="expense"
-            />
-          </S.TotalBudgetWrapper>
-          <S.TotalBudgetWrapper className="emblaSlide">
-            <BudgetInput
-              inputLabel={`Total ${theYear} remaining cash`}
-              defaultValue={cashFlow}
-              type="number"
-            />
-          </S.TotalBudgetWrapper>
-          {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
-            <S.TotalBudgetWrapper className="emblaSlide">
-              <BudgetInput
-                inputLabel="Expense to Income Ratio"
-                defaultValue={expenseToIncome}
-                type="number"
-                percent
-              />
-            </S.TotalBudgetWrapper>
-          )}
-        </>
-      </Carousel>
-      <S.SelectWrapper>
-        <Select
-          options={budgetOptions}
-          placeHolder="Change Budget Type"
-          defaultValue={type}
-          setOption={setSelectedType}
-        />
-        <Select
-          options={viewOptions}
-          placeHolder="Change View"
-          defaultValue={viewOptions[0].label}
-          setOption={setSelectedView}
-        />
-      </S.SelectWrapper>
-      {selectedView === "Text" && (
-        <S.ItemWrapper>
-          {!newBudget.length && <div>Loading...</div>}
-          {newBudget.map((data: BudgetDataItem, i: number) => {
-            return (
-              <BudgetItem
-                key={i}
-                theType={type as InputOption}
-                item={data}
-                hideBtn
-                hideCheckbox
-              >
-                <span data-tooltip-id={`monthly-${type}-tooltip`}>
-                  <Link
-                    url={`/monthly/${type}/${data.label}/${theYear}`}
-                    label={`view breakdown of ${data.label} ${type}`}
-                  >
-                    <ViewIcon />
-                  </Link>
-                </span>
-              </BudgetItem>
-            );
-          })}
-        </S.ItemWrapper>
-      )}
-      {selectedView !== "Text" && (
-        <Graph
-          type={
-            budgetViewMatch.filter((item) => selectedView === item.label)[0]
-              ?.type as GraphType
-          }
-          dataset={[
-            {
-              backgroundColor: graphColors,
-              borderWidth: 1,
-              data: data,
-            },
-          ]}
-          label={labels}
-          title={type}
-        />
-      )}
-      <ReactTooltip
-        id={`monthly-${type}-tooltip`}
-        place="top"
-        variant="info"
-        content={`View a detailed breakdown of this ${type}`}
-        className="tooltip"
+      <BudgetNav
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        setSelectedType={setSelectedType}
+        setSelectedView={setSelectedView}
       />
+      <S.ContentWrapper>
+        <S.Title>
+          {theYear} {type}
+        </S.Title>
+        {selectedOption === type && (
+          <S.ItemWrapper>
+            {!newBudget.length && <div>Loading...</div>}
+            {newBudget.map((data: BudgetDataItem, i: number) => {
+              return (
+                <BudgetItem
+                  key={i}
+                  theType={type as InputOption}
+                  item={data}
+                  hideBtn
+                  hideCheckbox
+                >
+                  <span data-tooltip-id={`monthly-${type}-tooltip`}>
+                    <Link
+                      url={`/monthly/${type}/${data.label}/${theYear}`}
+                      label={`view breakdown of ${data.label} ${type}`}
+                    >
+                      <ViewIcon />
+                    </Link>
+                  </span>
+                </BudgetItem>
+              );
+            })}
+          </S.ItemWrapper>
+        )}
+        {selectedOption === "details" && (
+          <BudgetDetails
+            income={yearlyTotalIncome}
+            expense={yearlyTotalExpense}
+          />
+        )}
+        {selectedOption === "charts" && (
+          <>
+            <S.SelectWrapper>
+              <Select
+                options={viewOptions}
+                placeHolder="Change View"
+                defaultValue={viewOptions[0].label}
+                setOption={setSelectedView}
+              />
+            </S.SelectWrapper>
+            <Graph
+              type={
+                budgetViewMatch.filter((item) => selectedView === item.label)[0]
+                  ?.type as GraphType
+              }
+              dataset={[
+                {
+                  backgroundColor: graphColors,
+                  borderWidth: 1,
+                  data: data,
+                },
+              ]}
+              label={labels}
+              title={type}
+            />
+          </>
+        )}
+        <ReactTooltip
+          id={`monthly-${type}-tooltip`}
+          place="top"
+          variant="info"
+          content={`View a detailed breakdown of this ${type}`}
+          className="tooltip"
+        />
+      </S.ContentWrapper>
     </S.YearlylyWrapper>
   );
 };

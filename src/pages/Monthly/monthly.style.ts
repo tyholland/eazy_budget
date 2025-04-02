@@ -20,6 +20,10 @@ export const ItemContainer = styled.div`
   gap: 20px;
   flex-wrap: wrap;
 
+  @media only screen and (max-width: 800px) {
+    justify-content: center;
+  }
+
   input:not(:disabled) {
     width: 120px !important;
   }

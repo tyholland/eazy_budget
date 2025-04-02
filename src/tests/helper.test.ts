@@ -121,21 +121,28 @@ describe("removeItemFromBudgetArray", () => {
 
 describe("getSubscriptionStatus", () => {
   test("should return true for Pro plan", () => {
-    const plan = getSubscriptionStatus(4, "Pro");
+    const plan = getSubscriptionStatus("Pro", 4);
     const response = true;
 
     expect(plan).toBe(response);
   });
 
   test("should return true for Starter plan even if grandfather in", () => {
-    const plan = getSubscriptionStatus(1, "Starter");
+    const plan = getSubscriptionStatus("Starter", 1);
     const response = true;
 
     expect(plan).toBe(response);
   });
 
   test("should return false for Pro plan", () => {
-    const plan = getSubscriptionStatus(2, "Pro");
+    const plan = getSubscriptionStatus("Pro", 2);
+    const response = false;
+
+    expect(plan).toBe(response);
+  });
+
+  test("should return false for undefined subscription_id", () => {
+    const plan = getSubscriptionStatus("Pro", undefined);
     const response = false;
 
     expect(plan).toBe(response);

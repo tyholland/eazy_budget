@@ -24,9 +24,12 @@ import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import Carousel from "../../components/Carousel/Carousel.tsx";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
+import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const navigate = useNavigate();
   const { type, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
@@ -66,20 +69,6 @@ const Yearly = () => {
       </S.Title>
       <Carousel>
         <>
-          {/*
-            Start tier 2 option
-          */}
-          <S.TotalBudgetWrapper className="emblaSlide">
-            <BudgetInput
-              inputLabel="Expense to Income Ratio"
-              defaultValue={expenseToIncome}
-              type="number"
-              percent
-            />
-          </S.TotalBudgetWrapper>
-          {/*
-            End tier 2 option
-          */}
           <S.TotalBudgetWrapper className="emblaSlide">
             <BudgetInput
               inputLabel={`Total ${theYear} income`}
@@ -103,6 +92,16 @@ const Yearly = () => {
               type="number"
             />
           </S.TotalBudgetWrapper>
+          {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+            <S.TotalBudgetWrapper className="emblaSlide">
+              <BudgetInput
+                inputLabel="Expense to Income Ratio"
+                defaultValue={expenseToIncome}
+                type="number"
+                percent
+              />
+            </S.TotalBudgetWrapper>
+          )}
         </>
       </Carousel>
       <S.SelectWrapper>

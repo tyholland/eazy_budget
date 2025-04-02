@@ -8,7 +8,7 @@ export const ItemWrapper = styled.div`
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 15px 20px;
-  width: 340px;
+  width: 290px;
 
   .tooltip {
     width: 130px;

@@ -91,9 +91,13 @@ export const removeItemFromBudgetArray = (
 };
 
 export const getSubscriptionStatus = (
-  subscription_id: number,
   expectedPlan: string,
+  subscription_id?: number,
 ) => {
+  if (!subscription_id) {
+    return false;
+  }
+
   const ogPlan = subscription_id === 1;
   const freePlan = subscription_id === 2;
   const starterPlan = subscription_id === 3;

@@ -8,7 +8,6 @@ import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Select from "../../components/Select/Select.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
 import {
-  budgetOptions,
   budgetViewMatch,
   graphColors,
   listOfBudgets,
@@ -22,15 +21,11 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
-import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
-import { getSubscriptionStatus } from "../../functions/helper.ts";
-import { userAtom } from "../../hook/UserAtom.ts";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
-  const currentUser = useAtomValue(userAtom);
   const navigate = useNavigate();
   const { type, year } = useParams();
   const [selectedView, setSelectedView] = useState<string>(
@@ -55,11 +50,6 @@ const Yearly = () => {
 
   const yearlyTotalIncome = getYearlyTotalAmount(budget, theYear, "income");
   const yearlyTotalExpense = getYearlyTotalAmount(budget, theYear, "expense");
-  const cashFlow = yearlyTotalIncome - yearlyTotalExpense;
-  const expenseToIncome = (
-    (yearlyTotalExpense / yearlyTotalIncome) *
-    100
-  ).toFixed(2);
   const { data, labels, newBudget } = getYearlyBudgetBreakdown(
     budget,
     theYear,

@@ -5,6 +5,10 @@ export const YearlylyWrapper = styled.div`
   gap: 20px;
   margin: 20px 0;
 
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+
   .tooltip {
     width: 150px;
   }
@@ -46,4 +50,8 @@ export const ContentWrapper = styled.div`
   display: flex;
   gap: 20px;
   flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;

@@ -5,6 +5,10 @@ export const Wrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+
+  @media only screen and (max-width: 800px) {
+    justify-content: center;
+  }
 `;
 
 export const TotalBudgetWrapper = styled.div`
@@ -18,4 +22,9 @@ export const TotalBudgetWrapper = styled.div`
   gap: 12px;
   flex-direction: column;
   justify-content: center;
+
+  @media only screen and (max-width: 800px) {
+    width: 75%;
+    height: auto;
+  }
 `;

@@ -4,6 +4,10 @@ export const MonthlyWrapper = styled.div`
   display: flex;
   gap: 20px;
   margin: 20px 0;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
 export const Title = styled.h2`
@@ -37,4 +41,8 @@ export const ContentWrapper = styled.div`
   display: flex;
   gap: 20px;
   flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;

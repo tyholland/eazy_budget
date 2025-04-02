@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BudgetDataItem, GraphType, InputOption } from "../../types.ts";
+import { BudgetDataItem, InputOption } from "../../types.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtomValue } from "jotai";
 import * as S from "./yearly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
-import {
-  budgetViewMatch,
-  graphColors,
-  listOfBudgets,
-  viewOptions,
-} from "../../constants.ts";
+import { graphColors, listOfBudgets } from "../../constants.ts";
 import {
   getYearlyBudgetBreakdown,
   getYearlyTotalAmount,
@@ -28,9 +23,6 @@ const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
   const navigate = useNavigate();
   const { type, year } = useParams();
-  const [selectedView, setSelectedView] = useState<string>(
-    viewOptions[0].label,
-  );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
@@ -62,7 +54,6 @@ const Yearly = () => {
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         setSelectedType={setSelectedType}
-        setSelectedView={setSelectedView}
       />
       <S.ContentWrapper>
         <S.Title>
@@ -101,11 +92,6 @@ const Yearly = () => {
         )}
         {selectedOption === "charts" && (
           <Graph
-            setSelectedView={setSelectedView}
-            type={
-              budgetViewMatch.filter((item) => selectedView === item.label)[0]
-                ?.type as GraphType
-            }
             dataset={[
               {
                 backgroundColor: graphColors,

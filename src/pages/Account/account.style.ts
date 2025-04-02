@@ -2,10 +2,8 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 30px;
-  width: 500px;
   margin: 30px auto 0;
 
   @media only screen and (max-width: 800px) {
@@ -62,4 +60,15 @@ export const ModalBtn = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+`;
+
+export const ContentWrapper = styled.div`
+  width: 85%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;

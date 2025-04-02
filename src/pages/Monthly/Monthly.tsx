@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  BudgetData,
-  BudgetDataItem,
-  GraphType,
-  InputOption,
-} from "../../types.ts";
+import { BudgetData, BudgetDataItem, InputOption } from "../../types.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
-import {
-  budgetViewMatch,
-  graphColors,
-  listOfBudgets,
-  listOfMonths,
-  viewOptions,
-} from "../../constants.ts";
+import { graphColors, listOfBudgets, listOfMonths } from "../../constants.ts";
 import {
   addNewBudgetItem,
   getMonthlyBudgetBreakdown,
@@ -45,9 +34,6 @@ const Monthly = () => {
   const clonedBudget = [...budget];
   const navigate = useNavigate();
   const { type, month, year } = useParams();
-  const [selectedView, setSelectedView] = useState<string>(
-    viewOptions[0].label,
-  );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
@@ -102,7 +88,6 @@ const Monthly = () => {
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         setSelectedType={setSelectedType}
-        setSelectedView={setSelectedView}
       />
       <S.ContentWrapper>
         <S.Title>
@@ -246,11 +231,6 @@ const Monthly = () => {
         )}
         {selectedOption === "charts" && (
           <Graph
-            setSelectedView={setSelectedView}
-            type={
-              budgetViewMatch.filter((item) => selectedView === item.label)[0]
-                ?.type as GraphType
-            }
             dataset={[
               {
                 backgroundColor: graphColors,

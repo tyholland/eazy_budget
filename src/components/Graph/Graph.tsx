@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import React, { JSX, useState } from "react";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,24 +12,22 @@ import {
 import { Doughnut, Pie, Bar } from "react-chartjs-2";
 import * as S from "./graph.style.ts";
 import { GraphDataSet, GraphType } from "../../types.ts";
-import { viewOptions } from "../../constants.ts";
+import { budgetViewMatch, viewOptions } from "../../constants.ts";
 import SelectComponent from "../Select/Select.tsx";
 
 interface GraphProps {
   label: string[];
   dataset: GraphDataSet[];
   title: string;
-  setSelectedView: (val: string) => void;
-  type?: GraphType;
 }
 
-const Graph = ({
-  title,
-  label,
-  dataset,
-  setSelectedView,
-  type = "doughnut",
-}: GraphProps) => {
+const Graph = ({ title, label, dataset }: GraphProps) => {
+  const [selectedView, setSelectedView] = useState<string>(
+    viewOptions[0].label,
+  );
+
+  const type = budgetViewMatch.filter((item) => selectedView === item.label)[0]
+    ?.type as GraphType;
   if (type === "bar") {
     ChartJS.unregister(Legend);
     ChartJS.register(BarElement, LinearScale, CategoryScale, Tooltip, Title);

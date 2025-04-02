@@ -6,14 +6,12 @@ import { viewOptions } from "../../constants.ts";
 interface BudgetNavProps {
   setSelectedOption: (val: string) => void;
   setSelectedType: (val: string) => void;
-  setSelectedView: (val: string) => void;
   selectedOption?: string;
 }
 
 const BudgetNav = ({
   setSelectedOption,
   setSelectedType,
-  setSelectedView,
   selectedOption,
 }: BudgetNavProps) => {
   return (
@@ -53,7 +51,6 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("charts");
-            setSelectedView(viewOptions[0].label);
           }}
         >
           Charts

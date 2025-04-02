@@ -11,6 +11,7 @@ import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { deleteUser } from "../../requests/users.ts";
+import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 
 const Account = () => {
   const { logout, user, getAccessTokenSilently } = useAuth0();
@@ -19,6 +20,7 @@ const Account = () => {
   const setIncome = useSetAtom(incomeAtom);
   const setExpense = useSetAtom(expenseAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<string>("settings");
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -50,66 +52,73 @@ const Account = () => {
 
   return (
     <S.Wrapper>
-      <S.Section>
-        <Input
-          label="email"
-          labelValue="Email:"
-          onChange={() => {}}
-          placeHolder="Enter your email"
-          isDisabled
-          defaultValue={user?.email || ""}
-          inputType="text"
-        />
-      </S.Section>
-      <S.Section>
-        <Link url="/account/history" label="View Budget History">
-          View Budget History
-        </Link>
-      </S.Section>
-      <S.Section>
-        <Link url="mailto:info.eazybudget@gmail.com" label="Contact Us">
-          Contact Us
-        </Link>
-      </S.Section>
-      <S.Section>
-        <Button
-          handleClick={() => setIsOpen(true)}
-          buttonSize="medium"
-          classType="text"
-        >
-          Delete Account
-        </Button>
-      </S.Section>
-      <S.Section>
-        <Button
-          handleClick={logOutAccount}
-          buttonSize="medium"
-          classType="text"
-        >
-          Log Out
-        </Button>
-      </S.Section>
-      <ModalComponent
-        isOpen={isOpen}
-        title={`Confirm Account Deletion`}
-        handleClose={() => setIsOpen(false)}
-      >
-        <S.ModalWrapper>
-          <span>Are you sure you want to delete your account?</span>
-          <S.ModalBtn>
-            <Button
-              buttonSize="small"
-              handleClick={deleteAccount}
-              classType="register"
-            >
-              Yes
-            </Button>
-            <Button buttonSize="small" handleClick={() => setIsOpen(false)}>
-              No
-            </Button>
-          </S.ModalBtn>
-        </S.ModalWrapper>
-      </ModalComponent>
+      <AccountNav
+        setSelectedOption={setSelectedOption}
+        selectedOption={selectedOption}
+        logout={logOutAccount}
+      />
+      <S.ContentWrapper>
+        <>
+          {selectedOption === "settings" && (
+            <>
+              <S.Section>
+                <Input
+                  label="email"
+                  labelValue="Email:"
+                  onChange={() => {}}
+                  placeHolder="Enter your email"
+                  isDisabled
+                  defaultValue={user?.email || ""}
+                  inputType="text"
+                />
+              </S.Section>
+              <S.Section>
+                <Link url="mailto:info.eazybudget@gmail.com" label="Contact Us">
+                  Contact Us
+                </Link>
+              </S.Section>
+              <S.Section>
+                <Button
+                  handleClick={() => setIsOpen(true)}
+                  buttonSize="medium"
+                  classType="text"
+                >
+                  Delete Account
+                </Button>
+              </S.Section>
+            </>
+          )}
+          {selectedOption === "budget" && (
+            <S.Section>
+              <Link url="/account/history" label="View Budget History">
+                View Budget History
+              </Link>
+            </S.Section>
+          )}
+          {selectedOption === "subscription" && <></>}
+          <ModalComponent
+            isOpen={isOpen}
+            title={`Confirm Account Deletion`}
+            handleClose={() => setIsOpen(false)}
+          >
+            <S.ModalWrapper>
+              <span>Are you sure you want to delete your account?</span>
+              <S.ModalBtn>
+                <Button
+                  buttonSize="small"
+                  handleClick={deleteAccount}
+                  classType="register"
+                >
+                  Yes
+                </Button>
+                <Button buttonSize="small" handleClick={() => setIsOpen(false)}>
+                  No
+                </Button>
+              </S.ModalBtn>
+            </S.ModalWrapper>
+          </ModalComponent>
+        </>
+      </S.ContentWrapper>
     </S.Wrapper>
   );
 };

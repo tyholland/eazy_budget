@@ -10,7 +10,6 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
-import Select from "../../components/Select/Select.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
 import {
   budgetViewMatch,
@@ -245,31 +244,22 @@ const Monthly = () => {
           <BudgetDetails income={totalIncome} expense={totalExpense} />
         )}
         {selectedOption === "charts" && (
-          <>
-            <S.SelectWrapper>
-              <Select
-                options={viewOptions}
-                placeHolder="Change View"
-                defaultValue={viewOptions[0].label}
-                setOption={setSelectedView}
-              />
-            </S.SelectWrapper>
-            <Graph
-              type={
-                budgetViewMatch.filter((item) => selectedView === item.label)[0]
-                  ?.type as GraphType
-              }
-              dataset={[
-                {
-                  backgroundColor: graphColors,
-                  borderWidth: 1,
-                  data: data,
-                },
-              ]}
-              label={labels}
-              title={type}
-            />
-          </>
+          <Graph
+            setSelectedView={setSelectedView}
+            type={
+              budgetViewMatch.filter((item) => selectedView === item.label)[0]
+                ?.type as GraphType
+            }
+            dataset={[
+              {
+                backgroundColor: graphColors,
+                borderWidth: 1,
+                data: data,
+              },
+            ]}
+            label={labels}
+            title={type}
+          />
         )}
       </S.ContentWrapper>
     </S.MonthlyWrapper>

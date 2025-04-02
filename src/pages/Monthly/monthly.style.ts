@@ -26,16 +26,6 @@ export const ItemWrapper = styled.div`
   margin: 0 auto;
 `;
 
-export const SelectWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40px;
-
-  @media only screen and (max-width: 800px) {
-    justify-content: space-between;
-  }
-`;
-
 export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;

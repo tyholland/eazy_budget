@@ -41,12 +41,6 @@ export const ItemWrapper = styled.div`
   }
 `;
 
-export const SelectWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40px;
-`;
-
 export const ContentWrapper = styled.div`
   width: 85%;
   display: flex;

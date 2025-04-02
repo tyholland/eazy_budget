@@ -134,6 +134,13 @@ describe("getSubscriptionStatus", () => {
     expect(plan).toBe(response);
   });
 
+  test("should return true for Starter plan even if Pro plan", () => {
+    const plan = getSubscriptionStatus("Starter", 4);
+    const response = true;
+
+    expect(plan).toBe(response);
+  });
+
   test("should return false for Pro plan", () => {
     const plan = getSubscriptionStatus("Pro", 2);
     const response = false;

@@ -99,20 +99,15 @@ export const getSubscriptionStatus = (
   }
 
   const ogPlan = subscription_id === 1;
-  const freePlan = subscription_id === 2;
   const starterPlan = subscription_id === 3;
   const proPlan = subscription_id === 4;
 
-  if (freePlan) {
-    return "Free" === expectedPlan;
+  if ("Starter" === expectedPlan) {
+    return starterPlan || proPlan || ogPlan;
   }
 
-  if (starterPlan) {
-    return "Starter" === expectedPlan;
-  }
-
-  if (proPlan) {
-    return "Pro" === expectedPlan;
+  if ("Pro" === expectedPlan) {
+    return proPlan || ogPlan;
   }
 
   return ogPlan;

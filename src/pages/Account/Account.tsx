@@ -20,7 +20,6 @@ import {
 import { userAtom } from "../../hook/UserAtom.ts";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
-import CancelIcon from "../../svg/CancelIcon.tsx";
 import ContactUsIcon from "../../svg/ContactUsIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import DownloadIcon from "../../svg/DownloadIcon.tsx";

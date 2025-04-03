@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NavWrapper = styled.div`
-  width: 15%;
+  width: 20%;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
@@ -20,7 +20,19 @@ export const NavWrapper = styled.div`
 
 export const NavItem = styled.div`
   @media only screen and (max-width: 800px) {
-    width: 25%;
+    width: 33%;
+  }
+
+  &.subscribe {
+    @media only screen and (max-width: 800px) {
+      width: 22%;
+    }
+
+    &:nth-child(3) {
+      @media only screen and (max-width: 800px) {
+        width: 34%;
+      }
+    }
   }
 
   button {
@@ -46,6 +58,11 @@ export const NavItem = styled.div`
       &:hover {
         color: #000;
         text-decoration: underline;
+
+        @media only screen and (max-width: 800px) {
+          color: #999;
+          text-decoration: none;
+        }
       }
     }
   }

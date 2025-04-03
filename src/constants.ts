@@ -75,3 +75,5 @@ export const budgetViewMatch = [
     type: "bar",
   },
 ];
+
+export const subscriptionPlan = ["Grandfathered", "Free", "Starter", "Pro"];

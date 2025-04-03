@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const YearlylyWrapper = styled.div`
   display: flex;
   gap: 20px;
-  margin: 20px 0;
+  margin: 30px 0;
 
   @media only screen and (max-width: 800px) {
     flex-direction: column;

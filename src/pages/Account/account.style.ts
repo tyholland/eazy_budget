@@ -4,24 +4,35 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 30px;
-  margin: 30px auto 0;
+  margin: 30px auto;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
+    flex-direction: column;
   }
 `;
 
 export const Section = styled.div`
-  width: 300px;
+  width: 370px;
   display: flex;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
   }
 
+  &.date {
+    input {
+      width: 50%;
+    }
+  }
+
   > div {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+
+    @media only screen and (max-width: 800px) {
+      margin-bottom: 10px;
+    }
 
     label {
       min-width: auto;
@@ -29,6 +40,10 @@ export const Section = styled.div`
 
     input {
       width: 100%;
+
+      @media only screen and (max-width: 800px) {
+        width: 50%;
+      }
     }
   }
 
@@ -47,6 +62,10 @@ export const Section = styled.div`
       text-decoration: none !important;
     }
   }
+
+  span {
+    text-transform: capitalize;
+  }
 `;
 
 export const ModalWrapper = styled.div`
@@ -63,7 +82,7 @@ export const ModalBtn = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 85%;
+  width: 80%;
   display: flex;
   gap: 20px;
   flex-direction: column;

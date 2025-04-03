@@ -40,7 +40,7 @@ const BudgetDetails = ({ income, expense }: BudgetDetailsProps) => {
           type="number"
         />
       </S.TotalBudgetWrapper>
-      {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+      {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
         <S.TotalBudgetWrapper>
           <BudgetInput
             inputLabel="Expense to Income Ratio"

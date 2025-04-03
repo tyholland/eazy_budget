@@ -6,6 +6,7 @@ import {
   removeItemFromNumberArray,
   removeItemFromBudgetArray,
   getSubscriptionStatus,
+  getSubscriptionName,
 } from "../functions/helper";
 import { listOfMonths } from "../constants";
 import { mockBudgetItemArray } from "./mocks";
@@ -151,6 +152,29 @@ describe("getSubscriptionStatus", () => {
   test("should return false for undefined subscription_id", () => {
     const plan = getSubscriptionStatus("Pro", undefined);
     const response = false;
+
+    expect(plan).toBe(response);
+  });
+});
+
+describe("getSubscriptionName", () => {
+  test("should return Starter plan", () => {
+    const plan = getSubscriptionName(3);
+    const response = "Starter";
+
+    expect(plan).toBe(response);
+  });
+
+  test("should return Free plan for undefined subscription_id", () => {
+    const plan = getSubscriptionName(undefined);
+    const response = "Free";
+
+    expect(plan).toBe(response);
+  });
+
+  test("should return Grandfathered for OG account", () => {
+    const plan = getSubscriptionName(1);
+    const response = "Grandfathered";
 
     expect(plan).toBe(response);
   });

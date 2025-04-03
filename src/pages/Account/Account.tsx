@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./account.style.ts";
 import Link from "../../components/Link/Link.tsx";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import Input from "../../components/Input/Input.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
@@ -12,15 +12,23 @@ import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { deleteUser } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
+import {
+  getDateInfo,
+  getSubscriptionName,
+  getSubscriptionStatus,
+} from "../../functions/helper.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const Account = () => {
-  const { logout, user, getAccessTokenSilently } = useAuth0();
+  const { logout, getAccessTokenSilently } = useAuth0();
   const [isLoading, setIsloading] = useState<boolean>(false);
   const setBudget = useSetAtom(budgetAtom);
   const setIncome = useSetAtom(incomeAtom);
   const setExpense = useSetAtom(expenseAtom);
+  const currentUser = useAtomValue(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
+  const { currentYear, currentMonth } = getDateInfo();
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -68,7 +76,7 @@ const Account = () => {
                   onChange={() => {}}
                   placeHolder="Enter your email"
                   isDisabled
-                  defaultValue={user?.email || ""}
+                  defaultValue={currentUser?.email || ""}
                   inputType="text"
                 />
               </S.Section>
@@ -89,13 +97,97 @@ const Account = () => {
             </>
           )}
           {selectedOption === "budget" && (
-            <S.Section>
-              <Link url="/account/history" label="View Budget History">
-                View Budget History
-              </Link>
-            </S.Section>
+            <>
+              <S.Section>
+                <Link
+                  url={`/yearly/income/${currentYear}`}
+                  label={`${currentYear} Overview`}
+                >
+                  <span>{currentYear} Overview</span>
+                </Link>
+              </S.Section>
+              <S.Section>
+                <Link
+                  url={`/monthly/income/${currentMonth}/${currentYear}`}
+                  label={`${currentMonth} Overview`}
+                >
+                  <span>{currentMonth} Overview</span>
+                </Link>
+              </S.Section>
+              <S.Section>
+                <Link url="/account/history" label="Budget History">
+                  Budget History
+                </Link>
+              </S.Section>
+              {getSubscriptionStatus(
+                "Starter",
+                currentUser?.subscription_id,
+              ) && (
+                <S.Section>
+                  <Link url="#" label={`Review ${currentYear} Past Months`}>
+                    <span>Review {currentYear} Past Months</span>
+                  </Link>
+                </S.Section>
+              )}
+              {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
+                <S.Section>
+                  <Link url="#" label={`Download ${currentMonth} PDF`}>
+                    <span>Download {currentMonth} PDF</span>
+                  </Link>
+                </S.Section>
+              )}
+              {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
+                <S.Section>
+                  <Link url="#" label={`Download ${currentMonth} Excel`}>
+                    <span>Download {currentMonth} Excel</span>
+                  </Link>
+                </S.Section>
+              )}
+            </>
           )}
-          {selectedOption === "subscription" && <></>}
+          {selectedOption === "subscription" && (
+            <>
+              <S.Section>
+                <Input
+                  label="plan"
+                  labelValue="Plan:"
+                  onChange={() => {}}
+                  placeHolder="Enter subscription plan"
+                  isDisabled
+                  defaultValue={getSubscriptionName(
+                    currentUser?.subscription_id,
+                  )}
+                  inputType="text"
+                />
+              </S.Section>
+              <S.Section className="date">
+                <Input
+                  label="date"
+                  labelValue="Date Subscribed:"
+                  onChange={() => {}}
+                  placeHolder="Enter date subscribed"
+                  isDisabled
+                  defaultValue={"10/12/2025"}
+                  inputType="text"
+                />
+              </S.Section>
+              <S.Section>
+                <Link url="#" label="Change Subscription">
+                  Change Subscription
+                </Link>
+              </S.Section>
+              <S.Section>
+                <Link url="#" label="Subscription Guidelines">
+                  Subscription Guidelines
+                </Link>
+              </S.Section>
+              <S.Section>
+                <Link url="#" label="Cancel Subscription">
+                  Cancel Subscription
+                </Link>
+              </S.Section>
+            </>
+          )}
           <ModalComponent
             isOpen={isOpen}
             title={`Confirm Account Deletion`}

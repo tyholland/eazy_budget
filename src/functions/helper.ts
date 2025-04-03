@@ -1,4 +1,4 @@
-import { listOfMonths } from "../constants.ts";
+import { listOfMonths, subscriptionPlan } from "../constants.ts";
 import { BudgetDataItem } from "../types.ts";
 
 export const formatAmount = (amount: number) => {
@@ -111,4 +111,12 @@ export const getSubscriptionStatus = (
   }
 
   return ogPlan;
+};
+
+export const getSubscriptionName = (subscription_id?: number) => {
+  if (!subscription_id) {
+    return "Free";
+  }
+
+  return subscriptionPlan[subscription_id - 1];
 };

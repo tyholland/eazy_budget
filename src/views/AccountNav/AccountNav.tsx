@@ -2,6 +2,8 @@ import React from "react";
 import * as S from "./accountNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface AccountNavProps {
   setSelectedOption: (val: string) => void;
@@ -14,9 +16,16 @@ const AccountNav = ({
   selectedOption,
   logout,
 }: AccountNavProps) => {
+  const currentUser = useAtomValue(userAtom);
+  const subscribe =
+    currentUser &&
+    (currentUser.subscription_id >= 3 || currentUser.subscription_id === 1);
+
   return (
     <S.NavWrapper>
-      <S.NavItem className={selectedOption === "settings" ? "open" : "close"}>
+      <S.NavItem
+        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "settings" ? "open" : "close"}`}
+      >
         <Button
           classType="text"
           handleClick={() => {
@@ -26,7 +35,9 @@ const AccountNav = ({
           Settings
         </Button>
       </S.NavItem>
-      <S.NavItem className={selectedOption === "budget" ? "open" : "close"}>
+      <S.NavItem
+        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "budget" ? "open" : "close"}`}
+      >
         <Button
           classType="text"
           handleClick={() => {
@@ -36,9 +47,9 @@ const AccountNav = ({
           Budget
         </Button>
       </S.NavItem>
-      {getSubscriptionStatus("Start") && (
+      {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
         <S.NavItem
-          className={selectedOption === "subscription" ? "open" : "close"}
+          className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
         >
           <Button
             classType="text"
@@ -48,7 +59,7 @@ const AccountNav = ({
           </Button>
         </S.NavItem>
       )}
-      <S.NavItem className={selectedOption === "logout" ? "open" : "close"}>
+      <S.NavItem className={`${subscribe ? "subscribe" : ""} close`}>
         <Button
           classType="text"
           handleClick={() => {

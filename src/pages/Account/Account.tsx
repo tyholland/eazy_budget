@@ -129,9 +129,9 @@ const Account = () => {
                 </Link>
               </S.Section>
               <S.Section>
-                <Link url="/account/history" label="Budget History">
+                <Link url="/account/history" label="Overall Budget History">
                   <span>
-                    Budget History <HistoryIcon />
+                    Overall Budget History <HistoryIcon />
                   </span>
                 </Link>
               </S.Section>

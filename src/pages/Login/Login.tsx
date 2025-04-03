@@ -4,9 +4,20 @@ import Button from "../../components/Button/Button.tsx";
 import * as S from "./login.style.ts";
 import PenPaperIcon from "../../svg/PenPaperIcon.tsx";
 import DataIcon from "../../svg/DataIcon.tsx";
+import Loading from "../../components/Loading/Loading.tsx";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isLoading, user } = useAuth0();
+  const navigate = useNavigate();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (user) {
+    navigate("/overview");
+  }
 
   return (
     <S.Wrapper>

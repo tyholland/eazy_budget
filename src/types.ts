@@ -64,10 +64,12 @@ export interface UserRequest {
 export interface UserResponse {
   action: string;
   hasBudget: boolean;
+  subscription_id: number;
 }
 
 export interface User {
   hasBudget: boolean;
+  subscription_id: number;
   email?: string;
   email_verified?: boolean;
   name?: string;

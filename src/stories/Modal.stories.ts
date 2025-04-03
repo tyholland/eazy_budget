@@ -13,7 +13,7 @@ const ModalStory = {
 
 export const Primary = {
   args: {
-    title: "Netflix",
+    title: "Modal title",
     isOpen: true,
     children: "Body of modal",
   },

@@ -1,4 +1,4 @@
-import { listOfMonths } from "../constants.ts";
+import { listOfMonths, subscriptionPlan } from "../constants.ts";
 import { BudgetDataItem } from "../types.ts";
 
 export const formatAmount = (amount: number) => {
@@ -49,8 +49,9 @@ export const getCurrentPageName = (pathName: string) => {
     case "/add/income":
       pageName = "Add Income";
       break;
-    case "/predict":
+    case "/account/predict":
       pageName = "Budget Prediction";
+      page2Name = "Account";
       break;
     case "/account/history":
       pageName = "Budget History";
@@ -88,4 +89,35 @@ export const removeItemFromBudgetArray = (
   newArr.splice(index, 1);
 
   return newArr;
+};
+
+export const getSubscriptionStatus = (
+  expectedPlan: string,
+  subscription_id?: number,
+) => {
+  if (!subscription_id) {
+    return false;
+  }
+
+  const ogPlan = subscription_id === 1;
+  const starterPlan = subscription_id === 3;
+  const proPlan = subscription_id === 4;
+
+  if ("Starter" === expectedPlan) {
+    return starterPlan || proPlan || ogPlan;
+  }
+
+  if ("Pro" === expectedPlan) {
+    return proPlan || ogPlan;
+  }
+
+  return ogPlan;
+};
+
+export const getSubscriptionName = (subscription_id?: number) => {
+  if (!subscription_id) {
+    return "Free";
+  }
+
+  return subscriptionPlan[subscription_id - 1];
 };

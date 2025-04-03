@@ -49,18 +49,14 @@ export const budgetOptions = [
 export const viewOptions = [
   {
     id: 0,
-    label: "Text",
-  },
-  {
-    id: 1,
     label: "Doughnut Chart",
   },
   {
-    id: 2,
+    id: 1,
     label: "Pie Chart",
   },
   {
-    id: 3,
+    id: 2,
     label: "Bar Graph",
   },
 ];
@@ -79,3 +75,5 @@ export const budgetViewMatch = [
     type: "bar",
   },
 ];
+
+export const subscriptionPlan = ["Grandfathered", "Free", "Starter", "Pro"];

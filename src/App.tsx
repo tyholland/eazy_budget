@@ -39,7 +39,7 @@ const App = () => {
               element={<PrivateRoute component={Create} />}
             />
             <Route
-              path="/predict"
+              path="/account/predict"
               element={<PrivateRoute component={Predict} />}
             />
             <Route

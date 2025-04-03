@@ -29,6 +29,7 @@ const PrivateRoute = ({ component, ...args }) => {
         setCurrentUser({
           ...user,
           hasBudget: userResponse.hasBudget,
+          subscription_id: userResponse.subscription_id,
         });
         setHasBudget(userResponse.hasBudget);
       }

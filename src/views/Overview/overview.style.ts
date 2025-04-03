@@ -15,6 +15,11 @@ export const OverviewWrapper = styled.div`
   .tooltip {
     width: 150px;
   }
+
+  .override {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 export const Title = styled.h2`
@@ -22,25 +27,6 @@ export const Title = styled.h2`
 
   @media only screen and (max-width: 800px) {
     margin: 0;
-  }
-`;
-
-export const Prediction = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  font-weight: 700;
-
-  @media only screen and (max-width: 800px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  a {
-    @media only screen and (max-width: 800px) {
-      width: 90% !important;
-    }
   }
 `;
 

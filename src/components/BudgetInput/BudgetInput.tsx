@@ -16,6 +16,7 @@ interface BudgetInputProps {
   defaultValue?: string | number;
   valuePlaceHolder?: string;
   labelPlaceHolder?: string;
+  percent?: boolean;
 }
 
 const BudgetInput = ({
@@ -30,6 +31,7 @@ const BudgetInput = ({
   register,
   setInputValue = () => {},
   setUpdatedLabel = () => {},
+  percent = false,
 }: BudgetInputProps) => {
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUpdatedLabel(e.target.value);
@@ -40,7 +42,7 @@ const BudgetInput = ({
   };
 
   return (
-    <S.InputWrapper>
+    <S.InputWrapper className="override">
       {isEditable && (
         <>
           <S.Input
@@ -82,7 +84,11 @@ const BudgetInput = ({
               id={inputLabel}
               className={`${inputSize} ${inputOption}`}
               disabled
-              value={formatAmount(Number(defaultValue))}
+              value={
+                percent
+                  ? `${defaultValue}%`
+                  : formatAmount(Number(defaultValue))
+              }
               aria-label={`${inputLabel} value`}
             />
           )}

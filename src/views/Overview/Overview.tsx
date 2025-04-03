@@ -2,7 +2,6 @@ import React from "react";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import * as S from "./overview.style.ts";
 import ViewIcon from "../../svg/ViewIcon.tsx";
-import ChartIcon from "../../svg/ChartIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { getDateInfo } from "../../functions/helper.ts";
 import Link from "../../components/Link/Link.tsx";
@@ -13,7 +12,6 @@ interface OverviewProps {
   label?: string;
   showLabel?: boolean;
   hideViewIcon?: boolean;
-  hidePredict?: boolean;
 }
 
 const Overview = ({
@@ -22,7 +20,6 @@ const Overview = ({
   incomeValue,
   expenseValue,
   hideViewIcon = false,
-  hidePredict = false,
 }: OverviewProps) => {
   const { currentYear, currentMonth } = getDateInfo();
   const isYearly = label === "Yearly";
@@ -87,21 +84,6 @@ const Overview = ({
         defaultValue={cashFlow}
         type="number"
       />
-      {isYearly && !hidePredict && (
-        <S.Prediction>
-          <div>Predict cash flow for the next 3 years</div>
-          <Link
-            url="/predict"
-            label="Predict"
-            classType="button"
-            linkSize="medium"
-          >
-            <>
-              Predict <ChartIcon />
-            </>
-          </Link>
-        </S.Prediction>
-      )}
       {!hideViewIcon && (
         <>
           <ReactTooltip

@@ -2,57 +2,51 @@ import styled from "styled-components";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 30px;
-  margin-bottom: 20px;
+  gap: 20px;
+  margin: 30px 0;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
 export const Title = styled.h2`
   text-transform: capitalize;
-  margin-bottom: 0;
+  margin: 0;
+`;
+
+export const ItemContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  @media only screen and (max-width: 800px) {
+    justify-content: center;
+  }
+
+  input:not(:disabled) {
+    width: 120px !important;
+  }
 `;
 
 export const ItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  @media only screen and (max-width: 800px) {
-    gap: 20px;
-  }
-`;
-
-export const TotalBudgetWrapper = styled.div`
-  padding: 15px;
-  border: 1px solid #000;
-  width: 330px;
-  border-radius: 10px;
-  background: #fcfade;
-
-  @media only screen and (max-width: 800px) {
-    width: 90%;
-  }
-
-  > div {
-    @media only screen and (max-width: 800px) {
-      border: 0;
-      padding: 0;
-    }
-  }
-`;
-
-export const SelectWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40px;
-
-  @media only screen and (max-width: 800px) {
-    justify-content: space-between;
-  }
+  width: 100%;
+  margin: 0 auto;
 `;
 
 export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+export const ContentWrapper = styled.div`
+  width: 85%;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;

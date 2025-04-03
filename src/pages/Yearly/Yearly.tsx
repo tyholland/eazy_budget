@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BudgetDataItem, GraphType, InputOption } from "../../types.ts";
+import { BudgetDataItem, InputOption } from "../../types.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtomValue } from "jotai";
 import * as S from "./yearly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
-import Select from "../../components/Select/Select.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
-import {
-  budgetOptions,
-  budgetViewMatch,
-  graphColors,
-  listOfBudgets,
-  viewOptions,
-} from "../../constants.ts";
-import Overview from "../../views/Overview/Overview.tsx";
+import { graphColors, listOfBudgets } from "../../constants.ts";
 import {
   getYearlyBudgetBreakdown,
   getYearlyTotalAmount,
@@ -23,15 +15,18 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
+import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
+import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
+import Loading from "../../components/Loading/Loading.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
   const navigate = useNavigate();
   const { type, year } = useParams();
-  const [selectedView, setSelectedView] = useState<string>(
-    viewOptions[0].label,
-  );
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    type,
+  );
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -55,82 +50,67 @@ const Yearly = () => {
 
   return (
     <S.YearlylyWrapper>
-      <S.Title>
-        {theYear} {type}
-      </S.Title>
-      <S.SelectWrapper>
-        <Select
-          options={budgetOptions}
-          placeHolder="Change Budget Type"
-          defaultValue={type}
-          setOption={setSelectedType}
-        />
-        <Select
-          options={viewOptions}
-          placeHolder="Change View"
-          defaultValue={viewOptions[0].label}
-          setOption={setSelectedView}
-        />
-      </S.SelectWrapper>
-      {selectedView === "Text" && (
-        <S.ItemWrapper>
-          {!newBudget.length && <div>Loading...</div>}
-          {newBudget.map((data: BudgetDataItem, i: number) => {
-            return (
-              <BudgetItem
-                key={i}
-                theType={type as InputOption}
-                item={data}
-                hideBtn
-                hideCheckbox
-              >
-                <span data-tooltip-id={`monthly-${type}-tooltip`}>
-                  <Link
-                    url={`/monthly/${type}/${data.label}/${theYear}`}
-                    label={`view breakdown of ${data.label} ${type}`}
-                  >
-                    <ViewIcon />
-                  </Link>
-                </span>
-              </BudgetItem>
-            );
-          })}
-        </S.ItemWrapper>
-      )}
-      {selectedView !== "Text" && (
-        <Graph
-          type={
-            budgetViewMatch.filter((item) => selectedView === item.label)[0]
-              ?.type as GraphType
-          }
-          dataset={[
-            {
-              backgroundColor: graphColors,
-              borderWidth: 1,
-              data: data,
-            },
-          ]}
-          label={labels}
-          title={type}
-        />
-      )}
-      <S.TotalBudgetWrapper>
-        <Overview
-          showLabel={false}
-          label="Yearly"
-          incomeValue={yearlyTotalIncome}
-          expenseValue={yearlyTotalExpense}
-          hideViewIcon
-          hidePredict
-        />
-      </S.TotalBudgetWrapper>
-      <ReactTooltip
-        id={`monthly-${type}-tooltip`}
-        place="top"
-        variant="info"
-        content={`View a detailed breakdown of this ${type}`}
-        className="tooltip"
+      <BudgetNav
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        setSelectedType={setSelectedType}
       />
+      <S.ContentWrapper>
+        <S.Title>
+          {theYear} {type}
+        </S.Title>
+        {selectedOption === type && (
+          <S.ItemWrapper>
+            {!newBudget.length && <Loading />}
+            {newBudget.map((data: BudgetDataItem, i: number) => {
+              return (
+                <BudgetItem
+                  key={i}
+                  theType={type as InputOption}
+                  item={data}
+                  hideBtn
+                  hideCheckbox
+                >
+                  <span data-tooltip-id={`monthly-${type}-tooltip`}>
+                    <Link
+                      url={`/monthly/${type}/${data.label}/${theYear}`}
+                      label={`view breakdown of ${data.label} ${type}`}
+                    >
+                      <ViewIcon />
+                    </Link>
+                  </span>
+                </BudgetItem>
+              );
+            })}
+          </S.ItemWrapper>
+        )}
+        {selectedOption === "details" && (
+          <BudgetDetails
+            income={yearlyTotalIncome}
+            expense={yearlyTotalExpense}
+          />
+        )}
+        {selectedOption === "charts" && (
+          <Graph
+            dataset={[
+              {
+                backgroundColor: graphColors,
+                borderWidth: 1,
+                data: data,
+              },
+            ]}
+            label={labels}
+            title={type}
+          />
+        )}
+        <ReactTooltip
+          id={`monthly-${type}-tooltip`}
+          place="top"
+          variant="info"
+          content={`View a detailed breakdown of this ${type}`}
+          className="tooltip"
+        />
+      </S.ContentWrapper>
     </S.YearlylyWrapper>
   );
 };

@@ -273,3 +273,35 @@ export const reformatBudgetItem = (
 
   return refactoredItem;
 };
+
+export const sortBudgetAlpa = (
+  a: BudgetDataItem,
+  b: BudgetDataItem,
+  sort?: string,
+) => {
+  if (sort === "asc") {
+    return a.label.toLowerCase() > b.label.toLowerCase()
+      ? 1
+      : a.label.toLowerCase() < b.label.toLowerCase()
+        ? -1
+        : 0;
+  }
+
+  return a.label.toLowerCase() < b.label.toLowerCase()
+    ? 1
+    : a.label.toLowerCase() > b.label.toLowerCase()
+      ? -1
+      : 0;
+};
+
+export const sortBudgetValue = (
+  a: BudgetDataItem,
+  b: BudgetDataItem,
+  sort?: string,
+) => {
+  if (sort === "asc") {
+    return a.value > b.value ? 1 : a.value < b.value ? -1 : 0;
+  }
+
+  return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+};

@@ -18,6 +18,7 @@ import {
   getSubscriptionStatus,
 } from "../../functions/helper.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
+import ChartIcon from "../../svg/ChartIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -117,6 +118,13 @@ const Account = () => {
               <S.Section>
                 <Link url="/account/history" label="Budget History">
                   Budget History
+                </Link>
+              </S.Section>
+              <S.Section>
+                <Link url="/account/predict" label="Predict">
+                  <>
+                    3 Year Prediction <ChartIcon />
+                  </>
                 </Link>
               </S.Section>
               {getSubscriptionStatus(

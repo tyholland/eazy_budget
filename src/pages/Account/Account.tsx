@@ -19,6 +19,12 @@ import {
 } from "../../functions/helper.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
 import ChartIcon from "../../svg/ChartIcon.tsx";
+import ViewIcon from "../../svg/ViewIcon.tsx";
+import CancelIcon from "../../svg/CancelIcon.tsx";
+import ContactUsIcon from "../../svg/ContactUsIcon.tsx";
+import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
+import DownloadIcon from "../../svg/DownloadIcon.tsx";
+import HistoryIcon from "../../svg/HistoryIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -83,7 +89,9 @@ const Account = () => {
               </S.Section>
               <S.Section>
                 <Link url="mailto:info.eazybudget@gmail.com" label="Contact Us">
-                  Contact Us
+                  <span>
+                    Contact Us <ContactUsIcon />
+                  </span>
                 </Link>
               </S.Section>
               <S.Section>
@@ -92,7 +100,9 @@ const Account = () => {
                   buttonSize="medium"
                   classType="text"
                 >
-                  Delete Account
+                  <span>
+                    Delete Account <RemoveAccountIcon />
+                  </span>
                 </Button>
               </S.Section>
             </>
@@ -104,7 +114,9 @@ const Account = () => {
                   url={`/yearly/income/${currentYear}`}
                   label={`${currentYear} Overview`}
                 >
-                  <span>{currentYear} Overview</span>
+                  <span>
+                    {currentYear} Overview <ViewIcon />
+                  </span>
                 </Link>
               </S.Section>
               <S.Section>
@@ -112,19 +124,23 @@ const Account = () => {
                   url={`/monthly/income/${currentMonth}/${currentYear}`}
                   label={`${currentMonth} Overview`}
                 >
-                  <span>{currentMonth} Overview</span>
+                  <span>
+                    {currentMonth} Overview <ViewIcon />
+                  </span>
                 </Link>
               </S.Section>
               <S.Section>
                 <Link url="/account/history" label="Budget History">
-                  Budget History
+                  <span>
+                    Budget History <HistoryIcon />
+                  </span>
                 </Link>
               </S.Section>
               <S.Section>
                 <Link url="/account/predict" label="Predict">
-                  <>
+                  <span>
                     3 Year Prediction <ChartIcon />
-                  </>
+                  </span>
                 </Link>
               </S.Section>
               {getSubscriptionStatus(
@@ -133,21 +149,27 @@ const Account = () => {
               ) && (
                 <S.Section>
                   <Link url="#" label={`Review ${currentYear} Past Months`}>
-                    <span>Review {currentYear} Past Months</span>
+                    <span>
+                      Review {currentYear} Past Months <HistoryIcon />
+                    </span>
                   </Link>
                 </S.Section>
               )}
               {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
                 <S.Section>
                   <Link url="#" label={`Download ${currentMonth} PDF`}>
-                    <span>Download {currentMonth} PDF</span>
+                    <span>
+                      Download {currentMonth} PDF <DownloadIcon />
+                    </span>
                   </Link>
                 </S.Section>
               )}
               {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
                 <S.Section>
                   <Link url="#" label={`Download ${currentMonth} Excel`}>
-                    <span>Download {currentMonth} Excel</span>
+                    <span>
+                      Download {currentMonth} Excel <DownloadIcon />
+                    </span>
                   </Link>
                 </S.Section>
               )}

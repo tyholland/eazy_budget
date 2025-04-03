@@ -65,6 +65,9 @@ export const Section = styled.div`
 
   span {
     text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 `;
 

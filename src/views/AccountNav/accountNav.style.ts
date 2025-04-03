@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NavWrapper = styled.div`
-  width: 20%;
+  width: 161px;
 
   @media only screen and (max-width: 800px) {
     width: 100%;

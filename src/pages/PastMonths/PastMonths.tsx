@@ -26,7 +26,10 @@ const PastMonths = () => {
     return null;
   });
 
-  if (!getSubscriptionStatus("Free", currentUser?.subscription_id)) {
+  if (
+    currentUser &&
+    !getSubscriptionStatus("Free", currentUser?.subscription_id)
+  ) {
     navigate("/overview");
   }
 
@@ -48,6 +51,7 @@ const PastMonths = () => {
 
         return (
           <Overview
+            key={`${item.month}-${item.year}`}
             label={`${item.month} Budget`}
             incomeValue={monthlyTotalIncome}
             expenseValue={monthlyTotalExpense}

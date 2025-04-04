@@ -38,7 +38,7 @@ const SelectComponent = ({
         size="small"
         aria-label={`${placeHolder} options`}
       >
-        {options.map((item) => (
+        {options.map((item: SelectOptions) => (
           <MenuItem aria-label={item.label} key={item.id} value={item.label}>
             <S.SelectedOption>{item.label}</S.SelectedOption>
           </MenuItem>

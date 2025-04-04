@@ -12,6 +12,7 @@ import Auth0ProviderRedirect from "./components/Auth0ProviderRedirect/Auth0Provi
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.tsx";
 import Login from "./pages/Login/Login.tsx";
 import Account from "./pages/Account/Account.tsx";
+import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 
 const App = () => {
   return (
@@ -45,6 +46,10 @@ const App = () => {
             <Route
               path="/account/history"
               element={<PrivateRoute component={History} />}
+            />
+            <Route
+              path="/account/past-months"
+              element={<PrivateRoute component={PastMonths} />}
             />
             <Route
               path="/account"

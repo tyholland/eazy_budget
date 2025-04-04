@@ -25,6 +25,7 @@ export const getDateInfo = () => {
 export const getCurrentPageName = (pathName: string) => {
   const page = pathName.split("/");
   const path = page.length === 2 ? `/${page[1]}` : `/${page[1]}/${page[2]}`;
+  const { currentYear } = getDateInfo();
   let pageName = "";
   let page2Name = "";
 
@@ -55,6 +56,10 @@ export const getCurrentPageName = (pathName: string) => {
       break;
     case "/account/history":
       pageName = "Budget History";
+      page2Name = "Account";
+      break;
+    case "/account/past-months":
+      pageName = `${currentYear} Past Months`;
       page2Name = "Account";
       break;
     case "/account":

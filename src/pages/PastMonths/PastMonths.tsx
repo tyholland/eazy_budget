@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./pastMonths.style.ts";
 import { useAtomValue } from "jotai";
@@ -26,12 +26,14 @@ const PastMonths = () => {
     return null;
   });
 
-  if (
-    currentUser &&
-    !getSubscriptionStatus("Free", currentUser?.subscription_id)
-  ) {
-    navigate("/overview");
-  }
+  useEffect(() => {
+    if (
+      currentUser &&
+      !getSubscriptionStatus("Starter", currentUser?.subscription_id)
+    ) {
+      navigate("/overview");
+    }
+  }, []);
 
   return (
     <S.Wrapper>

@@ -10,6 +10,8 @@ import {
   reformatBudgetItem,
   addNewBudgetItem,
   formatBudgetData,
+  sortBudget,
+  getMonthlyPaidExpenses,
 } from "../functions/budget";
 import {
   mockBudget,
@@ -221,5 +223,143 @@ describe("formatBudgetData", () => {
     const expectedResults = JSON.stringify(mockBudgetBody);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+});
+
+describe("sortBudget", () => {
+  test("should return alpha asc budget items as default sort", () => {
+    const results = mockBudgetItemArray.sort(sortBudget);
+    const expectedResults = JSON.stringify([
+      {
+        label: "hulu",
+        value: 20.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "internet",
+        value: 70.7,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+    ]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return alpha desc budget items", () => {
+    const results = mockBudgetItemArray.sort((a, b) =>
+      sortBudget(a, b, "Z - A"),
+    );
+    const expectedResults = JSON.stringify([
+      {
+        label: "netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "internet",
+        value: 70.7,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "hulu",
+        value: 20.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+    ]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return numeric asc budget items", () => {
+    const results = mockBudgetItemArray.sort((a, b) =>
+      sortBudget(a, b, "High - Low"),
+    );
+    const expectedResults = JSON.stringify([
+      {
+        label: "internet",
+        value: 70.7,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "hulu",
+        value: 20.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+    ]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return numeric desc budget items", () => {
+    const results = mockBudgetItemArray.sort((a, b) =>
+      sortBudget(a, b, "Low - High"),
+    );
+    const expectedResults = JSON.stringify([
+      {
+        label: "netflix",
+        value: 19.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "hulu",
+        value: 20.99,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+      {
+        label: "internet",
+        value: 70.7,
+        paid: false,
+        budget_id: null,
+        budget_date_id: null,
+      },
+    ]);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+});
+
+describe("getMonthlyPaidExpenses", () => {
+  test("should return 0", () => {
+    const amount = getMonthlyPaidExpenses([], "january", 2025);
+
+    expect(amount).toBe(0);
+  });
+
+  test("should return total monthly amount", () => {
+    const amount = getMonthlyPaidExpenses(mockBudget, "january", 2025);
+
+    expect(amount).toBe(19);
   });
 });

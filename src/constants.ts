@@ -33,16 +33,22 @@ export const listOfMonths = [
 
 export const listOfBudgets = ["expense", "income"];
 
-export const budgetOptions = [
+export const budgetSortOptions = [
   {
     id: 0,
-    label: "income",
-    link: ``,
+    label: "A - Z",
   },
   {
     id: 1,
-    label: "expense",
-    link: ``,
+    label: "Z - A",
+  },
+  {
+    id: 2,
+    label: "High - Low",
+  },
+  {
+    id: 3,
+    label: "Low - High",
   },
 ];
 
@@ -77,3 +83,14 @@ export const budgetViewMatch = [
 ];
 
 export const subscriptionPlan = ["Grandfathered", "Free", "Starter", "Pro"];
+
+export const budgetQuotes = [
+  '"Budgeting your money is the key to having enough." by Elizabeth Warren',
+  '"A budget is telling your money where to go instead of wondering where it went." by Dave Ramsey',
+  '"A budget doesn\'t limit your freedom; it gives you freedom" by Rachel Cruze',
+  "\"Don't tell me what you value, show me your budget, and I'll tell you what you value.\" by Joe Biden",
+  '"Don\'t save what money is left after spending. Rather, only spend the money that remains after saving funds." by Warren Buffett',
+  '"If you want to get rich, think of saving as earning" by Andrew Carnegie',
+  '"A simple fact that is hard to learn is that the time to save money is when you have some." by Joe Moore',
+  '"If you would be wealthy, think of saving as well as getting" by Benjamin Franklin',
+];

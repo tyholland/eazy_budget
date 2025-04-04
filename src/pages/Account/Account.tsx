@@ -147,7 +147,10 @@ const Account = () => {
                 currentUser?.subscription_id,
               ) && (
                 <S.Section>
-                  <Link url="#" label={`Review ${currentYear} Past Months`}>
+                  <Link
+                    url="/account/past-months"
+                    label={`Review ${currentYear} Past Months`}
+                  >
                     <span>
                       Review {currentYear} Past Months <HistoryIcon />
                     </span>

@@ -273,3 +273,55 @@ export const reformatBudgetItem = (
 
   return refactoredItem;
 };
+
+export const sortBudget = (
+  a: BudgetDataItem,
+  b: BudgetDataItem,
+  sort?: string,
+) => {
+  if (sort === "Low - High") {
+    return a.value > b.value ? 1 : a.value < b.value ? -1 : 0;
+  }
+
+  if (sort === "High - Low") {
+    return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+  }
+
+  if (sort === "Z - A") {
+    return a.label.toLowerCase() < b.label.toLowerCase()
+      ? 1
+      : a.label.toLowerCase() > b.label.toLowerCase()
+        ? -1
+        : 0;
+  }
+
+  return a.label.toLowerCase() > b.label.toLowerCase()
+    ? 1
+    : a.label.toLowerCase() < b.label.toLowerCase()
+      ? -1
+      : 0;
+};
+
+export const getMonthlyPaidExpenses = (
+  budget: BudgetData[],
+  month: string,
+  year: number,
+) => {
+  let amount = 0;
+
+  if (!budget.length) {
+    return amount;
+  }
+
+  budget.forEach((item: BudgetData) => {
+    if (item.month.toLowerCase() === month && item.year === year) {
+      item.expense.forEach((data: BudgetDataItem) => {
+        if (data.paid) {
+          amount += data.value;
+        }
+      });
+    }
+  });
+
+  return amount;
+};

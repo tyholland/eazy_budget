@@ -7,7 +7,7 @@ export const ItemWrapper = styled.div`
   flex-direction: column;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 15px 20px;
+  padding: 15px;
   width: 290px;
 
   .tooltip {

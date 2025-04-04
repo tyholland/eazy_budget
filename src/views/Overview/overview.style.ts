@@ -24,6 +24,7 @@ export const OverviewWrapper = styled.div`
 
 export const Title = styled.h2`
   border-bottom: 1px solid #000;
+  text-transform: capitalize;
 
   @media only screen and (max-width: 800px) {
     margin: 0;

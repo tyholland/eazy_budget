@@ -32,6 +32,7 @@ const History = () => {
 
         return (
           <Overview
+            key={`${item.month}-${item.year}`}
             label={`${item.year} Budget`}
             incomeValue={yearlyTotalIncome}
             expenseValue={yearlyTotalExpense}

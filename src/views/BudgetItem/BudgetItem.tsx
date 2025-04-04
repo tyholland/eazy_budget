@@ -2,6 +2,7 @@ import React, { useEffect, useState, JSX } from "react";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
+import CancelIcon from "../../svg/CancelIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
 import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
@@ -109,6 +110,19 @@ const BudgetItem = ({
                   <SaveIcon />
                 </Button>
               </span>
+              <span data-tooltip-id="cancel-tooltip">
+                <Button
+                  classType="text"
+                  handleClick={() => {
+                    setInputValue(item?.value || "");
+                    setUpdatedLabel(item?.label || "");
+                    setCheckedVal(item?.paid || false);
+                    setIsEditable(false);
+                  }}
+                >
+                  <CancelIcon />
+                </Button>
+              </span>
               <span data-tooltip-id="delete-tooltip">
                 <Button
                   classType="text"
@@ -134,6 +148,13 @@ const BudgetItem = ({
             place="top"
             variant="info"
             content={`Save ${theType} item`}
+            className="tooltip"
+          />
+          <ReactTooltip
+            id="cancel-tooltip"
+            place="top"
+            variant="info"
+            content={`Cancel ${theType} item`}
             className="tooltip"
           />
           <ReactTooltip

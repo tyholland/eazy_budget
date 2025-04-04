@@ -264,7 +264,12 @@ const Monthly = () => {
           </>
         )}
         {selectedOption === "details" && (
-          <BudgetDetails income={totalIncome} expense={totalExpense} />
+          <BudgetDetails
+            income={totalIncome}
+            expense={totalExpense}
+            month={month}
+            year={theYear}
+          />
         )}
         {selectedOption === "charts" && (
           <Graph

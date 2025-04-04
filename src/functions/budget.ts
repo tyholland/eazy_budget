@@ -301,3 +301,27 @@ export const sortBudget = (
       ? -1
       : 0;
 };
+
+export const getMonthlyPaidExpenses = (
+  budget: BudgetData[],
+  month: string,
+  year: number,
+) => {
+  let amount = 0;
+
+  if (!budget.length) {
+    return amount;
+  }
+
+  budget.forEach((item: BudgetData) => {
+    if (item.month.toLowerCase() === month && item.year === year) {
+      item.expense.forEach((data: BudgetDataItem) => {
+        if (data.paid) {
+          amount += data.value;
+        }
+      });
+    }
+  });
+
+  return amount;
+};

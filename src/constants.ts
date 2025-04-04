@@ -33,16 +33,22 @@ export const listOfMonths = [
 
 export const listOfBudgets = ["expense", "income"];
 
-export const budgetOptions = [
+export const budgetSortOptions = [
   {
     id: 0,
-    label: "income",
-    link: ``,
+    label: "A - Z",
   },
   {
     id: 1,
-    label: "expense",
-    link: ``,
+    label: "Z - A",
+  },
+  {
+    id: 2,
+    label: "High - Low",
+  },
+  {
+    id: 3,
+    label: "Low - High",
   },
 ];
 

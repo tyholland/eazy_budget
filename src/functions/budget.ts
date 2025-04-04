@@ -274,34 +274,30 @@ export const reformatBudgetItem = (
   return refactoredItem;
 };
 
-export const sortBudgetAlpa = (
+export const sortBudget = (
   a: BudgetDataItem,
   b: BudgetDataItem,
   sort?: string,
 ) => {
-  if (sort === "asc") {
-    return a.label.toLowerCase() > b.label.toLowerCase()
+  if (sort === "Low - High") {
+    return a.value > b.value ? 1 : a.value < b.value ? -1 : 0;
+  }
+
+  if (sort === "High - Low") {
+    return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+  }
+
+  if (sort === "Z - A") {
+    return a.label.toLowerCase() < b.label.toLowerCase()
       ? 1
-      : a.label.toLowerCase() < b.label.toLowerCase()
+      : a.label.toLowerCase() > b.label.toLowerCase()
         ? -1
         : 0;
   }
 
-  return a.label.toLowerCase() < b.label.toLowerCase()
+  return a.label.toLowerCase() > b.label.toLowerCase()
     ? 1
-    : a.label.toLowerCase() > b.label.toLowerCase()
+    : a.label.toLowerCase() < b.label.toLowerCase()
       ? -1
       : 0;
-};
-
-export const sortBudgetValue = (
-  a: BudgetDataItem,
-  b: BudgetDataItem,
-  sort?: string,
-) => {
-  if (sort === "asc") {
-    return a.value > b.value ? 1 : a.value < b.value ? -1 : 0;
-  }
-
-  return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
 };

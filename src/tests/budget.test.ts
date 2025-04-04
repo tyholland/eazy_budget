@@ -10,8 +10,7 @@ import {
   reformatBudgetItem,
   addNewBudgetItem,
   formatBudgetData,
-  sortBudgetAlpa,
-  sortBudgetValue,
+  sortBudget,
 } from "../functions/budget";
 import {
   mockBudget,
@@ -226,13 +225,13 @@ describe("formatBudgetData", () => {
   });
 });
 
-describe("sortBudgetAlpa", () => {
-  test("should return desc budget items for no sort option", () => {
-    const results = mockBudgetItemArray.sort(sortBudgetAlpa);
+describe("sortBudget", () => {
+  test("should return alpha asc budget items as default sort", () => {
+    const results = mockBudgetItemArray.sort(sortBudget);
     const expectedResults = JSON.stringify([
       {
-        label: "netflix",
-        value: 19.99,
+        label: "hulu",
+        value: 20.99,
         paid: false,
         budget_id: null,
         budget_date_id: null,
@@ -245,8 +244,8 @@ describe("sortBudgetAlpa", () => {
         budget_date_id: null,
       },
       {
-        label: "hulu",
-        value: 20.99,
+        label: "netflix",
+        value: 19.99,
         paid: false,
         budget_id: null,
         budget_date_id: null,
@@ -256,14 +255,14 @@ describe("sortBudgetAlpa", () => {
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
-  test("should return asc budget items", () => {
+  test("should return alpha desc budget items", () => {
     const results = mockBudgetItemArray.sort((a, b) =>
-      sortBudgetAlpa(a, b, "asc"),
+      sortBudget(a, b, "Z - A"),
     );
     const expectedResults = JSON.stringify([
       {
-        label: "hulu",
-        value: 20.99,
+        label: "netflix",
+        value: 19.99,
         paid: false,
         budget_id: null,
         budget_date_id: null,
@@ -276,8 +275,8 @@ describe("sortBudgetAlpa", () => {
         budget_date_id: null,
       },
       {
-        label: "netflix",
-        value: 19.99,
+        label: "hulu",
+        value: 20.99,
         paid: false,
         budget_id: null,
         budget_date_id: null,
@@ -286,11 +285,11 @@ describe("sortBudgetAlpa", () => {
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
-});
 
-describe("sortBudgetValue", () => {
-  test("should return desc budget items for no sort option", () => {
-    const results = mockBudgetItemArray.sort(sortBudgetValue);
+  test("should return numeric asc budget items", () => {
+    const results = mockBudgetItemArray.sort((a, b) =>
+      sortBudget(a, b, "High - Low"),
+    );
     const expectedResults = JSON.stringify([
       {
         label: "internet",
@@ -318,9 +317,9 @@ describe("sortBudgetValue", () => {
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
-  test("should return asc budget items", () => {
+  test("should return numeric desc budget items", () => {
     const results = mockBudgetItemArray.sort((a, b) =>
-      sortBudgetValue(a, b, "asc"),
+      sortBudget(a, b, "Low - High"),
     );
     const expectedResults = JSON.stringify([
       {

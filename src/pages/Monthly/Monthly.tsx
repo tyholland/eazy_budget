@@ -2,21 +2,30 @@ import React, { useEffect, useState } from "react";
 import { BudgetData, BudgetDataItem, InputOption } from "../../types.ts";
 import { useParams, useNavigate } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
-import { graphColors, listOfBudgets, listOfMonths } from "../../constants.ts";
+import {
+  budgetSortOptions,
+  graphColors,
+  listOfBudgets,
+  listOfMonths,
+} from "../../constants.ts";
 import {
   addNewBudgetItem,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   reformatBudgetItem,
+  sortBudget,
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
-import { removeItemFromBudgetArray } from "../../functions/helper.ts";
+import {
+  getSubscriptionStatus,
+  removeItemFromBudgetArray,
+} from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import {
   addBudgetItem,
@@ -27,10 +36,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
+import SelectComponent from "../../components/Select/Select.tsx";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const clonedBudget = [...budget];
   const navigate = useNavigate();
   const { type, month, year } = useParams();
@@ -40,6 +52,19 @@ const Monthly = () => {
   );
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedSort, setSelectedSort] = useState<string>("A - Z");
+
+  const sortBudgetItems = (type: string) => {
+    const updatedBudget: BudgetData[] = [...budget];
+
+    updatedBudget.forEach((item: BudgetData) => {
+      item[type].sort((a: BudgetDataItem, b: BudgetDataItem) =>
+        sortBudget(a, b, selectedSort),
+      );
+    });
+
+    setBudget(updatedBudget);
+  };
 
   useEffect(() => {
     if (selectedType !== type) {
@@ -53,6 +78,10 @@ const Monthly = () => {
       setBudgetChange(false);
     }
   }, [budgetChange]);
+
+  useEffect(() => {
+    type && sortBudgetItems(type);
+  }, [selectedSort, type]);
 
   if (
     !type ||
@@ -95,6 +124,14 @@ const Monthly = () => {
         </S.Title>
         {selectedOption === type && (
           <>
+            {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+              <SelectComponent
+                options={budgetSortOptions}
+                placeHolder="Sort Items"
+                defaultValue={budgetSortOptions[0].label}
+                setOption={setSelectedSort}
+              />
+            )}
             <S.ItemWrapper>
               <S.ItemContainer>
                 {!budget.length && <Loading />}

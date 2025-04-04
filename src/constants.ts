@@ -90,7 +90,7 @@ export const budgetQuotes = [
   '"A budget doesn\'t limit your freedom; it gives you freedom" by Rachel Cruze',
   "\"Don't tell me what you value, show me your budget, and I'll tell you what you value.\" by Joe Biden",
   '"Don\'t save what money is left after spending. Rather, only spend the money that remains after saving funds." by Warren Buffett',
-  '"If you want to get rich, think of saving as earning" by (Andrew Carnegie',
+  '"If you want to get rich, think of saving as earning" by Andrew Carnegie',
   '"A simple fact that is hard to learn is that the time to save money is when you have some." by Joe Moore',
   '"If you would be wealthy, think of saving as well as getting" by Benjamin Franklin',
 ];

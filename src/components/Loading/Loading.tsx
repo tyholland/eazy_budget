@@ -11,7 +11,7 @@ const Loading = () => {
     <S.Wrapper>
       <LoadingIcon />
       <S.Content>Loading...</S.Content>
-      <div>{budgetQuotes[randomNum]}</div>
+      <S.Quote>{budgetQuotes[randomNum]}</S.Quote>
     </S.Wrapper>
   );
 };

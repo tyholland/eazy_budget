@@ -5,7 +5,7 @@ const HistoryIcon = () => {
     <svg
       width={24}
       height={24}
-      enable-background="new 0 0 132.773 256.659"
+      enableBackground="new 0 0 132.773 256.659"
       viewBox="0 0 132.773 256.659"
       xmlns="http://www.w3.org/2000/svg"
     >

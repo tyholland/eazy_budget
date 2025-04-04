@@ -11,7 +11,7 @@ const ContactUsIcon = () => {
       <defs>
         <linearGradient id="a">
           <stop offset="0" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity="0" offset="1" />
         </linearGradient>
         <linearGradient
           id="f"
@@ -20,9 +20,9 @@ const ContactUsIcon = () => {
           y2="327.66"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-opacity="0" offset="0" />
+          <stop stopOpacity="0" offset="0" />
           <stop offset=".5" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity="0" offset="1" />
         </linearGradient>
         <linearGradient
           id="l"
@@ -33,8 +33,8 @@ const ContactUsIcon = () => {
           gradientTransform="matrix(2.3949 0 0 .78106 2.8795 .34301)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-opacity=".12871" offset="0" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity=".12871" offset="0" />
+          <stop stopOpacity="0" offset="1" />
         </linearGradient>
         <linearGradient
           id="k"
@@ -44,8 +44,8 @@ const ContactUsIcon = () => {
           y2="34.701"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#ededed" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#ededed" offset="1" />
         </linearGradient>
         <linearGradient
           id="b"
@@ -56,8 +56,8 @@ const ContactUsIcon = () => {
           gradientTransform="matrix(2.4548 0 0 .762 2.8795 .34301)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#9aa29a" offset="0" />
-          <stop stop-color="#b5beb5" offset="1" />
+          <stop stopColor="#9aa29a" offset="0" />
+          <stop stopColor="#b5beb5" offset="1" />
         </linearGradient>
         <linearGradient
           id="j"
@@ -68,8 +68,8 @@ const ContactUsIcon = () => {
           gradientTransform="matrix(1.8193 0 0 1.0282 2.8795 .34301)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#dcdcdc" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#dcdcdc" offset="1" />
         </linearGradient>
         <linearGradient
           id="i"
@@ -80,8 +80,8 @@ const ContactUsIcon = () => {
           gradientTransform="matrix(1.5706 0 0 1.191 2.8795 .34301)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#ededed" offset="0" />
-          <stop stop-color="#c8c8c8" offset="1" />
+          <stop stopColor="#ededed" offset="0" />
+          <stop stopColor="#c8c8c8" offset="1" />
         </linearGradient>
         <linearGradient
           id="h"
@@ -92,8 +92,8 @@ const ContactUsIcon = () => {
           gradientTransform="matrix(1.3435 0 0 1.4178 2.8795 .3146)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#e2e2e2" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#e2e2e2" offset="1" />
         </linearGradient>
         <linearGradient
           id="g"
@@ -101,8 +101,8 @@ const ContactUsIcon = () => {
           x2="43.989"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#989690" offset="0" />
-          <stop stop-color="#656460" offset="1" />
+          <stop stopColor="#989690" offset="0" />
+          <stop stopColor="#656460" offset="1" />
         </linearGradient>
         <radialGradient
           id="e"
@@ -111,9 +111,9 @@ const ContactUsIcon = () => {
           r="14.375"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#fff" offset="0" />
-          <stop stop-color="#fff520" stop-opacity=".89109" offset=".5" />
-          <stop stop-color="#fff300" stop-opacity="0" offset="1" />
+          <stop stopColor="#fff" offset="0" />
+          <stop stopColor="#fff520" stopOpacity=".89109" offset=".5" />
+          <stop stopColor="#fff300" stopOpacity="0" offset="1" />
         </radialGradient>
         <radialGradient
           id="c"
@@ -124,7 +124,7 @@ const ContactUsIcon = () => {
           gradientUnits="userSpaceOnUse"
         >
           <stop offset="0" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity="0" offset="1" />
         </radialGradient>
         <radialGradient
           id="d"
@@ -135,7 +135,7 @@ const ContactUsIcon = () => {
           gradientUnits="userSpaceOnUse"
         >
           <stop offset="0" />
-          <stop stop-opacity="0" offset="1" />
+          <stop stopOpacity="0" offset="1" />
         </radialGradient>
       </defs>
       <g transform="matrix(.023129 0 0 .014857 45.321 39.614)">
@@ -158,71 +158,71 @@ const ContactUsIcon = () => {
       <path
         d="m6.3334 16.972v24.51h36.972l-0.06106-24.392c-0.00345-1.3776-11.848-14.678-14.034-14.678h-8.5515c-2.2973 0-14.326 13.262-14.326 14.56z"
         fill="url(#h)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         stroke="url(#g)"
-        stroke-linejoin="round"
-        stroke-width=".8566"
+        strokeLinejoin="round"
+        strokeWidth=".8566"
       />
       <path
         d="m6.9231 16.787c-0.39804-0.43013 11.887-13.694 13.744-13.694h8.3758c1.7475 0 14.037 13.128 13.427 13.885l-10.861 13.496-12.313-0.3183-12.372-13.37z"
         fill="url(#i)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m19.078 30.018-7.333-8.746 24.818-6.9361 3.0293 6.2164-7.4163 9.4403"
-        fill-opacity=".1462"
-        fill-rule="evenodd"
+        fillOpacity=".1462"
+        fillRule="evenodd"
       />
       <path
         d="m18.292 29.836-7.4826-8.8101 24.647-6.8933 3.1741 6.271-7.2405 9.4072"
-        fill-opacity=".1462"
-        fill-rule="evenodd"
+        fillOpacity=".1462"
+        fillRule="evenodd"
       />
       <path
         d="m18.775 29.957-7.6749-8.6605 24.968-7.0643 3.2857 6.5924-7.4804 9.1071"
-        fill-opacity=".1462"
-        fill-rule="evenodd"
+        fillOpacity=".1462"
+        fillRule="evenodd"
       />
       <path
         d="m18.594 30.441-7.333-8.746 24.712-6.8933 3.1108 6.3874-7.1202 8.9859"
         fill="url(#j)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m20.488 29.064-13.396 10.972 13.909-9.6043h9.0182l12.419 9.4822-11.863-10.85h-10.087z"
         fill="url(#b)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m6.9635 16.885 11.516 14.316 1.0685-0.8548-12.585-13.461z"
         fill="url(#b)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m7.3077 17.131 0.03115 23.211h34.945l-0.06231-23.085c-0.00202-0.7491-11.216-13.798-13.384-13.798h-7.8956c-2.2523 0-13.635 12.892-13.634 13.672z"
         fill="none"
         stroke="url(#k)"
-        stroke-width=".8566"
+        strokeWidth=".8566"
       />
       <path
         d="m20.957 30.453-11.942 8.2709 2.2194 0.00611 9.9981-6.8689 8.8219-1.4228-9.098 0.01482z"
         fill="#fff"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m11.428 21.67 1.3249 1.4104 22.791-6.8842 2.9151 5.6824 0.61405-0.71192-3.0694-6.3778-24.576 6.8812z"
         fill="#fff"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m13.308 23.636 6.0264 6.4538 1.1967-1.0258 10.087 0.04274 0.81206 0.72658 3.9748-4.7442c-1.154-1.4104-22.097-1.4532-22.097-1.4532z"
         fill="url(#l)"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         d="m41.813 17.848-9.9516 12.631-1.0685-0.8548 11.02-11.776z"
         fill="#b1b1b1"
-        fill-rule="evenodd"
+        fillRule="evenodd"
       />
       <path
         transform="matrix(.78329 0 0 .78329 -6.3409 -86.652)"

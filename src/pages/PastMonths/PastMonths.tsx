@@ -1,27 +1,34 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./pastMonths.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import {
-  getMonthlyTotalAmount,
-  getYearlyTotalAmount,
-} from "../../functions/budget.ts";
-import { getDateInfo } from "../../functions/helper.ts";
+import { getMonthlyTotalAmount } from "../../functions/budget.ts";
+import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
 import { BudgetData } from "../../types.ts";
 import SadIcon from "../../svg/SadIcon.tsx";
 import { listOfMonths } from "../../constants.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
+import { useNavigate } from "react-router-dom";
 
 const PastMonths = () => {
   const budget = useAtomValue(budgetAtom);
-  const { currentYear, currentMonth } = getDateInfo();
+  const currentUser = useAtomValue(userAtom);
+  const navigate = useNavigate();
+  const { currentMonth } = getDateInfo();
   const index = listOfMonths.indexOf(currentMonth);
 
   const previousMonths = budget.filter((item: BudgetData, count: number) => {
     if (count <= index) {
       return item;
     }
+
+    return;
   });
+
+  if (!getSubscriptionStatus("Free", currentUser?.subscription_id)) {
+    navigate("/overview");
+  }
 
   return (
     <S.Wrapper>

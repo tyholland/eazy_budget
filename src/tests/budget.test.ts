@@ -11,6 +11,7 @@ import {
   addNewBudgetItem,
   formatBudgetData,
   sortBudget,
+  getMonthlyPaidExpenses,
 } from "../functions/budget";
 import {
   mockBudget,
@@ -346,5 +347,19 @@ describe("sortBudget", () => {
     ]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+});
+
+describe("getMonthlyPaidExpenses", () => {
+  test("should return 0", () => {
+    const amount = getMonthlyPaidExpenses([], "january", 2025);
+
+    expect(amount).toBe(0);
+  });
+
+  test("should return total monthly amount", () => {
+    const amount = getMonthlyPaidExpenses(mockBudget, "january", 2025);
+
+    expect(amount).toBe(19);
   });
 });

@@ -23,7 +23,7 @@ const PastMonths = () => {
       return item;
     }
 
-    return;
+    return null;
   });
 
   if (!getSubscriptionStatus("Free", currentUser?.subscription_id)) {

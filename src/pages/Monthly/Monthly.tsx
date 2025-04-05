@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BudgetData, BudgetDataItem, InputOption } from "../../types.ts";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom, useAtomValue } from "jotai";
 import * as S from "./monthly.style.ts";
@@ -44,9 +44,7 @@ const Monthly = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
   const currentUser = useAtomValue(userAtom);
   const clonedBudget = [...budget];
-  const navigate = useNavigate();
   const { type, month, year } = useParams();
-  const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
@@ -65,12 +63,6 @@ const Monthly = () => {
 
     setBudget(updatedBudget);
   };
-
-  useEffect(() => {
-    if (selectedType !== type) {
-      navigate(`/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`);
-    }
-  }, [selectedType]);
 
   useEffect(() => {
     if (budgetChange) {
@@ -116,7 +108,8 @@ const Monthly = () => {
       <BudgetNav
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
-        setSelectedType={setSelectedType}
+        incomeUrl={`/monthly/income/${month}/${theYear}`}
+        expenseUrl={`/monthly/expense/${month}/${theYear}`}
       />
       <S.ContentWrapper>
         <S.Title>
@@ -282,6 +275,7 @@ const Monthly = () => {
             ]}
             label={labels}
             title={type}
+            page="monthly"
           />
         )}
       </S.ContentWrapper>

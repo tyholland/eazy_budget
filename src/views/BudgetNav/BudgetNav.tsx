@@ -1,18 +1,23 @@
 import React from "react";
 import * as S from "./budgetNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
+import { useNavigate } from "react-router-dom";
 
 interface BudgetNavProps {
   setSelectedOption: (val: string) => void;
-  setSelectedType: (val: string) => void;
+  incomeUrl: string;
+  expenseUrl: string;
   selectedOption?: string;
 }
 
 const BudgetNav = ({
   setSelectedOption,
-  setSelectedType,
+  incomeUrl,
+  expenseUrl,
   selectedOption,
 }: BudgetNavProps) => {
+  const navigate = useNavigate();
+
   return (
     <S.NavWrapper>
       <S.NavItem className={selectedOption === "income" ? "open" : "close"}>
@@ -20,7 +25,7 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("income");
-            setSelectedType("income");
+            navigate(incomeUrl);
           }}
         >
           Income
@@ -31,7 +36,7 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("expense");
-            setSelectedType("expense");
+            navigate(expenseUrl);
           }}
         >
           Expense

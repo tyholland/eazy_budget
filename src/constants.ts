@@ -52,6 +52,17 @@ export const budgetSortOptions = [
   },
 ];
 
+export const budgetOptions = [
+  {
+    id: 0,
+    label: "income",
+  },
+  {
+    id: 1,
+    label: "expense",
+  },
+];
+
 export const viewOptions = [
   {
     id: 0,

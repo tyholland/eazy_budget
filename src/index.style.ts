@@ -8,8 +8,18 @@ export const BARLOW = '"Barlow", sans-serif;'; // Content
 // Colors
 export const WHITE = "#ffffff";
 export const BLACK = "#000000";
-export const DARK_GRAY = "#333333";
+export const DARK_GRAY = "#555555";
+export const DARKER_GRAY = "#333333";
+export const LIGHT_GRAY = "#dddddd";
+export const LIGHTER_GRAY = "#eeeeee";
 export const GRAY = "#999999";
+export const RED = "#ff0000";
+export const LIGHT_RED = "#ffcccb";
+export const GREEN = "#00ff00";
+export const LIGHT_GREEN = "#cefad0";
+export const SKY_BLUE = "#57b9ff";
+export const LIGHT_SKY_BLUE = "#90d5ff";
+export const LIGHT_YELLOW = "#fcfade";
 
 // Globals
 export const GlobalStyles = createGlobalStyle`

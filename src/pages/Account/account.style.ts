@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DARK_GRAY } from "../../index.style.ts";
+import { DARKER_GRAY, LIGHT_SKY_BLUE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -50,16 +50,16 @@ export const Section = styled.div`
 
   a,
   button {
-    color: ${DARK_GRAY} !important;
+    color: ${DARKER_GRAY} !important;
     font-weight: 700 !important;
     font-size: 16px !important;
     width: 100% !important;
     padding: 0 0 10px 0 !important;
     justify-content: flex-start;
-    border-bottom: 1px solid ${DARK_GRAY};
+    border-bottom: 1px solid ${DARKER_GRAY};
 
     &:hover {
-      color: #90d5ff !important;
+      color: ${LIGHT_SKY_BLUE} !important;
       text-decoration: none !important;
     }
   }

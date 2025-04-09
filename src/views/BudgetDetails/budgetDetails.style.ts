@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK } from "../../index.style.ts";
+import { BLACK, LIGHT_YELLOW } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const TotalBudgetWrapper = styled.div`
   width: 150px;
   height: 80px;
   border-radius: 10px;
-  background: #fcfade;
+  background: ${LIGHT_YELLOW};
   display: flex;
   gap: 12px;
   flex-direction: column;

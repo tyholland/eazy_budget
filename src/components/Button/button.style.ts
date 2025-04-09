@@ -1,5 +1,13 @@
 import styled from "styled-components";
-import { BLACK, GRAY, WHITE } from "../../index.style.ts";
+import {
+  BLACK,
+  DARK_GRAY,
+  GRAY,
+  LIGHT_SKY_BLUE,
+  LIGHTER_GRAY,
+  SKY_BLUE,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Button = styled.button`
   border-radius: 30px;
@@ -13,11 +21,11 @@ export const Button = styled.button`
   justify-content: center;
 
   &.default {
-    background: #90d5ff;
+    background: ${LIGHT_SKY_BLUE};
     color: ${BLACK};
 
     &:hover {
-      background: #57b9ff;
+      background: ${SKY_BLUE};
     }
   }
 
@@ -46,7 +54,7 @@ export const Button = styled.button`
     color: ${BLACK};
 
     &:hover {
-      border: 1px solid #57b9ff;
+      border: 1px solid ${SKY_BLUE};
     }
   }
 
@@ -55,7 +63,7 @@ export const Button = styled.button`
     color: ${WHITE};
 
     &:hover {
-      background: #555;
+      background: ${DARK_GRAY};
     }
   }
 
@@ -71,13 +79,13 @@ export const Button = styled.button`
   }
 
   &:disabled {
-    background: #eee;
+    background: ${LIGHTER_GRAY};
     color: ${GRAY};
     cursor: not-allowed;
     border: none;
 
     &:hover {
-      background: #eee;
+      background: ${LIGHTER_GRAY};
       color: ${GRAY};
       border: none;
     }

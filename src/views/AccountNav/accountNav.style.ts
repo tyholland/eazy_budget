@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, GRAY } from "../../index.style.ts";
+import { BLACK, GRAY, LIGHT_GRAY } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
   width: 161px;
@@ -10,10 +10,10 @@ export const NavWrapper = styled.div`
   }
 
   div:last-child {
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid ${LIGHT_GRAY};
 
     @media only screen and (max-width: 800px) {
-      border-right: 2px solid #ddd;
+      border-right: 2px solid ${LIGHT_GRAY};
       border-bottom: 0;
     }
   }
@@ -37,7 +37,7 @@ export const NavItem = styled.div`
   }
 
   button {
-    border: 2px solid #ddd;
+    border: 2px solid ${LIGHT_GRAY};
     border-bottom: 0;
     justify-content: flex-start;
     padding: 10px 0 10px 10px !important;
@@ -47,7 +47,7 @@ export const NavItem = styled.div`
     @media only screen and (max-width: 800px) {
       padding: 10px 0 !important;
       justify-content: center;
-      border-bottom: 2px solid #ddd;
+      border-bottom: 2px solid ${LIGHT_GRAY};
       border-right: 0;
     }
   }

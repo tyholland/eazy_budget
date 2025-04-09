@@ -1,5 +1,13 @@
 import styled from "styled-components";
-import { BLACK, DARK_GRAY, WHITE } from "../../index.style.ts";
+import {
+  BLACK,
+  DARKER_GRAY,
+  GREEN,
+  LIGHT_GREEN,
+  LIGHT_RED,
+  RED,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Input = styled.input`
   border-radius: 10px;
@@ -13,22 +21,22 @@ export const Input = styled.input`
     &:disabled {
       border: 1px solid ${BLACK};
       background: ${WHITE};
-      color: ${DARK_GRAY};
+      color: ${DARKER_GRAY};
     }
   }
 
   &.expense {
     &:disabled {
-      border: 1px solid #f00;
-      background: #ffcccb;
+      border: 1px solid ${RED};
+      background: ${LIGHT_RED};
       color: ${BLACK};
     }
   }
 
   &.income {
     &:disabled {
-      border: 1px solid #00ff00;
-      background: #cefad0;
+      border: 1px solid ${GREEN};
+      background: ${LIGHT_GREEN};
       color: ${BLACK};
     }
   }

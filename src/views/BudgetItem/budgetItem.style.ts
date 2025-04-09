@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { LIGHT_GRAY } from "../../index.style";
 
 export const ItemWrapper = styled.div`
   display: flex;
   gap: 16px;
   align-items: flex-start;
   flex-direction: column;
-  border: 1px solid #ddd;
+  border: 1px solid ${LIGHT_GRAY};
   border-radius: 10px;
   padding: 15px;
   width: 290px;

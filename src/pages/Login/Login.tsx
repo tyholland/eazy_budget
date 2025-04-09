@@ -30,7 +30,7 @@ const Login = () => {
       </S.Section>
       <S.Section>
         <span>
-          Eazy Budgeting makes budgeting effortless—just enter your expenses
+          Easy Budgeting makes budgeting effortless—just enter your expenses
           once, and they'll be automatically applied to each month of the year.
         </span>
         <DataIcon />

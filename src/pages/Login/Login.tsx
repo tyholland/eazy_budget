@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <S.Wrapper>
       {/**
-       * Add main image with the "tired or using pen" copy.
+       * Add main image with the "tired or using pen" copy next to it.
        * Add a button under the copy that says "Get Started"
        * The button will log you in
        * Image: https://pixabay.com/illustrations/ai-generated-inflation-supermarket-8498195/

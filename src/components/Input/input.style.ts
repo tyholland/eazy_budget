@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK } from "../../index.style.ts";
+import { BLACK, WHITE } from "../../index.style.ts";
 
 export const Input = styled.input`
   border-radius: 10px;
@@ -8,6 +8,7 @@ export const Input = styled.input`
   height: 12px;
   font-size: 16px;
   text-transform: capitalize;
+  background: ${WHITE};
 
   &.text {
     text-transform: none;

@@ -40,6 +40,7 @@ export const ItemWrapper = styled.div`
     align-items: center;
     border: 0;
     padding: 0;
+    background: transparent;
 
     @media only screen and (max-width: 800px) {
       width: 100%;

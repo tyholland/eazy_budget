@@ -1,15 +1,16 @@
 import styled from "styled-components";
-import { LIGHT_GRAY } from "../../index.style.ts";
+import { DARKER_GRAY, WHITE } from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;
   gap: 16px;
   align-items: flex-start;
   flex-direction: column;
-  border: 1px solid ${LIGHT_GRAY};
+  border: 1px solid ${DARKER_GRAY};
   border-radius: 10px;
   padding: 15px;
   width: 290px;
+  background: ${WHITE};
 
   .tooltip {
     width: 130px;

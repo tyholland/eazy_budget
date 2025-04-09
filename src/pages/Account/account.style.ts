@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DARKER_GRAY, LIGHT_SKY_BLUE } from "../../index.style.ts";
+import { DARKER_GRAY, SKY_BLUE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ export const Section = styled.div`
     border-bottom: 1px solid ${DARKER_GRAY};
 
     &:hover {
-      color: ${LIGHT_SKY_BLUE} !important;
+      color: ${SKY_BLUE} !important;
       text-decoration: none !important;
     }
   }

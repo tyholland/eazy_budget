@@ -18,6 +18,7 @@ import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
+import { DARKER_GRAY } from "../../index.style.ts";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -91,6 +92,7 @@ const Yearly = () => {
                 backgroundColor: graphColors,
                 borderWidth: 1,
                 data: data,
+                borderColor: DARKER_GRAY,
               },
             ]}
             label={labels}

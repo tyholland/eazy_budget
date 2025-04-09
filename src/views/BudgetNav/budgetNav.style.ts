@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, GRAY, LIGHT_GRAY } from "../../index.style.ts";
+import { BLACK, SKY_BLUE } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
   width: 125px;
@@ -10,22 +10,24 @@ export const NavWrapper = styled.div`
   }
 
   div:last-child {
-    border-bottom: 2px solid ${LIGHT_GRAY};
+    border-bottom: 2px solid ${BLACK};
 
     @media only screen and (max-width: 800px) {
-      border-right: 2px solid ${LIGHT_GRAY};
+      border-right: 2px solid ${BLACK};
       border-bottom: 0;
     }
   }
 `;
 
 export const NavItem = styled.div`
+  background: ${SKY_BLUE};
+
   @media only screen and (max-width: 800px) {
     width: 25%;
   }
 
   button {
-    border: 2px solid ${LIGHT_GRAY};
+    border: 2px solid ${BLACK};
     border-bottom: 0;
     justify-content: flex-start;
     padding: 10px 0 10px 10px !important;
@@ -35,14 +37,14 @@ export const NavItem = styled.div`
     @media only screen and (max-width: 800px) {
       padding: 10px 0 !important;
       justify-content: center;
-      border-bottom: 2px solid ${LIGHT_GRAY};
+      border-bottom: 2px solid ${BLACK};
       border-right: 0;
     }
   }
 
   &.close {
     button {
-      color: ${GRAY};
+      color: ${BLACK};
 
       &:hover {
         color: ${BLACK};
@@ -52,6 +54,8 @@ export const NavItem = styled.div`
   }
 
   &.open {
+    background: transparent;
+
     button {
       border-right: 0;
 

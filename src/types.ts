@@ -30,6 +30,7 @@ export interface GraphDataSet {
   backgroundColor: string[];
   borderWidth: number;
   label?: string;
+  borderColor?: string;
 }
 
 export interface BudgetDataItem {

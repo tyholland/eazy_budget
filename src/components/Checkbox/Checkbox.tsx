@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import * as S from "./checkbox.style.ts";
 
@@ -21,6 +21,10 @@ const CheckboxComponent = ({
     setCheckedVal(val.target.checked);
     setCheckedItem(val.target.checked);
   };
+
+  useEffect(() => {
+    setCheckedItem(isChecked);
+  }, [isChecked]);
 
   return (
     <S.Wrapper>

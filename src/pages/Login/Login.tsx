@@ -35,7 +35,7 @@ const Login = () => {
         </span>
         <DataIcon />
       </S.Section>
-      <Button handleClick={() => loginWithRedirect()} buttonSize="medium">
+      <Button handleClick={loginWithRedirect} buttonSize="medium">
         Log In / Sign Up
       </Button>
     </S.Wrapper>

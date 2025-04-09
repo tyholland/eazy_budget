@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import { COSMIC, DARK_GRAY } from "../../index.style.ts";
 
 export const HeaderWrapper = styled.div`
   display: flex;
   padding-bottom: 10px;
   margin: 10px 0 20px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid ${DARK_GRAY};
   justify-content: space-between;
   align-items: flex-end;
 
@@ -16,7 +17,7 @@ export const HeaderWrapper = styled.div`
 `;
 
 export const Title = styled.div`
-  font-family: "Comic Neue", cursive;
+  font-family: ${COSMIC};
   font-style: italic;
   font-size: 40px;
   font-weight: 700;

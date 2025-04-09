@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { BLACK } from "../../index.style.ts";
 
 export const Input = styled.input`
   border-radius: 10px;
-  border: 1px solid #000;
+  border: 1px solid ${BLACK};
   padding: 10px;
   height: 12px;
   font-size: 16px;

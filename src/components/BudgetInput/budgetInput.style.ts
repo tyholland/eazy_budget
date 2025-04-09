@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { BLACK, DARK_GRAY, WHITE } from "../../index.style.ts";
 
 export const Input = styled.input`
   border-radius: 10px;
-  border: 1px solid #000;
+  border: 1px solid ${BLACK};
   padding: 10px;
   height: 12px;
   font-size: 16px;
@@ -10,9 +11,9 @@ export const Input = styled.input`
 
   &.default {
     &:disabled {
-      border: 1px solid #000;
-      background: #fff;
-      color: #333;
+      border: 1px solid ${BLACK};
+      background: ${WHITE};
+      color: ${DARK_GRAY};
     }
   }
 
@@ -20,7 +21,7 @@ export const Input = styled.input`
     &:disabled {
       border: 1px solid #f00;
       background: #ffcccb;
-      color: #000;
+      color: ${BLACK};
     }
   }
 
@@ -28,7 +29,7 @@ export const Input = styled.input`
     &:disabled {
       border: 1px solid #00ff00;
       background: #cefad0;
-      color: #000;
+      color: ${BLACK};
     }
   }
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DARK_GRAY, GRAY } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -9,17 +10,17 @@ export const Wrapper = styled.div`
 `;
 
 export const GreyedOut = styled.div`
-  color: #999;
+  color: ${GRAY};
   font-size: 14px;
 
   a {
-    color: #999;
+    color: ${GRAY};
     text-decoration: none;
     font-size: 14px !important;
 
     &:hover {
       text-decoration: underline;
-      color: #333;
+      color: ${DARK_GRAY};
     }
   }
 `;

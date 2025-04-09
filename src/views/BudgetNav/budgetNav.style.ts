@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BLACK, GRAY } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
   width: 125px;
@@ -41,10 +42,10 @@ export const NavItem = styled.div`
 
   &.close {
     button {
-      color: #999;
+      color: ${GRAY};
 
       &:hover {
-        color: #000;
+        color: ${BLACK};
         text-decoration: underline;
       }
     }

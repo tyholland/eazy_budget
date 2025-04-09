@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BLACK, GRAY, WHITE } from "../../index.style.ts";
 
 export const Button = styled.button`
   border-radius: 30px;
@@ -13,7 +14,7 @@ export const Button = styled.button`
 
   &.default {
     background: #90d5ff;
-    color: #000;
+    color: ${BLACK};
 
     &:hover {
       background: #57b9ff;
@@ -40,9 +41,9 @@ export const Button = styled.button`
   }
 
   &.register {
-    background: #fff;
-    border: 1px solid #000;
-    color: #000;
+    background: ${WHITE};
+    border: 1px solid ${BLACK};
+    color: ${BLACK};
 
     &:hover {
       border: 1px solid #57b9ff;
@@ -50,8 +51,8 @@ export const Button = styled.button`
   }
 
   &.exit {
-    background: #000;
-    color: #fff;
+    background: ${BLACK};
+    color: ${WHITE};
 
     &:hover {
       background: #555;
@@ -71,13 +72,13 @@ export const Button = styled.button`
 
   &:disabled {
     background: #eee;
-    color: #999;
+    color: ${GRAY};
     cursor: not-allowed;
     border: none;
 
     &:hover {
       background: #eee;
-      color: #999;
+      color: ${GRAY};
       border: none;
     }
   }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BLACK, RUBIK } from "../../index.style.ts";
 
 export const OverviewWrapper = styled.div`
   display: flex;
@@ -23,8 +24,9 @@ export const OverviewWrapper = styled.div`
 `;
 
 export const Title = styled.h2`
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid ${BLACK};
   text-transform: capitalize;
+  font-family: ${RUBIK};
 
   @media only screen and (max-width: 800px) {
     margin: 0;

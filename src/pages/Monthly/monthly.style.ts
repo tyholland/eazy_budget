@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RUBIK } from "../../index.style.ts";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ export const MonthlyWrapper = styled.div`
 export const Title = styled.h2`
   text-transform: capitalize;
   margin: 0;
+  font-family: ${RUBIK};
 `;
 
 export const ItemContainer = styled.div`

@@ -2,7 +2,9 @@ import styled from "styled-components";
 
 export const GraphWraper = styled.div`
   width: 500px;
-  height: 500px;
+  min-height: 500px;
+  max-height: 1000px;
+  height: 100%;
   margin: 0 auto;
 
   @media only screen and (max-width: 800px) {

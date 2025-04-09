@@ -81,6 +81,7 @@ const Yearly = () => {
           <BudgetDetails
             income={yearlyTotalIncome}
             expense={yearlyTotalExpense}
+            hideExpensesPaid
           />
         )}
         {selectedOption === "charts" && (

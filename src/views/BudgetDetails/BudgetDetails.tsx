@@ -12,6 +12,7 @@ interface BudgetDetailsProps {
   expense: number;
   month?: string;
   year?: number;
+  hideExpensesPaid?: boolean;
 }
 
 const BudgetDetails = ({
@@ -19,6 +20,7 @@ const BudgetDetails = ({
   expense,
   month,
   year,
+  hideExpensesPaid,
 }: BudgetDetailsProps) => {
   const currentUser = useAtomValue(userAtom);
   const budget = useAtomValue(budgetAtom);
@@ -53,15 +55,16 @@ const BudgetDetails = ({
           type="number"
         />
       </S.TotalBudgetWrapper>
-      {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
-        <S.TotalBudgetWrapper>
-          <BudgetInput
-            inputLabel="Income after paid expenses"
-            defaultValue={incomeMinusExpense}
-            type="number"
-          />
-        </S.TotalBudgetWrapper>
-      )}
+      {!hideExpensesPaid &&
+        getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+          <S.TotalBudgetWrapper>
+            <BudgetInput
+              inputLabel="Income after paid expenses"
+              defaultValue={incomeMinusExpense}
+              type="number"
+            />
+          </S.TotalBudgetWrapper>
+        )}
       {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
         <S.TotalBudgetWrapper>
           <BudgetInput

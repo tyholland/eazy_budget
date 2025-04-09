@@ -7,6 +7,7 @@ export const BARLOW = '"Barlow", sans-serif;'; // Content
 
 // Colors
 export const WHITE = "#ffffff";
+export const OFF_WHITE = "#f2f0ef";
 export const BLACK = "#000000";
 export const DARK_GRAY = "#555555";
 export const DARKER_GRAY = "#333333";
@@ -29,6 +30,7 @@ export const GlobalStyles = createGlobalStyle`
     min-width: 800px;
     width: 90%;
     font-family: ${BARLOW};
+    background: ${OFF_WHITE};
 
     @media only screen and (max-width: 800px) {
       padding: 0 5%;

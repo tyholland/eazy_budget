@@ -21,7 +21,19 @@ const Login = () => {
 
   return (
     <S.Wrapper>
+      {/**
+       * Add main image with the "tired or using pen" copy.
+       * Add a button under the copy that says "Get Started"
+       * The button will log you in
+       * Image: https://pixabay.com/illustrations/ai-generated-inflation-supermarket-8498195/
+       **/}
       <S.Section>
+        {/**
+         * The sections will alternate colors from Light_SKY_BLUE to the default background color
+         * The sections will be short videos of:
+         * Creating a budget, Update/Add monthly expense, Change chart types, Prediction tool
+         * Each video will have a paragraph explaining the video and how it can help users
+         **/}
         <PenPaperIcon />
         <span>
           Tired of using pen and paper to track your monthly expenses every

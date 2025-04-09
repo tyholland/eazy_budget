@@ -8,7 +8,12 @@ const Loading = () => {
 
   return (
     <S.Wrapper>
-      <img src="/images/loading.jpg" width="500px" height="500px" />
+      <img
+        src="/images/loading.jpg"
+        width="500px"
+        height="500px"
+        alt="loading piggy bank"
+      />
       <S.Content>Loading...</S.Content>
       <S.Quote>{budgetQuotes[randomNum]}</S.Quote>
     </S.Wrapper>

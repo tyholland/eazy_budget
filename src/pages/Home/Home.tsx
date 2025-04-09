@@ -97,16 +97,32 @@ const Home = () => {
               and expense.
             </span>
           </S.Section>
-          <Overview
-            label="Monthly"
-            incomeValue={montlyTotalIncome}
-            expenseValue={monthlyTotalExpense}
-          />
-          <Overview
-            label="Yearly"
-            incomeValue={yearlyTotalIncome}
-            expenseValue={yearlyTotalExpense}
-          />
+          <S.BudgetSection>
+            <img
+              src="/images/monthly.jpg"
+              width="auto"
+              height="300px"
+              alt="monthly piggy bank"
+            />
+            <Overview
+              label="Monthly"
+              incomeValue={montlyTotalIncome}
+              expenseValue={monthlyTotalExpense}
+            />
+          </S.BudgetSection>
+          <S.BudgetSection>
+            <Overview
+              label="Yearly"
+              incomeValue={yearlyTotalIncome}
+              expenseValue={yearlyTotalExpense}
+            />
+            <img
+              src="/images/yearly.png"
+              width="auto"
+              height="300px"
+              alt="yearly piggy bank"
+            />
+          </S.BudgetSection>
         </>
       )}
       {!budget.length && !hasBudgetItems && (

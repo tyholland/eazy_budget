@@ -5,6 +5,13 @@ export const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 20px;
+
+  img {
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+      height: auto;
+    }
+  }
 `;
 
 export const Content = styled.div`

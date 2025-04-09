@@ -1,5 +1,4 @@
 import React from "react";
-import LoadingIcon from "../../svg/LoadingIcon.tsx";
 import * as S from "./loading.style.ts";
 import { budgetQuotes } from "../../constants.ts";
 
@@ -9,7 +8,7 @@ const Loading = () => {
 
   return (
     <S.Wrapper>
-      <LoadingIcon />
+      <img src="/images/loading.jpg" width="500px" height="500px" />
       <S.Content>Loading...</S.Content>
       <S.Quote>{budgetQuotes[randomNum]}</S.Quote>
     </S.Wrapper>

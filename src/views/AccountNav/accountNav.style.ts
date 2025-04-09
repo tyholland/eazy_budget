@@ -20,17 +20,17 @@ export const NavWrapper = styled.div`
 
 export const NavItem = styled.div`
   @media only screen and (max-width: 800px) {
-    width: 33%;
+    width: 50%;
   }
 
   &.subscribe {
     @media only screen and (max-width: 800px) {
-      width: 22%;
+      width: 30%;
     }
 
     &:nth-child(3) {
       @media only screen and (max-width: 800px) {
-        width: 34%;
+        width: 40%;
       }
     }
   }

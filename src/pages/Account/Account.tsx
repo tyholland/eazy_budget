@@ -69,7 +69,6 @@ const Account = () => {
       <AccountNav
         setSelectedOption={setSelectedOption}
         selectedOption={selectedOption}
-        logout={logOutAccount}
       />
       <S.ContentWrapper>
         <>
@@ -102,6 +101,11 @@ const Account = () => {
                   <span>
                     Delete Account <RemoveAccountIcon />
                   </span>
+                </Button>
+              </S.Section>
+              <S.Section>
+                <Button classType="text" handleClick={logOutAccount}>
+                  Logout
                 </Button>
               </S.Section>
             </>

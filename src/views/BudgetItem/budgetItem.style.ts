@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { LIGHT_GRAY } from "../../index.style";
+import { LIGHT_GRAY } from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;

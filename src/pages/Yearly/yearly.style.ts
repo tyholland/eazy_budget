@@ -30,9 +30,10 @@ export const ItemWrapper = styled.div`
   flex-direction: column;
 
   @media only screen and (max-width: 800px) {
-    width: 100%;
+    width: 90%;
     gap: 20px;
     height: auto;
+    margin: 0 auto;
   }
 
   > div {

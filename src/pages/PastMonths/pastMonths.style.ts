@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
 
   @media only screen and (max-width: 800px) {
     gap: 30px;
+    justify-content: center;
   }
 `;
 

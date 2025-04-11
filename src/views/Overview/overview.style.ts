@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_GRAY, RUBIK } from "../../index.style.ts";
+import { BLACK, LIGHT_GRAY, RUBIK, WHITE } from "../../index.style.ts";
 
 export const OverviewWrapper = styled.div`
   display: flex;
@@ -11,6 +11,7 @@ export const OverviewWrapper = styled.div`
     border: 1px solid ${LIGHT_GRAY};
     padding: 20px 10px;
     border-radius: 10px;
+    background: ${WHITE};
   }
 
   .tooltip {

@@ -38,7 +38,7 @@ import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { userAtom } from "../../hook/UserAtom.ts";
-import { BLACK, DARKER_GRAY } from "../../index.style.ts";
+import { DARKER_GRAY } from "../../index.style.ts";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();

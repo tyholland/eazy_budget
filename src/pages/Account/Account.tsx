@@ -247,6 +247,12 @@ const Account = () => {
           </ModalComponent>
         </>
       </S.ContentWrapper>
+      <img
+        src="/images/account.jpg"
+        width="250px"
+        height="auto"
+        alt="account settings and details"
+      />
     </S.Wrapper>
   );
 };

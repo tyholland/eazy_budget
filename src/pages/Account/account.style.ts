@@ -11,6 +11,12 @@ export const Wrapper = styled.div`
     width: 100%;
     flex-direction: column;
   }
+
+  img {
+    @media only screen and (max-width: 800px) {
+      display: none;
+    }
+  }
 `;
 
 export const Section = styled.div`
@@ -86,7 +92,7 @@ export const ModalBtn = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 80%;
+  width: 400px;
   display: flex;
   gap: 20px;
   flex-direction: column;

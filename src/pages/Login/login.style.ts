@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DUSTY_ROSE, OFF_WHITE, WHITE } from "../../index.style.ts";
+import { DUSTY_ROSE, OFF_WHITE, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -23,6 +23,10 @@ export const Section = styled.div`
   @media only screen and (max-width: 800px) {
     flex-direction: column;
     gap: 0;
+  }
+
+  h1 {
+    font-family: ${RUBIK};
   }
 
   h2 {

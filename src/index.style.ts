@@ -54,7 +54,7 @@ export const GlobalStyles = createGlobalStyle`
     #root {
       height: 100vh;
       background: ${OFF_WHITE};
-      padding: 0 2% 5%;
+      padding: 0 2% 6%;
 
       @media only screen and (max-width: 800px) {
         padding: 0;

@@ -20,16 +20,30 @@ export const Section = styled.div`
   padding-bottom: 20px;
   width: 100%;
 
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    gap: 0;
+  }
+
   h2 {
     width: 80%;
     margin: 0 auto;
     text-align: center;
+
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+    }
   }
 
   img {
     min-width: 500px;
     max-width: 720px;
     width: 100%;
+
+    @media only screen and (max-width: 800px) {
+      min-width: unset;
+      max-width: unset;
+    }
   }
 
   &.title {
@@ -39,6 +53,11 @@ export const Section = styled.div`
     background: ${DUSTY_ROSE};
     color: ${WHITE};
     border-radius: 15px;
+
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+      height: auto;
+    }
   }
 `;
 

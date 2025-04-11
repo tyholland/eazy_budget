@@ -38,9 +38,13 @@ export const GlobalStyles = createGlobalStyle`
     box-shadow: 0 0 10px ${OFF_WHITE};
 
     @media only screen and (max-width: 800px) {
-      padding: 0 5%;
-      min-width: auto;
-      max-width: none;
+      padding: 0 2%;
+      min-width: unset;
+      max-width: unset;
+      background: ${OFF_WHITE};
+      box-shadow: none;
+      width: 96%;
+      height: auto;
     }
 
     input, button {
@@ -51,6 +55,11 @@ export const GlobalStyles = createGlobalStyle`
       height: 100vh;
       background: ${OFF_WHITE};
       padding: 0 2% 5%;
+
+      @media only screen and (max-width: 800px) {
+        padding: 0;
+        height: auto;
+      }
     }
   }
 

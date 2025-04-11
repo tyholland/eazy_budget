@@ -13,6 +13,9 @@ export const Wrapper = styled.div`
   }
 
   img {
+    min-width: 250px;
+    max-width: 759px;
+    width: 100%;
     @media only screen and (max-width: 800px) {
       display: none;
     }
@@ -92,12 +95,16 @@ export const ModalBtn = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+  width: 100%;
   display: flex;
   gap: 20px;
   flex-direction: column;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
+    min-width: unset;
+    max-width: unset;
   }
 `;

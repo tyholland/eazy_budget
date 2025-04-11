@@ -2,10 +2,14 @@ import styled from "styled-components";
 import { BLACK, SKY_BLUE } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
-  width: 161px;
+  min-width: 161px;
+  max-width: 161px;
+  width: 100%;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
+    min-width: unset;
+    max-width: unset;
     display: flex;
   }
 

@@ -21,6 +21,7 @@ export const LIGHT_GREEN = "#cefad0";
 export const SKY_BLUE = "#57b9ff";
 export const LIGHT_SKY_BLUE = "#90d5ff";
 export const LIGHT_YELLOW = "#fcfade";
+export const BURGUNDY = "#800020";
 
 // Globals
 export const GlobalStyles = createGlobalStyle`

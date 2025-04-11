@@ -28,28 +28,34 @@ const Login = () => {
        * Image: https://pixabay.com/illustrations/ai-generated-inflation-supermarket-8498195/
        **/}
       <S.Section>
-        {/**
-         * The sections will alternate colors from Light_SKY_BLUE to the default background color
-         * The sections will be short videos of:
-         * Creating a budget, Update/Add monthly expense, Change chart types, Prediction tool
-         * Each video will have a paragraph explaining the video and how it can help users
-         **/}
-        <PenPaperIcon />
-        <span>
-          Tired of using pen and paper to track your monthly expenses every
-          single month?
-        </span>
+        <img
+          src="/images/login.jpg"
+          width="500px"
+          height="auto"
+          alt="account settings and details"
+        />
+        <div>
+          <h1>
+            Tired of using pen and paper to track your monthly expenses every
+            single month?
+          </h1>
+          <Button handleClick={loginWithRedirect} buttonSize="large">
+            Get Started Now
+          </Button>
+        </div>
       </S.Section>
-      <S.Section>
-        <span>
-          Easy Budgeting makes budgeting effortless—just enter your expenses
+      {/**
+       * The sections will alternate colors from Light_SKY_BLUE to the default background color
+       * The sections will be short videos of:
+       * Creating a budget, Update/Add monthly expense, Change chart types, Prediction tool
+       * Each video will have a paragraph explaining the video and how it can help users
+       **/}
+      <S.Section className="phrase">
+        <h2>
+          Simple Budgeting makes budgeting effortless—just enter your expenses
           once, and they'll be automatically applied to each month of the year.
-        </span>
-        <DataIcon />
+        </h2>
       </S.Section>
-      <Button handleClick={loginWithRedirect} buttonSize="medium">
-        Log In / Sign Up
-      </Button>
     </S.Wrapper>
   );
 };

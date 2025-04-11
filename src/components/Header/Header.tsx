@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <S.HeaderWrapper>
-      <S.Title>Easy Budgeting</S.Title>
+      <S.Title>Simple Budgeting</S.Title>
       {user?.picture ? (
         <Link url={"/account"} label={"Account"}>
           <img

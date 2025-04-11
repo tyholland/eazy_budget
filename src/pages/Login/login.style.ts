@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background: ${OFF_WHITE};
-  padding-top: 20px;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
@@ -18,8 +17,8 @@ export const Section = styled.div`
   align-items: center;
   gap: 30px;
   background: ${OFF_WHITE};
-  padding: 0 1% 20px;
-  width: 98%;
+  padding-bottom: 20px;
+  width: 100%;
 
   h2 {
     width: 80%;
@@ -35,15 +34,16 @@ export const Section = styled.div`
 
   &.title {
     padding: 20px 0;
-    width: 100%;
+    width: 90%;
     height: 130px;
     background: ${DUSTY_ROSE};
     color: ${WHITE};
+    border-radius: 15px;
   }
 `;
 
 export const Catchphrase = styled.div`
   max-width: 450px;
-  min-width: 350px;
+  min-width: 330px;
   width: 100%;
 `;

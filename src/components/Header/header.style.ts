@@ -3,7 +3,8 @@ import { COSMIC, DARKER_GRAY, OFF_WHITE } from "../../index.style.ts";
 
 export const HeaderWrapper = styled.div`
   display: flex;
-  padding: 10px 1%;
+  padding: 10px 0;
+  margin-bottom: 20px;
   border-bottom: 1px solid ${DARKER_GRAY};
   justify-content: space-between;
   align-items: flex-end;

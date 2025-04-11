@@ -27,7 +27,7 @@ export const DUSTY_ROSE = "#dca1a1";
 export const GlobalStyles = createGlobalStyle`
   body {
     margin: 0 auto;
-    padding: 0 0 5%;
+    padding-bottom: 5%;
     max-width: 1200px;
     min-width: 800px;
     width: 92%;
@@ -45,6 +45,12 @@ export const GlobalStyles = createGlobalStyle`
 
     input, button {
       font-family: ${BARLOW};
+    }
+
+    #root {
+      height: 100vh;
+      background: ${OFF_WHITE};
+      padding: 0 2% 5%;
     }
   }
 

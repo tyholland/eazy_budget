@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { COSMIC, DARKER_GRAY } from "../../index.style.ts";
+import { COSMIC, DARKER_GRAY, OFF_WHITE } from "../../index.style.ts";
 
 export const HeaderWrapper = styled.div`
   display: flex;
-  padding-bottom: 10px;
-  margin: 10px 0 20px;
+  padding: 10px 1%;
   border-bottom: 1px solid ${DARKER_GRAY};
   justify-content: space-between;
   align-items: flex-end;
+  background: ${OFF_WHITE};
 
   img {
     width: 25px;

@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { BURGUNDY, OFF_WHITE, WHITE } from "../../index.style.ts";
+import { DUSTY_ROSE, OFF_WHITE, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: ${BURGUNDY};
+  background: ${OFF_WHITE};
+  padding-top: 20px;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
@@ -17,11 +18,8 @@ export const Section = styled.div`
   align-items: center;
   gap: 30px;
   background: ${OFF_WHITE};
-  padding-bottom: 20px;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
+  padding: 0 1% 20px;
+  width: 98%;
 
   h2 {
     width: 80%;
@@ -29,10 +27,23 @@ export const Section = styled.div`
     text-align: center;
   }
 
-  &.phrase {
+  img {
+    min-width: 500px;
+    max-width: 720px;
+    width: 100%;
+  }
+
+  &.title {
     padding: 20px 0;
+    width: 100%;
     height: 130px;
-    background: transparent;
+    background: ${DUSTY_ROSE};
     color: ${WHITE};
   }
+`;
+
+export const Catchphrase = styled.div`
+  max-width: 450px;
+  min-width: 350px;
+  width: 100%;
 `;

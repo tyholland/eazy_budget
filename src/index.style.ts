@@ -7,7 +7,7 @@ export const BARLOW = '"Barlow", sans-serif;'; // Content
 
 // Colors
 export const WHITE = "#ffffff";
-export const OFF_WHITE = "#f2f0ef";
+export const OFF_WHITE = "#FFFAF1";
 export const BLACK = "#000000";
 export const DARK_GRAY = "#555555";
 export const DARKER_GRAY = "#333333";
@@ -21,18 +21,21 @@ export const LIGHT_GREEN = "#cefad0";
 export const SKY_BLUE = "#57b9ff";
 export const LIGHT_SKY_BLUE = "#90d5ff";
 export const LIGHT_YELLOW = "#fcfade";
-export const BURGUNDY = "#800020";
+export const DUSTY_ROSE = "#dca1a1";
 
 // Globals
 export const GlobalStyles = createGlobalStyle`
   body {
-    margin: 0 auto 5%;
+    margin: 0 auto;
+    padding: 0 0 5%;
     max-width: 1200px;
     min-width: 800px;
-    width: 90%;
+    width: 92%;
     font-family: ${BARLOW};
-    background: ${OFF_WHITE};
+    background: ${DUSTY_ROSE};
     font-weight: 300;
+    height: 100vh;
+    box-shadow: 0 0 10px ${OFF_WHITE};
 
     @media only screen and (max-width: 800px) {
       padding: 0 5%;

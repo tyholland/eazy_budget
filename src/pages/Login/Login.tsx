@@ -2,8 +2,6 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./login.style.ts";
-import PenPaperIcon from "../../svg/PenPaperIcon.tsx";
-import DataIcon from "../../svg/DataIcon.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +32,7 @@ const Login = () => {
           height="auto"
           alt="account settings and details"
         />
-        <div>
+        <S.Catchphrase>
           <h1>
             Tired of using pen and paper to track your monthly expenses every
             single month?
@@ -42,7 +40,7 @@ const Login = () => {
           <Button handleClick={loginWithRedirect} buttonSize="large">
             Get Started Now
           </Button>
-        </div>
+        </S.Catchphrase>
       </S.Section>
       {/**
        * The sections will alternate colors from Light_SKY_BLUE to the default background color
@@ -50,7 +48,7 @@ const Login = () => {
        * Creating a budget, Update/Add monthly expense, Change chart types, Prediction tool
        * Each video will have a paragraph explaining the video and how it can help users
        **/}
-      <S.Section className="phrase">
+      <S.Section className="title">
         <h2>
           Simple Budgeting makes budgeting effortless—just enter your expenses
           once, and they'll be automatically applied to each month of the year.

@@ -28,4 +28,8 @@ export const TotalBudgetWrapper = styled.div`
     width: 75%;
     height: auto;
   }
+
+  label {
+    height: 45px;
+  }
 `;

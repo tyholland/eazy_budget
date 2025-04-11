@@ -100,8 +100,8 @@ const Home = () => {
           <S.BudgetSection>
             <img
               src="/images/monthly.jpg"
-              width="auto"
-              height="300px"
+              width="400px"
+              height="auto"
               alt="monthly piggy bank"
             />
             <Overview
@@ -118,8 +118,8 @@ const Home = () => {
             />
             <img
               src="/images/yearly.jpg"
-              width="auto"
-              height="300px"
+              width="400px"
+              height="auto"
               alt="yearly piggy bank"
             />
           </S.BudgetSection>

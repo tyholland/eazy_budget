@@ -93,5 +93,4 @@ export const Label = styled.label`
   text-transform: capitalize;
   min-width: 100px;
   width: auto;
-  height: 45px;
 `;

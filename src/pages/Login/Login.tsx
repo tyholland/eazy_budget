@@ -31,8 +31,8 @@ const Login = () => {
             Tired of using pen and paper to track your monthly expenses every
             single month?
           </h1>
-          <Button handleClick={loginWithRedirect} buttonSize="large">
-            Get Started Now
+          <Button handleClick={loginWithRedirect} buttonSize="medium">
+            Get Started
           </Button>
         </S.Catchphrase>
       </S.Section>

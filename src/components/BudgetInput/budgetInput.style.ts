@@ -89,8 +89,9 @@ export const InputWrapper = styled.div`
 
 export const Label = styled.label`
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   text-transform: capitalize;
   min-width: 100px;
   width: auto;
+  height: 45px;
 `;

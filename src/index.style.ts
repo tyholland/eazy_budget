@@ -31,6 +31,7 @@ export const GlobalStyles = createGlobalStyle`
     width: 90%;
     font-family: ${BARLOW};
     background: ${OFF_WHITE};
+    font-weight: 300;
 
     @media only screen and (max-width: 800px) {
       padding: 0 5%;

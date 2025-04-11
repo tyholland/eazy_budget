@@ -29,7 +29,11 @@ const SelectComponent = ({
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <InputLabel aria-label={placeHolder} id="select-label">
+      <InputLabel
+        sx={{ fontWeight: 500 }}
+        aria-label={placeHolder}
+        id="select-label"
+      >
         {placeHolder}
       </InputLabel>
       <Select

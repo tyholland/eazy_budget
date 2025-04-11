@@ -117,7 +117,7 @@ const Home = () => {
               expenseValue={yearlyTotalExpense}
             />
             <img
-              src="/images/yearly.png"
+              src="/images/yearly.jpg"
               width="auto"
               height="300px"
               alt="yearly piggy bank"

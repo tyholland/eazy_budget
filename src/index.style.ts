@@ -21,7 +21,7 @@ export const LIGHT_GREEN = "#cefad0";
 export const SKY_BLUE = "#57b9ff";
 export const LIGHT_SKY_BLUE = "#90d5ff";
 export const LIGHT_YELLOW = "#fcfade";
-export const DUSTY_ROSE = "#dca1a1";
+export const EARTH_GREEN = "#5a8b5d";
 
 // Globals
 export const GlobalStyles = createGlobalStyle`
@@ -32,7 +32,7 @@ export const GlobalStyles = createGlobalStyle`
     min-width: 800px;
     width: 92%;
     font-family: ${BARLOW};
-    background: ${DUSTY_ROSE};
+    background: ${EARTH_GREEN};
     font-weight: 300;
     height: 100vh;
     box-shadow: 0 0 10px ${OFF_WHITE};

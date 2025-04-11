@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DUSTY_ROSE, OFF_WHITE, RUBIK, WHITE } from "../../index.style.ts";
+import { EARTH_GREEN, OFF_WHITE, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ export const Section = styled.div`
     padding: 20px 0;
     width: 90%;
     height: 130px;
-    background: ${DUSTY_ROSE};
+    background: ${EARTH_GREEN};
     color: ${WHITE};
     border-radius: 15px;
 

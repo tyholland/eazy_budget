@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, SKY_BLUE } from "../../index.style.ts";
+import { BLACK, LIGHT_SKY_BLUE } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
   min-width: 161px;
@@ -24,7 +24,7 @@ export const NavWrapper = styled.div`
 `;
 
 export const NavItem = styled.div`
-  background: ${SKY_BLUE};
+  background: ${LIGHT_SKY_BLUE};
 
   @media only screen and (max-width: 800px) {
     width: 50%;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RUBIK } from "../../index.style.ts";
 
 export const HomeWrapper = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ export const Section = styled.div`
   gap: 10px;
   width: 660px;
   margin: 0 auto;
+  font-weight: 500;
 
   @media only screen and (max-width: 800px) {
     width: 100%;

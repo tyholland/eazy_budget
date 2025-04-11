@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { RUBIK } from "../../index.style.ts";
 
 export const HomeWrapper = styled.div`
   display: flex;

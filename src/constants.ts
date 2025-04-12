@@ -105,3 +105,45 @@ export const budgetQuotes = [
   '"A simple fact that is hard to learn is that the time to save money is when you have some." by Joe Moore',
   '"If you would be wealthy, think of saving as well as getting" by Benjamin Franklin',
 ];
+
+export const frequencyOptions = [
+  {
+    id: 0,
+    label: "Daily",
+  },
+  {
+    id: 1,
+    label: "Weekly",
+  },
+  {
+    id: 2,
+    label: "Bi-Weekly",
+  },
+  {
+    id: 3,
+    label: "Monthly",
+  },
+  {
+    id: 4,
+    label: "Quarterly",
+  },
+  {
+    id: 5,
+    label: "Yearly",
+  },
+];
+
+export const cadenceOptions = [
+  {
+    id: 0,
+    label: "Current Month",
+  },
+  {
+    id: 1,
+    label: "Future Months",
+  },
+  {
+    id: 2,
+    label: "All Months",
+  },
+];

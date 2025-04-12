@@ -140,12 +140,16 @@ const Monthly = () => {
                       const handleSaveEvent = async (
                         obj: Object,
                         isPaid?: boolean,
+                        frequency?: string,
+                        cadence?: string,
                       ) => {
                         const updatedItem = reformatBudgetItem(
                           obj,
                           data.budget_id,
                           data.budget_date_id,
                           isPaid,
+                          frequency,
+                          cadence,
                         );
 
                         currentItems[i] = updatedItem[0];

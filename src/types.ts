@@ -39,6 +39,8 @@ export interface BudgetDataItem {
   budget_id: number | null;
   budget_date_id: number | null;
   paid?: boolean;
+  frequency?: string;
+  cadence?: string;
   type?: string;
 }
 
@@ -56,6 +58,7 @@ export interface BudgetBodyInfo {
   label: string;
   amount: number;
   paid?: boolean;
+  frequency?: string;
 }
 
 export interface UserRequest {

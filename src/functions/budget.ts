@@ -258,6 +258,8 @@ export const reformatBudgetItem = (
   budgetId: number | null,
   budgetDateId: number | null,
   isPaid?: boolean,
+  frequency?: string,
+  cadence?: string,
 ) => {
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
@@ -265,6 +267,8 @@ export const reformatBudgetItem = (
         label: item[0],
         value: item[1],
         paid: isPaid || false,
+        frequency: frequency || "monthly",
+        cadence,
         budget_id: budgetId,
         budget_date_id: budgetDateId,
       };

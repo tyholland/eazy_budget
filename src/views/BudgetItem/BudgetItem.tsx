@@ -24,7 +24,7 @@ interface BudgetItemProps {
   valuePlaceHolder?: string;
   inputType?: InputType;
   hideBtn?: boolean;
-  hideCheckbox?: boolean;
+  hidePaidContent?: boolean;
   saveEvent?: (
     val: Object,
     paid?: boolean,
@@ -43,7 +43,7 @@ const BudgetItem = ({
   labelPlaceHolder = "",
   inputType = "text",
   hideBtn = false,
-  hideCheckbox = false,
+  hidePaidContent = false,
   register,
   saveEvent,
   deleteEvent,
@@ -82,136 +82,143 @@ const BudgetItem = ({
   };
 
   return (
-    <S.ItemWrapper>
+    <S.ItemWrapper className="itemWrapper">
       <S.Item>
-        <BudgetInput
-          inputLabel={updatedLabel}
-          inputOption={theType}
-          defaultValue={inputValue}
-          isEditable={editable}
-          labelPlaceHolder={labelPlaceHolder}
-          valuePlaceHolder={valuePlaceHolder}
-          type={inputType}
-          inputSize="medium"
-          register={register}
-          setInputValue={setInputValue}
-          setUpdatedLabel={setUpdatedLabel}
-        />
-        {!hideCheckbox && (
-          <CheckboxComponent
-            label="Paid"
-            isDisabled={!editable}
-            setCheckedVal={setCheckedVal}
-            isChecked={checkedVal}
+        <S.ItemTopRow>
+          {!hideBtn && (
+            <>
+              <span data-tooltip-id="edit-tooltip">
+                <Button classType="text" handleClick={() => setIsOpen(true)}>
+                  <EditIcon />
+                </Button>
+              </span>
+              <ReactTooltip
+                id="edit-tooltip"
+                place="top"
+                variant="info"
+                content={`Edit ${theType} item`}
+                className="tooltip"
+              />
+              <ModalComponent
+                isOpen={isOpen}
+                title={`Edit ${theType} item`}
+                handleClose={closeModal}
+                size="medium"
+              >
+                <S.ModalItem>
+                  <S.TimingSelects>
+                    <SelectComponent
+                      options={frequencyOptions}
+                      placeHolder="Choose Frequency"
+                      defaultValue={frequencyOptions[3].label}
+                      setOption={setSelectedFrequency}
+                    />
+                    <SelectComponent
+                      options={cadenceOptions}
+                      placeHolder="Choose Cadence"
+                      defaultValue={cadenceOptions[0].label}
+                      setOption={setSelectedCadence}
+                    />
+                  </S.TimingSelects>
+                  <BudgetInput
+                    inputLabel={updatedLabel}
+                    inputOption={theType}
+                    defaultValue={inputValue}
+                    isEditable
+                    labelPlaceHolder={labelPlaceHolder}
+                    valuePlaceHolder={valuePlaceHolder}
+                    type={inputType}
+                    inputSize="medium"
+                    register={register}
+                    setInputValue={setInputValue}
+                    setUpdatedLabel={setUpdatedLabel}
+                  />
+                  {!hidePaidContent && (
+                    <CheckboxComponent
+                      label="Paid"
+                      isDisabled={false}
+                      register={register}
+                      setCheckedVal={setCheckedVal}
+                      isChecked={checkedVal}
+                    />
+                  )}
+                  <S.BtnWrapper>
+                    <Button
+                      handleClick={() => {
+                        const budgetItem = JSON.parse(
+                          `{"${updatedLabel}": ${inputValue}}`,
+                        );
+                        saveEvent &&
+                          saveEvent(
+                            budgetItem,
+                            checkedVal,
+                            selectedFrequency,
+                            selectedCadence,
+                          );
+                        closeModal();
+                      }}
+                    >
+                      <>
+                        Save Item <SaveIcon />
+                      </>
+                    </Button>
+                    <Button
+                      handleClick={() => {
+                        setInputValue(item?.value || "");
+                        setUpdatedLabel(item?.label || "");
+                        setCheckedVal(item?.paid || false);
+                        setSelectedFrequency(
+                          item?.frequency || frequencyOptions[3].label,
+                        );
+                        closeModal();
+                      }}
+                    >
+                      <>
+                        Cancel Item <CancelIcon />
+                      </>
+                    </Button>
+                    <Button
+                      handleClick={() => {
+                        deleteEvent && deleteEvent();
+                        closeModal();
+                      }}
+                    >
+                      <>
+                        Delete Item <DeleteIcon />
+                      </>
+                    </Button>
+                  </S.BtnWrapper>
+                </S.ModalItem>
+              </ModalComponent>
+            </>
+          )}
+          <BudgetInput
+            inputLabel={updatedLabel}
+            inputOption={theType}
+            defaultValue={inputValue}
+            isEditable={editable}
+            labelPlaceHolder={labelPlaceHolder}
+            valuePlaceHolder={valuePlaceHolder}
+            type={inputType}
+            inputSize="medium"
+            register={register}
+            setInputValue={setInputValue}
+            setUpdatedLabel={setUpdatedLabel}
           />
+        </S.ItemTopRow>
+        {!hidePaidContent && (
+          <>
+            <div>paid monthly</div>
+            <CheckboxComponent
+              label="Paid"
+              isDisabled={!editable}
+              setCheckedVal={setCheckedVal}
+              isChecked={checkedVal}
+            />
+          </>
         )}
       </S.Item>
       {children}
-      {!hideBtn && (
-        <>
-          <span data-tooltip-id="edit-tooltip">
-            <Button classType="text" handleClick={() => setIsOpen(true)}>
-              <EditIcon />
-            </Button>
-          </span>
-          <ReactTooltip
-            id="edit-tooltip"
-            place="top"
-            variant="info"
-            content={`Edit ${theType} item`}
-            className="tooltip"
-          />
-          <ModalComponent
-            isOpen={isOpen}
-            title={`Edit ${theType} item`}
-            handleClose={closeModal}
-          >
-            <div>
-              <S.Item>
-                <BudgetInput
-                  inputLabel={updatedLabel}
-                  inputOption={theType}
-                  defaultValue={inputValue}
-                  isEditable
-                  labelPlaceHolder={labelPlaceHolder}
-                  valuePlaceHolder={valuePlaceHolder}
-                  type={inputType}
-                  inputSize="medium"
-                  register={register}
-                  setInputValue={setInputValue}
-                  setUpdatedLabel={setUpdatedLabel}
-                />
-                {!hideCheckbox && (
-                  <CheckboxComponent
-                    label="Paid"
-                    isDisabled={false}
-                    setCheckedVal={setCheckedVal}
-                    isChecked={checkedVal}
-                  />
-                )}
-              </S.Item>
-              <SelectComponent
-                options={frequencyOptions}
-                placeHolder="Choose Frequency"
-                defaultValue={frequencyOptions[3].label}
-                setOption={setSelectedFrequency}
-              />
-              <SelectComponent
-                options={cadenceOptions}
-                placeHolder="Choose Cadence"
-                defaultValue={cadenceOptions[0].label}
-                setOption={setSelectedCadence}
-              />
-              <S.BtnWrapper>
-                <Button
-                  handleClick={() => {
-                    const budgetItem = JSON.parse(
-                      `{"${updatedLabel}": ${inputValue}}`,
-                    );
-                    saveEvent &&
-                      saveEvent(
-                        budgetItem,
-                        checkedVal,
-                        selectedFrequency,
-                        selectedCadence,
-                      );
-                    closeModal();
-                  }}
-                >
-                  <span>
-                    Save Item <SaveIcon />
-                  </span>
-                </Button>
-                <Button
-                  handleClick={() => {
-                    setInputValue(item?.value || "");
-                    setUpdatedLabel(item?.label || "");
-                    setCheckedVal(item?.paid || false);
-                    setSelectedFrequency(
-                      item?.frequency || frequencyOptions[3].label,
-                    );
-                    closeModal();
-                  }}
-                >
-                  <span>
-                    Cancel Item <CancelIcon />
-                  </span>
-                </Button>
-                <Button
-                  handleClick={() => {
-                    deleteEvent && deleteEvent();
-                    closeModal();
-                  }}
-                >
-                  <span>
-                    Delete Item <DeleteIcon />
-                  </span>
-                </Button>
-              </S.BtnWrapper>
-            </div>
-          </ModalComponent>
-        </>
-      )}
     </S.ItemWrapper>
   );
 };

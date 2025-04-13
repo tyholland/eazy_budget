@@ -26,6 +26,15 @@ export const ItemContainer = styled.div`
     justify-content: center;
   }
 
+  .itemWrapper {
+    width: 190px;
+
+    .inputWrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
   input:not(:disabled) {
     width: 120px !important;
   }

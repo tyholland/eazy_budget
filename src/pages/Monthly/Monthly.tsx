@@ -221,7 +221,7 @@ const Monthly = () => {
                           inputType="number"
                           saveEvent={handleSaveEvent}
                           deleteEvent={handleDeleteEvent}
-                          hideCheckbox={type === "income"}
+                          hidePaidContent={type === "income"}
                           editable={data.label === ""}
                         />
                       );

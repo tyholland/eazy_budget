@@ -90,7 +90,7 @@ const Create = () => {
               register={register}
               saveEvent={handleSaveEvent}
               deleteEvent={handleDeleteEvent}
-              hideCheckbox
+              hidePaidContent
             />
           );
         })}
@@ -117,7 +117,7 @@ const Create = () => {
               register={register}
               saveEvent={handleSaveEvent}
               deleteEvent={handleAdditionDeleteEvent}
-              hideCheckbox
+              hidePaidContent
             />
           );
         })}

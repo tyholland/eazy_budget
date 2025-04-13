@@ -18,7 +18,7 @@ export const OverviewWrapper = styled.div`
     width: 150px;
   }
 
-  .override {
+  .inputWrapper {
     flex-direction: row;
     align-items: center;
   }

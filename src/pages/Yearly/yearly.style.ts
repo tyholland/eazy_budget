@@ -36,7 +36,7 @@ export const ItemWrapper = styled.div`
     margin: 0 auto;
   }
 
-  > div {
+  .itemWrapper {
     flex-direction: row;
     align-items: center;
     border: 0;
@@ -46,6 +46,11 @@ export const ItemWrapper = styled.div`
     @media only screen and (max-width: 800px) {
       width: 100%;
     }
+  }
+
+  .inputWrapper {
+    flex-direction: row;
+    align-items: center;
   }
 `;
 

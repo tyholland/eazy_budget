@@ -81,6 +81,9 @@ const BudgetItem = ({
     setIsOpen(false);
   };
 
+  const showCadenceSelector =
+    selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
+
   return (
     <S.ItemWrapper className="itemWrapper">
       <S.Item>
@@ -110,14 +113,22 @@ const BudgetItem = ({
                       options={frequencyOptions}
                       placeHolder="Choose Frequency"
                       defaultValue={frequencyOptions[3].label}
-                      setOption={setSelectedFrequency}
+                      setOption={(val) => {
+                        setSelectedFrequency(val);
+
+                        if (val === "Yearly" || val === "Quarterly") {
+                          setSelectedCadence(cadenceOptions[2].label);
+                        }
+                      }}
                     />
-                    <SelectComponent
-                      options={cadenceOptions}
-                      placeHolder="Choose Cadence"
-                      defaultValue={cadenceOptions[0].label}
-                      setOption={setSelectedCadence}
-                    />
+                    {showCadenceSelector && (
+                      <SelectComponent
+                        options={cadenceOptions}
+                        placeHolder="Choose Cadence"
+                        defaultValue={cadenceOptions[0].label}
+                        setOption={setSelectedCadence}
+                      />
+                    )}
                   </S.TimingSelects>
                   <BudgetInput
                     inputLabel={updatedLabel}

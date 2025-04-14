@@ -9,7 +9,6 @@ interface ModalComponentProps {
   title: string;
   children: string | JSX.Element;
   isOpen: boolean;
-  handleClose: () => void;
   size?: ElementSize;
 }
 
@@ -17,7 +16,6 @@ const ModalComponent = ({
   title,
   children,
   isOpen,
-  handleClose,
   size = "small",
 }: ModalComponentProps) => {
   const modalSize =
@@ -28,11 +26,7 @@ const ModalComponent = ({
         : {};
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-    >
+    <Modal open={isOpen} aria-labelledby="modal-modal-title">
       <Box sx={modalSize}>
         <Typography id="modal-modal-title" variant="h4" component="h2">
           {title}

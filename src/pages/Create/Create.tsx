@@ -110,7 +110,6 @@ const Create = () => {
             <BudgetItem
               key={item}
               theType={type as InputOption}
-              editable
               labelPlaceHolder="name"
               valuePlaceHolder="value"
               inputType="number"

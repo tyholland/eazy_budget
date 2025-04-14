@@ -19,7 +19,7 @@ interface BudgetItemProps {
   children?: string | JSX.Element;
   register?: UseFormRegister<any>;
   item?: BudgetDataItem;
-  editable?: boolean;
+  openModal?: boolean;
   labelPlaceHolder?: string;
   valuePlaceHolder?: string;
   inputType?: InputType;
@@ -38,7 +38,7 @@ const BudgetItem = ({
   theType,
   children,
   item,
-  editable = false,
+  openModal = false,
   valuePlaceHolder = "",
   labelPlaceHolder = "",
   inputType = "text",
@@ -53,7 +53,7 @@ const BudgetItem = ({
   );
   const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
   const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(openModal);
   const [selectedFrequency, setSelectedFrequency] = useState<string>(
     item?.frequency || frequencyOptions[3].label,
   );
@@ -102,7 +102,6 @@ const BudgetItem = ({
               <ModalComponent
                 isOpen={isOpen}
                 title={`Edit ${theType} item`}
-                handleClose={closeModal}
                 size="medium"
               >
                 <S.ModalItem>
@@ -162,21 +161,23 @@ const BudgetItem = ({
                         Save Item <SaveIcon />
                       </>
                     </Button>
-                    <Button
-                      handleClick={() => {
-                        setInputValue(item?.value || "");
-                        setUpdatedLabel(item?.label || "");
-                        setCheckedVal(item?.paid || false);
-                        setSelectedFrequency(
-                          item?.frequency || frequencyOptions[3].label,
-                        );
-                        closeModal();
-                      }}
-                    >
-                      <>
-                        Cancel Item <CancelIcon />
-                      </>
-                    </Button>
+                    {!openModal && (
+                      <Button
+                        handleClick={() => {
+                          setInputValue(item?.value || "");
+                          setUpdatedLabel(item?.label || "");
+                          setCheckedVal(item?.paid || false);
+                          setSelectedFrequency(
+                            item?.frequency || frequencyOptions[3].label,
+                          );
+                          closeModal();
+                        }}
+                      >
+                        <>
+                          Cancel Item <CancelIcon />
+                        </>
+                      </Button>
+                    )}
                     <Button
                       handleClick={() => {
                         deleteEvent && deleteEvent();
@@ -196,7 +197,6 @@ const BudgetItem = ({
             inputLabel={updatedLabel}
             inputOption={theType}
             defaultValue={inputValue}
-            isEditable={editable}
             labelPlaceHolder={labelPlaceHolder}
             valuePlaceHolder={valuePlaceHolder}
             type={inputType}
@@ -211,7 +211,7 @@ const BudgetItem = ({
             <div>paid monthly</div>
             <CheckboxComponent
               label="Paid"
-              isDisabled={!editable}
+              isDisabled
               setCheckedVal={setCheckedVal}
               isChecked={checkedVal}
             />

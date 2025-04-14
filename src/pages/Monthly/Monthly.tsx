@@ -216,13 +216,13 @@ const Monthly = () => {
                           key={i}
                           theType={type as InputOption}
                           item={data}
-                          labelPlaceHolder="name"
-                          valuePlaceHolder="value"
+                          labelPlaceHolder={`${type.toLowerCase()} name`}
+                          valuePlaceHolder={`${type.toLowerCase()} amount`}
                           inputType="number"
                           saveEvent={handleSaveEvent}
                           deleteEvent={handleDeleteEvent}
                           hidePaidContent={type === "income"}
-                          editable={data.label === ""}
+                          openModal={data.label === ""}
                         />
                       );
                     });
@@ -232,7 +232,6 @@ const Monthly = () => {
                 <ModalComponent
                   isOpen={isOpen}
                   title={`Want to remove the last ${type}???`}
-                  handleClose={() => setIsOpen(false)}
                 >
                   <S.ModalWrapper>
                     <span>

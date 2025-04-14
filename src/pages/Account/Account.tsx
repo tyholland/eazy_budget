@@ -224,11 +224,7 @@ const Account = () => {
               </S.Section>
             </>
           )}
-          <ModalComponent
-            isOpen={isOpen}
-            title={`Confirm Account Deletion`}
-            handleClose={() => setIsOpen(false)}
-          >
+          <ModalComponent isOpen={isOpen} title={`Confirm Account Deletion`}>
             <S.ModalWrapper>
               <span>Are you sure you want to delete your account?</span>
               <S.ModalBtn>

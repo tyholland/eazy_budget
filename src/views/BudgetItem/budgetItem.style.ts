@@ -37,6 +37,10 @@ export const BtnWrapper = styled.div`
 export const ItemTopRow = styled.div`
   display: flex;
   flex-direction: row-reverse;
+
+  @media only screen and (max-width: 800px) {
+    justify-content: space-between;
+  }
 `;
 
 export const TimingSelects = styled.div`

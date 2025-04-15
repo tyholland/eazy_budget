@@ -161,7 +161,7 @@ const BudgetItem = ({
                       })}
                     </S.ErrorMsg>
                   )}
-                  <S.BtnWrapper>
+                  <S.BtnWrapper className="btnWrapper">
                     <Button
                       handleClick={() => {
                         const errorMsg = getErrorMessage(

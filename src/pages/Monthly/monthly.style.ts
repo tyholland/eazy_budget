@@ -29,6 +29,10 @@ export const ItemContainer = styled.div`
   .itemWrapper {
     width: 190px;
 
+    @media only screen and (max-width: 800px) {
+      width: 290px;
+    }
+
     .inputWrapper {
       flex-direction: column;
       align-items: flex-start;

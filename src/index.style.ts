@@ -68,4 +68,26 @@ export const GlobalStyles = createGlobalStyle`
     font-family:
       source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
   }
+
+  .MuiModal-root {
+    > .MuiBox-root {
+      @media only screen and (max-width: 800px) {
+        width: 90%;
+        padding: 10% 5%;
+      }
+
+      .btnWrapper {
+        @media only screen and (max-width: 800px) {
+          flex-direction: column;
+        }
+
+        button {
+          @media only screen and (max-width: 800px) {
+            width: 80%;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
 `;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DARKER_GRAY, WHITE } from "../../index.style.ts";
+import { DARKER_GRAY, RED, WHITE } from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;
@@ -56,4 +56,15 @@ export const ModalItem = styled.div`
   @media only screen and (max-width: 800px) {
     width: 100%;
   }
+`;
+
+export const ErrorMsg = styled.ul`
+  background: ${RED};
+  padding: 15px 30px;
+  border-radius: 10px;
+  width: 200px;
+  color: ${WHITE};
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;

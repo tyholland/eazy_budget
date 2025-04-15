@@ -13,6 +13,7 @@ import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { cadenceOptions, frequencyOptions } from "../../constants.ts";
+import { getErrorMessage } from "../../functions/helper.ts";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -60,6 +61,7 @@ const BudgetItem = ({
   const [selectedCadence, setSelectedCadence] = useState<string>(
     cadenceOptions[0].label,
   );
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   useEffect(() => {
     item && setInputValue(item.value);
@@ -152,9 +154,26 @@ const BudgetItem = ({
                       isChecked={checkedVal}
                     />
                   )}
+                  {errorMessage.length > 0 && (
+                    <S.ErrorMsg>
+                      {errorMessage.map((item: string) => {
+                        return <li>{item}</li>;
+                      })}
+                    </S.ErrorMsg>
+                  )}
                   <S.BtnWrapper>
                     <Button
                       handleClick={() => {
+                        const errorMsg = getErrorMessage(
+                          updatedLabel,
+                          inputValue,
+                        );
+
+                        if (errorMsg.length) {
+                          setErrorMessage(errorMsg);
+                          return;
+                        }
+
                         const budgetItem = JSON.parse(
                           `{"${updatedLabel}": ${inputValue}}`,
                         );
@@ -165,6 +184,7 @@ const BudgetItem = ({
                             selectedFrequency,
                             selectedCadence,
                           );
+                        setErrorMessage([]);
                         closeModal();
                       }}
                     >

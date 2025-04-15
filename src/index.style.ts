@@ -27,15 +27,16 @@ export const EARTH_GREEN = "#5a8b5d";
 export const GlobalStyles = createGlobalStyle`
   body {
     margin: 0 auto;
-    padding-bottom: 5%;
     max-width: 1200px;
     min-width: 800px;
     width: 92%;
     font-family: ${BARLOW};
     background: ${EARTH_GREEN};
     font-weight: 300;
-    height: 100vh;
     box-shadow: 0 0 10px ${OFF_WHITE};
+    min-height: 100vh;
+    max-height: fit-content;
+    height: auto;
 
     @media only screen and (max-width: 800px) {
       padding: 0 2%;
@@ -44,7 +45,6 @@ export const GlobalStyles = createGlobalStyle`
       background: ${OFF_WHITE};
       box-shadow: none;
       width: 96%;
-      height: auto;
     }
 
     input, button {
@@ -52,13 +52,14 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     #root {
-      height: 100vh;
       background: ${OFF_WHITE};
-      padding: 0 2% 6%;
+      padding: 0 2% 3%;
+      min-height: 100vh;
+      max-height: fit-content;
+      height: auto;
 
       @media only screen and (max-width: 800px) {
         padding: 0;
-        height: auto;
       }
     }
   }

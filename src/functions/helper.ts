@@ -126,3 +126,17 @@ export const getSubscriptionName = (subscription_id?: number) => {
 
   return subscriptionPlan[subscription_id - 1];
 };
+
+export const getErrorMessage = (label: string, amount: string | number) => {
+  const msg: string[] = [];
+
+  if (!label) {
+    msg.push("Please enter a label");
+  }
+
+  if (!amount) {
+    msg.push("Please enter an amount");
+  }
+
+  return msg;
+};

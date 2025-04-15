@@ -7,6 +7,7 @@ import {
   removeItemFromBudgetArray,
   getSubscriptionStatus,
   getSubscriptionName,
+  getErrorMessage,
 } from "../functions/helper";
 import { listOfMonths } from "../constants";
 import { mockBudgetItemArray } from "./mocks";
@@ -177,5 +178,38 @@ describe("getSubscriptionName", () => {
     const response = "Grandfathered";
 
     expect(plan).toBe(response);
+  });
+});
+
+describe("getErrorMessage", () => {
+  test("should return label error", () => {
+    const error = getErrorMessage("", 20);
+    const response = JSON.stringify(["Please enter a label"]);
+
+    expect(JSON.stringify(error)).toBe(response);
+  });
+
+  test("should return amount error", () => {
+    const error = getErrorMessage("Netflix", "");
+    const response = JSON.stringify(["Please enter an amount"]);
+
+    expect(JSON.stringify(error)).toBe(response);
+  });
+
+  test("should return all errors", () => {
+    const error = getErrorMessage("", "");
+    const response = JSON.stringify([
+      "Please enter a label",
+      "Please enter an amount",
+    ]);
+
+    expect(JSON.stringify(error)).toBe(response);
+  });
+
+  test("should return no errors", () => {
+    const error = getErrorMessage("Netflix", 20);
+    const response = JSON.stringify([]);
+
+    expect(JSON.stringify(error)).toBe(response);
   });
 });

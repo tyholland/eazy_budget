@@ -267,7 +267,7 @@ export const reformatBudgetItem = (
         label: item[0],
         value: item[1],
         paid: isPaid || false,
-        frequency: frequency || "monthly",
+        frequency: frequency || "Monthly",
         cadence,
         budget_id: budgetId,
         budget_date_id: budgetDateId,

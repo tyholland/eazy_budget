@@ -160,6 +160,7 @@ const BudgetItem = ({
                     register={register}
                     setInputValue={setInputValue}
                     setUpdatedLabel={setUpdatedLabel}
+                    frequency={item?.frequency}
                   />
                   {!hidePaidContent && (
                     <CheckboxComponent

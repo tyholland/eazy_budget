@@ -104,6 +104,8 @@ const Monthly = () => {
     setBudget(updatedBudget);
   };
 
+  console.log(budget);
+
   return (
     <S.MonthlyWrapper>
       <BudgetNav

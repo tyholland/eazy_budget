@@ -149,14 +149,18 @@ describe("addAdditionalBudget", () => {
 
 describe("formatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = formatBudgetItem({});
+    const results = formatBudgetItem({}, "Monthly", "Current Month");
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return budget entries", () => {
-    const results = formatBudgetItem(mockBudgetEntries);
+    const results = formatBudgetItem(
+      mockBudgetEntries,
+      "Monthly",
+      "Current Month",
+    );
     const expectedResults = JSON.stringify(mockBudgetItemArray);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -165,7 +169,7 @@ describe("formatBudgetItem", () => {
 
 describe("reformatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = reformatBudgetItem({}, null, null, true);
+    const results = reformatBudgetItem({}, null, null, "april", 2025, true);
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -176,7 +180,11 @@ describe("reformatBudgetItem", () => {
       mockBudgetEntriesNoDollar,
       null,
       null,
+      "april",
+      2025,
       false,
+      "Monthly",
+      "Current Month",
     );
     const expectedResults = JSON.stringify(mockBudgetItemArray);
 
@@ -234,6 +242,8 @@ describe("sortBudget", () => {
         label: "hulu",
         value: 20.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -241,6 +251,8 @@ describe("sortBudget", () => {
         label: "internet",
         value: 70.7,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -248,6 +260,8 @@ describe("sortBudget", () => {
         label: "netflix",
         value: 19.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -265,6 +279,8 @@ describe("sortBudget", () => {
         label: "netflix",
         value: 19.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -272,6 +288,8 @@ describe("sortBudget", () => {
         label: "internet",
         value: 70.7,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -279,6 +297,8 @@ describe("sortBudget", () => {
         label: "hulu",
         value: 20.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -296,6 +316,8 @@ describe("sortBudget", () => {
         label: "internet",
         value: 70.7,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -303,6 +325,8 @@ describe("sortBudget", () => {
         label: "hulu",
         value: 20.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -310,6 +334,8 @@ describe("sortBudget", () => {
         label: "netflix",
         value: 19.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -327,6 +353,8 @@ describe("sortBudget", () => {
         label: "netflix",
         value: 19.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -334,6 +362,8 @@ describe("sortBudget", () => {
         label: "hulu",
         value: 20.99,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },
@@ -341,6 +371,8 @@ describe("sortBudget", () => {
         label: "internet",
         value: 70.7,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: null,
       },

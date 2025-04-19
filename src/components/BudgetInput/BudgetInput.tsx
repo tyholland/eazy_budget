@@ -21,6 +21,7 @@ interface BudgetInputProps {
   valuePlaceHolder?: string;
   labelPlaceHolder?: string;
   percent?: boolean;
+  frequency?: string;
 }
 
 const BudgetInput = ({
@@ -36,6 +37,7 @@ const BudgetInput = ({
   setInputValue = () => {},
   setUpdatedLabel = () => {},
   percent = false,
+  frequency = "Monthly",
 }: BudgetInputProps) => {
   const { month, year } = useParams();
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,7 @@ const BudgetInput = ({
             onChange={handleValueOnChange}
             value={
               typeof defaultValue === "number"
-                ? revertAmountToOriginal(defaultValue, month, year, "Weekly")
+                ? revertAmountToOriginal(defaultValue, month, year, frequency)
                 : defaultValue
             }
             placeholder={valuePlaceHolder}

@@ -235,7 +235,11 @@ export const addNewBudgetItem = (
   return clonedBudget;
 };
 
-export const formatBudgetItem = (data: Object) => {
+export const formatBudgetItem = (
+  data: Object,
+  frequency: string,
+  cadence: string,
+) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.entries(data).forEach((item) => {
@@ -245,6 +249,8 @@ export const formatBudgetItem = (data: Object) => {
       label: item[0],
       value: Number(val.replace("$", "")),
       paid: false,
+      frequency,
+      cadence,
       budget_id: null,
       budget_date_id: null,
     });

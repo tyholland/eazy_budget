@@ -13,7 +13,12 @@ import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { cadenceOptions, frequencyOptions } from "../../constants.ts";
-import { getErrorMessage } from "../../functions/helper.ts";
+import {
+  getErrorMessage,
+  getFrequencyContent,
+  revertAmountToOriginal,
+} from "../../functions/helper.ts";
+import { useParams } from "react-router-dom";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -49,6 +54,7 @@ const BudgetItem = ({
   saveEvent,
   deleteEvent,
 }: BudgetItemProps) => {
+  const { month, year } = useParams();
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
@@ -64,7 +70,9 @@ const BudgetItem = ({
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
 
   useEffect(() => {
-    item && setInputValue(item.value);
+    if (item) {
+      setInputValue(item.value);
+    }
   }, [item?.value]);
 
   useEffect(() => {
@@ -93,7 +101,14 @@ const BudgetItem = ({
           {!hideBtn && (
             <>
               <span data-tooltip-id="edit-tooltip">
-                <Button classType="text" handleClick={() => setIsOpen(true)}>
+                <Button
+                  classType="text"
+                  handleClick={() => {
+                    setIsOpen(true);
+                    setSelectedCadence(cadenceOptions[0].label);
+                    setInputValue(item?.value || 0);
+                  }}
+                >
                   <EditIcon />
                 </Button>
               </span>
@@ -114,7 +129,9 @@ const BudgetItem = ({
                     <SelectComponent
                       options={frequencyOptions}
                       placeHolder="Choose Frequency"
-                      defaultValue={frequencyOptions[3].label}
+                      defaultValue={
+                        item?.frequency || frequencyOptions[3].label
+                      }
                       setOption={(val) => {
                         setSelectedFrequency(val);
 
@@ -189,7 +206,7 @@ const BudgetItem = ({
                       }}
                     >
                       <>
-                        Save Item <SaveIcon />
+                        Save <SaveIcon />
                       </>
                     </Button>
                     {!openModal && (
@@ -205,7 +222,7 @@ const BudgetItem = ({
                         }}
                       >
                         <>
-                          Cancel Item <CancelIcon />
+                          Cancel <CancelIcon />
                         </>
                       </Button>
                     )}
@@ -216,7 +233,7 @@ const BudgetItem = ({
                       }}
                     >
                       <>
-                        Delete Item <DeleteIcon />
+                        Delete <DeleteIcon />
                       </>
                     </Button>
                   </S.BtnWrapper>
@@ -240,7 +257,9 @@ const BudgetItem = ({
         {!hidePaidContent && (
           <>
             {/* For Daily as a question mark tooltip to let the user know that amount doesn't reflect holidays */}
-            <div>paid monthly</div>
+            <div>
+              {getFrequencyContent(month, year, item?.value, item?.frequency)}
+            </div>
             <CheckboxComponent
               label="Paid"
               isDisabled

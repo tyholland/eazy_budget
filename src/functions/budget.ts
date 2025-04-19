@@ -5,7 +5,7 @@ import {
   BudgetDataItem,
   BudgetInsertIds,
 } from "../types";
-import { getDateInfo } from "./helper.ts";
+import { getDateInfo, getFrequencyValue } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
   budget: BudgetData[],
@@ -257,15 +257,21 @@ export const reformatBudgetItem = (
   updatedItem: Object,
   budgetId: number | null,
   budgetDateId: number | null,
+  month: string,
+  year: number,
   isPaid?: boolean,
   frequency?: string,
   cadence?: string,
 ) => {
+  // function to get the right value based on frequency
+
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
+      const freqVal = getFrequencyValue(item[1], month, year, frequency);
+
       return {
         label: item[0],
-        value: item[1],
+        value: freqVal,
         paid: isPaid || false,
         frequency: frequency || "Monthly",
         cadence,

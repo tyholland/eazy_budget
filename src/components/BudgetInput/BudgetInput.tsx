@@ -1,8 +1,12 @@
 import React, { ChangeEvent } from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./budgetInput.style.ts";
-import { formatAmount } from "../../functions/helper.ts";
+import {
+  formatAmount,
+  revertAmountToOriginal,
+} from "../../functions/helper.ts";
 import { UseFormRegister } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 interface BudgetInputProps {
   inputLabel: string;
@@ -33,6 +37,7 @@ const BudgetInput = ({
   setUpdatedLabel = () => {},
   percent = false,
 }: BudgetInputProps) => {
+  const { month, year } = useParams();
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUpdatedLabel(e.target.value);
   };
@@ -56,7 +61,11 @@ const BudgetInput = ({
             type={type}
             className={`${inputSize} ${inputOption}`}
             onChange={handleValueOnChange}
-            value={defaultValue}
+            value={
+              typeof defaultValue === "number"
+                ? revertAmountToOriginal(defaultValue, month, year, "Weekly")
+                : defaultValue
+            }
             placeholder={valuePlaceHolder}
           />
         </>

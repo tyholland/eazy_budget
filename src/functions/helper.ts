@@ -1,4 +1,9 @@
-import { listOfMonths, subscriptionPlan } from "../constants.ts";
+import moment from "moment-business-days";
+import {
+  frequencyShortHandMap,
+  listOfMonths,
+  subscriptionPlan,
+} from "../constants.ts";
 import { BudgetDataItem } from "../types.ts";
 
 export const formatAmount = (amount: number) => {
@@ -139,4 +144,80 @@ export const getErrorMessage = (label: string, amount: string | number) => {
   }
 
   return msg;
+};
+
+export const getFrequencyValue = (
+  value: number,
+  month: string,
+  year: number,
+  frequency?: string,
+) => {
+  if (!frequency) {
+    return value;
+  }
+
+  const businessDays = moment(
+    `${year}-${listOfMonths.indexOf(month) + 1}-01`,
+    "YYYY-MM-DD",
+  ).monthBusinessDays().length;
+
+  switch (frequency) {
+    case "Daily":
+      return value * businessDays;
+    case "Weekly":
+      return value * 4;
+    case "Bi-Weekly":
+      return value * 2;
+    case "Monthly":
+      return value;
+    default:
+      return value;
+  }
+};
+
+export const getFrequencyContent = (
+  month?: string,
+  year?: string,
+  amount?: number,
+  frequency?: string,
+) => {
+  if (!frequency || !month || !year) {
+    return "every month";
+  }
+
+  const freq = frequencyShortHandMap[frequency];
+  const val = revertAmountToOriginal(amount || 0, month, year, frequency);
+
+  return freq === "month"
+    ? `every ${freq}`
+    : `${formatAmount(val)} every ${freq}`;
+};
+
+export const revertAmountToOriginal = (
+  value: number,
+  month?: string,
+  year?: string,
+  frequency?: string,
+) => {
+  if (!frequency || !month || !year) {
+    return value;
+  }
+
+  const businessDays = moment(
+    `${year}-${listOfMonths.indexOf(month) + 1}-01`,
+    "YYYY-MM-DD",
+  ).monthBusinessDays().length;
+
+  switch (frequency) {
+    case "Daily":
+      return value / businessDays;
+    case "Weekly":
+      return value / 4;
+    case "Bi-Weekly":
+      return value / 2;
+    case "Monthly":
+      return value;
+    default:
+      return value;
+  }
 };

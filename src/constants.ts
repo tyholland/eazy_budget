@@ -166,3 +166,12 @@ export const MediumModalStyle = {
   ...defaultModalStyle,
   width: 500,
 };
+
+export const frequencyShortHandMap = {
+  Daily: "business day",
+  Weekly: "week",
+  "Bi-Weekly": "2 weeks",
+  Monthly: "month",
+  Quarterly: "quarter (March, June, Sept, Dec)",
+  Yearly: "year",
+};

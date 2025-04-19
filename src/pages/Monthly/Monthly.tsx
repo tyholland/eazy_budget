@@ -147,6 +147,8 @@ const Monthly = () => {
                           obj,
                           data.budget_id,
                           data.budget_date_id,
+                          month,
+                          theYear,
                           isPaid,
                           frequency,
                           cadence,
@@ -154,6 +156,9 @@ const Monthly = () => {
 
                         currentItems[i] = updatedItem[0];
                         item[type] = currentItems;
+
+                        // function to update based on cadence
+
                         setBudgetChange(true);
 
                         try {

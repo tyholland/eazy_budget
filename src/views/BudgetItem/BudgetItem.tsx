@@ -16,7 +16,6 @@ import { cadenceOptions, frequencyOptions } from "../../constants.ts";
 import {
   getErrorMessage,
   getFrequencyContent,
-  revertAmountToOriginal,
 } from "../../functions/helper.ts";
 import { useParams } from "react-router-dom";
 

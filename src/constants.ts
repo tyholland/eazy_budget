@@ -125,6 +125,10 @@ export const frequencyOptions = [
     id: 3,
     label: "Monthly",
   },
+];
+
+export const proPlanFrequencyOptions = [
+  ...frequencyOptions,
   {
     id: 4,
     label: "Quarterly",

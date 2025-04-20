@@ -12,13 +12,20 @@ import { UseFormRegister } from "react-hook-form";
 import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { cadenceOptions, frequencyOptions } from "../../constants.ts";
+import {
+  cadenceOptions,
+  frequencyOptions,
+  proPlanFrequencyOptions,
+} from "../../constants.ts";
 import {
   getErrorMessage,
   getFrequencyContent,
+  getSubscriptionStatus,
   revertAmountToOriginal,
 } from "../../functions/helper.ts";
 import { useParams } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -55,6 +62,13 @@ const BudgetItem = ({
   deleteEvent,
 }: BudgetItemProps) => {
   const { month, year } = useParams();
+  const currentUser = useAtomValue(userAtom);
+  const specificFrequency = getSubscriptionStatus(
+    "Pro",
+    currentUser?.subscription_id,
+  )
+    ? proPlanFrequencyOptions
+    : frequencyOptions;
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
@@ -62,7 +76,7 @@ const BudgetItem = ({
   const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
   const [isOpen, setIsOpen] = useState<boolean>(openModal);
   const [selectedFrequency, setSelectedFrequency] = useState<string>(
-    item?.frequency || frequencyOptions[3].label,
+    item?.frequency || specificFrequency[3].label,
   );
   const [selectedCadence, setSelectedCadence] = useState<string>(
     cadenceOptions[0].label,
@@ -85,7 +99,7 @@ const BudgetItem = ({
   }, [item?.paid]);
 
   useEffect(() => {
-    item && setSelectedFrequency(item.frequency || frequencyOptions[3].label);
+    item && setSelectedFrequency(item.frequency || specificFrequency[3].label);
   }, [item?.frequency]);
 
   const closeModal = () => {
@@ -128,10 +142,10 @@ const BudgetItem = ({
                 <S.ModalItem>
                   <S.TimingSelects>
                     <SelectComponent
-                      options={frequencyOptions}
+                      options={specificFrequency}
                       placeHolder="Choose Frequency"
                       defaultValue={
-                        item?.frequency || frequencyOptions[3].label
+                        item?.frequency || specificFrequency[3].label
                       }
                       setOption={(val) => {
                         setSelectedFrequency(val);
@@ -141,14 +155,18 @@ const BudgetItem = ({
                         }
                       }}
                     />
-                    {showCadenceSelector && (
-                      <SelectComponent
-                        options={cadenceOptions}
-                        placeHolder="Choose Cadence"
-                        defaultValue={cadenceOptions[0].label}
-                        setOption={setSelectedCadence}
-                      />
-                    )}
+                    {showCadenceSelector &&
+                      getSubscriptionStatus(
+                        "Pro",
+                        currentUser?.subscription_id,
+                      ) && (
+                        <SelectComponent
+                          options={cadenceOptions}
+                          placeHolder="Choose Cadence"
+                          defaultValue={cadenceOptions[0].label}
+                          setOption={setSelectedCadence}
+                        />
+                      )}
                   </S.TimingSelects>
                   <BudgetInput
                     inputLabel={updatedLabel}
@@ -230,7 +248,7 @@ const BudgetItem = ({
                           setUpdatedLabel(item?.label || "");
                           setCheckedVal(item?.paid || false);
                           setSelectedFrequency(
-                            item?.frequency || frequencyOptions[3].label,
+                            item?.frequency || specificFrequency[3].label,
                           );
                           closeModal();
                         }}

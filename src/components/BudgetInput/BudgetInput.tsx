@@ -13,6 +13,7 @@ interface BudgetInputProps {
   isEditable?: boolean;
   setInputValue?: (val: number | string) => void;
   setUpdatedLabel?: (val: string) => void;
+  setChangeInputVal?: (val: boolean) => void;
   register?: UseFormRegister<any>;
   inputOption?: InputOption;
   type?: InputType;
@@ -36,6 +37,7 @@ const BudgetInput = ({
   register,
   setInputValue = () => {},
   setUpdatedLabel = () => {},
+  setChangeInputVal = () => {},
   percent = false,
   frequency = "Monthly",
 }: BudgetInputProps) => {
@@ -46,6 +48,7 @@ const BudgetInput = ({
 
   const handleValueOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setChangeInputVal(true);
   };
 
   return (

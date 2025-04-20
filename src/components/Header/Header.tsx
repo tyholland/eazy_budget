@@ -15,7 +15,7 @@ const Header = () => {
         <Link url={"/account"} label={"Account"}>
           <img
             src={user?.picture}
-            alt="Logged in user"
+            alt="logged in user"
             title="Logged in user"
             aria-label="Logged in user"
           />

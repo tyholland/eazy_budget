@@ -16,6 +16,7 @@ import { cadenceOptions, frequencyOptions } from "../../constants.ts";
 import {
   getErrorMessage,
   getFrequencyContent,
+  revertAmountToOriginal,
 } from "../../functions/helper.ts";
 import { useParams } from "react-router-dom";
 
@@ -67,6 +68,7 @@ const BudgetItem = ({
     cadenceOptions[0].label,
   );
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
+  const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
 
   useEffect(() => {
     if (item) {
@@ -161,6 +163,7 @@ const BudgetItem = ({
                     setInputValue={setInputValue}
                     setUpdatedLabel={setUpdatedLabel}
                     frequency={item?.frequency}
+                    setChangeInputVal={setChangeInputVal}
                   />
                   {!hidePaidContent && (
                     <CheckboxComponent
@@ -181,9 +184,20 @@ const BudgetItem = ({
                   <S.BtnWrapper className="btnWrapper">
                     <Button
                       handleClick={() => {
+                        const theValue = changeInputVal
+                          ? inputValue
+                          : item
+                            ? revertAmountToOriginal(
+                                item.value,
+                                month,
+                                year,
+                                item?.frequency,
+                              )
+                            : 0;
+
                         const errorMsg = getErrorMessage(
                           updatedLabel,
-                          inputValue,
+                          theValue,
                         );
 
                         if (errorMsg.length) {
@@ -192,7 +206,7 @@ const BudgetItem = ({
                         }
 
                         const budgetItem = JSON.parse(
-                          `{"${updatedLabel}": ${inputValue}}`,
+                          `{"${updatedLabel}": ${theValue}}`,
                         );
                         saveEvent &&
                           saveEvent(

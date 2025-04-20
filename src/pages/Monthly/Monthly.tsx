@@ -18,6 +18,7 @@ import {
   getMonthlyTotalAmount,
   reformatBudgetItem,
   sortBudget,
+  updateBasedOnCadence,
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
@@ -104,8 +105,6 @@ const Monthly = () => {
     setBudget(updatedBudget);
   };
 
-  console.log(budget);
-
   return (
     <S.MonthlyWrapper>
       <BudgetNav
@@ -156,11 +155,18 @@ const Monthly = () => {
                           cadence,
                         );
 
-                        currentItems[i] = updatedItem[0];
-                        item[type] = currentItems;
+                        // currentItems[i] = updatedItem[0];
+                        // item[type] = currentItems;
 
-                        // function to update based on cadence
-
+                        updateBasedOnCadence(
+                          item,
+                          updatedItem[0],
+                          budget,
+                          data,
+                          month,
+                          theYear,
+                          type,
+                        );
                         setBudgetChange(true);
 
                         try {

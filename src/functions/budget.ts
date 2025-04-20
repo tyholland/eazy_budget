@@ -341,3 +341,172 @@ export const getMonthlyPaidExpenses = (
 
   return amount;
 };
+
+export const updateBasedOnCadence = async (
+  budget: BudgetData,
+  updatedBudgetItem: BudgetDataItem,
+  fullBudget: BudgetData[],
+  originalBudgetItem: BudgetDataItem,
+  month: string,
+  year: number,
+  type: string,
+) => {
+  const { label, value, paid, frequency, cadence } = updatedBudgetItem;
+  const currentYearBudget = fullBudget.filter((specificBudget: BudgetData) => {
+    return specificBudget.year === year;
+  });
+
+  if (cadence === "Current Month") {
+    const newBudget: BudgetDataItem[] = [];
+
+    budget[type].forEach((item: BudgetDataItem) => {
+      if (item.label === originalBudgetItem.label) {
+        newBudget.push(updatedBudgetItem);
+        return;
+      }
+
+      newBudget.push(item);
+    });
+
+    budget[type] = newBudget;
+  }
+
+  if (cadence === "Future Months") {
+    const startingMonth: number = listOfMonths.indexOf(month);
+
+    for (let i = startingMonth; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          if (item.label === originalBudgetItem.label) {
+            newBudget.push({ ...item, label, value, paid, frequency, cadence });
+            return;
+          }
+
+          newBudget.push(item);
+        });
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+  }
+
+  if (cadence === "All Months") {
+    if (frequency === "Quarterly") {
+      for (let i = 0; i <= 11; i++) {
+        if (currentYearBudget[i].year === year) {
+          const newBudget: BudgetDataItem[] = [];
+
+          if (i === 2 || i === 5 || i === 8 || i === 11) {
+            currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+              if (item.label === originalBudgetItem.label) {
+                newBudget.push({
+                  ...item,
+                  label,
+                  value,
+                  paid,
+                  frequency,
+                  cadence,
+                });
+                return;
+              }
+
+              newBudget.push(item);
+            });
+
+            currentYearBudget[i][type] = newBudget;
+          }
+        }
+      }
+
+      return;
+    }
+
+    for (let i = 0; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          if (item.label === originalBudgetItem.label) {
+            newBudget.push({ ...item, label, value, paid, frequency, cadence });
+            return;
+          }
+
+          newBudget.push(item);
+        });
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+  }
+};
+
+// export const insertBasedOnCadence = async (
+//   client: Client,
+//   responseBody: AddedBudgetItem,
+//   queryString: string,
+//   user_id: number,
+// ) => {
+//   const { type, label, value, paid, budget_date_id, frequency, cadence } =
+//     responseBody;
+//   const currentDate = new Date(Date.now()).toISOString();
+//   const values = [
+//     type,
+//     label,
+//     value,
+//     paid,
+//     user_id,
+//     budget_date_id,
+//     currentDate,
+//     frequency,
+//   ];
+
+//   if (cadence === "Future Months") {
+//     let startingMonth: number;
+//     const budgetArray: number[] = [];
+
+//     try {
+//       const selectedMonth = await client.query(
+//         "SELECT month FROM budget_date WHERE id = $1",
+//         [budget_date_id],
+//       );
+//       startingMonth = listOfMonths.indexOf(selectedMonth.rows[0].month);
+//     } catch (err) {
+//       console.error(err);
+//       startingMonth = 0;
+//     }
+
+//     for (let i = startingMonth; i <= 11; i++) {
+//       const budgetId = await client.query(queryString, values);
+//       budgetArray.push(budgetId.rows[0].id);
+//     }
+
+//     return budgetArray;
+//   }
+
+//   if (cadence === "All Months") {
+//     const budgetArray: number[] = [];
+
+//     if (frequency === "Quarterly") {
+//       for (let i = 0; i <= 11; i++) {
+//         if (i === 2 || i === 5 || i === 8 || i === 11) {
+//           const budgetId = await client.query(queryString, values);
+//           budgetArray.push(budgetId.rows[0].id);
+//         }
+//       }
+
+//       return budgetArray;
+//     }
+
+//     for (let i = 0; i <= 11; i++) {
+//       const budgetId = await client.query(queryString, values);
+//       budgetArray.push(budgetId.rows[0].id);
+//     }
+
+//     return budgetArray;
+//   }
+
+//   const budgetId = await client.query(queryString, values);
+//   return budgetId.rows[0].id;
+// };

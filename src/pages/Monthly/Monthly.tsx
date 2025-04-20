@@ -155,9 +155,6 @@ const Monthly = () => {
                           cadence,
                         );
 
-                        // currentItems[i] = updatedItem[0];
-                        // item[type] = currentItems;
-
                         updateBasedOnCadence(
                           item,
                           updatedItem[0],

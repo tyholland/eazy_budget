@@ -269,8 +269,6 @@ export const reformatBudgetItem = (
   frequency?: string,
   cadence?: string,
 ) => {
-  // function to get the right value based on frequency
-
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
       const freqVal = getFrequencyValue(item[1], month, year, frequency);
@@ -342,7 +340,7 @@ export const getMonthlyPaidExpenses = (
   return amount;
 };
 
-export const updateBasedOnCadence = async (
+export const updateBasedOnCadence = (
   budget: BudgetData,
   updatedBudgetItem: BudgetDataItem,
   fullBudget: BudgetData[],
@@ -355,21 +353,6 @@ export const updateBasedOnCadence = async (
   const currentYearBudget = fullBudget.filter((specificBudget: BudgetData) => {
     return specificBudget.year === year;
   });
-
-  if (cadence === "Current Month") {
-    const newBudget: BudgetDataItem[] = [];
-
-    budget[type].forEach((item: BudgetDataItem) => {
-      if (item.label === originalBudgetItem.label) {
-        newBudget.push(updatedBudgetItem);
-        return;
-      }
-
-      newBudget.push(item);
-    });
-
-    budget[type] = newBudget;
-  }
 
   if (cadence === "Future Months") {
     const startingMonth: number = listOfMonths.indexOf(month);
@@ -390,6 +373,8 @@ export const updateBasedOnCadence = async (
         currentYearBudget[i][type] = newBudget;
       }
     }
+
+    return;
   }
 
   if (cadence === "All Months") {
@@ -439,7 +424,23 @@ export const updateBasedOnCadence = async (
         currentYearBudget[i][type] = newBudget;
       }
     }
+
+    return;
   }
+
+  // cadence equals "Current Month" or anything else
+  const newBudget: BudgetDataItem[] = [];
+
+  budget[type].forEach((item: BudgetDataItem) => {
+    if (item.label === originalBudgetItem.label) {
+      newBudget.push(updatedBudgetItem);
+      return;
+    }
+
+    newBudget.push(item);
+  });
+
+  budget[type] = newBudget;
 };
 
 // export const insertBasedOnCadence = async (

@@ -87,3 +87,7 @@ export interface BudgetInsertIds {
   budget_id: number;
   budget_date_id: number;
 }
+
+export interface NewBudgetIds {
+  budget_id: number | number[];
+}

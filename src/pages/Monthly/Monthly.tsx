@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BudgetData, BudgetDataItem, InputOption } from "../../types.ts";
+import {
+  BudgetData,
+  BudgetDataItem,
+  InputOption,
+  NewBudgetIds,
+} from "../../types.ts";
 import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom, useAtomValue } from "jotai";
@@ -16,6 +21,8 @@ import {
   addNewBudgetItem,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
+  insertBasedOnCadence,
+  insertBudgetIds,
   reformatBudgetItem,
   sortBudget,
   updateBasedOnCadence,
@@ -52,6 +59,7 @@ const Monthly = () => {
   );
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<string>("A - Z");
 
   const sortBudgetItems = (type: string) => {
@@ -103,6 +111,7 @@ const Monthly = () => {
     const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
 
     setBudget(updatedBudget);
+    setIsNewBudget(true);
   };
 
   return (
@@ -155,17 +164,6 @@ const Monthly = () => {
                           cadence,
                         );
 
-                        updateBasedOnCadence(
-                          item,
-                          updatedItem[0],
-                          budget,
-                          data,
-                          month,
-                          theYear,
-                          type,
-                        );
-                        setBudgetChange(true);
-
                         try {
                           const accessToken = await getAccessTokenSilently({
                             authorizationParams: {
@@ -175,17 +173,43 @@ const Monthly = () => {
                           });
 
                           if (!!data.budget_id) {
+                            updateBasedOnCadence(
+                              item,
+                              updatedItem[0],
+                              budget,
+                              data,
+                              month,
+                              theYear,
+                              type,
+                            );
+                            setBudgetChange(true);
+
                             await updateBudgetItem(accessToken, updatedItem[0]);
                           } else {
-                            updatedItem[0].type = type;
-                            const updatedBudgetItem = await addBudgetItem(
-                              accessToken,
+                            insertBasedOnCadence(
+                              item,
                               updatedItem[0],
+                              budget,
+                              month,
+                              theYear,
+                              type,
                             );
+                            setBudgetChange(true);
 
-                            updatedItem[0].budget_id =
-                              updatedBudgetItem.budget_id;
-                            delete updatedItem[0].type;
+                            updatedItem[0].type = type;
+                            const updatedBudgetItem: NewBudgetIds =
+                              await addBudgetItem(accessToken, updatedItem[0]);
+
+                            insertBudgetIds(
+                              item,
+                              updatedItem[0],
+                              budget,
+                              month,
+                              theYear,
+                              type,
+                              updatedBudgetItem,
+                            );
+                            setBudgetChange(true);
                           }
                         } catch (err) {
                           console.error(err);
@@ -232,7 +256,7 @@ const Monthly = () => {
                           saveEvent={handleSaveEvent}
                           deleteEvent={handleDeleteEvent}
                           hidePaidContent={type === "income"}
-                          openModal={data.label === ""}
+                          openModal={isNewBudget}
                         />
                       );
                     });

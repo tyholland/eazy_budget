@@ -136,7 +136,7 @@ const BudgetItem = ({
               />
               <ModalComponent
                 isOpen={isOpen}
-                title={`Edit ${theType} item`}
+                title={`Edit ${theType} ${item?.budget_id} item`}
                 size="medium"
               >
                 <S.ModalItem>

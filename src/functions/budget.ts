@@ -466,17 +466,10 @@ export const insertBasedOnCadence = (
         const newBudget: BudgetDataItem[] = [];
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-          if (!item.budget_id) {
-            newBudget.push(updatedBudgetItem);
-            return;
-          }
-
           newBudget.push(item);
         });
 
-        if (i > startingMonth) {
-          newBudget.push(updatedBudgetItem);
-        }
+        newBudget.push(updatedBudgetItem);
 
         currentYearBudget[i][type] = newBudget;
       }
@@ -493,17 +486,10 @@ export const insertBasedOnCadence = (
 
           if (i === 2 || i === 5 || i === 8 || i === 11) {
             currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-              if (!item.budget_id) {
-                newBudget.push(updatedBudgetItem);
-                return;
-              }
-
               newBudget.push(item);
             });
 
-            if (i !== startingMonth) {
-              newBudget.push(updatedBudgetItem);
-            }
+            newBudget.push(updatedBudgetItem);
 
             currentYearBudget[i][type] = newBudget;
           }
@@ -518,17 +504,10 @@ export const insertBasedOnCadence = (
         const newBudget: BudgetDataItem[] = [];
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-          if (!item.budget_id) {
-            newBudget.push(updatedBudgetItem);
-            return;
-          }
-
           newBudget.push(item);
         });
 
-        if (i !== startingMonth) {
-          newBudget.push(updatedBudgetItem);
-        }
+        newBudget.push(updatedBudgetItem);
 
         currentYearBudget[i][type] = newBudget;
       }

@@ -13,6 +13,7 @@ import {
   sortBudget,
   getMonthlyPaidExpenses,
   updateBasedOnCadence,
+  insertBasedOnCadence,
 } from "../functions/budget";
 import {
   mockBudget,
@@ -24,6 +25,7 @@ import {
   mockBudgetItemArray,
   mockBudgetTwo,
   mockBudgetFullUpdated,
+  mockBudgetFullInserted,
 } from "./mocks";
 import {
   BudgetBodyInfo,
@@ -41,6 +43,7 @@ let budgetInsertIds: BudgetInsertIds[];
 let budgetItemArray: BudgetDataItem[];
 let budgetTwo: BudgetData[];
 let budgetFullUpdated: BudgetData[];
+let budgetFullInserted: BudgetData[];
 
 beforeEach(() => {
   budget = JSON.parse(JSON.stringify(mockBudget));
@@ -52,6 +55,7 @@ beforeEach(() => {
   budgetItemArray = JSON.parse(JSON.stringify(mockBudgetItemArray));
   budgetTwo = JSON.parse(JSON.stringify(mockBudgetTwo));
   budgetFullUpdated = JSON.parse(JSON.stringify(mockBudgetFullUpdated));
+  budgetFullInserted = JSON.parse(JSON.stringify(mockBudgetFullInserted));
 });
 
 describe("getMonthlyTotalAmount", () => {
@@ -102,7 +106,7 @@ describe("getMonthlyBudgetBreakdown", () => {
     );
     const expectedResults = JSON.stringify({
       data: [19, 17],
-      labels: ["Netflix", "Hulu"],
+      labels: ["NETFLIX", "HULU"],
     });
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -1083,10 +1087,9 @@ describe("updateBasedOnCadence", () => {
         income: [
           {
             label: "husband",
-            value: 55000,
+            value: 40000,
             budget_id: 1,
             budget_date_id: 1,
-            frequency: "Monthly",
           },
         ],
         expense: [
@@ -1105,11 +1108,9 @@ describe("updateBasedOnCadence", () => {
         income: [
           {
             label: "husband",
-            value: 35000,
+            value: 40000,
             budget_id: 3,
             budget_date_id: 2,
-            frequency: "Monthly",
-            cadence: "Future Months",
           },
         ],
         expense: [
@@ -1343,8 +1344,1133 @@ describe("updateBasedOnCadence", () => {
     ];
 
     for (let i = 0; i <= 11; i++) {
-      expect(JSON.stringify(budgetFull[i].expense[0])).toBe(
-        JSON.stringify(updatedBudget[i].expense[0]),
+      expect(JSON.stringify(budgetFull[i].income[0])).toBe(
+        JSON.stringify(updatedBudget[i].income[0]),
+      );
+    }
+  });
+});
+
+describe("insertBasedOnCadence", () => {
+  test("should update current month if no cadence is selected", () => {
+    insertBasedOnCadence(
+      budgetFull[0],
+      budgetFullInserted[0].income[1],
+      budgetFull,
+      "january",
+      2025,
+      "income",
+    );
+
+    expect(JSON.stringify(budgetFull[0].income[1])).toBe(
+      JSON.stringify(budgetFullInserted[0].income[1]),
+    );
+  });
+
+  test("should update current month", () => {
+    insertBasedOnCadence(
+      budgetFull[0],
+      budgetFullInserted[0].expense[1],
+      budgetFull,
+      "january",
+      2025,
+      "expense",
+    );
+
+    expect(JSON.stringify(budgetFull[0].expense[1])).toBe(
+      JSON.stringify(budgetFullInserted[0].expense[1]),
+    );
+  });
+
+  test("should update future months", () => {
+    insertBasedOnCadence(
+      budgetFull[1],
+      budgetFullInserted[1].income[1],
+      budgetFull,
+      "february",
+      2025,
+      "income",
+    );
+
+    const insertedBudget = [
+      {
+        year: 2025,
+        month: "january",
+        income: [
+          {
+            label: "husband",
+            value: 55000,
+            budget_id: 1,
+            budget_date_id: 1,
+            frequency: "Monthly",
+          },
+          {
+            label: "wife",
+            value: 75000,
+            budget_id: null,
+            budget_date_id: 1,
+            frequency: "Monthly",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 39.5,
+            paid: false,
+            budget_id: 2,
+            budget_date_id: 1,
+            frequency: "Monthly",
+            cadence: "Current Month",
+          },
+          {
+            label: "Hulu",
+            value: 20,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 1,
+            frequency: "Monthly",
+            cadence: "Current Month",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "february",
+        income: [
+          {
+            label: "husband",
+            value: 35000,
+            budget_id: 3,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 9.99,
+            paid: false,
+            budget_id: 4,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "march",
+        income: [
+          {
+            label: "husband",
+            value: 20000,
+            budget_id: 5,
+            budget_date_id: 3,
+            frequency: "Quarterly",
+            cadence: "All Months",
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 6,
+            budget_date_id: 3,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "april",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 7,
+            budget_date_id: 4,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 8,
+            budget_date_id: 4,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "may",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 9,
+            budget_date_id: 5,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 10,
+            budget_date_id: 5,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "june",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 11,
+            budget_date_id: 6,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 12,
+            budget_date_id: 6,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "july",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 13,
+            budget_date_id: 7,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 14,
+            budget_date_id: 7,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "august",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 15,
+            budget_date_id: 8,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 16,
+            budget_date_id: 8,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "september",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 17,
+            budget_date_id: 9,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 18,
+            budget_date_id: 9,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "october",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 19,
+            budget_date_id: 10,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 20,
+            budget_date_id: 10,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "november",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 21,
+            budget_date_id: 11,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 22,
+            budget_date_id: 11,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "december",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 23,
+            budget_date_id: 12,
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 24,
+            budget_date_id: 12,
+          },
+        ],
+      },
+    ];
+
+    for (let i = 1; i <= 11; i++) {
+      expect(JSON.stringify(budgetFull[i].income[1])).toBe(
+        JSON.stringify(insertedBudget[i].income[1]),
+      );
+    }
+  });
+
+  test("should update all months", () => {
+    insertBasedOnCadence(
+      budgetFull[1],
+      budgetFullInserted[1].expense[1],
+      budgetFull,
+      "february",
+      2025,
+      "expense",
+    );
+
+    const insertedBudget = [
+      {
+        year: 2025,
+        month: "january",
+        income: [
+          {
+            label: "husband",
+            value: 55000,
+            budget_id: 1,
+            budget_date_id: 1,
+            frequency: "Monthly",
+          },
+          {
+            label: "wife",
+            value: 75000,
+            budget_id: null,
+            budget_date_id: 1,
+            frequency: "Monthly",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 39.5,
+            paid: false,
+            budget_id: 2,
+            budget_date_id: 1,
+            frequency: "Monthly",
+            cadence: "Current Month",
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "february",
+        income: [
+          {
+            label: "husband",
+            value: 35000,
+            budget_id: 3,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+          {
+            label: "wife",
+            value: 55000,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "Future Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 9.99,
+            paid: false,
+            budget_id: 4,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "march",
+        income: [
+          {
+            label: "husband",
+            value: 20000,
+            budget_id: 5,
+            budget_date_id: 3,
+            frequency: "Quarterly",
+            cadence: "All Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 6,
+            budget_date_id: 3,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "april",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 7,
+            budget_date_id: 4,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 8,
+            budget_date_id: 4,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "may",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 9,
+            budget_date_id: 5,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 10,
+            budget_date_id: 5,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "june",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 11,
+            budget_date_id: 6,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 12,
+            budget_date_id: 6,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "july",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 13,
+            budget_date_id: 7,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 14,
+            budget_date_id: 7,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "august",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 15,
+            budget_date_id: 8,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 16,
+            budget_date_id: 8,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "september",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 17,
+            budget_date_id: 9,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 18,
+            budget_date_id: 9,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "october",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 19,
+            budget_date_id: 10,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 20,
+            budget_date_id: 10,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "november",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 21,
+            budget_date_id: 11,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 22,
+            budget_date_id: 11,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "december",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 23,
+            budget_date_id: 12,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 24,
+            budget_date_id: 12,
+          },
+          {
+            label: "Hulu",
+            value: 12,
+            paid: false,
+            budget_id: null,
+            budget_date_id: 2,
+            frequency: "Monthly",
+            cadence: "All Months",
+          },
+        ],
+      },
+    ];
+
+    for (let i = 0; i <= 11; i++) {
+      expect(JSON.stringify(budgetFull[i].expense[1])).toBe(
+        JSON.stringify(insertedBudget[i].expense[1]),
+      );
+    }
+  });
+
+  test("should update quarter months", () => {
+    insertBasedOnCadence(
+      budgetFull[2],
+      budgetFullInserted[2].income[1],
+      budgetFull,
+      "march",
+      2025,
+      "income",
+    );
+
+    const insertedBudget = [
+      {
+        year: 2025,
+        month: "january",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 1,
+            budget_date_id: 1,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 2,
+            budget_date_id: 1,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "february",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 3,
+            budget_date_id: 2,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 4,
+            budget_date_id: 2,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "march",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 5,
+            budget_date_id: 3,
+          },
+          {
+            label: "wife",
+            value: 35000,
+            budget_id: null,
+            budget_date_id: 3,
+            frequency: "Quarterly",
+            cadence: "All Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 6,
+            budget_date_id: 3,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "april",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 7,
+            budget_date_id: 4,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 8,
+            budget_date_id: 4,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "may",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 9,
+            budget_date_id: 5,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 10,
+            budget_date_id: 5,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "june",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 11,
+            budget_date_id: 6,
+          },
+          {
+            label: "wife",
+            value: 35000,
+            budget_id: null,
+            budget_date_id: 3,
+            frequency: "Quarterly",
+            cadence: "All Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 12,
+            budget_date_id: 6,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "july",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 13,
+            budget_date_id: 7,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 14,
+            budget_date_id: 7,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "august",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 15,
+            budget_date_id: 8,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 16,
+            budget_date_id: 8,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "september",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 17,
+            budget_date_id: 9,
+          },
+          {
+            label: "wife",
+            value: 35000,
+            budget_id: null,
+            budget_date_id: 3,
+            frequency: "Quarterly",
+            cadence: "All Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 18,
+            budget_date_id: 9,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "october",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 19,
+            budget_date_id: 10,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 20,
+            budget_date_id: 10,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "november",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 21,
+            budget_date_id: 11,
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 22,
+            budget_date_id: 11,
+          },
+        ],
+      },
+      {
+        year: 2025,
+        month: "december",
+        income: [
+          {
+            label: "husband",
+            value: 40000,
+            budget_id: 23,
+            budget_date_id: 12,
+          },
+          {
+            label: "wife",
+            value: 35000,
+            budget_id: null,
+            budget_date_id: 3,
+            frequency: "Quarterly",
+            cadence: "All Months",
+          },
+        ],
+        expense: [
+          {
+            label: "Netflix",
+            value: 19.99,
+            paid: false,
+            budget_id: 24,
+            budget_date_id: 12,
+          },
+        ],
+      },
+    ];
+
+    for (let i = 0; i <= 11; i++) {
+      expect(JSON.stringify(budgetFull[i].income[1])).toBe(
+        JSON.stringify(insertedBudget[i].income[1]),
       );
     }
   });

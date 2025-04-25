@@ -13,9 +13,10 @@ export const Wrapper = styled.div`
   }
 
   img {
-    min-width: 250px;
+    min-width: 100px;
     max-width: 759px;
     width: 100%;
+
     @media only screen and (max-width: 800px) {
       display: none;
     }

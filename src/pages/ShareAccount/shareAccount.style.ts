@@ -6,6 +6,10 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 10px;
   padding: 0 3%;
+
+  strong {
+    font-weight: 500;
+  }
 `;
 
 export const Header = styled.div`

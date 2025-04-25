@@ -24,6 +24,7 @@ import ContactUsIcon from "../../svg/ContactUsIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
+import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -85,6 +86,15 @@ const Account = () => {
                   inputType="text"
                 />
               </S.Section>
+              {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
+                <S.Section>
+                  <Link url="/account/share" label="Contact Us">
+                    <span>
+                      Share Account <ShareAccountIcon />
+                    </span>
+                  </Link>
+                </S.Section>
+              )}
               <S.Section>
                 <Link url="mailto:info.eazybudget@gmail.com" label="Contact Us">
                   <span>
@@ -219,7 +229,9 @@ const Account = () => {
               </S.Section>
               <S.Section>
                 <Link url="#" label="Cancel Subscription">
-                  Cancel Subscription
+                  <span>
+                    Cancel Subscription <RemoveAccountIcon />
+                  </span>
                 </Link>
               </S.Section>
             </>

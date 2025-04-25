@@ -63,6 +63,10 @@ export const getCurrentPageName = (pathName: string) => {
       pageName = "Budget History";
       page2Name = "Account";
       break;
+    case "/account/share":
+      pageName = "Share Account";
+      page2Name = "Account";
+      break;
     case "/account/past-months":
       pageName = `${currentYear} Past Months`;
       page2Name = "Account";

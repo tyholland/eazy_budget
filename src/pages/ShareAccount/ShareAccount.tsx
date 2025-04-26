@@ -6,17 +6,36 @@ import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { useNavigate } from "react-router-dom";
+import { shareAccount } from "../../requests/users.ts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const ShareAccount = () => {
   const currentUser = useAtomValue(userAtom);
   const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
   const [userEmail, setUserEmail] = useState<string>("");
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserEmail(e.target.value);
   };
 
-  const submitEmail = () => {};
+  const submitEmail = async () => {
+    setIsDisabled(true);
+
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      await shareAccount(accessToken, { email: userEmail });
+    } catch (err) {
+      setIsDisabled(false);
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     if (
@@ -26,6 +45,10 @@ const ShareAccount = () => {
       navigate("/overview");
     }
   }, []);
+
+  useEffect(() => {
+    setIsDisabled(!userEmail);
+  }, [userEmail]);
 
   return (
     <S.Wrapper>
@@ -56,7 +79,7 @@ const ShareAccount = () => {
         <Button
           buttonSize="medium"
           handleClick={submitEmail}
-          disabled={!userEmail}
+          disabled={isDisabled}
         >
           Share Account
         </Button>

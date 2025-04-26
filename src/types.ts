@@ -65,17 +65,26 @@ export interface UserRequest {
   email: string;
 }
 
+export interface ConnectedDecisionRequest {
+  decision: boolean;
+  connected_id?: number;
+}
+
 export interface UserResponse {
   action: string;
   hasBudget: boolean;
   subscription_id: number;
   connected_message: boolean;
+  connected_id?: number;
+  primary_request?: string;
 }
 
 export interface User {
   hasBudget: boolean;
   subscription_id: number;
   connected_message: boolean;
+  connected_id?: number;
+  primary_request?: string;
   email?: string;
   email_verified?: boolean;
   name?: string;

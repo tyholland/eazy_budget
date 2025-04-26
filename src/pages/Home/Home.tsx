@@ -29,6 +29,9 @@ const Home = () => {
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [hasBudgetItems, setHasBudgetItems] = useState<boolean>(true);
+  const [hasMessage, setHasMessage] = useState<boolean | undefined>(
+    currentUser?.connected_message,
+  );
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -85,7 +88,7 @@ const Home = () => {
 
   return (
     <S.HomeWrapper>
-      <SharedAccountMessage />
+      {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
       {!!budget.length && (
         <>
           <S.Section>

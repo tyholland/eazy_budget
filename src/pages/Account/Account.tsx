@@ -36,6 +36,9 @@ const Account = () => {
   const currentUser = useAtomValue(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
+  const [hasMessage, setHasMessage] = useState<boolean | undefined>(
+    currentUser?.connected_message,
+  );
   const { currentYear, currentMonth } = getDateInfo();
 
   const logOutAccount = () => {
@@ -68,7 +71,7 @@ const Account = () => {
 
   return (
     <>
-      <SharedAccountMessage />
+      {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
       <S.Wrapper>
         <AccountNav
           setSelectedOption={setSelectedOption}

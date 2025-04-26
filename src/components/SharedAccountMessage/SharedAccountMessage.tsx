@@ -6,12 +6,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { shareAccountDecision } from "../../requests/users.ts";
 import Button from "../Button/Button.tsx";
 
-const SharedAccountMessage = () => {
+interface SharedAccountMessageProps {
+  setHasMessage: (val: boolean) => void;
+}
+
+const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
   const { getAccessTokenSilently } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const [hasMessage, setHasMessage] = useState<boolean | undefined>(
-    currentUser?.connected_message,
-  );
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const handleConnectedAccount = async (decision: boolean) => {
@@ -42,31 +43,27 @@ const SharedAccountMessage = () => {
   };
 
   return (
-    <>
-      {hasMessage && (
-        <S.SharedWrapper>
-          User "{currentUser?.primary_request}" has invited you to connect to
-          their account and view their budget.
-          <S.SharedBtnWrapper>
-            <Button
-              buttonSize="small"
-              handleClick={() => handleConnectedAccount(true)}
-              disabled={isDisabled}
-            >
-              Accept
-            </Button>
-            <Button
-              buttonSize="small"
-              handleClick={() => handleConnectedAccount(false)}
-              classType="exit"
-              disabled={isDisabled}
-            >
-              Decline
-            </Button>
-          </S.SharedBtnWrapper>
-        </S.SharedWrapper>
-      )}
-    </>
+    <S.SharedWrapper>
+      User "{currentUser?.primary_request}" has invited you to connect to their
+      account and view their budget.
+      <S.SharedBtnWrapper>
+        <Button
+          buttonSize="small"
+          handleClick={() => handleConnectedAccount(true)}
+          disabled={isDisabled}
+        >
+          Accept
+        </Button>
+        <Button
+          buttonSize="small"
+          handleClick={() => handleConnectedAccount(false)}
+          classType="exit"
+          disabled={isDisabled}
+        >
+          Decline
+        </Button>
+      </S.SharedBtnWrapper>
+    </S.SharedWrapper>
   );
 };
 

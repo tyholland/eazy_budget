@@ -141,15 +141,16 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
-                  <S.Section>
-                    <Link url="/account/share" label="Contact Us">
-                      <span>
-                        Share Account <ShareAccountIcon />
-                      </span>
-                    </Link>
-                  </S.Section>
-                )}
+                {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
+                  !currentUser?.connected_id && (
+                    <S.Section>
+                      <Link url="/account/share" label="Contact Us">
+                        <span>
+                          Share Account <ShareAccountIcon />
+                        </span>
+                      </Link>
+                    </S.Section>
+                  )}
                 <S.Section>
                   <Link
                     url="mailto:info.eazybudget@gmail.com"

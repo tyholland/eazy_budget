@@ -18,8 +18,7 @@ import {
   viewOptions,
 } from "../../constants.ts";
 import SelectComponent from "../Select/Select.tsx";
-import { useNavigate } from "react-router-dom";
-import { getDateInfo } from "../../functions/helper.ts";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface GraphProps {
   label: string[];
@@ -34,7 +33,7 @@ const Graph = ({ title, label, dataset, page }: GraphProps) => {
   );
   const [selectedType, setSelectedType] = useState<string>(title);
   const navigate = useNavigate();
-  const { currentMonth, currentYear } = getDateInfo();
+  const { month, year } = useParams();
 
   const type = budgetViewMatch.filter((item) => selectedView === item.label)[0]
     ?.type as GraphType;
@@ -97,8 +96,8 @@ const Graph = ({ title, label, dataset, page }: GraphProps) => {
     if (selectedType !== title) {
       const url =
         page === "monthly"
-          ? `/monthly/${selectedType}/${currentMonth}/${currentYear}`
-          : `/yearly/${selectedType}/${currentYear}`;
+          ? `/monthly/${selectedType}/${month}/${year}`
+          : `/yearly/${selectedType}/${year}`;
       navigate(url);
     }
   }, [selectedType]);

@@ -69,11 +69,13 @@ export interface UserResponse {
   action: string;
   hasBudget: boolean;
   subscription_id: number;
+  connected_message: boolean;
 }
 
 export interface User {
   hasBudget: boolean;
   subscription_id: number;
+  connected_message: boolean;
   email?: string;
   email_verified?: boolean;
   name?: string;

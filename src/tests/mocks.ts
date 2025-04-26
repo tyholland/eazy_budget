@@ -84,6 +84,126 @@ export const mockBudgetItemArray: BudgetDataItem[] = [
   },
 ];
 
+export const mockBudgetItemArray2: BudgetDataItem[] = [
+  {
+    label: "netflix",
+    value: 79.96,
+    paid: false,
+    frequency: "Weekly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "hulu",
+    value: 83.96,
+    paid: false,
+    frequency: "Weekly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "internet",
+    value: 282.8,
+    paid: false,
+    frequency: "Weekly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+];
+
+export const mockBudgetItemArray3: BudgetDataItem[] = [
+  {
+    label: "netflix",
+    value: 39.98,
+    paid: false,
+    frequency: "Bi-Weekly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "hulu",
+    value: 41.98,
+    paid: false,
+    frequency: "Bi-Weekly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "internet",
+    value: 141.4,
+    paid: false,
+    frequency: "Bi-Weekly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+];
+
+export const mockBudgetItemArray4: BudgetDataItem[] = [
+  {
+    label: "netflix",
+    value: 459.77,
+    paid: false,
+    frequency: "Daily",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "hulu",
+    value: 482.77,
+    paid: false,
+    frequency: "Daily",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "internet",
+    value: 1626.1,
+    paid: false,
+    frequency: "Daily",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+];
+
+export const mockBudgetItemArray5: BudgetDataItem[] = [
+  {
+    label: "netflix",
+    value: 19.99,
+    paid: false,
+    frequency: "Quarterly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "hulu",
+    value: 20.99,
+    paid: false,
+    frequency: "Quarterly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+  {
+    label: "internet",
+    value: 70.7,
+    paid: false,
+    frequency: "Quarterly",
+    cadence: "Current Month",
+    budget_id: null,
+    budget_date_id: null,
+  },
+];
+
 export const mockBudgetTwo: BudgetData[] = [
   {
     year: 2025,

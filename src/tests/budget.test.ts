@@ -26,6 +26,10 @@ import {
   mockBudgetTwo,
   mockBudgetFullUpdated,
   mockBudgetFullInserted,
+  mockBudgetItemArray2,
+  mockBudgetItemArray3,
+  mockBudgetItemArray4,
+  mockBudgetItemArray5,
 } from "./mocks";
 import {
   BudgetBodyInfo,
@@ -41,6 +45,10 @@ let budgetEntriesNoDollar: Object;
 let budgetFull: BudgetData[];
 let budgetInsertIds: BudgetInsertIds[];
 let budgetItemArray: BudgetDataItem[];
+let budgetItemArray2: BudgetDataItem[];
+let budgetItemArray3: BudgetDataItem[];
+let budgetItemArray4: BudgetDataItem[];
+let budgetItemArray5: BudgetDataItem[];
 let budgetTwo: BudgetData[];
 let budgetFullUpdated: BudgetData[];
 let budgetFullInserted: BudgetData[];
@@ -53,6 +61,10 @@ beforeEach(() => {
   budgetFull = JSON.parse(JSON.stringify(mockBudgetFull));
   budgetInsertIds = JSON.parse(JSON.stringify(mockBudgetInsertIds));
   budgetItemArray = JSON.parse(JSON.stringify(mockBudgetItemArray));
+  budgetItemArray2 = JSON.parse(JSON.stringify(mockBudgetItemArray2));
+  budgetItemArray3 = JSON.parse(JSON.stringify(mockBudgetItemArray3));
+  budgetItemArray4 = JSON.parse(JSON.stringify(mockBudgetItemArray4));
+  budgetItemArray5 = JSON.parse(JSON.stringify(mockBudgetItemArray5));
   budgetTwo = JSON.parse(JSON.stringify(mockBudgetTwo));
   budgetFullUpdated = JSON.parse(JSON.stringify(mockBudgetFullUpdated));
   budgetFullInserted = JSON.parse(JSON.stringify(mockBudgetFullInserted));
@@ -178,15 +190,79 @@ describe("addAdditionalBudget", () => {
 
 describe("formatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = formatBudgetItem({}, "Monthly", "Current Month");
+    const results = formatBudgetItem(
+      {},
+      "Monthly",
+      "Current Month",
+      "january",
+      2025,
+    );
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
-  test("should return budget entries", () => {
-    const results = formatBudgetItem(budgetEntries, "Monthly", "Current Month");
+  test("should return monthly budget entries", () => {
+    const results = formatBudgetItem(
+      budgetEntries,
+      "Monthly",
+      "Current Month",
+      "january",
+      2025,
+    );
     const expectedResults = JSON.stringify(budgetItemArray);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return weekly budget entries", () => {
+    const results = formatBudgetItem(
+      budgetEntries,
+      "Weekly",
+      "Current Month",
+      "january",
+      2025,
+    );
+    const expectedResults = JSON.stringify(budgetItemArray2);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return bi-weekly budget entries", () => {
+    const results = formatBudgetItem(
+      budgetEntries,
+      "Bi-Weekly",
+      "Current Month",
+      "january",
+      2025,
+    );
+    const expectedResults = JSON.stringify(budgetItemArray3);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return daily budget entries", () => {
+    const results = formatBudgetItem(
+      budgetEntries,
+      "Daily",
+      "Current Month",
+      "january",
+      2025,
+    );
+    const expectedResults = JSON.stringify(budgetItemArray4);
+
+    expect(JSON.stringify(results)).toBe(expectedResults);
+  });
+
+  test("should return quarterly budget entries", () => {
+    const results = formatBudgetItem(
+      budgetEntries,
+      "Quarterly",
+      "Current Month",
+      "january",
+      2025,
+    );
+    const expectedResults = JSON.stringify(budgetItemArray5);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });

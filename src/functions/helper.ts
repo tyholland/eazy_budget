@@ -167,11 +167,11 @@ export const getFrequencyValue = (
 
   switch (frequency) {
     case "Daily":
-      return value * businessDays;
+      return Number((value * businessDays).toFixed(2));
     case "Weekly":
-      return value * 4;
+      return Number((value * 4).toFixed(2));
     case "Bi-Weekly":
-      return value * 2;
+      return Number((value * 2).toFixed(2));
     case "Monthly":
       return value;
     default:

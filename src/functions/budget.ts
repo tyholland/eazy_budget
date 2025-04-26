@@ -242,15 +242,23 @@ export const formatBudgetItem = (
   data: Object,
   frequency: string,
   cadence: string,
+  month: string,
+  year: number,
 ) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.entries(data).forEach((item) => {
     const val = item[1] as string;
+    const freqVal = getFrequencyValue(
+      Number(val.replace("$", "")),
+      month,
+      year,
+      frequency,
+    );
 
     budgetEntries.push({
       label: item[0],
-      value: Number(val.replace("$", "")),
+      value: freqVal,
       paid: false,
       frequency,
       cadence,

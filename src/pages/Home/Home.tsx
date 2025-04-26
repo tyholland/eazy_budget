@@ -18,6 +18,7 @@ import { createBudget } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
+import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -84,6 +85,7 @@ const Home = () => {
 
   return (
     <S.HomeWrapper>
+      <SharedAccountMessage />
       {!!budget.length && (
         <>
           <S.Section>

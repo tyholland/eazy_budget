@@ -3,14 +3,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./account.style.ts";
 import Link from "../../components/Link/Link.tsx";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import Input from "../../components/Input/Input.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
-import { deleteUser, shareAccountDecision } from "../../requests/users.ts";
+import { deleteUser } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
   getDateInfo,
@@ -25,6 +25,7 @@ import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
+import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -32,13 +33,9 @@ const Account = () => {
   const setBudget = useSetAtom(budgetAtom);
   const setIncome = useSetAtom(incomeAtom);
   const setExpense = useSetAtom(expenseAtom);
-  const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const currentUser = useAtomValue(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
-  const [hasMessage, setHasMessage] = useState<boolean | undefined>(
-    currentUser?.connected_message,
-  );
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const { currentYear, currentMonth } = getDateInfo();
 
   const logOutAccount = () => {
@@ -65,62 +62,13 @@ const Account = () => {
     logOutAccount();
   };
 
-  const handleConnectedAccount = async (decision: boolean) => {
-    setIsDisabled(true);
-
-    try {
-      const accessToken = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: process.env.REACT_APP_AUDIENCE,
-        },
-      });
-
-      await shareAccountDecision(accessToken, {
-        decision,
-        connected_id: currentUser?.connected_id,
-      });
-
-      setHasMessage(false);
-      currentUser &&
-        setCurrentUser({
-          ...currentUser,
-          connected_message: false,
-        });
-    } catch (err) {
-      setIsDisabled(false);
-      console.error(err);
-    }
-  };
-
   if (isLoading) {
     return <Loading />;
   }
 
   return (
     <>
-      {hasMessage && (
-        <S.SharedWrapper>
-          User "{currentUser?.primary_request}" has invited you to connect to
-          their account and view their budget.
-          <S.SharedBtnWrapper>
-            <Button
-              buttonSize="small"
-              handleClick={() => handleConnectedAccount(true)}
-              disabled={isDisabled}
-            >
-              Accept
-            </Button>
-            <Button
-              buttonSize="small"
-              handleClick={() => handleConnectedAccount(false)}
-              classType="exit"
-              disabled={isDisabled}
-            >
-              Decline
-            </Button>
-          </S.SharedBtnWrapper>
-        </S.SharedWrapper>
-      )}
+      <SharedAccountMessage />
       <S.Wrapper>
         <AccountNav
           setSelectedOption={setSelectedOption}

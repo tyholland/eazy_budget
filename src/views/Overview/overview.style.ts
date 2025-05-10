@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BLACK, LIGHT_GRAY, RUBIK, WHITE } from "../../index.style.ts";
 
 export const OverviewWrapper = styled.div`
   display: flex;
@@ -7,24 +8,26 @@ export const OverviewWrapper = styled.div`
 
   @media only screen and (max-width: 800px) {
     gap: 25px;
-    border: 1px solid #ddd;
+    border: 1px solid ${LIGHT_GRAY};
     padding: 20px 10px;
     border-radius: 10px;
+    background: ${WHITE};
   }
 
   .tooltip {
     width: 150px;
   }
 
-  .override {
+  .inputWrapper {
     flex-direction: row;
     align-items: center;
   }
 `;
 
 export const Title = styled.h2`
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid ${BLACK};
   text-transform: capitalize;
+  font-family: ${RUBIK};
 
   @media only screen and (max-width: 800px) {
     margin: 0;

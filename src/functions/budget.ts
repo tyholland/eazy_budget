@@ -4,8 +4,9 @@ import {
   BudgetData,
   BudgetDataItem,
   BudgetInsertIds,
+  NewBudgetIds,
 } from "../types";
-import { getDateInfo } from "./helper.ts";
+import { getDateInfo, getFrequencyValue } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
   budget: BudgetData[],
@@ -65,7 +66,7 @@ export const getMonthlyBudgetBreakdown = (
     if (month === item.month.toLowerCase() && year === item.year) {
       item[type].forEach((data: BudgetDataItem) => {
         dataSet.push(data.value);
-        labelSet.push(data.label);
+        labelSet.push(data.label.toUpperCase());
       });
     }
   });
@@ -224,6 +225,8 @@ export const addNewBudgetItem = (
         label: "",
         value: 0,
         paid: false,
+        frequency: "Monthly",
+        cadence: "Current Month",
         budget_id: null,
         budget_date_id: currentItems[0].budget_date_id,
       });
@@ -235,16 +238,30 @@ export const addNewBudgetItem = (
   return clonedBudget;
 };
 
-export const formatBudgetItem = (data: Object) => {
+export const formatBudgetItem = (
+  data: Object,
+  frequency: string,
+  cadence: string,
+  month: string,
+  year: number,
+) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.entries(data).forEach((item) => {
     const val = item[1] as string;
+    const freqVal = getFrequencyValue(
+      Number(val.replace("$", "")),
+      month,
+      year,
+      frequency,
+    );
 
     budgetEntries.push({
       label: item[0],
-      value: Number(val.replace("$", "")),
+      value: freqVal,
       paid: false,
+      frequency,
+      cadence,
       budget_id: null,
       budget_date_id: null,
     });
@@ -257,14 +274,22 @@ export const reformatBudgetItem = (
   updatedItem: Object,
   budgetId: number | null,
   budgetDateId: number | null,
+  month: string,
+  year: number,
   isPaid?: boolean,
+  frequency?: string,
+  cadence?: string,
 ) => {
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
+      const freqVal = getFrequencyValue(item[1], month, year, frequency);
+
       return {
         label: item[0],
-        value: item[1],
+        value: freqVal,
         paid: isPaid || false,
+        frequency: frequency || "Monthly",
+        cadence,
         budget_id: budgetId,
         budget_date_id: budgetDateId,
       };
@@ -324,4 +349,303 @@ export const getMonthlyPaidExpenses = (
   });
 
   return amount;
+};
+
+export const updateBasedOnCadence = (
+  budget: BudgetData,
+  updatedBudgetItem: BudgetDataItem,
+  fullBudget: BudgetData[],
+  originalBudgetItem: BudgetDataItem,
+  month: string,
+  year: number,
+  type: string,
+) => {
+  const { label, value, paid, frequency, cadence } = updatedBudgetItem;
+  const currentYearBudget = fullBudget.filter((specificBudget: BudgetData) => {
+    return specificBudget.year === year;
+  });
+
+  if (cadence === "Future Months") {
+    const startingMonth: number = listOfMonths.indexOf(month);
+
+    for (let i = startingMonth; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          if (item.label === originalBudgetItem.label) {
+            newBudget.push({ ...item, label, value, paid, frequency, cadence });
+            return;
+          }
+
+          newBudget.push(item);
+        });
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+
+    return;
+  }
+
+  if (cadence === "All Months") {
+    if (frequency === "Quarterly") {
+      for (let i = 0; i <= 11; i++) {
+        if (currentYearBudget[i].year === year) {
+          const newBudget: BudgetDataItem[] = [];
+
+          if (i === 2 || i === 5 || i === 8 || i === 11) {
+            currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+              if (item.label === originalBudgetItem.label) {
+                newBudget.push({
+                  ...item,
+                  label,
+                  value,
+                  paid,
+                  frequency,
+                  cadence,
+                });
+                return;
+              }
+
+              newBudget.push(item);
+            });
+
+            currentYearBudget[i][type] = newBudget;
+          }
+        }
+      }
+
+      return;
+    }
+
+    for (let i = 0; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          if (item.label === originalBudgetItem.label) {
+            newBudget.push({ ...item, label, value, paid, frequency, cadence });
+            return;
+          }
+
+          newBudget.push(item);
+        });
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+
+    return;
+  }
+
+  // cadence equals "Current Month" or anything else
+  const newBudget: BudgetDataItem[] = [];
+
+  budget[type].forEach((item: BudgetDataItem) => {
+    if (item.label === originalBudgetItem.label) {
+      newBudget.push(updatedBudgetItem);
+      return;
+    }
+
+    newBudget.push(item);
+  });
+
+  budget[type] = newBudget;
+};
+
+export const insertBasedOnCadence = (
+  budget: BudgetData,
+  updatedBudgetItem: BudgetDataItem,
+  fullBudget: BudgetData[],
+  month: string,
+  year: number,
+  type: string,
+) => {
+  const { frequency, cadence } = updatedBudgetItem;
+  const currentYearBudget = fullBudget.filter((specificBudget: BudgetData) => {
+    return specificBudget.year === year;
+  });
+  const startingMonth: number = listOfMonths.indexOf(month);
+
+  if (cadence === "Future Months") {
+    for (let i = startingMonth; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          newBudget.push(item);
+        });
+
+        newBudget.push(updatedBudgetItem);
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+
+    return;
+  }
+
+  if (cadence === "All Months") {
+    if (frequency === "Quarterly") {
+      for (let i = 0; i <= 11; i++) {
+        if (currentYearBudget[i].year === year) {
+          const newBudget: BudgetDataItem[] = [];
+
+          if (i === 2 || i === 5 || i === 8 || i === 11) {
+            currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+              newBudget.push(item);
+            });
+
+            newBudget.push(updatedBudgetItem);
+
+            currentYearBudget[i][type] = newBudget;
+          }
+        }
+      }
+
+      return;
+    }
+
+    for (let i = 0; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          newBudget.push(item);
+        });
+
+        newBudget.push(updatedBudgetItem);
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+
+    return;
+  }
+
+  // cadence equals "Current Month" or anything else
+  const newBudget: BudgetDataItem[] = [];
+
+  budget[type].forEach((item: BudgetDataItem) => {
+    newBudget.push(item);
+  });
+
+  newBudget.push(updatedBudgetItem);
+
+  budget[type] = newBudget;
+};
+
+export const insertBudgetIds = (
+  budget: BudgetData,
+  updatedBudgetItem: BudgetDataItem,
+  fullBudget: BudgetData[],
+  month: string,
+  year: number,
+  type: string,
+  budgetItems: NewBudgetIds,
+) => {
+  const { frequency, cadence } = updatedBudgetItem;
+  const currentYearBudget = fullBudget.filter((specificBudget: BudgetData) => {
+    return specificBudget.year === year;
+  });
+
+  if (cadence === "Future Months") {
+    const startingMonth: number = listOfMonths.indexOf(month);
+
+    for (let i = startingMonth; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          if (!item.budget_id) {
+            newBudget.push({
+              ...updatedBudgetItem,
+              budget_date_id: item.budget_date_id,
+              budget_id: budgetItems.budget_id[i - startingMonth],
+            });
+            return;
+          }
+
+          newBudget.push(item);
+        });
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+
+    return;
+  }
+
+  if (cadence === "All Months") {
+    if (frequency === "Quarterly") {
+      let count = 0;
+
+      for (let i = 0; i <= 11; i++) {
+        if (currentYearBudget[i].year === year) {
+          const newBudget: BudgetDataItem[] = [];
+
+          if (i === 2 || i === 5 || i === 8 || i === 11) {
+            currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+              if (!item.budget_id) {
+                newBudget.push({
+                  ...updatedBudgetItem,
+                  budget_date_id: item.budget_date_id,
+                  budget_id: budgetItems.budget_id[count],
+                });
+                count++;
+                return;
+              }
+
+              newBudget.push(item);
+            });
+
+            currentYearBudget[i][type] = newBudget;
+          }
+        }
+      }
+
+      return;
+    }
+
+    for (let i = 0; i <= 11; i++) {
+      if (currentYearBudget[i].year === year) {
+        const newBudget: BudgetDataItem[] = [];
+
+        currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
+          if (!item.budget_id) {
+            newBudget.push({
+              ...updatedBudgetItem,
+              budget_date_id: item.budget_date_id,
+              budget_id: budgetItems.budget_id[i],
+            });
+            return;
+          }
+
+          newBudget.push(item);
+        });
+
+        currentYearBudget[i][type] = newBudget;
+      }
+    }
+
+    return;
+  }
+
+  // cadence equals "Current Month" or anything else
+  const newBudget: BudgetDataItem[] = [];
+
+  budget[type].forEach((item: BudgetDataItem) => {
+    if (!item.budget_id) {
+      newBudget.push({
+        ...updatedBudgetItem,
+        budget_id: budgetItems.budget_id as number,
+      });
+      return;
+    }
+
+    newBudget.push(item);
+  });
+
+  budget[type] = newBudget;
 };

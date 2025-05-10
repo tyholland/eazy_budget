@@ -1,8 +1,17 @@
 import styled from "styled-components";
+import {
+  BLACK,
+  DARKER_GRAY,
+  GREEN,
+  LIGHT_GREEN,
+  LIGHT_RED,
+  RED,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Input = styled.input`
   border-radius: 10px;
-  border: 1px solid #000;
+  border: 1px solid ${BLACK};
   padding: 10px;
   height: 12px;
   font-size: 16px;
@@ -10,25 +19,25 @@ export const Input = styled.input`
 
   &.default {
     &:disabled {
-      border: 1px solid #000;
-      background: #fff;
-      color: #333;
+      border: 1px solid ${BLACK};
+      background: ${WHITE};
+      color: ${DARKER_GRAY};
     }
   }
 
   &.expense {
     &:disabled {
-      border: 1px solid #f00;
-      background: #ffcccb;
-      color: #000;
+      border: 1px solid ${RED};
+      background: ${LIGHT_RED};
+      color: ${BLACK};
     }
   }
 
   &.income {
     &:disabled {
-      border: 1px solid #00ff00;
-      background: #cefad0;
-      color: #000;
+      border: 1px solid ${GREEN};
+      background: ${LIGHT_GREEN};
+      color: ${BLACK};
     }
   }
 
@@ -80,7 +89,7 @@ export const InputWrapper = styled.div`
 
 export const Label = styled.label`
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   text-transform: capitalize;
   min-width: 100px;
   width: auto;

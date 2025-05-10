@@ -2,8 +2,6 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./login.style.ts";
-import PenPaperIcon from "../../svg/PenPaperIcon.tsx";
-import DataIcon from "../../svg/DataIcon.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
 
@@ -22,22 +20,34 @@ const Login = () => {
   return (
     <S.Wrapper>
       <S.Section>
-        <PenPaperIcon />
-        <span>
-          Tired of using pen and paper to track your monthly expenses every
-          single month?
-        </span>
+        <img
+          src="/images/login.jpg"
+          width="500px"
+          height="auto"
+          alt="account settings and details"
+        />
+        <S.Catchphrase>
+          <h1>
+            Tired of using pen and paper to track your monthly expenses every
+            single month?
+          </h1>
+          <Button handleClick={loginWithRedirect} buttonSize="medium">
+            Get Started
+          </Button>
+        </S.Catchphrase>
       </S.Section>
-      <S.Section>
-        <span>
-          Eazy Budgeting makes budgeting effortless—just enter your expenses
+      {/**
+       * The sections will alternate colors from Light_SKY_BLUE to the default background color
+       * The sections will be short videos of:
+       * Creating a budget, Update/Add monthly expense, Change chart types, Prediction tool
+       * Each video will have a paragraph explaining the video and how it can help users
+       **/}
+      <S.Section className="title">
+        <h2>
+          Simple Budgeting makes budgeting effortless—just enter your expenses
           once, and they'll be automatically applied to each month of the year.
-        </span>
-        <DataIcon />
+        </h2>
       </S.Section>
-      <Button handleClick={() => loginWithRedirect()} buttonSize="medium">
-        Log In / Sign Up
-      </Button>
     </S.Wrapper>
   );
 };

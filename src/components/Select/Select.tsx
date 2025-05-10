@@ -5,6 +5,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { SelectOptions } from "../../types.ts";
 import * as S from "./select.style.ts";
 import { MenuItem } from "@mui/material";
+import { WHITE } from "../../index.style.ts";
 
 interface SelectProps {
   options: SelectOptions[];
@@ -28,7 +29,11 @@ const SelectComponent = ({
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <InputLabel aria-label={placeHolder} id="demo-simple-select-label">
+      <InputLabel
+        sx={{ fontWeight: 500 }}
+        aria-label={placeHolder}
+        id="select-label"
+      >
         {placeHolder}
       </InputLabel>
       <Select
@@ -36,6 +41,7 @@ const SelectComponent = ({
         value={selectedItem}
         onChange={handleChange}
         size="small"
+        sx={{ backgroundColor: WHITE }}
         aria-label={`${placeHolder} options`}
       >
         {options.map((item: SelectOptions) => (

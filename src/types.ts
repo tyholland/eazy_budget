@@ -30,6 +30,7 @@ export interface GraphDataSet {
   backgroundColor: string[];
   borderWidth: number;
   label?: string;
+  borderColor?: string;
 }
 
 export interface BudgetDataItem {
@@ -38,6 +39,8 @@ export interface BudgetDataItem {
   budget_id: number | null;
   budget_date_id: number | null;
   paid?: boolean;
+  frequency?: string;
+  cadence?: string;
   type?: string;
 }
 
@@ -55,21 +58,33 @@ export interface BudgetBodyInfo {
   label: string;
   amount: number;
   paid?: boolean;
+  frequency?: string;
 }
 
 export interface UserRequest {
   email: string;
 }
 
+export interface ConnectedDecisionRequest {
+  decision: boolean;
+  connected_id?: number;
+}
+
 export interface UserResponse {
   action: string;
   hasBudget: boolean;
   subscription_id: number;
+  connected_message: boolean;
+  connected_id?: number;
+  primary_request?: string;
 }
 
 export interface User {
   hasBudget: boolean;
   subscription_id: number;
+  connected_message: boolean;
+  connected_id?: number;
+  primary_request?: string;
   email?: string;
   email_verified?: boolean;
   name?: string;
@@ -82,4 +97,8 @@ export interface User {
 export interface BudgetInsertIds {
   budget_id: number;
   budget_date_id: number;
+}
+
+export interface NewBudgetIds {
+  budget_id: number | number[];
 }

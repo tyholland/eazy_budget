@@ -1,4 +1,4 @@
-import { UserRequest } from "../types";
+import { ConnectedDecisionRequest, UserRequest } from "../types";
 
 const api = process.env.REACT_APP_API;
 
@@ -33,6 +33,46 @@ export const deleteUser = async (accessToken: string) => {
     });
 
     return await budgetResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to get budget info`);
+  }
+};
+
+export const shareAccount = async (
+  accessToken: string,
+  userInfo: UserRequest,
+) => {
+  try {
+    const sharedResponse = await fetch(`${api}/user/share`, {
+      method: "POST",
+      body: JSON.stringify({ ...userInfo }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await sharedResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to get budget info`);
+  }
+};
+
+export const shareAccountDecision = async (
+  accessToken: string,
+  userInfo: ConnectedDecisionRequest,
+) => {
+  try {
+    const sharedResponse = await fetch(`${api}/user/share/decide`, {
+      method: "POST",
+      body: JSON.stringify({ ...userInfo }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await sharedResponse.json();
   } catch (err) {
     throw new Error(`Failed to get budget info`);
   }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RUBIK } from "../../index.style.ts";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ export const MonthlyWrapper = styled.div`
 export const Title = styled.h2`
   text-transform: capitalize;
   margin: 0;
+  font-family: ${RUBIK};
 `;
 
 export const ItemContainer = styled.div`
@@ -22,6 +24,19 @@ export const ItemContainer = styled.div`
 
   @media only screen and (max-width: 800px) {
     justify-content: center;
+  }
+
+  .itemWrapper {
+    width: 190px;
+
+    @media only screen and (max-width: 800px) {
+      width: 290px;
+    }
+
+    .inputWrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   input:not(:disabled) {

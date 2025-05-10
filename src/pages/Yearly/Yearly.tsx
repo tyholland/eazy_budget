@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BudgetDataItem, InputOption } from "../../types.ts";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtomValue } from "jotai";
 import * as S from "./yearly.style.ts";
@@ -18,21 +18,14 @@ import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
+import { DARKER_GRAY } from "../../index.style.ts";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
-  const navigate = useNavigate();
   const { type, year } = useParams();
-  const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
-
-  useEffect(() => {
-    if (selectedType !== type) {
-      navigate(`/yearly/${selectedType?.toLowerCase()}/${theYear}`);
-    }
-  }, [selectedType]);
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <ErrorPage />;
@@ -53,7 +46,8 @@ const Yearly = () => {
       <BudgetNav
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
-        setSelectedType={setSelectedType}
+        incomeUrl={`/yearly/income/${theYear}`}
+        expenseUrl={`/yearly/expense/${theYear}`}
       />
       <S.ContentWrapper>
         <S.Title>
@@ -69,7 +63,7 @@ const Yearly = () => {
                   theType={type as InputOption}
                   item={data}
                   hideBtn
-                  hideCheckbox
+                  hidePaidContent
                 >
                   <span data-tooltip-id={`monthly-${type}-tooltip`}>
                     <Link
@@ -88,6 +82,7 @@ const Yearly = () => {
           <BudgetDetails
             income={yearlyTotalIncome}
             expense={yearlyTotalExpense}
+            hideExpensesPaid
           />
         )}
         {selectedOption === "charts" && (
@@ -97,10 +92,12 @@ const Yearly = () => {
                 backgroundColor: graphColors,
                 borderWidth: 1,
                 data: data,
+                borderColor: DARKER_GRAY,
               },
             ]}
             label={labels}
             title={type}
+            page="yearly"
           />
         )}
         <ReactTooltip

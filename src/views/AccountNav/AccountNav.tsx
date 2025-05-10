@@ -8,14 +8,9 @@ import { userAtom } from "../../hook/UserAtom.ts";
 interface AccountNavProps {
   setSelectedOption: (val: string) => void;
   selectedOption: string;
-  logout: () => void;
 }
 
-const AccountNav = ({
-  setSelectedOption,
-  selectedOption,
-  logout,
-}: AccountNavProps) => {
+const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
   const currentUser = useAtomValue(userAtom);
   const subscribe =
     currentUser &&
@@ -59,16 +54,6 @@ const AccountNav = ({
           </Button>
         </S.NavItem>
       )}
-      <S.NavItem className={`${subscribe ? "subscribe" : ""} close`}>
-        <Button
-          classType="text"
-          handleClick={() => {
-            logout();
-          }}
-        >
-          Logout
-        </Button>
-      </S.NavItem>
     </S.NavWrapper>
   );
 };

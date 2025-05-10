@@ -1,14 +1,19 @@
 import React, { ChangeEvent } from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./budgetInput.style.ts";
-import { formatAmount } from "../../functions/helper.ts";
+import {
+  formatAmount,
+  revertAmountToOriginal,
+} from "../../functions/helper.ts";
 import { UseFormRegister } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 interface BudgetInputProps {
   inputLabel: string;
   isEditable?: boolean;
   setInputValue?: (val: number | string) => void;
   setUpdatedLabel?: (val: string) => void;
+  setChangeInputVal?: (val: boolean) => void;
   register?: UseFormRegister<any>;
   inputOption?: InputOption;
   type?: InputType;
@@ -17,6 +22,7 @@ interface BudgetInputProps {
   valuePlaceHolder?: string;
   labelPlaceHolder?: string;
   percent?: boolean;
+  frequency?: string;
 }
 
 const BudgetInput = ({
@@ -31,18 +37,22 @@ const BudgetInput = ({
   register,
   setInputValue = () => {},
   setUpdatedLabel = () => {},
+  setChangeInputVal = () => {},
   percent = false,
+  frequency = "Monthly",
 }: BudgetInputProps) => {
+  const { month, year } = useParams();
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUpdatedLabel(e.target.value);
   };
 
   const handleValueOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setChangeInputVal(true);
   };
 
   return (
-    <S.InputWrapper className="override">
+    <S.InputWrapper className="inputWrapper">
       {isEditable && (
         <>
           <S.Input
@@ -56,7 +66,11 @@ const BudgetInput = ({
             type={type}
             className={`${inputSize} ${inputOption}`}
             onChange={handleValueOnChange}
-            value={defaultValue}
+            value={
+              typeof defaultValue === "number"
+                ? revertAmountToOriginal(defaultValue, month, year, frequency)
+                : defaultValue
+            }
             placeholder={valuePlaceHolder}
           />
         </>

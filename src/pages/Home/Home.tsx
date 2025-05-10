@@ -18,6 +18,7 @@ import { createBudget } from "../../requests/budget.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
+import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -28,6 +29,9 @@ const Home = () => {
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [hasBudgetItems, setHasBudgetItems] = useState<boolean>(true);
+  const [hasMessage, setHasMessage] = useState<boolean | undefined>(
+    currentUser?.connected_message,
+  );
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -84,6 +88,7 @@ const Home = () => {
 
   return (
     <S.HomeWrapper>
+      {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
       {!!budget.length && (
         <>
           <S.Section>
@@ -97,16 +102,32 @@ const Home = () => {
               and expense.
             </span>
           </S.Section>
-          <Overview
-            label="Monthly"
-            incomeValue={montlyTotalIncome}
-            expenseValue={monthlyTotalExpense}
-          />
-          <Overview
-            label="Yearly"
-            incomeValue={yearlyTotalIncome}
-            expenseValue={yearlyTotalExpense}
-          />
+          <S.BudgetSection>
+            <img
+              src="/images/monthly.jpg"
+              width="400px"
+              height="auto"
+              alt="monthly piggy bank"
+            />
+            <Overview
+              label="Monthly"
+              incomeValue={montlyTotalIncome}
+              expenseValue={monthlyTotalExpense}
+            />
+          </S.BudgetSection>
+          <S.BudgetSection>
+            <Overview
+              label="Yearly"
+              incomeValue={yearlyTotalIncome}
+              expenseValue={yearlyTotalExpense}
+            />
+            <img
+              src="/images/yearly.jpg"
+              width="400px"
+              height="auto"
+              alt="yearly piggy bank"
+            />
+          </S.BudgetSection>
         </>
       )}
       {!budget.length && !hasBudgetItems && (

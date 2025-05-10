@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RUBIK } from "../../index.style.ts";
 
 export const YearlylyWrapper = styled.div`
   display: flex;
@@ -17,6 +18,7 @@ export const YearlylyWrapper = styled.div`
 export const Title = styled.h2`
   text-transform: capitalize;
   margin: 0;
+  font-family: ${RUBIK};
 `;
 
 export const ItemWrapper = styled.div`
@@ -28,20 +30,27 @@ export const ItemWrapper = styled.div`
   flex-direction: column;
 
   @media only screen and (max-width: 800px) {
-    width: 100%;
+    width: 90%;
     gap: 20px;
     height: auto;
+    margin: 0 auto;
   }
 
-  > div {
+  .itemWrapper {
     flex-direction: row;
     align-items: center;
     border: 0;
     padding: 0;
+    background: transparent;
 
     @media only screen and (max-width: 800px) {
       width: 100%;
     }
+  }
+
+  .inputWrapper {
+    flex-direction: row;
+    align-items: center;
   }
 `;
 

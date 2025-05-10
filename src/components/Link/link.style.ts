@@ -1,5 +1,13 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {
+  BLACK,
+  DARKER_GRAY,
+  GRAY,
+  LIGHT_SKY_BLUE,
+  LIGHTER_GRAY,
+  SKY_BLUE,
+} from "../../index.style.ts";
 
 export const LinkElement = styled(Link)`
   border-radius: 30px;
@@ -14,11 +22,11 @@ export const LinkElement = styled(Link)`
   text-decoration: none;
 
   &.button {
-    background: #90d5ff;
-    color: #000;
+    background: ${LIGHT_SKY_BLUE};
+    color: ${BLACK};
 
     &:hover {
-      background: #57b9ff;
+      background: ${SKY_BLUE};
     }
   }
 
@@ -41,26 +49,26 @@ export const LinkElement = styled(Link)`
     background: transparent;
     border-radius: 0;
     padding: 0;
-    color: #999;
+    color: ${GRAY};
     text-decoration: none;
     font-weight: 400;
     width: auto;
 
     &:hover {
       text-decoration: underline;
-      color: #333;
+      color: ${DARKER_GRAY};
     }
   }
 
   &.disabled {
-    background: #eee;
-    color: #999;
+    background: ${LIGHTER_GRAY};
+    color: ${GRAY};
     border: none;
     pointer-events: none;
 
     &:hover {
-      background: #eee;
-      color: #999;
+      background: ${LIGHTER_GRAY};
+      color: ${GRAY};
       border: none;
       pointer-events: none;
     }

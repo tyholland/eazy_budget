@@ -6,23 +6,44 @@ import CancelIcon from "../../svg/CancelIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
 import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
+import ModalComponent from "../../components/Modal/Modal.tsx";
 import * as S from "./budgetItem.style.ts";
 import { UseFormRegister } from "react-hook-form";
 import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
+import SelectComponent from "../../components/Select/Select.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import {
+  cadenceOptions,
+  frequencyOptions,
+  proPlanFrequencyOptions,
+} from "../../constants.ts";
+import {
+  getErrorMessage,
+  getFrequencyContent,
+  getSubscriptionStatus,
+  revertAmountToOriginal,
+} from "../../functions/helper.ts";
+import { useParams } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface BudgetItemProps {
   theType: InputOption;
   children?: string | JSX.Element;
   register?: UseFormRegister<any>;
   item?: BudgetDataItem;
-  editable?: boolean;
+  openModal?: boolean;
   labelPlaceHolder?: string;
   valuePlaceHolder?: string;
   inputType?: InputType;
   hideBtn?: boolean;
-  hideCheckbox?: boolean;
-  saveEvent?: (val: Object, paid?: boolean) => void;
+  hidePaidContent?: boolean;
+  saveEvent?: (
+    val: Object,
+    paid?: boolean,
+    frequency?: string,
+    cadence?: string,
+  ) => void;
   deleteEvent?: () => void;
 }
 
@@ -30,25 +51,43 @@ const BudgetItem = ({
   theType,
   children,
   item,
-  editable = false,
+  openModal = false,
   valuePlaceHolder = "",
   labelPlaceHolder = "",
   inputType = "text",
   hideBtn = false,
-  hideCheckbox = false,
+  hidePaidContent = false,
   register,
   saveEvent,
   deleteEvent,
 }: BudgetItemProps) => {
-  const [isEditable, setIsEditable] = useState<boolean>(editable);
+  const { month, year } = useParams();
+  const currentUser = useAtomValue(userAtom);
+  const specificFrequency = getSubscriptionStatus(
+    "Pro",
+    currentUser?.subscription_id,
+  )
+    ? proPlanFrequencyOptions
+    : frequencyOptions;
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
   const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
   const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
+  const [isOpen, setIsOpen] = useState<boolean>(openModal);
+  const [selectedFrequency, setSelectedFrequency] = useState<string>(
+    item?.frequency || specificFrequency[3].label,
+  );
+  const [selectedCadence, setSelectedCadence] = useState<string>(
+    cadenceOptions[0].label,
+  );
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
+  const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
 
   useEffect(() => {
-    item && setInputValue(item.value);
+    if (item) {
+      setInputValue(item.value);
+    }
   }, [item?.value]);
 
   useEffect(() => {
@@ -59,113 +98,210 @@ const BudgetItem = ({
     item && setCheckedVal(item.paid || false);
   }, [item?.paid]);
 
+  useEffect(() => {
+    item && setSelectedFrequency(item.frequency || specificFrequency[3].label);
+  }, [item?.frequency]);
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const showCadenceSelector =
+    selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
+
   return (
-    <S.ItemWrapper>
+    <S.ItemWrapper className="itemWrapper">
       <S.Item>
-        <BudgetInput
-          inputLabel={updatedLabel}
-          inputOption={theType}
-          defaultValue={inputValue}
-          isEditable={isEditable}
-          labelPlaceHolder={labelPlaceHolder}
-          valuePlaceHolder={valuePlaceHolder}
-          type={inputType}
-          inputSize="medium"
-          register={register}
-          setInputValue={setInputValue}
-          setUpdatedLabel={setUpdatedLabel}
-        />
-        {!hideCheckbox && (
-          <CheckboxComponent
-            label="Paid"
-            isDisabled={!isEditable}
-            setCheckedVal={setCheckedVal}
-            isChecked={checkedVal}
+        <S.ItemTopRow>
+          {!hideBtn && (
+            <>
+              <span data-tooltip-id="edit-tooltip">
+                <Button
+                  classType="text"
+                  handleClick={() => {
+                    setIsOpen(true);
+                    setSelectedCadence(cadenceOptions[0].label);
+                    setInputValue(item?.value || 0);
+                  }}
+                >
+                  <EditIcon />
+                </Button>
+              </span>
+              <ReactTooltip
+                id="edit-tooltip"
+                place="top"
+                variant="info"
+                content={`Edit ${theType} item`}
+                className="tooltip"
+              />
+              <ModalComponent
+                isOpen={isOpen}
+                title={`Edit ${theType} ${item?.budget_id} item`}
+                size="medium"
+              >
+                <S.ModalItem>
+                  <S.TimingSelects>
+                    <SelectComponent
+                      options={specificFrequency}
+                      placeHolder="Choose Frequency"
+                      defaultValue={
+                        item?.frequency || specificFrequency[3].label
+                      }
+                      setOption={(val) => {
+                        setSelectedFrequency(val);
+
+                        if (val === "Yearly" || val === "Quarterly") {
+                          setSelectedCadence(cadenceOptions[2].label);
+                        }
+                      }}
+                    />
+                    {showCadenceSelector &&
+                      getSubscriptionStatus(
+                        "Pro",
+                        currentUser?.subscription_id,
+                      ) && (
+                        <SelectComponent
+                          options={cadenceOptions}
+                          placeHolder="Choose Cadence"
+                          defaultValue={cadenceOptions[0].label}
+                          setOption={setSelectedCadence}
+                        />
+                      )}
+                  </S.TimingSelects>
+                  <BudgetInput
+                    inputLabel={updatedLabel}
+                    inputOption={theType}
+                    defaultValue={inputValue}
+                    isEditable
+                    labelPlaceHolder={labelPlaceHolder}
+                    valuePlaceHolder={valuePlaceHolder}
+                    type={inputType}
+                    inputSize="medium"
+                    register={register}
+                    setInputValue={setInputValue}
+                    setUpdatedLabel={setUpdatedLabel}
+                    frequency={item?.frequency}
+                    setChangeInputVal={setChangeInputVal}
+                  />
+                  {!hidePaidContent && (
+                    <CheckboxComponent
+                      label="Paid"
+                      isDisabled={false}
+                      register={register}
+                      setCheckedVal={setCheckedVal}
+                      isChecked={checkedVal}
+                    />
+                  )}
+                  {errorMessage.length > 0 && (
+                    <S.ErrorMsg>
+                      {errorMessage.map((item: string) => {
+                        return <li>{item}</li>;
+                      })}
+                    </S.ErrorMsg>
+                  )}
+                  <S.BtnWrapper className="btnWrapper">
+                    <Button
+                      handleClick={() => {
+                        const theValue = changeInputVal
+                          ? inputValue
+                          : item
+                            ? revertAmountToOriginal(
+                                item.value,
+                                month,
+                                year,
+                                item?.frequency,
+                              )
+                            : 0;
+
+                        const errorMsg = getErrorMessage(
+                          updatedLabel,
+                          theValue,
+                        );
+
+                        if (errorMsg.length) {
+                          setErrorMessage(errorMsg);
+                          return;
+                        }
+
+                        const budgetItem = JSON.parse(
+                          `{"${updatedLabel}": ${theValue}}`,
+                        );
+                        saveEvent &&
+                          saveEvent(
+                            budgetItem,
+                            checkedVal,
+                            selectedFrequency,
+                            selectedCadence,
+                          );
+                        setErrorMessage([]);
+                        closeModal();
+                      }}
+                    >
+                      <>
+                        Save <SaveIcon />
+                      </>
+                    </Button>
+                    {!openModal && (
+                      <Button
+                        handleClick={() => {
+                          setInputValue(item?.value || "");
+                          setUpdatedLabel(item?.label || "");
+                          setCheckedVal(item?.paid || false);
+                          setSelectedFrequency(
+                            item?.frequency || specificFrequency[3].label,
+                          );
+                          closeModal();
+                        }}
+                      >
+                        <>
+                          Cancel <CancelIcon />
+                        </>
+                      </Button>
+                    )}
+                    <Button
+                      handleClick={() => {
+                        deleteEvent && deleteEvent();
+                        closeModal();
+                      }}
+                    >
+                      <>
+                        Delete <DeleteIcon />
+                      </>
+                    </Button>
+                  </S.BtnWrapper>
+                </S.ModalItem>
+              </ModalComponent>
+            </>
+          )}
+          <BudgetInput
+            inputLabel={updatedLabel}
+            inputOption={theType}
+            defaultValue={inputValue}
+            labelPlaceHolder={labelPlaceHolder}
+            valuePlaceHolder={valuePlaceHolder}
+            type={inputType}
+            inputSize="medium"
+            register={register}
+            setInputValue={setInputValue}
+            setUpdatedLabel={setUpdatedLabel}
           />
+        </S.ItemTopRow>
+        {!hidePaidContent && (
+          <>
+            {/* For Daily as a question mark tooltip to let the user know that amount doesn't reflect holidays */}
+            <div>
+              {getFrequencyContent(month, year, item?.value, item?.frequency)}
+            </div>
+            <CheckboxComponent
+              label="Paid"
+              isDisabled
+              setCheckedVal={setCheckedVal}
+              isChecked={checkedVal}
+            />
+          </>
         )}
       </S.Item>
       {children}
-      {!hideBtn && (
-        <>
-          {!isEditable && (
-            <span data-tooltip-id="edit-tooltip">
-              <Button classType="text" handleClick={() => setIsEditable(true)}>
-                <EditIcon />
-              </Button>
-            </span>
-          )}
-          {isEditable && (
-            <S.BtnWrapper>
-              <span data-tooltip-id="save-tooltip">
-                <Button
-                  classType="text"
-                  handleClick={() => {
-                    const budgetItem = JSON.parse(
-                      `{"${updatedLabel}": ${inputValue}}`,
-                    );
-                    saveEvent && saveEvent(budgetItem, checkedVal);
-                    setIsEditable(false);
-                  }}
-                >
-                  <SaveIcon />
-                </Button>
-              </span>
-              <span data-tooltip-id="cancel-tooltip">
-                <Button
-                  classType="text"
-                  handleClick={() => {
-                    setInputValue(item?.value || "");
-                    setUpdatedLabel(item?.label || "");
-                    setCheckedVal(item?.paid || false);
-                    setIsEditable(false);
-                  }}
-                >
-                  <CancelIcon />
-                </Button>
-              </span>
-              <span data-tooltip-id="delete-tooltip">
-                <Button
-                  classType="text"
-                  handleClick={() => {
-                    deleteEvent && deleteEvent();
-                    setIsEditable(false);
-                  }}
-                >
-                  <DeleteIcon />
-                </Button>
-              </span>
-            </S.BtnWrapper>
-          )}
-          <ReactTooltip
-            id="edit-tooltip"
-            place="top"
-            variant="info"
-            content={`Edit ${theType} item`}
-            className="tooltip"
-          />
-          <ReactTooltip
-            id="save-tooltip"
-            place="top"
-            variant="info"
-            content={`Save ${theType} item`}
-            className="tooltip"
-          />
-          <ReactTooltip
-            id="cancel-tooltip"
-            place="top"
-            variant="info"
-            content={`Cancel ${theType} item`}
-            className="tooltip"
-          />
-          <ReactTooltip
-            id="delete-tooltip"
-            place="top"
-            variant="info"
-            content={`Delete ${theType} item`}
-            className="tooltip"
-          />
-        </>
-      )}
     </S.ItemWrapper>
   );
 };

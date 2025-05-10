@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DARKER_GRAY, SKY_BLUE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -9,6 +10,16 @@ export const Wrapper = styled.div`
   @media only screen and (max-width: 800px) {
     width: 100%;
     flex-direction: column;
+  }
+
+  img {
+    min-width: 100px;
+    max-width: 759px;
+    width: 100%;
+
+    @media only screen and (max-width: 800px) {
+      display: none;
+    }
   }
 `;
 
@@ -49,16 +60,16 @@ export const Section = styled.div`
 
   a,
   button {
-    color: #333 !important;
+    color: ${DARKER_GRAY} !important;
     font-weight: 700 !important;
     font-size: 16px !important;
     width: 100% !important;
     padding: 0 0 10px 0 !important;
     justify-content: flex-start;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid ${DARKER_GRAY};
 
     &:hover {
-      color: #90d5ff !important;
+      color: ${SKY_BLUE} !important;
       text-decoration: none !important;
     }
   }
@@ -85,12 +96,16 @@ export const ModalBtn = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 80%;
+  min-width: 400px;
+  max-width: 400px;
+  width: 100%;
   display: flex;
   gap: 20px;
   flex-direction: column;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
+    min-width: unset;
+    max-width: unset;
   }
 `;

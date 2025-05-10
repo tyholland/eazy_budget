@@ -1,12 +1,14 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import * as S from "./checkbox.style.ts";
+import { UseFormRegister } from "react-hook-form";
 
 interface CheckboxProps {
   isDisabled: boolean;
   isChecked: boolean;
   label: string;
   setCheckedVal: (val: boolean) => void;
+  register?: UseFormRegister<any>;
 }
 
 const CheckboxComponent = ({
@@ -14,13 +16,19 @@ const CheckboxComponent = ({
   isChecked,
   label,
   setCheckedVal,
+  register,
 }: CheckboxProps) => {
   const [checkedItem, setCheckedItem] = useState<boolean>(isChecked);
+  const requiredDetails = register ? { ...register("paidCheckbox") } : {};
 
   const handleChange = (val: ChangeEvent<HTMLInputElement>) => {
     setCheckedVal(val.target.checked);
     setCheckedItem(val.target.checked);
   };
+
+  useEffect(() => {
+    setCheckedItem(isChecked);
+  }, [isChecked]);
 
   return (
     <S.Wrapper>
@@ -31,6 +39,7 @@ const CheckboxComponent = ({
             checked={checkedItem}
             disabled={isDisabled}
             onChange={handleChange}
+            {...requiredDetails}
             color="success"
             size="medium"
             aria-label={`${label} checkbox`}

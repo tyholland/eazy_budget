@@ -27,6 +27,8 @@ const Create = () => {
   const [income, setIncome] = useAtom(incomeAtom);
   const [expense, setExpense] = useAtom(expenseAtom);
   const [budgetArr, setBudgetArr] = useState<number[]>([1]);
+  const [budgetFrequency, setBudgetFrequency] = useState<string>("");
+  const [budgetCadence, setBudgetCadence] = useState<string>("");
 
   useEffect(() => {
     if (
@@ -57,13 +59,26 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    const budgetEntries = formatBudgetItem(data);
+    const budgetEntries = formatBudgetItem(
+      data,
+      budgetFrequency,
+      budgetCadence,
+      month,
+      Number(year),
+    );
     type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
     navigate("/overview");
   };
 
-  const handleSaveEvent = (item: Object) => {
+  const handleSaveEvent = (
+    item: Object,
+    paid?: boolean,
+    frequency?: string,
+    cadence?: string,
+  ) => {
     setHasItems(!!Object.keys(item).length);
+    frequency && setBudgetFrequency(frequency);
+    cadence && setBudgetCadence(cadence);
   };
 
   return (
@@ -90,7 +105,7 @@ const Create = () => {
               register={register}
               saveEvent={handleSaveEvent}
               deleteEvent={handleDeleteEvent}
-              hideCheckbox
+              hidePaidContent
             />
           );
         })}
@@ -110,14 +125,13 @@ const Create = () => {
             <BudgetItem
               key={item}
               theType={type as InputOption}
-              editable
               labelPlaceHolder="name"
               valuePlaceHolder="value"
               inputType="number"
               register={register}
               saveEvent={handleSaveEvent}
               deleteEvent={handleAdditionDeleteEvent}
-              hideCheckbox
+              hidePaidContent
             />
           );
         })}

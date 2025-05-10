@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BudgetData, BudgetDataItem, InputOption } from "../../types.ts";
-import { useParams, useNavigate } from "react-router-dom";
+import {
+  BudgetData,
+  BudgetDataItem,
+  InputOption,
+  NewBudgetIds,
+} from "../../types.ts";
+import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom, useAtomValue } from "jotai";
 import * as S from "./monthly.style.ts";
@@ -16,8 +21,11 @@ import {
   addNewBudgetItem,
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
+  insertBasedOnCadence,
+  insertBudgetIds,
   reformatBudgetItem,
   sortBudget,
+  updateBasedOnCadence,
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
@@ -38,20 +46,20 @@ import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { DARKER_GRAY } from "../../index.style.ts";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
   const currentUser = useAtomValue(userAtom);
   const clonedBudget = [...budget];
-  const navigate = useNavigate();
   const { type, month, year } = useParams();
-  const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<string>("A - Z");
 
   const sortBudgetItems = (type: string) => {
@@ -65,12 +73,6 @@ const Monthly = () => {
 
     setBudget(updatedBudget);
   };
-
-  useEffect(() => {
-    if (selectedType !== type) {
-      navigate(`/monthly/${selectedType?.toLowerCase()}/${month}/${theYear}`);
-    }
-  }, [selectedType]);
 
   useEffect(() => {
     if (budgetChange) {
@@ -109,6 +111,7 @@ const Monthly = () => {
     const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
 
     setBudget(updatedBudget);
+    setIsNewBudget(true);
   };
 
   return (
@@ -116,7 +119,8 @@ const Monthly = () => {
       <BudgetNav
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
-        setSelectedType={setSelectedType}
+        incomeUrl={`/monthly/income/${month}/${theYear}`}
+        expenseUrl={`/monthly/expense/${month}/${theYear}`}
       />
       <S.ContentWrapper>
         <S.Title>
@@ -146,17 +150,19 @@ const Monthly = () => {
                       const handleSaveEvent = async (
                         obj: Object,
                         isPaid?: boolean,
+                        frequency?: string,
+                        cadence?: string,
                       ) => {
                         const updatedItem = reformatBudgetItem(
                           obj,
                           data.budget_id,
                           data.budget_date_id,
+                          month,
+                          theYear,
                           isPaid,
+                          frequency,
+                          cadence,
                         );
-
-                        currentItems[i] = updatedItem[0];
-                        item[type] = currentItems;
-                        setBudgetChange(true);
 
                         try {
                           const accessToken = await getAccessTokenSilently({
@@ -167,17 +173,43 @@ const Monthly = () => {
                           });
 
                           if (!!data.budget_id) {
+                            updateBasedOnCadence(
+                              item,
+                              updatedItem[0],
+                              budget,
+                              data,
+                              month,
+                              theYear,
+                              type,
+                            );
+                            setBudgetChange(true);
+
                             await updateBudgetItem(accessToken, updatedItem[0]);
                           } else {
-                            updatedItem[0].type = type;
-                            const updatedBudgetItem = await addBudgetItem(
-                              accessToken,
+                            insertBasedOnCadence(
+                              item,
                               updatedItem[0],
+                              budget,
+                              month,
+                              theYear,
+                              type,
                             );
+                            setBudgetChange(true);
 
-                            updatedItem[0].budget_id =
-                              updatedBudgetItem.budget_id;
-                            delete updatedItem[0].type;
+                            updatedItem[0].type = type;
+                            const updatedBudgetItem: NewBudgetIds =
+                              await addBudgetItem(accessToken, updatedItem[0]);
+
+                            insertBudgetIds(
+                              item,
+                              updatedItem[0],
+                              budget,
+                              month,
+                              theYear,
+                              type,
+                              updatedBudgetItem,
+                            );
+                            setBudgetChange(true);
                           }
                         } catch (err) {
                           console.error(err);
@@ -218,13 +250,13 @@ const Monthly = () => {
                           key={i}
                           theType={type as InputOption}
                           item={data}
-                          labelPlaceHolder="name"
-                          valuePlaceHolder="value"
+                          labelPlaceHolder={`${type.toLowerCase()} name`}
+                          valuePlaceHolder={`${type.toLowerCase()} amount`}
                           inputType="number"
                           saveEvent={handleSaveEvent}
                           deleteEvent={handleDeleteEvent}
-                          hideCheckbox={type === "income"}
-                          editable={data.label === ""}
+                          hidePaidContent={type === "income"}
+                          openModal={isNewBudget}
                         />
                       );
                     });
@@ -234,7 +266,6 @@ const Monthly = () => {
                 <ModalComponent
                   isOpen={isOpen}
                   title={`Want to remove the last ${type}???`}
-                  handleClose={() => setIsOpen(false)}
                 >
                   <S.ModalWrapper>
                     <span>
@@ -278,10 +309,12 @@ const Monthly = () => {
                 backgroundColor: graphColors,
                 borderWidth: 1,
                 data: data,
+                borderColor: DARKER_GRAY,
               },
             ]}
             label={labels}
             title={type}
+            page="monthly"
           />
         )}
       </S.ContentWrapper>

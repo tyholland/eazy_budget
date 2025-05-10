@@ -27,7 +27,7 @@ const SetupBudget = ({
     <S.Wrapper>
       <S.ContentSection>
         <span>
-          <strong>Welcome to Eazy Budgeting</strong>
+          <strong>Welcome to Simple Budgeting</strong>
         </span>
         <span>
           Enter your income and expenses to generate a complete 12-month budget.

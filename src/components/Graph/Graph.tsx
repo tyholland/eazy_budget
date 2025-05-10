@@ -1,4 +1,4 @@
-import React, { JSX, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,19 +12,28 @@ import {
 import { Doughnut, Pie, Bar } from "react-chartjs-2";
 import * as S from "./graph.style.ts";
 import { GraphDataSet, GraphType } from "../../types.ts";
-import { budgetViewMatch, viewOptions } from "../../constants.ts";
+import {
+  budgetOptions,
+  budgetViewMatch,
+  viewOptions,
+} from "../../constants.ts";
 import SelectComponent from "../Select/Select.tsx";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface GraphProps {
   label: string[];
   dataset: GraphDataSet[];
   title: string;
+  page: string;
 }
 
-const Graph = ({ title, label, dataset }: GraphProps) => {
+const Graph = ({ title, label, dataset, page }: GraphProps) => {
   const [selectedView, setSelectedView] = useState<string>(
     viewOptions[0].label,
   );
+  const [selectedType, setSelectedType] = useState<string>(title);
+  const navigate = useNavigate();
+  const { month, year } = useParams();
 
   const type = budgetViewMatch.filter((item) => selectedView === item.label)[0]
     ?.type as GraphType;
@@ -42,6 +51,8 @@ const Graph = ({ title, label, dataset }: GraphProps) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
+    aspectRatio: 1,
     plugins: {
       title: {
         display: true,
@@ -81,6 +92,16 @@ const Graph = ({ title, label, dataset }: GraphProps) => {
       break;
   }
 
+  useEffect(() => {
+    if (selectedType !== title) {
+      const url =
+        page === "monthly"
+          ? `/monthly/${selectedType}/${month}/${year}`
+          : `/yearly/${selectedType}/${year}`;
+      navigate(url);
+    }
+  }, [selectedType]);
+
   return (
     <>
       <S.SelectWrapper>
@@ -89,6 +110,12 @@ const Graph = ({ title, label, dataset }: GraphProps) => {
           placeHolder="Change View"
           defaultValue={viewOptions[0].label}
           setOption={setSelectedView}
+        />
+        <SelectComponent
+          options={budgetOptions}
+          placeHolder="Change Budget Type"
+          defaultValue={title}
+          setOption={setSelectedType}
         />
       </S.SelectWrapper>
       <S.GraphWraper>{chart}</S.GraphWraper>

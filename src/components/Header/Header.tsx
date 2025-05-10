@@ -3,25 +3,28 @@ import * as S from "./header.style.ts";
 import UserIcon from "../../svg/UserIcon.tsx";
 import Link from "../Link/Link.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
+import Button from "../Button/Button.tsx";
 
 const Header = () => {
-  const { user } = useAuth0();
+  const { user, loginWithRedirect } = useAuth0();
 
   return (
     <S.HeaderWrapper>
-      <S.Title>Eazy Budgeting</S.Title>
-      <Link url={user ? "/account" : "/"} label={user ? "Account" : "Login"}>
-        {user?.picture ? (
+      <S.Title>Simple Budgeting</S.Title>
+      {user?.picture ? (
+        <Link url={"/account"} label={"Account"}>
           <img
             src={user?.picture}
-            alt="Logged in user"
+            alt="logged in user"
             title="Logged in user"
             aria-label="Logged in user"
           />
-        ) : (
+        </Link>
+      ) : (
+        <Button classType="text" handleClick={loginWithRedirect}>
           <UserIcon />
-        )}
-      </Link>
+        </Button>
+      )}
     </S.HeaderWrapper>
   );
 };

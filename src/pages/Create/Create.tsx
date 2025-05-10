@@ -20,7 +20,7 @@ import { removeItemFromNumberArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Create = () => {
-  const { register, handleSubmit, getValues, unregister } = useForm();
+  const { register, handleSubmit, getValues, unregister, setValue } = useForm();
   const { type, month, year } = useParams();
   const navigate = useNavigate();
   const [hasItems, setHasItems] = useState<boolean>(false);
@@ -59,15 +59,16 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    const budgetEntries = formatBudgetItem(
-      data,
-      budgetFrequency,
-      budgetCadence,
-      month,
-      Number(year),
-    );
-    type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
-    navigate("/overview");
+    // const budgetEntries = formatBudgetItem(
+    //   data,
+    //   budgetFrequency,
+    //   budgetCadence,
+    //   month,
+    //   Number(year),
+    // );
+    // type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
+    // navigate("/overview");
+    console.log(data);
   };
 
   const handleSaveEvent = (
@@ -106,6 +107,7 @@ const Create = () => {
               saveEvent={handleSaveEvent}
               deleteEvent={handleDeleteEvent}
               hidePaidContent
+              setValue={setValue}
             />
           );
         })}
@@ -132,6 +134,7 @@ const Create = () => {
               saveEvent={handleSaveEvent}
               deleteEvent={handleAdditionDeleteEvent}
               hidePaidContent
+              setValue={setValue}
             />
           );
         })}

@@ -14,7 +14,6 @@ interface BudgetInputProps {
   setInputValue?: (val: number | string) => void;
   setUpdatedLabel?: (val: string) => void;
   setChangeInputVal?: (val: boolean) => void;
-  register?: UseFormRegister<any>;
   inputOption?: InputOption;
   type?: InputType;
   inputSize?: ElementSize;
@@ -34,7 +33,6 @@ const BudgetInput = ({
   defaultValue = "",
   valuePlaceHolder = "",
   labelPlaceHolder = "",
-  register,
   setInputValue = () => {},
   setUpdatedLabel = () => {},
   setChangeInputVal = () => {},
@@ -81,31 +79,16 @@ const BudgetInput = ({
           <S.Label aria-label={inputLabel} htmlFor={inputLabel}>
             {inputLabel}
           </S.Label>
-          {register && (
-            <S.Input
-              type={"text"}
-              id={inputLabel}
-              {...register(inputLabel)}
-              className={`${inputSize} ${inputOption}`}
-              disabled
-              value={formatAmount(Number(defaultValue))}
-              aria-label={`${inputLabel} value`}
-            />
-          )}
-          {!register && (
-            <S.Input
-              type={"text"}
-              id={inputLabel}
-              className={`${inputSize} ${inputOption}`}
-              disabled
-              value={
-                percent
-                  ? `${defaultValue}%`
-                  : formatAmount(Number(defaultValue))
-              }
-              aria-label={`${inputLabel} value`}
-            />
-          )}
+          <S.Input
+            type={"text"}
+            id={inputLabel}
+            className={`${inputSize} ${inputOption}`}
+            disabled
+            value={
+              percent ? `${defaultValue}%` : formatAmount(Number(defaultValue))
+            }
+            aria-label={`${inputLabel} value`}
+          />
         </>
       )}
     </S.InputWrapper>

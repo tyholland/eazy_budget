@@ -8,7 +8,7 @@ import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import * as S from "./budgetItem.style.ts";
-import { UseFormRegister } from "react-hook-form";
+import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
@@ -26,6 +26,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { InputLabel } from "@mui/material";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -45,6 +46,7 @@ interface BudgetItemProps {
     cadence?: string,
   ) => void;
   deleteEvent?: () => void;
+  setValue?: UseFormSetValue<FieldValues>;
 }
 
 const BudgetItem = ({
@@ -60,6 +62,7 @@ const BudgetItem = ({
   register,
   saveEvent,
   deleteEvent,
+  setValue,
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
@@ -72,9 +75,7 @@ const BudgetItem = ({
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
-  const [updatedLabel, setUpdatedLabel] = useState<string>(
-    item?.label || "New Item",
-  );
+  const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
   const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
   const [isOpen, setIsOpen] = useState<boolean>(openModal);
   const [selectedFrequency, setSelectedFrequency] = useState<string>(
@@ -87,9 +88,7 @@ const BudgetItem = ({
   const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (item) {
-      setInputValue(item.value);
-    }
+    item && setInputValue(item.value);
   }, [item?.value]);
 
   useEffect(() => {
@@ -123,7 +122,7 @@ const BudgetItem = ({
                   handleClick={() => {
                     setIsOpen(true);
                     setSelectedCadence(cadenceOptions[0].label);
-                    setInputValue(item?.value || 0);
+                    setInputValue(item?.value || inputValue || 0);
                   }}
                 >
                   <EditIcon />
@@ -179,7 +178,6 @@ const BudgetItem = ({
                     valuePlaceHolder={valuePlaceHolder}
                     type={inputType}
                     inputSize="medium"
-                    register={register}
                     setInputValue={setInputValue}
                     setUpdatedLabel={setUpdatedLabel}
                     frequency={item?.frequency}
@@ -196,8 +194,8 @@ const BudgetItem = ({
                   )}
                   {errorMessage.length > 0 && (
                     <S.ErrorMsg>
-                      {errorMessage.map((item: string) => {
-                        return <li>{item}</li>;
+                      {errorMessage.map((item: string, index: number) => {
+                        return <li key={index}>{item}</li>;
                       })}
                     </S.ErrorMsg>
                   )}
@@ -228,6 +226,15 @@ const BudgetItem = ({
                         const budgetItem = JSON.parse(
                           `{"${updatedLabel}": ${theValue}}`,
                         );
+
+                        setValue &&
+                          setValue("item", {
+                            label: updatedLabel,
+                            value: theValue,
+                            checked: checkedVal,
+                            frequency: selectedFrequency,
+                            cadence: selectedCadence,
+                          });
                         saveEvent &&
                           saveEvent(
                             budgetItem,
@@ -247,7 +254,7 @@ const BudgetItem = ({
                       <Button
                         handleClick={() => {
                           setInputValue(item?.value || "");
-                          setUpdatedLabel(item?.label || "New Item");
+                          setUpdatedLabel(item?.label || "");
                           setCheckedVal(item?.paid || false);
                           setSelectedFrequency(
                             item?.frequency || specificFrequency[3].label,
@@ -283,7 +290,6 @@ const BudgetItem = ({
             valuePlaceHolder={valuePlaceHolder}
             type={inputType}
             inputSize="medium"
-            register={register}
             setInputValue={setInputValue}
             setUpdatedLabel={setUpdatedLabel}
           />

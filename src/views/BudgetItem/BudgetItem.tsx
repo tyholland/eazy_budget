@@ -72,7 +72,9 @@ const BudgetItem = ({
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
-  const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
+  const [updatedLabel, setUpdatedLabel] = useState<string>(
+    item?.label || "New Item",
+  );
   const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
   const [isOpen, setIsOpen] = useState<boolean>(openModal);
   const [selectedFrequency, setSelectedFrequency] = useState<string>(
@@ -136,7 +138,7 @@ const BudgetItem = ({
               />
               <ModalComponent
                 isOpen={isOpen}
-                title={`Edit ${theType} ${item?.budget_id} item`}
+                title={`Edit ${theType} item`}
                 size="medium"
               >
                 <S.ModalItem>
@@ -245,7 +247,7 @@ const BudgetItem = ({
                       <Button
                         handleClick={() => {
                           setInputValue(item?.value || "");
-                          setUpdatedLabel(item?.label || "");
+                          setUpdatedLabel(item?.label || "New Item");
                           setCheckedVal(item?.paid || false);
                           setSelectedFrequency(
                             item?.frequency || specificFrequency[3].label,

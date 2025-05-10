@@ -536,6 +536,21 @@ export const insertBasedOnCadence = (
   budget[type] = newBudget;
 };
 
+const getQuarterlyCount = (val: number) => {
+  switch (val) {
+    case 2:
+      return 0;
+    case 5:
+      return 1;
+    case 8:
+      return 2;
+    case 11:
+      return 3;
+    default:
+      return 0;
+  }
+};
+
 export const insertBudgetIds = (
   budget: BudgetData,
   updatedBudgetItem: BudgetDataItem,
@@ -579,13 +594,12 @@ export const insertBudgetIds = (
 
   if (cadence === "All Months") {
     if (frequency === "Quarterly") {
-      let count = 0;
-
       for (let i = 0; i <= 11; i++) {
         if (currentYearBudget[i].year === year) {
           const newBudget: BudgetDataItem[] = [];
 
           if (i === 2 || i === 5 || i === 8 || i === 11) {
+            const count = getQuarterlyCount(i);
             currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
               if (!item.budget_id) {
                 newBudget.push({
@@ -593,7 +607,6 @@ export const insertBudgetIds = (
                   budget_date_id: item.budget_date_id,
                   budget_id: budgetItems.budget_id[count],
                 });
-                count++;
                 return;
               }
 

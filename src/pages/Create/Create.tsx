@@ -20,7 +20,7 @@ import { removeItemFromNumberArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Create = () => {
-  const { register, handleSubmit, getValues, unregister } = useForm<any>();
+  const { register, handleSubmit, getValues, unregister } = useForm();
   const { type, month, year } = useParams();
   const navigate = useNavigate();
   const [hasItems, setHasItems] = useState<boolean>(false);

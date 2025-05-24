@@ -466,7 +466,9 @@ export const insertBasedOnCadence = (
         const newBudget: BudgetDataItem[] = [];
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-          newBudget.push(item);
+          if (item.label !== "" && item.value !== 0) {
+            newBudget.push(item);
+          }
         });
 
         newBudget.push(updatedBudgetItem);
@@ -504,7 +506,9 @@ export const insertBasedOnCadence = (
         const newBudget: BudgetDataItem[] = [];
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-          newBudget.push(item);
+          if (item.label !== "" && item.value !== 0) {
+            newBudget.push(item);
+          }
         });
 
         newBudget.push(updatedBudgetItem);
@@ -520,7 +524,9 @@ export const insertBasedOnCadence = (
   const newBudget: BudgetDataItem[] = [];
 
   budget[type].forEach((item: BudgetDataItem) => {
-    newBudget.push(item);
+    if (item.label !== "" && item.value !== 0) {
+      newBudget.push(item);
+    }
   });
 
   newBudget.push(updatedBudgetItem);

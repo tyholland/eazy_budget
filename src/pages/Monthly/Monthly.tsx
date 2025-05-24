@@ -211,6 +211,7 @@ const Monthly = () => {
                             );
                             setBudgetChange(true);
                           }
+                          setIsNewBudget(false);
                         } catch (err) {
                           console.error("Monthly - handleSaveEvent:", err);
                         }

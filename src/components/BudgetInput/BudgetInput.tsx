@@ -5,7 +5,6 @@ import {
   formatAmount,
   revertAmountToOriginal,
 } from "../../functions/helper.ts";
-import { UseFormRegister } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 interface BudgetInputProps {

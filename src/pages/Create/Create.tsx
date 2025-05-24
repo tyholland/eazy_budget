@@ -27,8 +27,6 @@ const Create = () => {
   const [income, setIncome] = useAtom(incomeAtom);
   const [expense, setExpense] = useAtom(expenseAtom);
   const [budgetArr, setBudgetArr] = useState<number[]>([1]);
-  const [budgetFrequency, setBudgetFrequency] = useState<string>("");
-  const [budgetCadence, setBudgetCadence] = useState<string>("");
 
   useEffect(() => {
     if (

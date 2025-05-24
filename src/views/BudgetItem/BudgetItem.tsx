@@ -26,7 +26,6 @@ import {
 import { useParams } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
-import { InputLabel } from "@mui/material";
 
 interface BudgetItemProps {
   theType: InputOption;

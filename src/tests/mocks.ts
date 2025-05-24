@@ -43,9 +43,123 @@ export const mockBudget: BudgetData[] = [
 ];
 
 export const mockBudgetEntries: Object = {
-  netflix: "$19.99",
-  hulu: "$20.99",
-  internet: "$70.70",
+  one: {
+    label: "netflix",
+    value: "19.99",
+    checked: false,
+    frequency: "Monthly",
+    cadence: "Current Month",
+  },
+  two: {
+    label: "hulu",
+    value: "20.99",
+    checked: false,
+    frequency: "Monthly",
+    cadence: "Current Month",
+  },
+  three: {
+    label: "internet",
+    value: "70.70",
+    checked: false,
+    frequency: "Monthly",
+    cadence: "Current Month",
+  },
+};
+
+export const mockBudgetEntries2: Object = {
+  one: {
+    label: "netflix",
+    value: "19.99",
+    checked: false,
+    frequency: "Weekly",
+    cadence: "Current Month",
+  },
+  two: {
+    label: "hulu",
+    value: "20.99",
+    checked: false,
+    frequency: "Weekly",
+    cadence: "Current Month",
+  },
+  three: {
+    label: "internet",
+    value: "70.70",
+    checked: false,
+    frequency: "Weekly",
+    cadence: "Current Month",
+  },
+};
+
+export const mockBudgetEntries3: Object = {
+  one: {
+    label: "netflix",
+    value: "19.99",
+    checked: false,
+    frequency: "Bi-Weekly",
+    cadence: "Current Month",
+  },
+  two: {
+    label: "hulu",
+    value: "20.99",
+    checked: false,
+    frequency: "Bi-Weekly",
+    cadence: "Current Month",
+  },
+  three: {
+    label: "internet",
+    value: "70.70",
+    checked: false,
+    frequency: "Bi-Weekly",
+    cadence: "Current Month",
+  },
+};
+
+export const mockBudgetEntries4: Object = {
+  one: {
+    label: "netflix",
+    value: "19.99",
+    checked: false,
+    frequency: "Daily",
+    cadence: "Current Month",
+  },
+  two: {
+    label: "hulu",
+    value: "20.99",
+    checked: false,
+    frequency: "Daily",
+    cadence: "Current Month",
+  },
+  three: {
+    label: "internet",
+    value: "70.70",
+    checked: false,
+    frequency: "Daily",
+    cadence: "Current Month",
+  },
+};
+
+export const mockBudgetEntries5: Object = {
+  one: {
+    label: "netflix",
+    value: "19.99",
+    checked: false,
+    frequency: "Quarterly",
+    cadence: "Current Month",
+  },
+  two: {
+    label: "hulu",
+    value: "20.99",
+    checked: false,
+    frequency: "Quarterly",
+    cadence: "Current Month",
+  },
+  three: {
+    label: "internet",
+    value: "70.70",
+    checked: false,
+    frequency: "Quarterly",
+    cadence: "Current Month",
+  },
 };
 
 export const mockBudgetEntriesNoDollar: Object = {

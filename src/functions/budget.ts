@@ -4,6 +4,7 @@ import {
   BudgetData,
   BudgetDataItem,
   BudgetInsertIds,
+  CreateBudgetItems,
   NewBudgetIds,
 } from "../types";
 import { getDateInfo, getFrequencyValue } from "./helper.ts";
@@ -242,7 +243,8 @@ export const formatBudgetItem = (data: Object, month: string, year: number) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.values(data).forEach((item) => {
-    const { value, checked, frequency, label, cadence } = item;
+    const { value, checked, frequency, label, cadence }: CreateBudgetItems =
+      item;
 
     const freqVal = getFrequencyValue(Number(value), month, year, frequency);
 

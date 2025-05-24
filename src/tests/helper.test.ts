@@ -199,6 +199,13 @@ describe("getErrorMessage", () => {
     expect(JSON.stringify(error)).toBe(response);
   });
 
+  test("should return amount error for a string zero", () => {
+    const error = getErrorMessage("Netflix", "0");
+    const response = JSON.stringify(["Please enter an amount"]);
+
+    expect(JSON.stringify(error)).toBe(response);
+  });
+
   test("should return all errors", () => {
     const error = getErrorMessage("", "");
     const response = JSON.stringify([

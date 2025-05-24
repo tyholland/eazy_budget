@@ -241,6 +241,8 @@ const Monthly = () => {
                           if (!!data.budget_id) {
                             await deleteBudgetItem(accessToken, data.budget_id);
                           }
+
+                          setIsNewBudget(false);
                         } catch (err) {
                           console.error("Monthly - handleDeleteEvent:", err);
                         }

@@ -47,6 +47,7 @@ interface BudgetItemProps {
   ) => void;
   deleteEvent?: () => void;
   setValue?: UseFormSetValue<FieldValues>;
+  inputName?: string;
 }
 
 const BudgetItem = ({
@@ -63,6 +64,7 @@ const BudgetItem = ({
   saveEvent,
   deleteEvent,
   setValue,
+  inputName,
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
@@ -75,7 +77,9 @@ const BudgetItem = ({
   const [inputValue, setInputValue] = useState<number | string>(
     item?.value || "",
   );
-  const [updatedLabel, setUpdatedLabel] = useState<string>(item?.label || "");
+  const [updatedLabel, setUpdatedLabel] = useState<string>(
+    item?.label || "New Item",
+  );
   const [checkedVal, setCheckedVal] = useState<boolean>(item?.paid || false);
   const [isOpen, setIsOpen] = useState<boolean>(openModal);
   const [selectedFrequency, setSelectedFrequency] = useState<string>(
@@ -86,6 +90,8 @@ const BudgetItem = ({
   );
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
+  const [modalLabel, setModalLabel] = useState<string>(updatedLabel);
+  const [modalValue, setModalValue] = useState<number | string>(inputValue);
 
   useEffect(() => {
     item && setInputValue(item.value);
@@ -170,16 +176,16 @@ const BudgetItem = ({
                       )}
                   </S.TimingSelects>
                   <BudgetInput
-                    inputLabel={updatedLabel}
+                    inputLabel={changeInputVal ? modalLabel : updatedLabel}
                     inputOption={theType}
-                    defaultValue={inputValue}
+                    defaultValue={changeInputVal ? modalValue : inputValue}
                     isEditable
                     labelPlaceHolder={labelPlaceHolder}
                     valuePlaceHolder={valuePlaceHolder}
                     type={inputType}
                     inputSize="medium"
-                    setInputValue={setInputValue}
-                    setUpdatedLabel={setUpdatedLabel}
+                    setInputValue={setModalValue}
+                    setUpdatedLabel={setModalLabel}
                     frequency={item?.frequency}
                     setChangeInputVal={setChangeInputVal}
                   />
@@ -203,7 +209,7 @@ const BudgetItem = ({
                     <Button
                       handleClick={() => {
                         const theValue = changeInputVal
-                          ? inputValue
+                          ? modalValue
                           : item
                             ? revertAmountToOriginal(
                                 item.value,
@@ -211,12 +217,9 @@ const BudgetItem = ({
                                 year,
                                 item?.frequency,
                               )
-                            : 0;
+                            : inputValue;
 
-                        const errorMsg = getErrorMessage(
-                          updatedLabel,
-                          theValue,
-                        );
+                        const errorMsg = getErrorMessage(modalLabel, theValue);
 
                         if (errorMsg.length) {
                           setErrorMessage(errorMsg);
@@ -224,17 +227,29 @@ const BudgetItem = ({
                         }
 
                         const budgetItem = JSON.parse(
-                          `{"${updatedLabel}": ${theValue}}`,
+                          `{"${modalLabel}": ${theValue}}`,
                         );
 
-                        setValue &&
-                          setValue("item", {
-                            label: updatedLabel,
+                        setInputValue(theValue);
+                        setUpdatedLabel(modalLabel);
+                        setChangeInputVal(false);
+
+                        if (setValue) {
+                          setValue(inputName || "", {
+                            label: modalLabel,
                             value: theValue,
                             checked: checkedVal,
                             frequency: selectedFrequency,
                             cadence: selectedCadence,
                           });
+
+                          saveEvent && saveEvent(budgetItem);
+
+                          setErrorMessage([]);
+                          closeModal();
+                          return;
+                        }
+
                         saveEvent &&
                           saveEvent(
                             budgetItem,
@@ -253,12 +268,14 @@ const BudgetItem = ({
                     {!openModal && (
                       <Button
                         handleClick={() => {
-                          setInputValue(item?.value || "");
-                          setUpdatedLabel(item?.label || "");
+                          setInputValue(item?.value || inputValue || "");
+                          setUpdatedLabel(item?.label || updatedLabel || "");
                           setCheckedVal(item?.paid || false);
                           setSelectedFrequency(
                             item?.frequency || specificFrequency[3].label,
                           );
+                          setChangeInputVal(false);
+                          setErrorMessage([]);
                           closeModal();
                         }}
                       >
@@ -290,8 +307,6 @@ const BudgetItem = ({
             valuePlaceHolder={valuePlaceHolder}
             type={inputType}
             inputSize="medium"
-            setInputValue={setInputValue}
-            setUpdatedLabel={setUpdatedLabel}
           />
         </S.ItemTopRow>
         {!hidePaidContent && (

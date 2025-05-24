@@ -238,28 +238,18 @@ export const addNewBudgetItem = (
   return clonedBudget;
 };
 
-export const formatBudgetItem = (
-  data: Object,
-  frequency: string,
-  cadence: string,
-  month: string,
-  year: number,
-) => {
+export const formatBudgetItem = (data: Object, month: string, year: number) => {
   const budgetEntries: BudgetDataItem[] = [];
 
-  Object.entries(data).forEach((item) => {
-    const val = item[1] as string;
-    const freqVal = getFrequencyValue(
-      Number(val.replace("$", "")),
-      month,
-      year,
-      frequency,
-    );
+  Object.values(data).forEach((item) => {
+    const { value, checked, frequency, label, cadence } = item;
+
+    const freqVal = getFrequencyValue(Number(value), month, year, frequency);
 
     budgetEntries.push({
-      label: item[0],
+      label,
       value: freqVal,
-      paid: false,
+      paid: checked,
       frequency,
       cadence,
       budget_id: null,

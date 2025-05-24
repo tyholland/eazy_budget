@@ -42,6 +42,7 @@ const BudgetInput = ({
   const { month, year } = useParams();
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUpdatedLabel(e.target.value);
+    setChangeInputVal(true);
   };
 
   const handleValueOnChange = (e: ChangeEvent<HTMLInputElement>) => {

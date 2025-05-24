@@ -59,27 +59,13 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    // const budgetEntries = formatBudgetItem(
-    //   data,
-    //   budgetFrequency,
-    //   budgetCadence,
-    //   month,
-    //   Number(year),
-    // );
-    // type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
-    // navigate("/overview");
-    console.log(data);
+    const budgetEntries = formatBudgetItem(data, month, Number(year));
+    type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
+    navigate("/overview");
   };
 
-  const handleSaveEvent = (
-    item: Object,
-    paid?: boolean,
-    frequency?: string,
-    cadence?: string,
-  ) => {
+  const handleSaveEvent = (item: Object) => {
     setHasItems(!!Object.keys(item).length);
-    frequency && setBudgetFrequency(frequency);
-    cadence && setBudgetCadence(cadence);
   };
 
   return (
@@ -108,6 +94,7 @@ const Create = () => {
               deleteEvent={handleDeleteEvent}
               hidePaidContent
               setValue={setValue}
+              inputName={`orig-${i}`}
             />
           );
         })}
@@ -135,6 +122,7 @@ const Create = () => {
               deleteEvent={handleAdditionDeleteEvent}
               hidePaidContent
               setValue={setValue}
+              inputName={`new-${i}`}
             />
           );
         })}

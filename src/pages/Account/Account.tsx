@@ -59,7 +59,7 @@ const Account = () => {
 
       await deleteUser(accessToken);
     } catch (err) {
-      console.error(err);
+      console.error("Account - deleteAccount:", err);
     }
 
     logOutAccount();

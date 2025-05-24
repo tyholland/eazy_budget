@@ -33,7 +33,7 @@ const ShareAccount = () => {
       await shareAccount(accessToken, { email: userEmail });
     } catch (err) {
       setIsDisabled(false);
-      console.error(err);
+      console.error("ShareAccount - submitEmail:", err);
     }
   };
 

@@ -38,7 +38,7 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
         });
     } catch (err) {
       setIsDisabled(false);
-      console.error(err);
+      console.error("SharedAccountMessage - handleConnectedAccount:", err);
     }
   };
 

@@ -74,7 +74,7 @@ const Home = () => {
       );
       setBudget(formattedBudget);
     } catch (err) {
-      console.error(err);
+      console.error("Home - handleBudgetSubmission:", err);
     }
   };
 

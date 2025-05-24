@@ -212,7 +212,7 @@ const Monthly = () => {
                             setBudgetChange(true);
                           }
                         } catch (err) {
-                          console.error(err);
+                          console.error("Monthly - handleSaveEvent:", err);
                         }
                       };
 
@@ -241,7 +241,7 @@ const Monthly = () => {
                             await deleteBudgetItem(accessToken, data.budget_id);
                           }
                         } catch (err) {
-                          console.error(err);
+                          console.error("Monthly - handleDeleteEvent:", err);
                         }
                       };
 

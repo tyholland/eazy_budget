@@ -89,14 +89,16 @@ const BudgetItem = ({
   );
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
-  const [modalLabel, setModalLabel] = useState<string>(item?.label || "");
+  const [modalLabel, setModalLabel] = useState<string>(
+    item?.label || updatedLabel,
+  );
   const [modalValue, setModalValue] = useState<number | string>(
-    item?.value || "",
+    item?.value || inputValue,
   );
 
   useEffect(() => {
     item && setInputValue(item.value);
-    item && modalValue === "" && setModalValue(item.value);
+    item && modalValue === "New Item" && setModalValue(item.value);
   }, [item?.value]);
 
   useEffect(() => {
@@ -118,6 +120,10 @@ const BudgetItem = ({
 
   const showCadenceSelector =
     selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
+
+  console.log(item);
+  console.log(updatedLabel);
+  console.log(modalLabel);
 
   return (
     <S.ItemWrapper className="itemWrapper">

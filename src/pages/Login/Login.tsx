@@ -36,18 +36,52 @@ const Login = () => {
           </Button>
         </S.Catchphrase>
       </S.Section>
-      {/**
-       * The sections will alternate colors from Light_SKY_BLUE to the default background color
-       * The sections will be short videos of:
-       * Creating a budget, Update/Add monthly expense, Change chart types, Prediction tool
-       * Each video will have a paragraph explaining the video and how it can help users
-       **/}
       <S.Section className="title">
         <h2>
           Simple Budgeting makes budgeting effortless—just enter your expenses
           once, and they'll be automatically applied to each month of the year.
         </h2>
       </S.Section>
+      <S.Videos>
+        <h2>
+          Simply enter your income and expenses during setup, and let the system
+          automatically apply them across the entire year—saving you time and
+          ensuring consistent financial planning.
+        </h2>
+        <video width="650" height="auto" autoPlay muted loop controls>
+          <source src="/videos/create-budget.mp4" type="video/mp4" />
+          <img
+            src="/images/homepage-create.png"
+            width="650px"
+            height="453px"
+            alt="create your entire budget strategy"
+          />
+        </video>
+      </S.Videos>
+      <S.Videos className="reverse">
+        <h2>
+          Easily customize your budget—edit existing items or add new expenses
+          to keep your financial plan accurate and up to date.
+        </h2>
+        <video width="650" height="auto" autoPlay muted loop controls>
+          <source src="/videos/add-edit-budget.mp4" type="video/mp4" />
+          <img
+            src="/images/homepage-add-edit.png"
+            width="650px"
+            height="453px"
+            alt="add and/or edit specific budget item"
+          />
+        </video>
+      </S.Videos>
+      <S.Pitch>
+        <h2>
+          Ready to take control of your finances and build a smarter financial
+          future?
+        </h2>
+        <Button handleClick={loginWithRedirect} buttonSize="medium">
+          Get Started Now
+        </Button>
+      </S.Pitch>
     </S.Wrapper>
   );
 };

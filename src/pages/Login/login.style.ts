@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background: ${OFF_WHITE};
+  gap: 50px;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
@@ -69,4 +70,33 @@ export const Catchphrase = styled.div`
   max-width: 450px;
   min-width: 330px;
   width: 100%;
+`;
+
+export const Videos = styled.div`
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  line-height: 35px;
+  margin-top: 50px;
+
+  &.reverse {
+    flex-direction: row-reverse;
+  }
+
+  video {
+    box-shadow: 0 0 12px;
+    border-radius: 20px;
+  }
+`;
+
+export const Pitch = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  text-align: center;
+  background: ${EARTH_GREEN};
+  color: ${WHITE};
+  border-radius: 15px;
+  padding: 20px;
 `;

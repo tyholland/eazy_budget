@@ -89,19 +89,19 @@ const BudgetItem = ({
   );
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
-  const [modalLabel, setModalLabel] = useState<string>(
-    item?.label || updatedLabel,
-  );
+  const [modalLabel, setModalLabel] = useState<string>(item?.label || "");
   const [modalValue, setModalValue] = useState<number | string>(
-    item?.value || inputValue,
+    item?.value || "",
   );
 
   useEffect(() => {
     item && setInputValue(item.value);
+    item && modalValue === "" && setModalValue(item.value);
   }, [item?.value]);
 
   useEffect(() => {
     item && setUpdatedLabel(item.label);
+    item && modalLabel === "" && setModalLabel(item.label);
   }, [item?.label]);
 
   useEffect(() => {

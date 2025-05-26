@@ -102,3 +102,11 @@ export interface BudgetInsertIds {
 export interface NewBudgetIds {
   budget_id: number | number[];
 }
+
+export interface CreateBudgetItems {
+  label: string;
+  value: string;
+  checked: boolean;
+  frequency: string;
+  cadence: string;
+}

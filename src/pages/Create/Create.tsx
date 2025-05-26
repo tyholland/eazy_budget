@@ -20,15 +20,13 @@ import { removeItemFromNumberArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Create = () => {
-  const { register, handleSubmit, getValues, unregister } = useForm<any>();
+  const { register, handleSubmit, getValues, unregister, setValue } = useForm();
   const { type, month, year } = useParams();
   const navigate = useNavigate();
   const [hasItems, setHasItems] = useState<boolean>(false);
   const [income, setIncome] = useAtom(incomeAtom);
   const [expense, setExpense] = useAtom(expenseAtom);
   const [budgetArr, setBudgetArr] = useState<number[]>([1]);
-  const [budgetFrequency, setBudgetFrequency] = useState<string>("");
-  const [budgetCadence, setBudgetCadence] = useState<string>("");
 
   useEffect(() => {
     if (
@@ -59,26 +57,13 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    const budgetEntries = formatBudgetItem(
-      data,
-      budgetFrequency,
-      budgetCadence,
-      month,
-      Number(year),
-    );
+    const budgetEntries = formatBudgetItem(data, month, Number(year));
     type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
     navigate("/overview");
   };
 
-  const handleSaveEvent = (
-    item: Object,
-    paid?: boolean,
-    frequency?: string,
-    cadence?: string,
-  ) => {
+  const handleSaveEvent = (item: Object) => {
     setHasItems(!!Object.keys(item).length);
-    frequency && setBudgetFrequency(frequency);
-    cadence && setBudgetCadence(cadence);
   };
 
   return (
@@ -106,6 +91,8 @@ const Create = () => {
               saveEvent={handleSaveEvent}
               deleteEvent={handleDeleteEvent}
               hidePaidContent
+              setValue={setValue}
+              inputName={`orig-${i}`}
             />
           );
         })}
@@ -132,6 +119,8 @@ const Create = () => {
               saveEvent={handleSaveEvent}
               deleteEvent={handleAdditionDeleteEvent}
               hidePaidContent
+              setValue={setValue}
+              inputName={`new-${i}`}
             />
           );
         })}

@@ -4,6 +4,7 @@ import {
   BudgetData,
   BudgetDataItem,
   BudgetInsertIds,
+  CreateBudgetItems,
   NewBudgetIds,
 } from "../types";
 import { getDateInfo, getFrequencyValue } from "./helper.ts";
@@ -238,28 +239,19 @@ export const addNewBudgetItem = (
   return clonedBudget;
 };
 
-export const formatBudgetItem = (
-  data: Object,
-  frequency: string,
-  cadence: string,
-  month: string,
-  year: number,
-) => {
+export const formatBudgetItem = (data: Object, month: string, year: number) => {
   const budgetEntries: BudgetDataItem[] = [];
 
-  Object.entries(data).forEach((item) => {
-    const val = item[1] as string;
-    const freqVal = getFrequencyValue(
-      Number(val.replace("$", "")),
-      month,
-      year,
-      frequency,
-    );
+  Object.values(data).forEach((item) => {
+    const { value, checked, frequency, label, cadence }: CreateBudgetItems =
+      item;
+
+    const freqVal = getFrequencyValue(Number(value), month, year, frequency);
 
     budgetEntries.push({
-      label: item[0],
+      label,
       value: freqVal,
-      paid: false,
+      paid: checked,
       frequency,
       cadence,
       budget_id: null,
@@ -474,7 +466,9 @@ export const insertBasedOnCadence = (
         const newBudget: BudgetDataItem[] = [];
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-          newBudget.push(item);
+          if (item.label !== "" && item.value !== 0) {
+            newBudget.push(item);
+          }
         });
 
         newBudget.push(updatedBudgetItem);
@@ -512,7 +506,9 @@ export const insertBasedOnCadence = (
         const newBudget: BudgetDataItem[] = [];
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
-          newBudget.push(item);
+          if (item.label !== "" && item.value !== 0) {
+            newBudget.push(item);
+          }
         });
 
         newBudget.push(updatedBudgetItem);
@@ -528,12 +524,29 @@ export const insertBasedOnCadence = (
   const newBudget: BudgetDataItem[] = [];
 
   budget[type].forEach((item: BudgetDataItem) => {
-    newBudget.push(item);
+    if (item.label !== "" && item.value !== 0) {
+      newBudget.push(item);
+    }
   });
 
   newBudget.push(updatedBudgetItem);
 
   budget[type] = newBudget;
+};
+
+const getQuarterlyCount = (val: number) => {
+  switch (val) {
+    case 2:
+      return 0;
+    case 5:
+      return 1;
+    case 8:
+      return 2;
+    case 11:
+      return 3;
+    default:
+      return 0;
+  }
 };
 
 export const insertBudgetIds = (
@@ -579,13 +592,12 @@ export const insertBudgetIds = (
 
   if (cadence === "All Months") {
     if (frequency === "Quarterly") {
-      let count = 0;
-
       for (let i = 0; i <= 11; i++) {
         if (currentYearBudget[i].year === year) {
           const newBudget: BudgetDataItem[] = [];
 
           if (i === 2 || i === 5 || i === 8 || i === 11) {
+            const count = getQuarterlyCount(i);
             currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
               if (!item.budget_id) {
                 newBudget.push({
@@ -593,7 +605,6 @@ export const insertBudgetIds = (
                   budget_date_id: item.budget_date_id,
                   budget_id: budgetItems.budget_id[count],
                 });
-                count++;
                 return;
               }
 

@@ -26,38 +26,46 @@ const SetupBudget = ({
   return (
     <S.Wrapper>
       <S.ContentSection>
-        <span>
-          <strong>Welcome to Simple Budgeting</strong>
-        </span>
+        <h2>Welcome to Simple Budgeting</h2>
         <span>
           Enter your income and expenses to generate a complete 12-month budget.
         </span>
       </S.ContentSection>
-      <S.Section>
-        <Link
-          url={`/add/income/${month}/${year}`}
-          linkSize="medium"
-          classType="button"
-          label="Add income"
-          isDisabled={isDisabled}
-        >
-          Add income
-        </Link>{" "}
-        {!budgetIncome.length ? <DisabledSaveIcon /> : <SaveIcon />}
-      </S.Section>
-      <S.Section>
-        <Link
-          url={`/add/expense/${month}/${year}`}
-          linkSize="medium"
-          classType="button"
-          label="Add expense"
-          isDisabled={isDisabled}
-        >
-          Add expense
-        </Link>{" "}
-        {!budgetExpense.length ? <DisabledSaveIcon /> : <SaveIcon />}
-      </S.Section>
-      {children}
+      <S.SelectionWrapper>
+        <img
+          src="/images/create-account.jpg"
+          width="350px"
+          height="auto"
+          alt="account settings and details"
+        />
+        <S.SectionWrapper>
+          <S.Section>
+            <Link
+              url={`/add/income/${month}/${year}`}
+              linkSize="medium"
+              classType="button"
+              label="Add income"
+              isDisabled={isDisabled}
+            >
+              Add income
+            </Link>{" "}
+            {!budgetIncome.length ? <DisabledSaveIcon /> : <SaveIcon />}
+          </S.Section>
+          <S.Section>
+            <Link
+              url={`/add/expense/${month}/${year}`}
+              linkSize="medium"
+              classType="button"
+              label="Add expense"
+              isDisabled={isDisabled}
+            >
+              Add expense
+            </Link>{" "}
+            {!budgetExpense.length ? <DisabledSaveIcon /> : <SaveIcon />}
+          </S.Section>
+          {children}
+        </S.SectionWrapper>
+      </S.SelectionWrapper>
     </S.Wrapper>
   );
 };

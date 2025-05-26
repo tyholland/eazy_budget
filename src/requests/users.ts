@@ -18,7 +18,7 @@ export const createUser = async (
 
     return await budgetResponse.json();
   } catch (err) {
-    throw new Error(`Failed to get budget info`);
+    throw new Error(`Failed to create user`);
   }
 };
 
@@ -34,7 +34,7 @@ export const deleteUser = async (accessToken: string) => {
 
     return await budgetResponse.json();
   } catch (err) {
-    throw new Error(`Failed to get budget info`);
+    throw new Error(`Failed to delete user`);
   }
 };
 
@@ -54,7 +54,7 @@ export const shareAccount = async (
 
     return await sharedResponse.json();
   } catch (err) {
-    throw new Error(`Failed to get budget info`);
+    throw new Error(`Failed to share account`);
   }
 };
 
@@ -74,6 +74,6 @@ export const shareAccountDecision = async (
 
     return await sharedResponse.json();
   } catch (err) {
-    throw new Error(`Failed to get budget info`);
+    throw new Error(`Failed to share account decision`);
   }
 };

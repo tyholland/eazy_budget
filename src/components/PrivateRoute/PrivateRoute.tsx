@@ -37,7 +37,7 @@ const PrivateRoute = ({ component, ...args }) => {
         setHasBudget(userResponse.hasBudget);
       }
     } catch (err) {
-      console.error(err);
+      console.error("PrivateRoute - AddUser:", err);
     }
   };
 
@@ -53,7 +53,7 @@ const PrivateRoute = ({ component, ...args }) => {
 
       setBudget(response.budget);
     } catch (err) {
-      console.error(err);
+      console.error("PrivateRoute - getBudgetInfo:", err);
     }
   };
 

@@ -143,7 +143,7 @@ export const getErrorMessage = (label: string, amount: string | number) => {
     msg.push("Please enter a label");
   }
 
-  if (!amount) {
+  if (!amount || amount === "0") {
     msg.push("Please enter an amount");
   }
 

@@ -121,10 +121,6 @@ const BudgetItem = ({
   const showCadenceSelector =
     selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
 
-  console.log(item);
-  console.log(updatedLabel);
-  console.log(modalLabel);
-
   return (
     <S.ItemWrapper className="itemWrapper">
       <S.Item>

@@ -29,10 +29,13 @@ export const ItemWrapper = styled.div`
   height: 300px;
   flex-direction: column;
 
-  @media only screen and (max-width: 800px) {
-    width: 90%;
-    gap: 20px;
+  @media only screen and (max-width: 900px) {
     height: auto;
+  }
+
+  @media only screen and (max-width: 800px) {
+    width: auto;
+    gap: 20px;
     margin: 0 auto;
   }
 

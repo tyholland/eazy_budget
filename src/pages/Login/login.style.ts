@@ -47,7 +47,7 @@ export const Section = styled.div`
   }
 
   img {
-    min-width: 500px;
+    min-width: 300px;
     max-width: 720px;
     width: 100%;
 
@@ -79,6 +79,8 @@ export const Catchphrase = styled.div`
 
   @media only screen and (max-width: 800px) {
     margin-bottom: 20px;
+    max-width: none;
+    min-width: auto;
   }
 `;
 
@@ -106,14 +108,18 @@ export const Videos = styled.div`
   }
 
   h2 {
+    width: 50%;
+
     @media only screen and (max-width: 800px) {
       margin: 0;
+      width: 100%;
     }
   }
 
   video {
     box-shadow: 0 0 12px;
     border-radius: 20px;
+    width: 50%;
 
     @media only screen and (max-width: 800px) {
       width: 100%;
@@ -138,8 +144,6 @@ export const Pitch = styled.div`
   }
 
   h2 {
-    @media only screen and (max-width: 800px) {
-      margin-top: 0;
-    }
+    margin-top: 0;
   }
 `;

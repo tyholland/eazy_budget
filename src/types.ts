@@ -75,6 +75,7 @@ export interface UserResponse {
   hasBudget: boolean;
   subscription_id: number;
   connected_message: boolean;
+  is_connected: boolean;
   connected_id?: number;
   primary_request?: string;
 }
@@ -83,6 +84,7 @@ export interface User {
   hasBudget: boolean;
   subscription_id: number;
   connected_message: boolean;
+  is_connected: boolean;
   connected_id?: number;
   primary_request?: string;
   email?: string;

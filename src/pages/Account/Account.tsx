@@ -93,9 +93,10 @@ const Account = () => {
                   />
                 </S.Section>
                 {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
-                  !currentUser?.connected_id && (
+                  !currentUser?.connected_id &&
+                  !currentUser?.is_connected && (
                     <S.Section>
-                      <Link url="/account/share" label="Contact Us">
+                      <Link url="/account/share" label="Share Account">
                         <span>
                           Share Account <ShareAccountIcon />
                         </span>
@@ -160,7 +161,7 @@ const Account = () => {
                   </Link>
                 </S.Section>
                 <S.Section>
-                  <Link url="/account/predict" label="Predict">
+                  <Link url="/account/predict" label="3 Year Prediction">
                     <span>
                       3 Year Prediction <ChartIcon />
                     </span>

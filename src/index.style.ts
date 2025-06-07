@@ -22,6 +22,7 @@ export const SKY_BLUE = "#57b9ff";
 export const LIGHT_SKY_BLUE = "#90d5ff";
 export const LIGHT_YELLOW = "#fcfade";
 export const EARTH_GREEN = "#5a8b5d";
+export const ERROR_RED = "#ef5350";
 
 // Globals
 export const GlobalStyles = createGlobalStyle`

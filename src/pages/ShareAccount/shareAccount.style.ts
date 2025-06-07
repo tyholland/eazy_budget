@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RUBIK } from "../../index.style.ts";
+import { ERROR_RED, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Content = styled.div`
   display: flex;
@@ -29,4 +29,20 @@ export const ShareWrapper = styled.div`
   flex-direction: column;
   gap: 30px;
   align-items: center;
+`;
+
+export const ErrorMsg = styled.div`
+  background: ${ERROR_RED};
+  color: ${WHITE};
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 300px;
+  font-weight: 700;
+`;
+
+export const Confirmed = styled.div`
+  width: 450px;
+  font-weight: 700;
+  display: flex;
+  gap: 10px;
 `;

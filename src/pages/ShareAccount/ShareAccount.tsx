@@ -8,6 +8,7 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import { useNavigate } from "react-router-dom";
 import { shareAccount } from "../../requests/users.ts";
 import { useAuth0 } from "@auth0/auth0-react";
+import SaveIcon from "../../svg/SaveIcon.tsx";
 
 const ShareAccount = () => {
   const currentUser = useAtomValue(userAtom);
@@ -15,9 +16,12 @@ const ShareAccount = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [userEmail, setUserEmail] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [showComplete, setShowComplete] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserEmail(e.target.value);
+    setHasError(false);
   };
 
   const submitEmail = async () => {
@@ -30,9 +34,17 @@ const ShareAccount = () => {
         },
       });
 
-      await shareAccount(accessToken, { email: userEmail });
+      const results = await shareAccount(accessToken, { email: userEmail });
+
+      if (results.success) {
+        setShowComplete(true);
+      } else {
+        setIsDisabled(false);
+        setHasError(true);
+      }
     } catch (err) {
       setIsDisabled(false);
+      setHasError(true);
       console.error("ShareAccount - submitEmail:", err);
     }
   };
@@ -69,20 +81,38 @@ const ShareAccount = () => {
         </span>
       </S.Content>
       <S.ShareWrapper>
-        <Input
-          label="email"
-          labelValue="User's Email:"
-          onChange={handleChange}
-          placeHolder="Enter user's email"
-          inputType="text"
-        />
-        <Button
-          buttonSize="medium"
-          handleClick={submitEmail}
-          disabled={isDisabled}
-        >
-          Share Account
-        </Button>
+        {!showComplete && (
+          <>
+            <Input
+              label="email"
+              labelValue="User's Email:"
+              onChange={handleChange}
+              placeHolder="Enter user's email"
+              inputType="text"
+            />
+            {hasError && (
+              <S.ErrorMsg>
+                The email address you have entered doesn't exist on this
+                platform.
+                <br />
+                Please try again
+              </S.ErrorMsg>
+            )}
+            <Button
+              buttonSize="medium"
+              handleClick={submitEmail}
+              disabled={isDisabled}
+            >
+              Share Account
+            </Button>
+          </>
+        )}
+        {showComplete && (
+          <S.Confirmed>
+            <SaveIcon /> Your request has been sent to {userEmail}.<br />
+            Please wait for them to accept your request.
+          </S.Confirmed>
+        )}
       </S.ShareWrapper>
     </S.Wrapper>
   );

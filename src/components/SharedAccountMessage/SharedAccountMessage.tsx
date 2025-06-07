@@ -36,6 +36,7 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
           ...currentUser,
           connected_message: false,
         });
+      window.location.reload();
     } catch (err) {
       setIsDisabled(false);
       console.error("SharedAccountMessage - handleConnectedAccount:", err);

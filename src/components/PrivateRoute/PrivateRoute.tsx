@@ -33,6 +33,7 @@ const PrivateRoute = ({ component, ...args }) => {
           connected_message: userResponse.connected_message,
           connected_id: userResponse.connected_id,
           primary_request: userResponse.primary_request,
+          is_connected: userResponse.is_connected,
         });
         setHasBudget(userResponse.hasBudget);
       }

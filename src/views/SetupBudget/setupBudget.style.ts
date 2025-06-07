@@ -31,6 +31,12 @@ export const ContentSection = styled.div`
   h2 {
     font-family: ${RUBIK};
   }
+
+  span {
+    @media only screen and (max-width: 800px) {
+      text-align: center;
+    }
+  }
 `;
 
 export const SelectionWrapper = styled.div`
@@ -38,10 +44,20 @@ export const SelectionWrapper = styled.div`
   gap: 50px;
   align-items: center;
   justify-content: center;
+
+  img {
+    @media only screen and (max-width: 800px) {
+      display: none;
+    }
+  }
 `;
 
 export const SectionWrapper = styled.div`
   display: flex;
   gap: 25px;
   flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;

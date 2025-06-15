@@ -230,7 +230,10 @@ const Account = () => {
                   </S.Section>
                 )}
                 <S.Section>
-                  <Link url="/account/subscription" label="Subscription Details">
+                  <Link
+                    url="/account/subscription"
+                    label="Subscription Details"
+                  >
                     Subscription Details
                   </Link>
                 </S.Section>

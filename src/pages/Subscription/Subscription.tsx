@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from './subscription.style.ts';
+import * as S from "./subscription.style.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 
 const Subscription = () => {

@@ -11,13 +11,20 @@ interface PricingDetailsProps {
   isHighlighted?: boolean;
 }
 
-const PricingDetails = ({ hasBtn = true, isHighlighted = false }: PricingDetailsProps) => {
+const PricingDetails = ({
+  hasBtn = true,
+  isHighlighted = false,
+}: PricingDetailsProps) => {
   const { loginWithRedirect } = useAuth0();
   const currentUser = useAtomValue(userAtom);
 
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
-  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
-  const isStarter = getSubscriptionStatus("Starter", currentUser?.subscription_id) && !isOriginal && !isPro;
+  const isPro =
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+  const isStarter =
+    getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
+    !isOriginal &&
+    !isPro;
 
   return (
     <S.Wrapper>
@@ -35,11 +42,13 @@ const PricingDetails = ({ hasBtn = true, isHighlighted = false }: PricingDetails
             Visualize your financial data with bar, doughnut, and pie charts
           </li>
         </ul>
-        {hasBtn && (<Button handleClick={loginWithRedirect} buttonSize="medium">
-          Sign Up
-        </Button>)}
+        {hasBtn && (
+          <Button handleClick={loginWithRedirect} buttonSize="medium">
+            Sign Up
+          </Button>
+        )}
       </S.Container>
-      <S.Container className={isStarter && isHighlighted ? 'highlight' : ''}>
+      <S.Container className={isStarter && isHighlighted ? "highlight" : ""}>
         <S.Title>Starter Plan</S.Title>
         <S.Price>
           <span>Price:</span> $5/month
@@ -60,11 +69,15 @@ const PricingDetails = ({ hasBtn = true, isHighlighted = false }: PricingDetails
             Get a quick snapshot of previous months within the current year
           </li>
         </ul>
-        {hasBtn && (<Button handleClick={loginWithRedirect} buttonSize="medium">
-          Sign Up
-        </Button>)}
+        {hasBtn && (
+          <Button handleClick={loginWithRedirect} buttonSize="medium">
+            Sign Up
+          </Button>
+        )}
       </S.Container>
-      <S.Container className={(isPro || isOriginal) && isHighlighted ? 'highlight' : ''}>
+      <S.Container
+        className={(isPro || isOriginal) && isHighlighted ? "highlight" : ""}
+      >
         <S.Title>Pro Plan</S.Title>
         <S.Price>
           <span>Price:</span> $10/month
@@ -86,9 +99,11 @@ const PricingDetails = ({ hasBtn = true, isHighlighted = false }: PricingDetails
           </li>
           <li>Share account access with one additional user</li>
         </ul>
-        {hasBtn && (<Button handleClick={loginWithRedirect} buttonSize="medium">
-          Sign Up
-        </Button>)}
+        {hasBtn && (
+          <Button handleClick={loginWithRedirect} buttonSize="medium">
+            Sign Up
+          </Button>
+        )}
       </S.Container>
     </S.Wrapper>
   );

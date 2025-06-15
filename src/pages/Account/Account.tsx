@@ -41,7 +41,10 @@ const Account = () => {
   );
   const { currentYear, currentMonth } = getDateInfo();
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
-  const isStarter = getSubscriptionStatus("Starter", currentUser?.subscription_id);
+  const isStarter = getSubscriptionStatus(
+    "Starter",
+    currentUser?.subscription_id,
+  );
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
 
   const logOutAccount = () => {
@@ -219,26 +222,26 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                { !isOriginal && (
-                <S.Section>
-                  <Link url="#" label="Change Subscription">
-                    Change Subscription
-                  </Link>
-                </S.Section>
+                {!isOriginal && (
+                  <S.Section>
+                    <Link url="#" label="Change Subscription">
+                      Change Subscription
+                    </Link>
+                  </S.Section>
                 )}
                 <S.Section>
                   <Link url="#" label="Subscription Guidelines">
                     Subscription Details
                   </Link>
                 </S.Section>
-                { !isOriginal && (
-                <S.Section>
-                  <Link url="#" label="Cancel Subscription">
-                    <span>
-                      Cancel Subscription <RemoveAccountIcon />
-                    </span>
-                  </Link>
-                </S.Section>
+                {!isOriginal && (
+                  <S.Section>
+                    <Link url="#" label="Cancel Subscription">
+                      <span>
+                        Cancel Subscription <RemoveAccountIcon />
+                      </span>
+                    </Link>
+                  </S.Section>
                 )}
               </>
             )}

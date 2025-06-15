@@ -40,7 +40,10 @@
     }
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown src/"
+    "**/*.{ts, tsx}": [
+      "prettier --write --ignore-unknown src/",
+      "eslint src/ --fix"
+    ]
   },
   "browserslist": {
     "production": [

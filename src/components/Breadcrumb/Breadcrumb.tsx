@@ -11,7 +11,7 @@ const Breadcrumb = () => {
   const isMonthly = pathname.includes("monthly");
   const isAccount = pathname.includes("/account/");
 
-  if (pathname === "/" || pathname === "/overview") {
+  if (pathname === "/" || pathname === "/overview" || pathname === "/pricing") {
     return <></>;
   }
 

@@ -14,6 +14,7 @@ import Login from "./pages/Login/Login.tsx";
 import Account from "./pages/Account/Account.tsx";
 import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
+import Pricing from "./pages/Pricing/Pricing.tsx";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Breadcrumb />
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route
               path="/overview"
               element={<PrivateRoute component={Home} />}

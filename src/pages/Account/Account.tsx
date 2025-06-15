@@ -40,6 +40,9 @@ const Account = () => {
     currentUser?.connected_message,
   );
   const { currentYear, currentMonth } = getDateInfo();
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
+  const isStarter = getSubscriptionStatus("Starter", currentUser?.subscription_id);
+  const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -92,7 +95,7 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
+                {isPro &&
                   !currentUser?.connected_id &&
                   !currentUser?.is_connected && (
                     <S.Section>
@@ -167,10 +170,7 @@ const Account = () => {
                     </span>
                   </Link>
                 </S.Section>
-                {getSubscriptionStatus(
-                  "Starter",
-                  currentUser?.subscription_id,
-                ) && (
+                {isStarter && (
                   <S.Section>
                     <Link
                       url="/account/past-months"
@@ -182,16 +182,7 @@ const Account = () => {
                     </Link>
                   </S.Section>
                 )}
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
-                  <S.Section>
-                    <Link url="#" label={`Download ${currentMonth} PDF`}>
-                      <span>
-                        Download {currentMonth} PDF <DownloadIcon />
-                      </span>
-                    </Link>
-                  </S.Section>
-                )}
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
+                {isPro && (
                   <S.Section>
                     <Link url="#" label={`Download ${currentMonth} Excel`}>
                       <span>
@@ -228,16 +219,19 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
+                { !isOriginal && (
                 <S.Section>
                   <Link url="#" label="Change Subscription">
                     Change Subscription
                   </Link>
                 </S.Section>
+                )}
                 <S.Section>
                   <Link url="#" label="Subscription Guidelines">
-                    Subscription Guidelines
+                    Subscription Details
                   </Link>
                 </S.Section>
+                { !isOriginal && (
                 <S.Section>
                   <Link url="#" label="Cancel Subscription">
                     <span>
@@ -245,6 +239,7 @@ const Account = () => {
                     </span>
                   </Link>
                 </S.Section>
+                )}
               </>
             )}
             <ModalComponent isOpen={isOpen} title={`Confirm Account Deletion`}>

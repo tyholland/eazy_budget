@@ -71,6 +71,10 @@ export const getCurrentPageName = (pathName: string) => {
       pageName = "Subscription Details";
       page2Name = "Account";
       break;
+    case "/account/download":
+      pageName = "Download Excel";
+      page2Name = "Account";
+      break;
     case "/account/past-months":
       pageName = `${currentYear} Past Months`;
       page2Name = "Account";

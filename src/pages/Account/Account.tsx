@@ -187,7 +187,10 @@ const Account = () => {
                 )}
                 {isPro && (
                   <S.Section>
-                    <Link url="/account/download" label={`Download Excel of Budget`}>
+                    <Link
+                      url="/account/download"
+                      label={`Download Excel of Budget`}
+                    >
                       <span>
                         Download Excel of Budget <DownloadIcon />
                       </span>

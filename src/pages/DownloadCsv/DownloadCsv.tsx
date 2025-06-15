@@ -4,9 +4,7 @@ import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { getDateInfo } from "../../functions/helper.ts";
 import { BudgetData, BudgetDataItem } from "../../types.ts";
-import {
-  getYearlyBudgetBreakdown,
-} from "../../functions/budget.ts";
+import { getYearlyBudgetBreakdown } from "../../functions/budget.ts";
 
 const DownloadCsv = () => {
   const budget = useAtomValue(budgetAtom);

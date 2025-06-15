@@ -41,9 +41,7 @@
     }
   },
   "lint-staged": {
-    "**/*.{ts, tsx}": [
-      "prettier --write --ignore-unknown src/"
-    ]
+    "**/*.{ts, tsx}": "prettier --write --ignore-unknown src/"
   },
   "browserslist": {
     "production": [

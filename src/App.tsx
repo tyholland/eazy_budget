@@ -15,6 +15,7 @@ import Account from "./pages/Account/Account.tsx";
 import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
 import Pricing from "./pages/Pricing/Pricing.tsx";
+import Subscription from "./pages/Subscription/Subscription.tsx";
 
 const App = () => {
   return (
@@ -57,6 +58,10 @@ const App = () => {
             <Route
               path="/account/share"
               element={<PrivateRoute component={ShareAccount} />}
+            />
+            <Route
+              path="/account/subscription"
+              element={<PrivateRoute component={Subscription} />}
             />
             <Route
               path="/account"

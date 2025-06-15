@@ -187,9 +187,9 @@ const Account = () => {
                 )}
                 {isPro && (
                   <S.Section>
-                    <Link url="#" label={`Download ${currentMonth} Excel`}>
+                    <Link url="#" label={`Download Excel of Budget`}>
                       <span>
-                        Download {currentMonth} Excel <DownloadIcon />
+                        Download Excel of Budget <DownloadIcon />
                       </span>
                     </Link>
                   </S.Section>
@@ -230,7 +230,7 @@ const Account = () => {
                   </S.Section>
                 )}
                 <S.Section>
-                  <Link url="#" label="Subscription Guidelines">
+                  <Link url="/account/subscription" label="Subscription Details">
                     Subscription Details
                   </Link>
                 </S.Section>

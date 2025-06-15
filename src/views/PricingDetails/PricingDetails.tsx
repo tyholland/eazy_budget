@@ -41,6 +41,7 @@ const PricingDetails = ({
           <li>
             Visualize your financial data with bar, doughnut, and pie charts
           </li>
+          <li>Access to the 3-Year Financial Forecasting Tool</li>
         </ul>
         {hasBtn && (
           <Button handleClick={loginWithRedirect} buttonSize="medium">

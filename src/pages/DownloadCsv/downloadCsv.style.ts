@@ -13,6 +13,10 @@ export const BtnWrapper = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: column;
+
+  @media only screen and (max-width: 800px) {
+    gap: 20px;
+  }
 `;
 
 export const CsvBtn = styled(CsvDownloadButton)`
@@ -29,6 +33,10 @@ export const CsvBtn = styled(CsvDownloadButton)`
   background: ${LIGHT_SKY_BLUE};
   color: ${BLACK};
   width: 300px;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
 
   &:hover {
     background: ${SKY_BLUE};

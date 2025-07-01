@@ -205,7 +205,7 @@ const BudgetItem = ({
                     <span>Total {theType} amount:</span>{" "}
                     {formatAmount(
                       getFrequencyValue(
-                        Number(modalValue),
+                        Number(changeInputVal ? modalValue : inputValue),
                         month as string,
                         Number(year),
                         selectedFrequency,

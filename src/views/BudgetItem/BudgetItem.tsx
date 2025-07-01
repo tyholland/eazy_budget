@@ -182,7 +182,11 @@ const BudgetItem = ({
                         />
                       )}
                   </S.TimingSelects>
-                  {selectedFrequency === 'Daily' && <S.Disclaimer>*Daily frequency is calculated based on business days.</S.Disclaimer>}
+                  {selectedFrequency === "Daily" && (
+                    <S.Disclaimer>
+                      *Daily frequency is calculated based on business days.
+                    </S.Disclaimer>
+                  )}
                   <BudgetInput
                     inputLabel={changeInputVal ? modalLabel : updatedLabel}
                     inputOption={theType}
@@ -198,7 +202,15 @@ const BudgetItem = ({
                     setChangeInputVal={setChangeInputVal}
                   />
                   <S.Total>
-                    <span>Total {theType} amount:</span> {formatAmount(getFrequencyValue(Number(modalValue), month as string, Number(year), selectedFrequency))}
+                    <span>Total {theType} amount:</span>{" "}
+                    {formatAmount(
+                      getFrequencyValue(
+                        Number(modalValue),
+                        month as string,
+                        Number(year),
+                        selectedFrequency,
+                      ),
+                    )}
                   </S.Total>
                   {!hidePaidContent && (
                     <CheckboxComponent

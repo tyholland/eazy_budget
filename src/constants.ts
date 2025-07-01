@@ -52,6 +52,14 @@ export const budgetSortOptions = [
     id: 3,
     label: "Low - High",
   },
+  {
+    id: 4,
+    label: "Paid",
+  },
+  {
+    id: 5,
+    label: "Unpaid",
+  },
 ];
 
 export const budgetOptions = [

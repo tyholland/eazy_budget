@@ -304,6 +304,20 @@ export const sortBudget = (
     return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
   }
 
+  if (sort === "Paid") {
+    const paidA = a.paid || false;
+    const paidB = b.paid || false;
+
+    return paidA < paidB ? 1 : paidA > paidB ? -1 : 0;
+  }
+
+  if (sort === "Unpaid") {
+    const paidA = a.paid || false;
+    const paidB = b.paid || false;
+
+    return paidA > paidB ? 1 : paidA < paidB ? -1 : 0;
+  }
+
   if (sort === "Z - A") {
     return a.label.toLowerCase() < b.label.toLowerCase()
       ? 1

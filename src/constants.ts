@@ -106,6 +106,7 @@ export const budgetQuotes = [
   '"If you want to get rich, think of saving as earning" by Andrew Carnegie',
   '"A simple fact that is hard to learn is that the time to save money is when you have some." by Joe Moore',
   '"If you would be wealthy, think of saving as well as getting" by Benjamin Franklin',
+  '"You must gain control over your money or the lack of it will forever control you." by Dave Ramsey',
 ];
 
 export const frequencyOptions = [

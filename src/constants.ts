@@ -183,7 +183,7 @@ export const MediumModalStyle = {
 export const frequencyShortHandMap = {
   Daily: "business day",
   Weekly: "week",
-  "Semi-Monthly": "twice a month",
+  "Semi-Monthly": "two times a month",
   Monthly: "month",
   Quarterly: "quarter (March, June, Sept, Dec)",
   Yearly: "year",

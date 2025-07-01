@@ -284,7 +284,7 @@ describe("getFrequencyContent", () => {
   test("should return content for Semi-Monthly", () => {
     const content = getFrequencyContent("april", "2025", 20, "Semi-Monthly");
 
-    expect(content).toBe("$10.00 every 2 weeks");
+    expect(content).toBe("$10.00 every two times a month");
   });
 
   test("should return content for Weekly", () => {

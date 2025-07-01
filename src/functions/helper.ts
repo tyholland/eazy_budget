@@ -178,7 +178,7 @@ export const getFrequencyValue = (
       return Number((value * businessDays).toFixed(2));
     case "Weekly":
       return Number((value * 4).toFixed(2));
-    case "Bi-Weekly":
+    case "Semi-Monthly":
       return Number((value * 2).toFixed(2));
     case "Monthly":
       return value;
@@ -225,7 +225,7 @@ export const revertAmountToOriginal = (
       return value / businessDays;
     case "Weekly":
       return value / 4;
-    case "Bi-Weekly":
+    case "Semi-Monthly":
       return value / 2;
     case "Monthly":
       return value;

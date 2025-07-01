@@ -72,3 +72,14 @@ export const ErrorMsg = styled.ul`
   flex-direction: column;
   gap: 10px;
 `;
+
+export const Disclaimer = styled.div`
+  font-style: italic;
+  font-size: 14px;
+`;
+
+export const Total = styled.div`
+  span {
+    font-weight: 600;
+  }
+`;

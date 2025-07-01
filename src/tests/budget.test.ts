@@ -223,7 +223,7 @@ describe("formatBudgetItem", () => {
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
-  test("should return bi-weekly budget entries", () => {
+  test("should return semi-monthly budget entries", () => {
     const results = formatBudgetItem(budgetEntries3, "january", 2025);
     const expectedResults = JSON.stringify(budgetItemArray3);
 

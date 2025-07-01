@@ -18,8 +18,10 @@ import {
   proPlanFrequencyOptions,
 } from "../../constants.ts";
 import {
+  formatAmount,
   getErrorMessage,
   getFrequencyContent,
+  getFrequencyValue,
   getSubscriptionStatus,
   revertAmountToOriginal,
 } from "../../functions/helper.ts";
@@ -180,6 +182,7 @@ const BudgetItem = ({
                         />
                       )}
                   </S.TimingSelects>
+                  {selectedFrequency === 'Daily' && <S.Disclaimer>*Daily frequency is calculated based on business days.</S.Disclaimer>}
                   <BudgetInput
                     inputLabel={changeInputVal ? modalLabel : updatedLabel}
                     inputOption={theType}
@@ -194,6 +197,9 @@ const BudgetItem = ({
                     frequency={item?.frequency}
                     setChangeInputVal={setChangeInputVal}
                   />
+                  <S.Total>
+                    <span>Total {theType} amount:</span> {formatAmount(getFrequencyValue(Number(modalValue), month as string, Number(year), selectedFrequency))}
+                  </S.Total>
                   {!hidePaidContent && (
                     <CheckboxComponent
                       label="Paid"

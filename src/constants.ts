@@ -120,7 +120,7 @@ export const frequencyOptions = [
   },
   {
     id: 2,
-    label: "Bi-Weekly",
+    label: "Semi-Monthly",
   },
   {
     id: 3,
@@ -175,7 +175,7 @@ export const MediumModalStyle = {
 export const frequencyShortHandMap = {
   Daily: "business day",
   Weekly: "week",
-  "Bi-Weekly": "2 weeks",
+  "Semi-Monthly": "twice a month",
   Monthly: "month",
   Quarterly: "quarter (March, June, Sept, Dec)",
   Yearly: "year",

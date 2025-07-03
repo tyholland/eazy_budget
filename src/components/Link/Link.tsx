@@ -9,6 +9,7 @@ interface LinkProps {
   classType?: LinkClassType;
   linkSize?: ElementSize;
   isDisabled?: boolean;
+  callBack?: () => void;
 }
 
 const Link = ({
@@ -18,12 +19,14 @@ const Link = ({
   label,
   classType = "text",
   isDisabled = false,
+  callBack = () => {}
 }: LinkProps) => {
   return (
     <S.LinkElement
       className={`${linkSize} ${classType} ${isDisabled ? "disabled" : ""}`}
       to={url}
       aria-label={label}
+      onClick={callBack}
     >
       {children}
     </S.LinkElement>

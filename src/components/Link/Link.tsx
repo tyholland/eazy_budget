@@ -19,7 +19,7 @@ const Link = ({
   label,
   classType = "text",
   isDisabled = false,
-  callBack = () => {}
+  callBack = () => {},
 }: LinkProps) => {
   return (
     <S.LinkElement

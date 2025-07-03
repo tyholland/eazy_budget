@@ -13,19 +13,39 @@ const Footer = () => {
     <S.Wrapper>
       <hr />
       <S.Links>
-        <Link url={currentUser ? "/overview" : "/"} label="Home" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
+        <Link
+          url={currentUser ? "/overview" : "/"}
+          label="Home"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           Home
         </Link>
-        <Link url="/about" label="About" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
+        <Link
+          url="/about"
+          label="About"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           About
         </Link>
         {/* <Link url="/pricing" label="Pricing" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
           Pricing
         </Link> */}
-        <Link url="/privacy" label="Privacy Policy" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
+        <Link
+          url="/privacy"
+          label="Privacy Policy"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           Privacy Policy
         </Link>
-        <Link url="/contact" label="Contact Us" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
+        <Link
+          url="/contact"
+          label="Contact Us"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           Contact Us
         </Link>
       </S.Links>

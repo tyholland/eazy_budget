@@ -17,6 +17,7 @@ import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
 // import Pricing from "./pages/Pricing/Pricing.tsx";
 import Subscription from "./pages/Subscription/Subscription.tsx";
 import DownloadCsv from "./pages/DownloadCsv/DownloadCsv.tsx";
+import Footer from "./views/Footer/Footer.tsx";
 
 const App = () => {
   return (
@@ -73,6 +74,7 @@ const App = () => {
               element={<PrivateRoute component={Account} />}
             />
           </Routes>
+          <Footer />
         </>
       </Auth0ProviderRedirect>
     </Router>

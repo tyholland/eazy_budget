@@ -188,3 +188,5 @@ export const frequencyShortHandMap = {
   Quarterly: "quarter (March, June, Sept, Dec)",
   Yearly: "year",
 };
+
+export const emailAddress = "info-sbudgeting@gmail.com";

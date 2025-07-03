@@ -1,3 +1,2 @@
 npx eslint src/
-npx prettier --write --ignore-unknown src/
 npx lint-staged

@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from './footer.style.ts';
+import * as S from "./footer.style.ts";
 import Link from "../../components/Link/Link.tsx";
 
 const Footer = () => {
@@ -30,7 +30,7 @@ const Footer = () => {
         &copy; {year} Simple Budgeting. All rights reserved.
       </S.Copyright>
     </S.Wrapper>
-  )
-}
+  );
+};
 
 export default Footer;

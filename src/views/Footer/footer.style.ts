@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 75px;
 
   @media only screen and (max-width: 800px) {
     margin-bottom: 20px;

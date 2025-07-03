@@ -18,6 +18,7 @@ import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
 import Subscription from "./pages/Subscription/Subscription.tsx";
 import DownloadCsv from "./pages/DownloadCsv/DownloadCsv.tsx";
 import Footer from "./views/Footer/Footer.tsx";
+import About from "./pages/About/About.tsx";
 
 const App = () => {
   return (
@@ -29,6 +30,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Login />} />
             {/* <Route path="/pricing" element={<Pricing />} /> */}
+            <Route path="/about" element={<About />} />
+            {/* <Route path="/privacy" element={<Pricing />} />
+            <Route path="/contact" element={<Pricing />} /> */}
             <Route
               path="/overview"
               element={<PrivateRoute component={Home} />}

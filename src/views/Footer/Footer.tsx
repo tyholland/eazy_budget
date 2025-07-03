@@ -10,7 +10,7 @@ const Footer = () => {
     <S.Wrapper>
       <hr />
       <S.Links>
-        <Link url="/" label="Home" linkSize="medium">
+        <Link url="/overview" label="Home" linkSize="medium">
           Home
         </Link>
         <Link url="/about" label="About" linkSize="medium">

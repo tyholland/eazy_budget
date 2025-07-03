@@ -55,12 +55,21 @@ export const GlobalStyles = createGlobalStyle`
     #root {
       background: ${OFF_WHITE};
       padding: 0 2% 3%;
-      min-height: 100vh;
-      max-height: fit-content;
-      height: auto;
 
       @media only screen and (max-width: 800px) {
         padding: 0;
+      }
+    }
+
+    main {
+      min-height: 100vh;
+      max-height: fit-content;
+      height: auto;
+      position: relative;
+      padding-bottom: 95px;
+
+      @media only screen and (max-width: 800px) {
+        padding-bottom: 115px;
       }
     }
   }

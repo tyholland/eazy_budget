@@ -36,19 +36,3 @@ export const deleteCategory = async (
     throw new Error(`Failed to delete category`);
   }
 };
-
-export const getCategory = async (accessToken: string) => {
-  try {
-    const categoryResponse = await fetch(`${api}/category`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-type": "application/json",
-      },
-    });
-
-    return await categoryResponse.json();
-  } catch (err) {
-    throw new Error(`Failed to get categories`);
-  }
-};

@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as S from "./downloadCsv.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { getDateInfo } from "../../functions/helper.ts";
+import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
 import { BudgetData, BudgetDataItem } from "../../types.ts";
 import { getYearlyBudgetBreakdown } from "../../functions/budget.ts";
+import { useNavigate } from "react-router-dom";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const DownloadCsv = () => {
+  const currentUser = useAtomValue(userAtom);
+  const navigate = useNavigate();
   const budget = useAtomValue(budgetAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const currentBudget = budget.filter(
@@ -63,6 +67,15 @@ const DownloadCsv = () => {
       }
     });
   });
+
+  useEffect(() => {
+      if (
+        currentUser &&
+        !getSubscriptionStatus("Pro", currentUser?.subscription_id)
+      ) {
+        navigate("/overview");
+      }
+    }, []);
 
   return (
     <>

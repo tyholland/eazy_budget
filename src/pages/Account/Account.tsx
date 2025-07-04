@@ -125,20 +125,19 @@ const Account = () => {
                       </Link>
                     </S.Section>
                   )}
-                {isPro &&
-                  currentUser?.is_connected && (
-                    <S.Section>
-                      <Button
-                        handleClick={() => setIsSharedOpen(true)}
-                        buttonSize="medium"
-                        classType="text"
-                      >
-                        <span>
-                          Remove Shared Account <RemoveAccountIcon />
-                        </span>
-                      </Button>
-                    </S.Section>
-                  )}
+                {isPro && currentUser?.is_connected && (
+                  <S.Section>
+                    <Button
+                      handleClick={() => setIsSharedOpen(true)}
+                      buttonSize="medium"
+                      classType="text"
+                    >
+                      <span>
+                        Remove Shared Account <RemoveAccountIcon />
+                      </span>
+                    </Button>
+                  </S.Section>
+                )}
                 <S.Section>
                   <Button
                     handleClick={() => setIsOpen(true)}
@@ -291,9 +290,14 @@ const Account = () => {
                 </S.ModalBtn>
               </S.ModalWrapper>
             </ModalComponent>
-            <ModalComponent isOpen={isSharedOpen} title={`Confirm Remove Shared Account Access`}>
+            <ModalComponent
+              isOpen={isSharedOpen}
+              title={`Confirm Remove Shared Account Access`}
+            >
               <S.ModalWrapper>
-                <span>Are you sure you want to removed your shared account access?</span>
+                <span>
+                  Are you sure you want to removed your shared account access?
+                </span>
                 <S.ModalBtn>
                   <Button
                     buttonSize="small"

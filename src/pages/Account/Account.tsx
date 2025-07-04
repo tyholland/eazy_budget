@@ -158,6 +158,18 @@ const Account = () => {
             )}
             {selectedOption === "budget" && (
               <>
+                {isPro && (
+                  <S.Section>
+                    <Link
+                      url="/account/catories"
+                      label={`Add Categories`}
+                    >
+                      <span>
+                        Add Categories
+                      </span>
+                    </Link>
+                  </S.Section>
+                )}
                 <S.Section>
                   <Link
                     url={`/yearly/income/${currentYear}`}

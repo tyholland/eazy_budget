@@ -76,6 +76,10 @@ const App = () => {
               element={<PrivateRoute component={DownloadCsv} />}
             />
             <Route
+              path="/account/categories"
+              element={<PrivateRoute component={DownloadCsv} />}
+            />
+            <Route
               path="/account"
               element={<PrivateRoute component={Account} />}
             />

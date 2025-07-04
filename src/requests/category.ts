@@ -2,7 +2,7 @@ const api = process.env.REACT_APP_API;
 
 export const createCategory = async (accessToken: string, category: string) => {
   try {
-    const budgetResponse = await fetch(`${api}/category/create`, {
+    const categoryResponse = await fetch(`${api}/category/create`, {
       method: "POST",
       body: JSON.stringify({ category }),
       headers: {
@@ -11,7 +11,7 @@ export const createCategory = async (accessToken: string, category: string) => {
       },
     });
 
-    return await budgetResponse.json();
+    return await categoryResponse.json();
   } catch (err) {
     throw new Error(`Failed to create user`);
   }
@@ -22,7 +22,7 @@ export const deleteCategory = async (
   category_id: number,
 ) => {
   try {
-    const budgetResponse = await fetch(`${api}/category/remove`, {
+    const categoryResponse = await fetch(`${api}/category/remove`, {
       method: "PUT",
       body: JSON.stringify({ category_id }),
       headers: {
@@ -31,7 +31,7 @@ export const deleteCategory = async (
       },
     });
 
-    return await budgetResponse.json();
+    return await categoryResponse.json();
   } catch (err) {
     throw new Error(`Failed to delete category`);
   }
@@ -39,7 +39,7 @@ export const deleteCategory = async (
 
 export const getCategory = async (accessToken: string) => {
   try {
-    const removedShareResponse = await fetch(`${api}/category`, {
+    const categoryResponse = await fetch(`${api}/category`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -47,7 +47,7 @@ export const getCategory = async (accessToken: string) => {
       },
     });
 
-    return await removedShareResponse.json();
+    return await categoryResponse.json();
   } catch (err) {
     throw new Error(`Failed to get categories`);
   }

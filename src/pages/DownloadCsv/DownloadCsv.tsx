@@ -69,13 +69,13 @@ const DownloadCsv = () => {
   });
 
   useEffect(() => {
-      if (
-        currentUser &&
-        !getSubscriptionStatus("Pro", currentUser?.subscription_id)
-      ) {
-        navigate("/overview");
-      }
-    }, []);
+    if (
+      currentUser &&
+      !getSubscriptionStatus("Pro", currentUser?.subscription_id)
+    ) {
+      navigate("/overview");
+    }
+  }, []);
 
   return (
     <>

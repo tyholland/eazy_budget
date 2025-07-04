@@ -6,9 +6,7 @@ import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { useNavigate } from "react-router-dom";
-import { shareAccount } from "../../requests/users.ts";
 import { useAuth0 } from "@auth0/auth0-react";
-import SaveIcon from "../../svg/SaveIcon.tsx";
 import { createCategory } from "../../requests/category.ts";
 import { ExpenseCategory } from "../../types.ts";
 
@@ -36,18 +34,18 @@ const Category = () => {
       if (results.success) {
         const newCategory: ExpenseCategory = {
           id: Number(results.category_id),
-          name: categoryName
+          name: categoryName,
         };
 
         if (currentUser) {
           let categoryArr: ExpenseCategory[] = [];
           categoryArr = categoryArr.concat(currentUser.categories);
-          categoryArr.push({...newCategory})
+          categoryArr.push({ ...newCategory });
 
           setCurrentUser({
             ...currentUser,
             categories: categoryArr,
-          })
+          });
         }
       } else {
         setIsDisabled(false);
@@ -74,7 +72,8 @@ const Category = () => {
   return (
     <S.Wrapper>
       <S.Content>
-          Organize your expenses more efficiently by adding custom categories for easy filtering and tracking.
+        Organize your expenses more efficiently by adding custom categories for
+        easy filtering and tracking.
       </S.Content>
       <S.InputWrapper>
         <Input
@@ -93,12 +92,8 @@ const Category = () => {
         </Button>
       </S.InputWrapper>
       <S.Content>
-        <S.Header>
-          List of Categories
-        </S.Header>
-        {currentUser?.categories?.map(item => (
-          <div>{item.name}</div>
-        ))}
+        <S.Header>List of Categories</S.Header>
+        {currentUser?.categories?.map((item) => <div>{item.name}</div>)}
         {!currentUser?.categories && (
           <div>There are no existing categories at this time.</div>
         )}

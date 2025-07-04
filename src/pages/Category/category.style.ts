@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ERROR_RED, RUBIK, WHITE } from "../../index.style.ts";
+import { RUBIK } from "../../index.style.ts";
 
 export const Content = styled.div`
   display: flex;

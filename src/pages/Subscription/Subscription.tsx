@@ -9,7 +9,7 @@ import { getSubscriptionStatus } from "../../functions/helper.ts";
 const Subscription = () => {
   const currentUser = useAtomValue(userAtom);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (
       currentUser &&

@@ -160,13 +160,8 @@ const Account = () => {
               <>
                 {isPro && (
                   <S.Section>
-                    <Link
-                      url="/account/catories"
-                      label={`Add Categories`}
-                    >
-                      <span>
-                        Add Categories
-                      </span>
+                    <Link url="/account/categories" label={`Add Categories`}>
+                      <span>Add Categories</span>
                     </Link>
                   </S.Section>
                 )}

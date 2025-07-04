@@ -3,7 +3,7 @@ import Input from "../../components/Input/Input.tsx";
 import * as S from "./category.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";

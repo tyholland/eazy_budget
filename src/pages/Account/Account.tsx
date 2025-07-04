@@ -10,7 +10,7 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
-import { deleteUser } from "../../requests/users.ts";
+import { deleteUser, removeSharedAccount } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
   getDateInfo,
@@ -26,6 +26,7 @@ import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
+import { emailAddress } from "../../constants.ts";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -71,6 +72,22 @@ const Account = () => {
     logOutAccount();
   };
 
+  const removeSharedAccess = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      await removeSharedAccount(accessToken);
+    } catch (err) {
+      console.error("Account - removeSharedAccess:", err);
+    }
+
+    logOutAccount();
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -109,16 +126,21 @@ const Account = () => {
                       </Link>
                     </S.Section>
                   )}
-                <S.Section>
-                  <Link
-                    url="mailto:info.eazybudget@gmail.com"
-                    label="Contact Us"
-                  >
-                    <span>
-                      Contact Us <ContactUsIcon />
-                    </span>
-                  </Link>
-                </S.Section>
+                  {isPro &&
+                    currentUser?.connected_id &&
+                    currentUser?.is_connected && (
+                      <S.Section>
+                        <Button
+                          handleClick={removeSharedAccess}
+                          buttonSize="medium"
+                          classType="text"
+                        >
+                          <span>
+                            Remove Share Account <RemoveAccountIcon />
+                          </span>
+                        </Button>
+                      </S.Section>
+                    )}
                 <S.Section>
                   <Button
                     handleClick={() => setIsOpen(true)}

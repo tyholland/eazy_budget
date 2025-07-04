@@ -77,3 +77,19 @@ export const shareAccountDecision = async (
     throw new Error(`Failed to share account decision`);
   }
 };
+
+export const removeSharedAccount = async (accessToken: string) => {
+  try {
+    const removedShareResponse = await fetch(`${api}/user/share/remove`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await removedShareResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to remove shared account access`);
+  }
+};

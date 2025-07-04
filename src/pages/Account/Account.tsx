@@ -20,13 +20,11 @@ import {
 import { userAtom } from "../../hook/UserAtom.ts";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
-import ContactUsIcon from "../../svg/ContactUsIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
-import { emailAddress } from "../../constants.ts";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -126,21 +124,21 @@ const Account = () => {
                       </Link>
                     </S.Section>
                   )}
-                  {isPro &&
-                    currentUser?.connected_id &&
-                    currentUser?.is_connected && (
-                      <S.Section>
-                        <Button
-                          handleClick={removeSharedAccess}
-                          buttonSize="medium"
-                          classType="text"
-                        >
-                          <span>
-                            Remove Share Account <RemoveAccountIcon />
-                          </span>
-                        </Button>
-                      </S.Section>
-                    )}
+                {isPro &&
+                  currentUser?.connected_id &&
+                  currentUser?.is_connected && (
+                    <S.Section>
+                      <Button
+                        handleClick={removeSharedAccess}
+                        buttonSize="medium"
+                        classType="text"
+                      >
+                        <span>
+                          Remove Share Account <RemoveAccountIcon />
+                        </span>
+                      </Button>
+                    </S.Section>
+                  )}
                 <S.Section>
                   <Button
                     handleClick={() => setIsOpen(true)}

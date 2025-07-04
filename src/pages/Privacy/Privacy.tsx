@@ -93,7 +93,11 @@ const Privacy = () => {
         </ul>
         <div>
           You can opt out of personalized advertising by visiting:{" "}
-          <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.google.com/settings/ads"
+            target="_blank"
+            rel="noreferrer"
+          >
             https://www.google.com/settings/ads
           </a>
         </div>

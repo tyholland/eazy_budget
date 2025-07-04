@@ -34,6 +34,7 @@ const Account = () => {
   const setExpense = useSetAtom(expenseAtom);
   const currentUser = useAtomValue(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -125,16 +126,15 @@ const Account = () => {
                     </S.Section>
                   )}
                 {isPro &&
-                  currentUser?.connected_id &&
                   currentUser?.is_connected && (
                     <S.Section>
                       <Button
-                        handleClick={removeSharedAccess}
+                        handleClick={() => setIsSharedOpen(true)}
                         buttonSize="medium"
                         classType="text"
                       >
                         <span>
-                          Remove Share Account <RemoveAccountIcon />
+                          Remove Shared Account <RemoveAccountIcon />
                         </span>
                       </Button>
                     </S.Section>
@@ -285,6 +285,26 @@ const Account = () => {
                   <Button
                     buttonSize="small"
                     handleClick={() => setIsOpen(false)}
+                  >
+                    No
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent isOpen={isSharedOpen} title={`Confirm Remove Shared Account Access`}>
+              <S.ModalWrapper>
+                <span>Are you sure you want to removed your shared account access?</span>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={removeSharedAccess}
+                    classType="register"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setIsSharedOpen(false)}
                   >
                     No
                   </Button>

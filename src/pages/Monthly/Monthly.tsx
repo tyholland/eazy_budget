@@ -88,8 +88,10 @@ const Monthly = () => {
   }, [selectedSort, type]);
 
   useEffect(() => {
-    const filter = currentUser?.categories.filter(item => item.label === selectedFilter)[0];
-    type === 'income' ? setExpenseFilter(0) : setExpenseFilter(filter?.id || 0);
+    const filter = currentUser?.categories.filter(
+      (item) => item.label === selectedFilter,
+    )[0];
+    type === "income" ? setExpenseFilter(0) : setExpenseFilter(filter?.id || 0);
   }, [selectedFilter, type]);
 
   if (
@@ -136,7 +138,10 @@ const Monthly = () => {
         {selectedOption === type && (
           <>
             <S.Selectors>
-              {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+              {getSubscriptionStatus(
+                "Starter",
+                currentUser?.subscription_id,
+              ) && (
                 <SelectComponent
                   options={budgetSortOptions}
                   placeHolder="Sort Items"
@@ -144,17 +149,20 @@ const Monthly = () => {
                   setOption={setSelectedSort}
                 />
               )}
-              {getSubscriptionStatus("Pro", currentUser?.subscription_id) && type === "expense" && (
-                <SelectComponent
-                  options={currentUser?.categories.concat({
-                    id: 0,
-                    label: "None",
-                  }) || []}
-                  placeHolder="Filter by Category"
-                  defaultValue={selectedFilter}
-                  setOption={setSelectedFilter}
-                />
-              )}
+              {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
+                type === "expense" && (
+                  <SelectComponent
+                    options={
+                      currentUser?.categories.concat({
+                        id: 0,
+                        label: "None",
+                      }) || []
+                    }
+                    placeHolder="Filter by Category"
+                    defaultValue={selectedFilter}
+                    setOption={setSelectedFilter}
+                  />
+                )}
             </S.Selectors>
             <S.ItemWrapper>
               <S.ItemContainer>
@@ -164,127 +172,142 @@ const Monthly = () => {
                     month === item.month.toLowerCase() &&
                     theYear === item.year
                   ) {
-                    return item[type].filter((response: BudgetDataItem) => expenseFilter === 0 ? response : response.category_id === expenseFilter).map((data: BudgetDataItem, i: number) => {
-                      const currentItems: BudgetDataItem[] = [...item[type]];
+                    return item[type]
+                      .filter((response: BudgetDataItem) =>
+                        expenseFilter === 0
+                          ? response
+                          : response.category_id === expenseFilter,
+                      )
+                      .map((data: BudgetDataItem, i: number) => {
+                        const currentItems: BudgetDataItem[] = [...item[type]];
 
-                      const handleSaveEvent = async (
-                        obj: Object,
-                        isPaid?: boolean,
-                        frequency?: string,
-                        cadence?: string,
-                        category?: string,
-                      ) => {
-                        const updatedItem = reformatBudgetItem(
-                          obj,
-                          data.budget_id,
-                          data.budget_date_id,
-                          month,
-                          theYear,
-                          isPaid,
-                          frequency,
-                          cadence,
-                          category,
-                        );
+                        const handleSaveEvent = async (
+                          obj: Object,
+                          isPaid?: boolean,
+                          frequency?: string,
+                          cadence?: string,
+                          category?: string,
+                        ) => {
+                          const updatedItem = reformatBudgetItem(
+                            obj,
+                            data.budget_id,
+                            data.budget_date_id,
+                            month,
+                            theYear,
+                            isPaid,
+                            frequency,
+                            cadence,
+                            category,
+                          );
 
-                        try {
-                          const accessToken = await getAccessTokenSilently({
-                            authorizationParams: {
-                              audience: process.env.REACT_APP_AUDIENCE,
-                              scope: "read:user",
-                            },
-                          });
+                          try {
+                            const accessToken = await getAccessTokenSilently({
+                              authorizationParams: {
+                                audience: process.env.REACT_APP_AUDIENCE,
+                                scope: "read:user",
+                              },
+                            });
 
-                          if (!!data.budget_id) {
-                            updateBasedOnCadence(
-                              item,
-                              updatedItem[0],
-                              budget,
-                              data,
-                              month,
-                              theYear,
-                              type,
-                            );
-                            setBudgetChange(true);
+                            if (!!data.budget_id) {
+                              updateBasedOnCadence(
+                                item,
+                                updatedItem[0],
+                                budget,
+                                data,
+                                month,
+                                theYear,
+                                type,
+                              );
+                              setBudgetChange(true);
 
-                            await updateBudgetItem(accessToken, updatedItem[0]);
-                          } else {
-                            insertBasedOnCadence(
-                              item,
-                              updatedItem[0],
-                              budget,
-                              month,
-                              theYear,
-                              type,
-                            );
-                            setBudgetChange(true);
+                              await updateBudgetItem(
+                                accessToken,
+                                updatedItem[0],
+                              );
+                            } else {
+                              insertBasedOnCadence(
+                                item,
+                                updatedItem[0],
+                                budget,
+                                month,
+                                theYear,
+                                type,
+                              );
+                              setBudgetChange(true);
 
-                            updatedItem[0].type = type;
-                            const updatedBudgetItem: NewBudgetIds =
-                              await addBudgetItem(accessToken, updatedItem[0]);
+                              updatedItem[0].type = type;
+                              const updatedBudgetItem: NewBudgetIds =
+                                await addBudgetItem(
+                                  accessToken,
+                                  updatedItem[0],
+                                );
 
-                            insertBudgetIds(
-                              item,
-                              updatedItem[0],
-                              budget,
-                              month,
-                              theYear,
-                              type,
-                              updatedBudgetItem,
-                            );
-                            setBudgetChange(true);
+                              insertBudgetIds(
+                                item,
+                                updatedItem[0],
+                                budget,
+                                month,
+                                theYear,
+                                type,
+                                updatedBudgetItem,
+                              );
+                              setBudgetChange(true);
+                            }
+                            setIsNewBudget(false);
+                          } catch (err) {
+                            console.error("Monthly - handleSaveEvent:", err);
                           }
-                          setIsNewBudget(false);
-                        } catch (err) {
-                          console.error("Monthly - handleSaveEvent:", err);
-                        }
-                      };
+                        };
 
-                      const handleDeleteEvent = async () => {
-                        if (currentItems.length === 1) {
-                          setIsOpen(true);
-                          return;
-                        }
-
-                        const updatedItems = removeItemFromBudgetArray(
-                          currentItems,
-                          i,
-                        );
-                        item[type] = updatedItems;
-                        setBudgetChange(true);
-
-                        try {
-                          const accessToken = await getAccessTokenSilently({
-                            authorizationParams: {
-                              audience: process.env.REACT_APP_AUDIENCE,
-                              scope: "read:user",
-                            },
-                          });
-
-                          if (!!data.budget_id) {
-                            await deleteBudgetItem(accessToken, data.budget_id);
+                        const handleDeleteEvent = async () => {
+                          if (currentItems.length === 1) {
+                            setIsOpen(true);
+                            return;
                           }
 
-                          setIsNewBudget(false);
-                        } catch (err) {
-                          console.error("Monthly - handleDeleteEvent:", err);
-                        }
-                      };
+                          const updatedItems = removeItemFromBudgetArray(
+                            currentItems,
+                            i,
+                          );
+                          item[type] = updatedItems;
+                          setBudgetChange(true);
 
-                      return (
-                        <BudgetItem
-                          key={i}
-                          theType={type as InputOption}
-                          item={data}
-                          labelPlaceHolder={`${type.toLowerCase()} name`}
-                          valuePlaceHolder={`${type.toLowerCase()} amount`}
-                          inputType="number"
-                          saveEvent={handleSaveEvent}
-                          deleteEvent={handleDeleteEvent}
-                          hidePaidContent={type === "income"}
-                          openModal={isNewBudget}
-                        />
-                      );
-                    });
+                          try {
+                            const accessToken = await getAccessTokenSilently({
+                              authorizationParams: {
+                                audience: process.env.REACT_APP_AUDIENCE,
+                                scope: "read:user",
+                              },
+                            });
+
+                            if (!!data.budget_id) {
+                              await deleteBudgetItem(
+                                accessToken,
+                                data.budget_id,
+                              );
+                            }
+
+                            setIsNewBudget(false);
+                          } catch (err) {
+                            console.error("Monthly - handleDeleteEvent:", err);
+                          }
+                        };
+
+                        return (
+                          <BudgetItem
+                            key={i}
+                            theType={type as InputOption}
+                            item={data}
+                            labelPlaceHolder={`${type.toLowerCase()} name`}
+                            valuePlaceHolder={`${type.toLowerCase()} amount`}
+                            inputType="number"
+                            saveEvent={handleSaveEvent}
+                            deleteEvent={handleDeleteEvent}
+                            hidePaidContent={type === "income"}
+                            openModal={isNewBudget}
+                          />
+                        );
+                      });
                   }
                   return null;
                 })}

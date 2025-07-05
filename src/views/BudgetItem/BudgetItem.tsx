@@ -130,9 +130,10 @@ const BudgetItem = ({
   const showCadenceSelector =
     selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
 
-  const showCategorySelector = currentUser && theType === 'expense'
-    ? currentUser.categories.length > 0
-    : false;
+  const showCategorySelector =
+    currentUser && theType === "expense"
+      ? currentUser.categories.length > 0
+      : false;
 
   return (
     <S.ItemWrapper className="itemWrapper">

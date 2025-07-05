@@ -71,7 +71,7 @@ const Category = () => {
         if (currentUser) {
           let categoryArr: ExpenseCategory[] = [];
           categoryArr = categoryArr.concat(currentUser.categories);
-          let index = categoryArr.findIndex(item => item.id === category_id);
+          let index = categoryArr.findIndex((item) => item.id === category_id);
 
           if (index !== -1) {
             categoryArr.splice(index, 1);
@@ -150,7 +150,7 @@ const Category = () => {
             </div>
           ))}
         </S.CategoryList>
-        {!currentUser?.categories && (
+        {!currentUser?.categories.length && (
           <div>There are no existing categories at this time.</div>
         )}
       </S.Content>

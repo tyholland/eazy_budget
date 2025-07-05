@@ -160,7 +160,10 @@ const Account = () => {
               <>
                 {isPro && (
                   <S.Section>
-                    <Link url="/account/categories" label={`Add Expense Categories`}>
+                    <Link
+                      url="/account/categories"
+                      label={`Add Expense Categories`}
+                    >
                       <span>Add Expense Categories</span>
                     </Link>
                   </S.Section>

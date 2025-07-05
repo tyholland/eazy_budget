@@ -313,7 +313,7 @@ const Monthly = () => {
                 })}
                 <ModalComponent
                   isOpen={isOpen}
-                  title={`Want to remove the last ${type}???`}
+                  title={`Want to remove the last ${type}?`}
                 >
                   <S.ModalWrapper>
                     <span>

@@ -7,8 +7,9 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { createCategory } from "../../requests/category.ts";
+import { createCategory, deleteCategory } from "../../requests/category.ts";
 import { ExpenseCategory } from "../../types.ts";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const Category = () => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
@@ -56,6 +57,38 @@ const Category = () => {
     }
   };
 
+  const removeCategory = async (category_id: number) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      const results = await deleteCategory(accessToken, category_id);
+
+      if (results.success) {
+        if (currentUser) {
+          let categoryArr: ExpenseCategory[] = [];
+          categoryArr = categoryArr.concat(currentUser.categories);
+          let index = categoryArr.findIndex(item => item.id === category_id);
+
+          if (index !== -1) {
+            categoryArr.splice(index, 1);
+          }
+
+          setCurrentUser({
+            ...currentUser,
+            categories: categoryArr,
+          });
+        }
+      }
+    } catch (err) {
+      setIsDisabled(false);
+      console.error("Category - removeCategory:", err);
+    }
+  };
+
   useEffect(() => {
     if (
       currentUser &&
@@ -78,9 +111,9 @@ const Category = () => {
       <S.InputWrapper>
         <Input
           label="email"
-          labelValue="Category name:"
+          labelValue="Expense category:"
           onChange={handleChange}
-          placeHolder="Enter category"
+          placeHolder="Enter category name"
           inputType="text"
         />
         <Button
@@ -92,8 +125,31 @@ const Category = () => {
         </Button>
       </S.InputWrapper>
       <S.Content>
-        <S.Header>List of Categories</S.Header>
-        {currentUser?.categories?.map((item) => <div>{item.name}</div>)}
+        <S.Header>List of Expense Categories</S.Header>
+        <S.CategoryList>
+          {currentUser?.categories?.map((item) => (
+            <div key={item.id}>
+              <span data-tooltip-id={`category-${item.id}-tooltip`}>
+                <Button
+                  handleClick={() => removeCategory(item.id)}
+                  classType="register"
+                >
+                  <>
+                    <div>{item.name}</div>
+                    <div>X</div>
+                  </>
+                </Button>
+              </span>
+              <ReactTooltip
+                id={`category-${item.id}-tooltip`}
+                place="top"
+                variant="info"
+                content="Delete this category"
+                className="tooltip"
+              />
+            </div>
+          ))}
+        </S.CategoryList>
         {!currentUser?.categories && (
           <div>There are no existing categories at this time.</div>
         )}

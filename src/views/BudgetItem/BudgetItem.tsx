@@ -70,7 +70,9 @@ const BudgetItem = ({
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
-  const expenseCategory = currentUser?.categories.filter(category => category.id === item?.category_id)[0];
+  const expenseCategory = currentUser?.categories.filter(
+    (category) => category.id === item?.category_id,
+  )[0];
   const specificFrequency = getSubscriptionStatus(
     "Pro",
     currentUser?.subscription_id,
@@ -128,7 +130,9 @@ const BudgetItem = ({
   const showCadenceSelector =
     selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
 
-  const showCategorySelector = currentUser ? currentUser.categories.length > 0 : false;
+  const showCategorySelector = currentUser
+    ? currentUser.categories.length > 0
+    : false;
 
   return (
     <S.ItemWrapper className="itemWrapper">
@@ -194,8 +198,13 @@ const BudgetItem = ({
                         currentUser?.subscription_id,
                       ) && (
                         <SelectComponent
-                          options={currentUser?.categories.concat({id: 0, label: 'None'}) || []}
-                          placeHolder="Filter Category"
+                          options={
+                            currentUser?.categories.concat({
+                              id: 0,
+                              label: "None",
+                            }) || []
+                          }
+                          placeHolder="Choose Category"
                           defaultValue={expenseCategory?.label || "None"}
                           setOption={setSelectedCategory}
                         />
@@ -283,7 +292,7 @@ const BudgetItem = ({
                             checked: checkedVal,
                             frequency: selectedFrequency,
                             cadence: selectedCadence,
-                            category: selectedCategory
+                            category: selectedCategory,
                           });
 
                           saveEvent && saveEvent(budgetItem);
@@ -299,7 +308,7 @@ const BudgetItem = ({
                             checkedVal,
                             selectedFrequency,
                             selectedCadence,
-                            selectedCategory
+                            selectedCategory,
                           );
                         setErrorMessage([]);
                         closeModal();

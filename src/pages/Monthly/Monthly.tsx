@@ -163,7 +163,7 @@ const Monthly = () => {
                           isPaid,
                           frequency,
                           cadence,
-                          category
+                          category,
                         );
 
                         try {

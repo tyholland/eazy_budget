@@ -46,6 +46,11 @@ export const ItemTopRow = styled.div`
 export const TimingSelects = styled.div`
   display: flex;
   gap: 40px;
+
+  @media only screen and (max-width: 800px) {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 `;
 
 export const ModalItem = styled.div`

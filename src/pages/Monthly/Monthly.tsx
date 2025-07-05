@@ -61,6 +61,8 @@ const Monthly = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<string>("A - Z");
+  const [selectedFilter, setSelectedFilter] = useState<string>("None");
+  const [expenseFilter, setExpenseFilter] = useState<number | undefined>(0);
 
   const sortBudgetItems = (type: string) => {
     const updatedBudget: BudgetData[] = [...budget];
@@ -84,6 +86,11 @@ const Monthly = () => {
   useEffect(() => {
     type && sortBudgetItems(type);
   }, [selectedSort, type]);
+
+  useEffect(() => {
+    const filter = currentUser?.categories.filter(item => item.label === selectedFilter)[0];
+    type === 'income' ? setExpenseFilter(0) : setExpenseFilter(filter?.id || 0);
+  }, [selectedFilter, type]);
 
   if (
     !type ||
@@ -128,14 +135,27 @@ const Monthly = () => {
         </S.Title>
         {selectedOption === type && (
           <>
-            {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
-              <SelectComponent
-                options={budgetSortOptions}
-                placeHolder="Sort Items"
-                defaultValue={budgetSortOptions[0].label}
-                setOption={setSelectedSort}
-              />
-            )}
+            <S.Selectors>
+              {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+                <SelectComponent
+                  options={budgetSortOptions}
+                  placeHolder="Sort Items"
+                  defaultValue={budgetSortOptions[0].label}
+                  setOption={setSelectedSort}
+                />
+              )}
+              {getSubscriptionStatus("Pro", currentUser?.subscription_id) && type === "expense" && (
+                <SelectComponent
+                  options={currentUser?.categories.concat({
+                    id: 0,
+                    label: "None",
+                  }) || []}
+                  placeHolder="Filter by Category"
+                  defaultValue={selectedFilter}
+                  setOption={setSelectedFilter}
+                />
+              )}
+            </S.Selectors>
             <S.ItemWrapper>
               <S.ItemContainer>
                 {!budget.length && <Loading />}
@@ -144,7 +164,7 @@ const Monthly = () => {
                     month === item.month.toLowerCase() &&
                     theYear === item.year
                   ) {
-                    return item[type].map((data: BudgetDataItem, i: number) => {
+                    return item[type].filter((response: BudgetDataItem) => expenseFilter === 0 ? response : response.category_id === expenseFilter).map((data: BudgetDataItem, i: number) => {
                       const currentItems: BudgetDataItem[] = [...item[type]];
 
                       const handleSaveEvent = async (

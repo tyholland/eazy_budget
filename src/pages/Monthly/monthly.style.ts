@@ -65,3 +65,8 @@ export const ContentWrapper = styled.div`
     width: 100%;
   }
 `;
+
+export const Selectors = styled.div`
+  display: flex;
+  gap: 16px;
+`;

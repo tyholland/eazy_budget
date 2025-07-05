@@ -152,6 +152,7 @@ const Monthly = () => {
                         isPaid?: boolean,
                         frequency?: string,
                         cadence?: string,
+                        category?: string,
                       ) => {
                         const updatedItem = reformatBudgetItem(
                           obj,
@@ -162,6 +163,7 @@ const Monthly = () => {
                           isPaid,
                           frequency,
                           cadence,
+                          category
                         );
 
                         try {

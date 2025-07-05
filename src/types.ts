@@ -42,6 +42,7 @@ export interface BudgetDataItem {
   frequency?: string;
   cadence?: string;
   type?: string;
+  category_id?: number;
 }
 
 export interface BudgetData {
@@ -72,7 +73,7 @@ export interface ConnectedDecisionRequest {
 
 export interface ExpenseCategory {
   id: number;
-  name: string;
+  label: string;
 }
 
 export interface UserResponse {

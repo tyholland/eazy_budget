@@ -35,7 +35,7 @@ const Category = () => {
       if (results.success) {
         const newCategory: ExpenseCategory = {
           id: Number(results.category_id),
-          name: categoryName,
+          label: categoryName,
         };
 
         if (currentUser) {
@@ -135,7 +135,7 @@ const Category = () => {
                   classType="register"
                 >
                   <>
-                    <div>{item.name}</div>
+                    <div>{item.label}</div>
                     <div>X</div>
                   </>
                 </Button>

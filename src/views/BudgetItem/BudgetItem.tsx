@@ -45,6 +45,7 @@ interface BudgetItemProps {
     paid?: boolean,
     frequency?: string,
     cadence?: string,
+    category?: string,
   ) => void;
   deleteEvent?: () => void;
   setValue?: UseFormSetValue<FieldValues>;
@@ -69,6 +70,7 @@ const BudgetItem = ({
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
+  const expenseCategory = currentUser?.categories.filter(category => category.id === item?.category_id)[0];
   const specificFrequency = getSubscriptionStatus(
     "Pro",
     currentUser?.subscription_id,
@@ -88,6 +90,9 @@ const BudgetItem = ({
   );
   const [selectedCadence, setSelectedCadence] = useState<string>(
     cadenceOptions[0].label,
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    expenseCategory?.label || "",
   );
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const [changeInputVal, setChangeInputVal] = useState<boolean>(false);
@@ -122,6 +127,8 @@ const BudgetItem = ({
 
   const showCadenceSelector =
     selectedFrequency !== "Yearly" && selectedFrequency !== "Quarterly";
+
+  const showCategorySelector = currentUser ? currentUser.categories.length > 0 : false;
 
   return (
     <S.ItemWrapper className="itemWrapper">
@@ -179,6 +186,18 @@ const BudgetItem = ({
                           placeHolder="Choose Cadence"
                           defaultValue={cadenceOptions[0].label}
                           setOption={setSelectedCadence}
+                        />
+                      )}
+                    {showCategorySelector &&
+                      getSubscriptionStatus(
+                        "Pro",
+                        currentUser?.subscription_id,
+                      ) && (
+                        <SelectComponent
+                          options={currentUser?.categories.concat({id: 0, label: 'None'}) || []}
+                          placeHolder="Filter Category"
+                          defaultValue={expenseCategory?.label || "None"}
+                          setOption={setSelectedCategory}
                         />
                       )}
                   </S.TimingSelects>
@@ -264,6 +283,7 @@ const BudgetItem = ({
                             checked: checkedVal,
                             frequency: selectedFrequency,
                             cadence: selectedCadence,
+                            category: selectedCategory
                           });
 
                           saveEvent && saveEvent(budgetItem);
@@ -279,6 +299,7 @@ const BudgetItem = ({
                             checkedVal,
                             selectedFrequency,
                             selectedCadence,
+                            selectedCategory
                           );
                         setErrorMessage([]);
                         closeModal();

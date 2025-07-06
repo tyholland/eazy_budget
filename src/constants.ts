@@ -189,4 +189,4 @@ export const frequencyShortHandMap = {
   Yearly: "year",
 };
 
-export const emailAddress = "info-sbudgeting@gmail.com";
+export const emailAddress = "info.simplebudget@gmail.com";

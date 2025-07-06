@@ -35,6 +35,7 @@ const PrivateRoute = ({ component, ...args }) => {
           primary_request: userResponse.primary_request,
           is_connected: userResponse.is_connected,
           categories: userResponse.categories,
+          shared_account_email: userResponse.shared_account_email,
         });
         setHasBudget(userResponse.hasBudget);
       }

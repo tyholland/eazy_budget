@@ -85,6 +85,7 @@ export interface UserResponse {
   categories: ExpenseCategory[];
   connected_id?: number;
   primary_request?: string;
+  shared_account_email?: string;
 }
 
 export interface User extends Omit<UserResponse, "action"> {

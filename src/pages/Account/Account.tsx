@@ -307,7 +307,7 @@ const Account = () => {
               <S.ModalWrapper>
                 <span>
                   Are you sure you want to remove shared account access from $
-                  {currentUser?.shared_account_email}?
+                  {currentUser?.shared_account_email}?\
                 </span>
                 <S.ModalBtn>
                   <Button

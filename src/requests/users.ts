@@ -7,7 +7,7 @@ export const createUser = async (
   userInfo: UserRequest,
 ) => {
   try {
-    const budgetResponse = await fetch(`${api}/user/create`, {
+    const userResponse = await fetch(`${api}/user/create`, {
       method: "POST",
       body: JSON.stringify({ ...userInfo }),
       headers: {
@@ -16,7 +16,7 @@ export const createUser = async (
       },
     });
 
-    return await budgetResponse.json();
+    return await userResponse.json();
   } catch (err) {
     throw new Error(`Failed to create user`);
   }
@@ -24,7 +24,7 @@ export const createUser = async (
 
 export const deleteUser = async (accessToken: string) => {
   try {
-    const budgetResponse = await fetch(`${api}/user/remove`, {
+    const userResponse = await fetch(`${api}/user/remove`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -32,7 +32,7 @@ export const deleteUser = async (accessToken: string) => {
       },
     });
 
-    return await budgetResponse.json();
+    return await userResponse.json();
   } catch (err) {
     throw new Error(`Failed to delete user`);
   }
@@ -75,5 +75,21 @@ export const shareAccountDecision = async (
     return await sharedResponse.json();
   } catch (err) {
     throw new Error(`Failed to share account decision`);
+  }
+};
+
+export const removeSharedAccount = async (accessToken: string) => {
+  try {
+    const removedShareResponse = await fetch(`${api}/user/share/remove`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await removedShareResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to remove shared account access`);
   }
 };

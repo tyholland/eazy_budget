@@ -243,8 +243,8 @@ describe("getFrequencyValue", () => {
     expect(val).toBe(80);
   });
 
-  test("should return amount for bi-weekly", () => {
-    const val = getFrequencyValue(20, "april", 2025, "Bi-Weekly");
+  test("should return amount for semi-monthly", () => {
+    const val = getFrequencyValue(20, "april", 2025, "Semi-Monthly");
 
     expect(val).toBe(40);
   });
@@ -281,10 +281,10 @@ describe("getFrequencyContent", () => {
     expect(content).toBe("$2.00 every business day");
   });
 
-  test("should return content for Bi-Weekly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Bi-Weekly");
+  test("should return content for Semi-Monthly", () => {
+    const content = getFrequencyContent("april", "2025", 20, "Semi-Monthly");
 
-    expect(content).toBe("$10.00 every 2 weeks");
+    expect(content).toBe("$10.00 every two times a month");
   });
 
   test("should return content for Weekly", () => {
@@ -319,8 +319,8 @@ describe("revertAmountToOriginal", () => {
     expect(val).toBe(5);
   });
 
-  test("should return reverted amount for bi-weekly", () => {
-    const val = revertAmountToOriginal(20, "april", "2025", "Bi-Weekly");
+  test("should return reverted amount for semi-monthly", () => {
+    const val = revertAmountToOriginal(20, "april", "2025", "Semi-Monthly");
 
     expect(val).toBe(10);
   });

@@ -14,6 +14,14 @@ import Login from "./pages/Login/Login.tsx";
 import Account from "./pages/Account/Account.tsx";
 import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
+// import Pricing from "./pages/Pricing/Pricing.tsx";
+import Subscription from "./pages/Subscription/Subscription.tsx";
+import DownloadCsv from "./pages/DownloadCsv/DownloadCsv.tsx";
+import Footer from "./views/Footer/Footer.tsx";
+import About from "./pages/About/About.tsx";
+import Contact from "./pages/Contact/Contact.tsx";
+import Privacy from "./pages/Privacy/Privacy.tsx";
+import Category from "./pages/Category/Category.tsx";
 
 const App = () => {
   return (
@@ -24,6 +32,10 @@ const App = () => {
           <Breadcrumb />
           <Routes>
             <Route path="/" element={<Login />} />
+            {/* <Route path="/pricing" element={<Pricing />} /> */}
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
             <Route
               path="/overview"
               element={<PrivateRoute component={Home} />}
@@ -57,10 +69,23 @@ const App = () => {
               element={<PrivateRoute component={ShareAccount} />}
             />
             <Route
+              path="/account/subscription"
+              element={<PrivateRoute component={Subscription} />}
+            />
+            <Route
+              path="/account/download"
+              element={<PrivateRoute component={DownloadCsv} />}
+            />
+            <Route
+              path="/account/categories"
+              element={<PrivateRoute component={Category} />}
+            />
+            <Route
               path="/account"
               element={<PrivateRoute component={Account} />}
             />
           </Routes>
+          <Footer />
         </>
       </Auth0ProviderRedirect>
     </Router>

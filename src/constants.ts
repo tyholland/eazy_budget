@@ -52,6 +52,14 @@ export const budgetSortOptions = [
     id: 3,
     label: "Low - High",
   },
+  {
+    id: 4,
+    label: "Paid",
+  },
+  {
+    id: 5,
+    label: "Unpaid",
+  },
 ];
 
 export const budgetOptions = [
@@ -106,6 +114,7 @@ export const budgetQuotes = [
   '"If you want to get rich, think of saving as earning" by Andrew Carnegie',
   '"A simple fact that is hard to learn is that the time to save money is when you have some." by Joe Moore',
   '"If you would be wealthy, think of saving as well as getting" by Benjamin Franklin',
+  '"You must gain control over your money or the lack of it will forever control you." by Dave Ramsey',
 ];
 
 export const frequencyOptions = [
@@ -119,7 +128,7 @@ export const frequencyOptions = [
   },
   {
     id: 2,
-    label: "Bi-Weekly",
+    label: "Semi-Monthly",
   },
   {
     id: 3,
@@ -174,8 +183,10 @@ export const MediumModalStyle = {
 export const frequencyShortHandMap = {
   Daily: "business day",
   Weekly: "week",
-  "Bi-Weekly": "2 weeks",
+  "Semi-Monthly": "two times a month",
   Monthly: "month",
   Quarterly: "quarter (March, June, Sept, Dec)",
   Yearly: "year",
 };
+
+export const emailAddress = "info-sbudgeting@gmail.com";

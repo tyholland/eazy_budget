@@ -271,6 +271,7 @@ export const reformatBudgetItem = (
   isPaid?: boolean,
   frequency?: string,
   cadence?: string,
+  category?: string,
 ) => {
   const refactoredItem: BudgetDataItem[] = Object.entries(updatedItem).map(
     (item) => {
@@ -282,6 +283,7 @@ export const reformatBudgetItem = (
         paid: isPaid || false,
         frequency: frequency || "Monthly",
         cadence,
+        category,
         budget_id: budgetId,
         budget_date_id: budgetDateId,
       };
@@ -302,6 +304,20 @@ export const sortBudget = (
 
   if (sort === "High - Low") {
     return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+  }
+
+  if (sort === "Paid") {
+    const paidA = a.paid || false;
+    const paidB = b.paid || false;
+
+    return paidA < paidB ? 1 : paidA > paidB ? -1 : 0;
+  }
+
+  if (sort === "Unpaid") {
+    const paidA = a.paid || false;
+    const paidB = b.paid || false;
+
+    return paidA > paidB ? 1 : paidA < paidB ? -1 : 0;
   }
 
   if (sort === "Z - A") {

@@ -10,8 +10,16 @@ const Breadcrumb = () => {
   const { pageName, page2Name } = getCurrentPageName(pathname);
   const isMonthly = pathname.includes("monthly");
   const isAccount = pathname.includes("/account/");
+  const noBreadCrumbList = [
+    "/",
+    "/overview",
+    "/pricing",
+    "/about",
+    "/privacy",
+    "/contact",
+  ];
 
-  if (pathname === "/" || pathname === "/overview") {
+  if (noBreadCrumbList.includes(pathname)) {
     return <></>;
   }
 

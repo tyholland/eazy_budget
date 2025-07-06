@@ -10,7 +10,7 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
-import { deleteUser } from "../../requests/users.ts";
+import { deleteUser, removeSharedAccount } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
   getDateInfo,
@@ -20,7 +20,6 @@ import {
 import { userAtom } from "../../hook/UserAtom.ts";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
-import ContactUsIcon from "../../svg/ContactUsIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
@@ -35,11 +34,18 @@ const Account = () => {
   const setExpense = useSetAtom(expenseAtom);
   const currentUser = useAtomValue(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
   );
   const { currentYear, currentMonth } = getDateInfo();
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
+  const isStarter = getSubscriptionStatus(
+    "Starter",
+    currentUser?.subscription_id,
+  );
+  const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -60,6 +66,22 @@ const Account = () => {
       await deleteUser(accessToken);
     } catch (err) {
       console.error("Account - deleteAccount:", err);
+    }
+
+    logOutAccount();
+  };
+
+  const removeSharedAccess = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      await removeSharedAccount(accessToken);
+    } catch (err) {
+      console.error("Account - removeSharedAccess:", err);
     }
 
     logOutAccount();
@@ -92,7 +114,7 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
+                {isPro &&
                   !currentUser?.connected_id &&
                   !currentUser?.is_connected && (
                     <S.Section>
@@ -103,16 +125,19 @@ const Account = () => {
                       </Link>
                     </S.Section>
                   )}
-                <S.Section>
-                  <Link
-                    url="mailto:info.eazybudget@gmail.com"
-                    label="Contact Us"
-                  >
-                    <span>
-                      Contact Us <ContactUsIcon />
-                    </span>
-                  </Link>
-                </S.Section>
+                {isPro && currentUser?.is_connected && (
+                  <S.Section>
+                    <Button
+                      handleClick={() => setIsSharedOpen(true)}
+                      buttonSize="medium"
+                      classType="text"
+                    >
+                      <span>
+                        Remove Shared Account <RemoveAccountIcon />
+                      </span>
+                    </Button>
+                  </S.Section>
+                )}
                 <S.Section>
                   <Button
                     handleClick={() => setIsOpen(true)}
@@ -133,6 +158,16 @@ const Account = () => {
             )}
             {selectedOption === "budget" && (
               <>
+                {isPro && (
+                  <S.Section>
+                    <Link
+                      url="/account/categories"
+                      label={`Add Expense Categories`}
+                    >
+                      <span>Add Expense Categories</span>
+                    </Link>
+                  </S.Section>
+                )}
                 <S.Section>
                   <Link
                     url={`/yearly/income/${currentYear}`}
@@ -167,10 +202,7 @@ const Account = () => {
                     </span>
                   </Link>
                 </S.Section>
-                {getSubscriptionStatus(
-                  "Starter",
-                  currentUser?.subscription_id,
-                ) && (
+                {isStarter && (
                   <S.Section>
                     <Link
                       url="/account/past-months"
@@ -182,20 +214,14 @@ const Account = () => {
                     </Link>
                   </S.Section>
                 )}
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
+                {isPro && (
                   <S.Section>
-                    <Link url="#" label={`Download ${currentMonth} PDF`}>
+                    <Link
+                      url="/account/download"
+                      label={`Download Excel of Budget`}
+                    >
                       <span>
-                        Download {currentMonth} PDF <DownloadIcon />
-                      </span>
-                    </Link>
-                  </S.Section>
-                )}
-                {getSubscriptionStatus("Pro", currentUser?.subscription_id) && (
-                  <S.Section>
-                    <Link url="#" label={`Download ${currentMonth} Excel`}>
-                      <span>
-                        Download {currentMonth} Excel <DownloadIcon />
+                        Download Excel of Budget <DownloadIcon />
                       </span>
                     </Link>
                   </S.Section>
@@ -228,23 +254,30 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
+                {!isOriginal && (
+                  <S.Section>
+                    <Link url="#" label="Change Subscription">
+                      Change Subscription
+                    </Link>
+                  </S.Section>
+                )}
                 <S.Section>
-                  <Link url="#" label="Change Subscription">
-                    Change Subscription
+                  <Link
+                    url="/account/subscription"
+                    label="Subscription Details"
+                  >
+                    Subscription Details
                   </Link>
                 </S.Section>
-                <S.Section>
-                  <Link url="#" label="Subscription Guidelines">
-                    Subscription Guidelines
-                  </Link>
-                </S.Section>
-                <S.Section>
-                  <Link url="#" label="Cancel Subscription">
-                    <span>
-                      Cancel Subscription <RemoveAccountIcon />
-                    </span>
-                  </Link>
-                </S.Section>
+                {!isOriginal && (
+                  <S.Section>
+                    <Link url="#" label="Cancel Subscription">
+                      <span>
+                        Cancel Subscription <RemoveAccountIcon />
+                      </span>
+                    </Link>
+                  </S.Section>
+                )}
               </>
             )}
             <ModalComponent isOpen={isOpen} title={`Confirm Account Deletion`}>
@@ -261,6 +294,31 @@ const Account = () => {
                   <Button
                     buttonSize="small"
                     handleClick={() => setIsOpen(false)}
+                  >
+                    No
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent
+              isOpen={isSharedOpen}
+              title={`Confirm Remove Shared Account Access`}
+            >
+              <S.ModalWrapper>
+                <span>
+                  Are you sure you want to removed your shared account access?
+                </span>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={removeSharedAccess}
+                    classType="register"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setIsSharedOpen(false)}
                   >
                     No
                   </Button>

@@ -42,6 +42,7 @@ export interface BudgetDataItem {
   frequency?: string;
   cadence?: string;
   type?: string;
+  category_id?: number;
 }
 
 export interface BudgetData {
@@ -70,23 +71,23 @@ export interface ConnectedDecisionRequest {
   connected_id?: number;
 }
 
+export interface ExpenseCategory {
+  id: number;
+  label: string;
+}
+
 export interface UserResponse {
   action: string;
   hasBudget: boolean;
   subscription_id: number;
   connected_message: boolean;
   is_connected: boolean;
+  categories: ExpenseCategory[];
   connected_id?: number;
   primary_request?: string;
 }
 
-export interface User {
-  hasBudget: boolean;
-  subscription_id: number;
-  connected_message: boolean;
-  is_connected: boolean;
-  connected_id?: number;
-  primary_request?: string;
+export interface User extends Omit<UserResponse, "action"> {
   email?: string;
   email_verified?: boolean;
   name?: string;

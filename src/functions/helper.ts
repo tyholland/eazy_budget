@@ -67,6 +67,18 @@ export const getCurrentPageName = (pathName: string) => {
       pageName = "Share Account";
       page2Name = "Account";
       break;
+    case "/account/subscription":
+      pageName = "Subscription Details";
+      page2Name = "Account";
+      break;
+    case "/account/download":
+      pageName = "Download Excel";
+      page2Name = "Account";
+      break;
+    case "/account/categories":
+      pageName = "Categories";
+      page2Name = "Account";
+      break;
     case "/account/past-months":
       pageName = `${currentYear} Past Months`;
       page2Name = "Account";
@@ -170,7 +182,7 @@ export const getFrequencyValue = (
       return Number((value * businessDays).toFixed(2));
     case "Weekly":
       return Number((value * 4).toFixed(2));
-    case "Bi-Weekly":
+    case "Semi-Monthly":
       return Number((value * 2).toFixed(2));
     case "Monthly":
       return value;
@@ -217,7 +229,7 @@ export const revertAmountToOriginal = (
       return value / businessDays;
     case "Weekly":
       return value / 4;
-    case "Bi-Weekly":
+    case "Semi-Monthly":
       return value / 2;
     case "Monthly":
       return value;

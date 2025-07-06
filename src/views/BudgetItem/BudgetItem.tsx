@@ -286,7 +286,10 @@ const BudgetItem = ({
                         setUpdatedLabel(modalLabel);
                         setChangeInputVal(false);
 
-                        const expenseCategory_id = currentUser?.categories.filter(item => item.label === selectedCategory)[0].id;
+                        const expenseCategory_id =
+                          currentUser?.categories.filter(
+                            (item) => item.label === selectedCategory,
+                          )[0].id;
 
                         if (setValue) {
                           setValue(inputName || "", {

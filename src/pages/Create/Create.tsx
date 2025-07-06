@@ -56,7 +56,38 @@ const Create = () => {
     setBudgetArr(updatedBudgetArray);
   };
 
+  const updateBudgetItems = (data: Object, item: BudgetDataItem[]) => {
+    const budgetEntries: BudgetDataItem[] = formatBudgetItem(data, month, Number(year));
+    const updatedItem: BudgetDataItem[] = item;
+
+    if (Object.keys(data).length === 0) {
+      return item;
+    }
+
+    budgetEntries.forEach(response => {
+      const index = updatedItem.findIndex(current => current.label === response.label);
+
+      index !== -1 ? updatedItem[index] = response : updatedItem.push(response);
+    })
+
+    return updatedItem;
+  }
+
   const handleSubmitBudgetType = (data: Object) => {
+    if (type === "income" && income.length > 0) {
+      const updatedIncome = updateBudgetItems(data, income);
+      setIncome(updatedIncome);
+      navigate("/overview");
+      return;
+    }
+
+    if (type === "expense" && expense.length > 0) {
+      const updatedExpense = updateBudgetItems(data, expense);
+      setExpense(updatedExpense);
+      navigate("/overview");
+      return;
+    }
+
     const budgetEntries = formatBudgetItem(data, month, Number(year));
     type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
     navigate("/overview");
@@ -74,9 +105,9 @@ const Create = () => {
       <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
         {populatedArray.map((item: BudgetDataItem, i: number) => {
           const handleDeleteEvent = () => {
-            delete populatedArray[i];
+            populatedArray.splice(i, 1);
             unregister(Object.keys(getValues())[i]);
-            setHasItems(!!Object.keys(getValues()).length);
+            setHasItems(!!populatedArray.length);
           };
 
           return (

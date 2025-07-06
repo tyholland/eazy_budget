@@ -289,7 +289,7 @@ const BudgetItem = ({
                         const expenseCategory_id =
                           currentUser?.categories.filter(
                             (item) => item.label === selectedCategory,
-                          )[0].id;
+                          )[0]?.id;
 
                         if (setValue) {
                           setValue(inputName || "", {

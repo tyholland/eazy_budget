@@ -126,31 +126,33 @@ const Category = () => {
       </S.InputWrapper>
       <S.Content>
         <S.Header>List of Expense Categories</S.Header>
-        <S.CategoryList>
-          {currentUser?.categories?.map((item) => (
-            <div key={item.id}>
-              <span data-tooltip-id={`category-${item.id}-tooltip`}>
-                <Button
-                  handleClick={() => removeCategory(item.id)}
-                  classType="register"
-                >
-                  <>
-                    <div>{item.label}</div>
-                    <div>X</div>
-                  </>
-                </Button>
-              </span>
-              <ReactTooltip
-                id={`category-${item.id}-tooltip`}
-                place="top"
-                variant="info"
-                content="Delete this category"
-                className="tooltip"
-              />
-            </div>
-          ))}
-        </S.CategoryList>
-        {!currentUser?.categories.length && (
+        {currentUser?.categories && currentUser.categories.length > 0 && (
+          <S.CategoryList>
+            {currentUser.categories?.map((item) => (
+              <div key={item.id}>
+                <span data-tooltip-id={`category-${item.id}-tooltip`}>
+                  <Button
+                    handleClick={() => removeCategory(item.id)}
+                    classType="register"
+                  >
+                    <>
+                      <div>{item.label}</div>
+                      <div>X</div>
+                    </>
+                  </Button>
+                </span>
+                <ReactTooltip
+                  id={`category-${item.id}-tooltip`}
+                  place="top"
+                  variant="info"
+                  content="Delete this category"
+                  className="tooltip"
+                />
+              </div>
+            ))}
+          </S.CategoryList>
+        )}
+        {currentUser?.categories && currentUser.categories.length === 0 && (
           <div>There are no existing categories at this time.</div>
         )}
       </S.Content>

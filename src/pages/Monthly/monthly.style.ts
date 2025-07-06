@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RUBIK } from "../../index.style.ts";
+import { BLACK, RUBIK } from "../../index.style.ts";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
@@ -69,4 +69,20 @@ export const ContentWrapper = styled.div`
 export const Selectors = styled.div`
   display: flex;
   gap: 16px;
+
+  .tooltip {
+    width: 150px;
+  }
+`;
+
+export const FilterLink = styled.div`
+  display: flex;
+  gap: 4px;
+
+  a.text {
+    color: ${BLACK};
+    align-items: flex-start;
+    font-weight: 600;
+    height: 25px;
+  }
 `;

@@ -45,7 +45,7 @@ interface BudgetItemProps {
     paid?: boolean,
     frequency?: string,
     cadence?: string,
-    category?: string,
+    category_id?: number,
   ) => void;
   deleteEvent?: () => void;
   setValue?: UseFormSetValue<FieldValues>;
@@ -286,6 +286,8 @@ const BudgetItem = ({
                         setUpdatedLabel(modalLabel);
                         setChangeInputVal(false);
 
+                        const expenseCategory_id = currentUser?.categories.filter(item => item.label === selectedCategory)[0].id;
+
                         if (setValue) {
                           setValue(inputName || "", {
                             label: modalLabel,
@@ -293,7 +295,7 @@ const BudgetItem = ({
                             checked: checkedVal,
                             frequency: selectedFrequency,
                             cadence: selectedCadence,
-                            category: selectedCategory,
+                            category_id: expenseCategory_id,
                           });
 
                           saveEvent && saveEvent(budgetItem);
@@ -309,7 +311,7 @@ const BudgetItem = ({
                             checkedVal,
                             selectedFrequency,
                             selectedCadence,
-                            selectedCategory,
+                            expenseCategory_id,
                           );
                         setErrorMessage([]);
                         closeModal();

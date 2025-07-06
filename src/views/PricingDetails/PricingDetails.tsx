@@ -94,6 +94,7 @@ const PricingDetails = ({
             or backup
           </li>
           <li>Set custom cadences when entering income or expenses</li>
+          <li>Create and filter expenses by personalized categories for clearer financial insights and smarter budgeting</li>
           <li>
             Additional frequency options: <span>Quarterly</span> and{" "}
             <span>Yearly</span>

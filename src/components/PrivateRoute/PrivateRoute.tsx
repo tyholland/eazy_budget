@@ -7,6 +7,7 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { createUser } from "../../requests/users.ts";
 import { UserResponse } from "../../types.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { trackIdentity } from "../../functions/mixpanel.ts";
 
 const PrivateRoute = ({ component, ...args }) => {
   const { isLoading, getAccessTokenSilently, user } = useAuth0();
@@ -38,6 +39,7 @@ const PrivateRoute = ({ component, ...args }) => {
           shared_account_email: userResponse.shared_account_email,
         });
         setHasBudget(userResponse.hasBudget);
+        trackIdentity(userResponse.subscription_id, user.sub, user.email);
       }
     } catch (err) {
       console.error("PrivateRoute - AddUser:", err);

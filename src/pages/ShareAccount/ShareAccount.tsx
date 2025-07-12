@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { shareAccount } from "../../requests/users.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import SaveIcon from "../../svg/SaveIcon.tsx";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 const ShareAccount = () => {
   const currentUser = useAtomValue(userAtom);
@@ -38,6 +39,7 @@ const ShareAccount = () => {
 
       if (results.success) {
         setShowComplete(true);
+        trackEvent('Shared Account with Another');
       } else {
         setIsDisabled(false);
         setHasError(true);

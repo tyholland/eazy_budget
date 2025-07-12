@@ -1,7 +1,8 @@
 import React from "react";
 import * as S from "./budgetNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 interface BudgetNavProps {
   setSelectedOption: (val: string) => void;
@@ -17,6 +18,7 @@ const BudgetNav = ({
   selectedOption,
 }: BudgetNavProps) => {
   const navigate = useNavigate();
+  const params = useParams();
 
   return (
     <S.NavWrapper>
@@ -25,6 +27,10 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("income");
+            trackEvent('Viewed Income', {
+              month: params.month,
+              year: params.year
+            });
             navigate(incomeUrl);
           }}
         >
@@ -36,6 +42,10 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("expense");
+            trackEvent('Viewed Expense', {
+              month: params.month,
+              year: params.year
+            });
             navigate(expenseUrl);
           }}
         >
@@ -45,7 +55,13 @@ const BudgetNav = ({
       <S.NavItem className={selectedOption === "details" ? "open" : "close"}>
         <Button
           classType="text"
-          handleClick={() => setSelectedOption("details")}
+          handleClick={() => {
+            setSelectedOption("details");
+            trackEvent('Viewed Details', {
+              month: params.month,
+              year: params.year
+            });
+          }}
         >
           Details
         </Button>
@@ -55,6 +71,10 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("charts");
+            trackEvent('Viewed Charts', {
+              month: params.month,
+              year: params.year
+            });
           }}
         >
           Charts

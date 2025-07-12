@@ -25,6 +25,7 @@ import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -64,6 +65,7 @@ const Account = () => {
       });
 
       await deleteUser(accessToken);
+      trackEvent('Delete Account');
     } catch (err) {
       console.error("Account - deleteAccount:", err);
     }
@@ -80,6 +82,7 @@ const Account = () => {
       });
 
       await removeSharedAccount(accessToken);
+      trackEvent('Remove Shared Account Access');
     } catch (err) {
       console.error("Account - removeSharedAccess:", err);
     }
@@ -306,7 +309,7 @@ const Account = () => {
             >
               <S.ModalWrapper>
                 <span>
-                  Are you sure you want to remove shared account access from 
+                  Are you sure you want to remove shared account access from
                   {currentUser?.shared_account_email}?
                 </span>
                 <S.ModalBtn>

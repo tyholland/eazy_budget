@@ -57,21 +57,29 @@ const Create = () => {
   };
 
   const updateBudgetItems = (data: Object, item: BudgetDataItem[]) => {
-    const budgetEntries: BudgetDataItem[] = formatBudgetItem(data, month, Number(year));
+    const budgetEntries: BudgetDataItem[] = formatBudgetItem(
+      data,
+      month,
+      Number(year),
+    );
     const updatedItem: BudgetDataItem[] = item;
 
     if (Object.keys(data).length === 0) {
       return item;
     }
 
-    budgetEntries.forEach(response => {
-      const index = updatedItem.findIndex(current => current.label === response.label);
+    budgetEntries.forEach((response) => {
+      const index = updatedItem.findIndex(
+        (current) => current.label === response.label,
+      );
 
-      index !== -1 ? updatedItem[index] = response : updatedItem.push(response);
-    })
+      index !== -1
+        ? (updatedItem[index] = response)
+        : updatedItem.push(response);
+    });
 
     return updatedItem;
-  }
+  };
 
   const handleSubmitBudgetType = (data: Object) => {
     if (type === "income" && income.length > 0) {

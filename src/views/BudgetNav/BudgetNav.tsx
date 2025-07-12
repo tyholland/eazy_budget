@@ -27,9 +27,9 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("income");
-            trackEvent('Viewed Income', {
+            trackEvent("Viewed Income", {
               month: params.month,
-              year: params.year
+              year: params.year,
             });
             navigate(incomeUrl);
           }}
@@ -42,9 +42,9 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("expense");
-            trackEvent('Viewed Expense', {
+            trackEvent("Viewed Expense", {
               month: params.month,
-              year: params.year
+              year: params.year,
             });
             navigate(expenseUrl);
           }}
@@ -57,9 +57,9 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("details");
-            trackEvent('Viewed Details', {
+            trackEvent("Viewed Details", {
               month: params.month,
-              year: params.year
+              year: params.year,
             });
           }}
         >
@@ -71,9 +71,9 @@ const BudgetNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("charts");
-            trackEvent('Viewed Charts', {
+            trackEvent("Viewed Charts", {
               month: params.month,
-              year: params.year
+              year: params.year,
             });
           }}
         >

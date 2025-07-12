@@ -39,7 +39,7 @@ const ShareAccount = () => {
 
       if (results.success) {
         setShowComplete(true);
-        trackEvent('Shared Account with Another');
+        trackEvent("Shared Account with Another");
       } else {
         setIsDisabled(false);
         setHasError(true);

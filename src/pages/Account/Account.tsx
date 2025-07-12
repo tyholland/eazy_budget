@@ -65,7 +65,7 @@ const Account = () => {
       });
 
       await deleteUser(accessToken);
-      trackEvent('Delete Account');
+      trackEvent("Delete Account");
     } catch (err) {
       console.error("Account - deleteAccount:", err);
     }
@@ -82,7 +82,7 @@ const Account = () => {
       });
 
       await removeSharedAccount(accessToken);
-      trackEvent('Remove Shared Account Access');
+      trackEvent("Remove Shared Account Access");
     } catch (err) {
       console.error("Account - removeSharedAccess:", err);
     }

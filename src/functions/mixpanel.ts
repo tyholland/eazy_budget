@@ -4,6 +4,7 @@ mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN || "", {
   debug: true,
   track_pageview: true,
   persistence: "localStorage",
+  autocapture: true,
 });
 
 export const trackIdentity = (
@@ -17,4 +18,8 @@ export const trackIdentity = (
     $email: email,
     subscription: sub_id,
   });
+};
+
+export const trackEvent = (eventName: string, eventProperties?: Object) => {
+  mixpanel.track(eventName, eventProperties);
 };

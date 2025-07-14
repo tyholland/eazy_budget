@@ -16,7 +16,6 @@ import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
 // import Pricing from "./pages/Pricing/Pricing.tsx";
 import Subscription from "./pages/Subscription/Subscription.tsx";
-import DownloadCsv from "./pages/DownloadCsv/DownloadCsv.tsx";
 import Footer from "./views/Footer/Footer.tsx";
 import About from "./pages/About/About.tsx";
 import Contact from "./pages/Contact/Contact.tsx";
@@ -71,10 +70,6 @@ const App = () => {
             <Route
               path="/account/subscription"
               element={<PrivateRoute component={Subscription} />}
-            />
-            <Route
-              path="/account/download"
-              element={<PrivateRoute component={DownloadCsv} />}
             />
             <Route
               path="/account/categories"

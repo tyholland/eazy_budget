@@ -71,10 +71,6 @@ export const getCurrentPageName = (pathName: string) => {
       pageName = "Subscription Details";
       page2Name = "Account";
       break;
-    case "/account/download":
-      pageName = "Download Excel";
-      page2Name = "Account";
-      break;
     case "/account/categories":
       pageName = "Categories";
       page2Name = "Account";

@@ -19,6 +19,8 @@ export type GraphType = "doughnut" | "pie" | "bar";
 
 export type OverviewLabel = "default" | "Yearly" | "Monthly";
 
+export type DownloadTypes = "yearly" | "monthly";
+
 export interface SelectOptions {
   id: number;
   label: string;

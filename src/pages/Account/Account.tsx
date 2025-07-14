@@ -21,7 +21,6 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import ChartIcon from "../../svg/ChartIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
-import DownloadIcon from "../../svg/DownloadIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
@@ -213,18 +212,6 @@ const Account = () => {
                     >
                       <span>
                         Review {currentYear} Past Months <HistoryIcon />
-                      </span>
-                    </Link>
-                  </S.Section>
-                )}
-                {isPro && (
-                  <S.Section>
-                    <Link
-                      url="/account/download"
-                      label={`Download Excel of Budget`}
-                    >
-                      <span>
-                        Download Excel of Budget <DownloadIcon />
                       </span>
                     </Link>
                   </S.Section>

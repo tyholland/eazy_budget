@@ -368,7 +368,8 @@ export const updateBasedOnCadence = (
   year: number,
   type: string,
 ) => {
-  const { label, value, paid, frequency, cadence } = updatedBudgetItem;
+  const { label, value, paid, frequency, cadence, category_id } =
+    updatedBudgetItem;
   const currentYearBudget = fullBudget.filter((specificBudget: BudgetData) => {
     return specificBudget.year === year;
   });
@@ -382,7 +383,15 @@ export const updateBasedOnCadence = (
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
           if (item.label === originalBudgetItem.label) {
-            newBudget.push({ ...item, label, value, paid, frequency, cadence });
+            newBudget.push({
+              ...item,
+              label,
+              value,
+              paid,
+              frequency,
+              cadence,
+              category_id,
+            });
             return;
           }
 
@@ -412,6 +421,7 @@ export const updateBasedOnCadence = (
                   paid,
                   frequency,
                   cadence,
+                  category_id,
                 });
                 return;
               }
@@ -433,7 +443,15 @@ export const updateBasedOnCadence = (
 
         currentYearBudget[i][type].forEach((item: BudgetDataItem) => {
           if (item.label === originalBudgetItem.label) {
-            newBudget.push({ ...item, label, value, paid, frequency, cadence });
+            newBudget.push({
+              ...item,
+              label,
+              value,
+              paid,
+              frequency,
+              cadence,
+              category_id,
+            });
             return;
           }
 

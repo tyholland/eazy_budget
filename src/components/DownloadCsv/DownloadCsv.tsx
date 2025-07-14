@@ -84,7 +84,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
           ]}
           filename={`${currentYear}_budget_overview`}
         >
-          {currentYear} Budget Overview CSV
+          Download {currentYear} Budget Overview CSV
         </S.CsvBtn>
       )}
       {type === "monthly" && (
@@ -94,14 +94,14 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
             headers={["Income", "Amount (USD)", "Is Paid"]}
             filename={`${currentMonth}_income`}
           >
-            {currentMonth} Income CSV
+            Download {currentMonth} Income CSV
           </S.CsvBtn>
           <S.CsvBtn
             data={currentExpense}
             headers={["Expense", "Amount (USD)", "Is Paid"]}
             filename={`${currentMonth}_expense`}
           >
-            {currentMonth} Expense CSV
+            Download {currentMonth} Expense CSV
           </S.CsvBtn>
         </>
       )}

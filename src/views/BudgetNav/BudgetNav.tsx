@@ -97,7 +97,7 @@ const BudgetNav = ({
               });
             }}
           >
-            Download
+            CSV
           </Button>
         </S.NavItem>
       )}

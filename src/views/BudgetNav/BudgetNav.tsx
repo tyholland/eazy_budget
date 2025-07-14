@@ -3,6 +3,9 @@ import * as S from "./budgetNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { trackEvent } from "../../functions/mixpanel.ts";
+import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface BudgetNavProps {
   setSelectedOption: (val: string) => void;
@@ -19,6 +22,8 @@ const BudgetNav = ({
 }: BudgetNavProps) => {
   const navigate = useNavigate();
   const params = useParams();
+  const currentUser = useAtomValue(userAtom);
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
 
   return (
     <S.NavWrapper>
@@ -80,6 +85,22 @@ const BudgetNav = ({
           Charts
         </Button>
       </S.NavItem>
+      {isPro && (
+        <S.NavItem className={selectedOption === "download" ? "open" : "close"}>
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("download");
+              trackEvent("Download CSV", {
+                month: params.month,
+                year: params.year,
+              });
+            }}
+          >
+            Download
+          </Button>
+        </S.NavItem>
+      )}
     </S.NavWrapper>
   );
 };

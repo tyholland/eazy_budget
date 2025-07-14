@@ -1,18 +1,11 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_SKY_BLUE, RUBIK, SKY_BLUE } from "../../index.style.ts";
+import { BLACK, LIGHT_SKY_BLUE, SKY_BLUE } from "../../index.style.ts";
 import CsvDownloadButton from "react-json-to-csv";
-
-export const Title = styled.div`
-  font-size: 30px;
-  font-weight: 700;
-  font-family: ${RUBIK};
-  margin-bottom: 30px;
-`;
 
 export const BtnWrapper = styled.div`
   display: flex;
   gap: 10px;
-  flex-direction: column;
+  flex-wrap: wrap;
 
   @media only screen and (max-width: 800px) {
     gap: 20px;
@@ -32,7 +25,9 @@ export const CsvBtn = styled(CsvDownloadButton)`
   justify-content: center;
   background: ${LIGHT_SKY_BLUE};
   color: ${BLACK};
-  width: 300px;
+  width: 150px;
+  height: 150px;
+  font-size: 20px;
 
   @media only screen and (max-width: 800px) {
     width: 100%;

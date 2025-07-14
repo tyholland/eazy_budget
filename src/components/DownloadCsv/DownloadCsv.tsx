@@ -1,18 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as S from "./downloadCsv.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
-import { BudgetData, BudgetDataItem } from "../../types.ts";
+import { BudgetData, BudgetDataItem, DownloadTypes } from "../../types.ts";
 import { getYearlyBudgetBreakdown } from "../../functions/budget.ts";
-import { useNavigate } from "react-router-dom";
-import { userAtom } from "../../hook/UserAtom.ts";
+import { useParams } from "react-router-dom";
+import { getDateInfo } from "../../functions/helper.ts";
 
-const DownloadCsv = () => {
-  const currentUser = useAtomValue(userAtom);
-  const navigate = useNavigate();
+interface DownloadCsvProps {
+  type: DownloadTypes;
+}
+
+const DownloadCsv = ({ type }: DownloadCsvProps) => {
+  const params = useParams();
   const budget = useAtomValue(budgetAtom);
-  const { currentYear, currentMonth } = getDateInfo();
+  const { currentYear: theYear } = getDateInfo();
+  const currentMonth = params.month;
+  const currentYear = Number(params.year) || theYear;
   const currentBudget = budget.filter(
     (bud: BudgetData) => bud.month === currentMonth,
   )[0];
@@ -68,19 +72,9 @@ const DownloadCsv = () => {
     });
   });
 
-  useEffect(() => {
-    if (
-      currentUser &&
-      !getSubscriptionStatus("Pro", currentUser?.subscription_id)
-    ) {
-      navigate("/overview");
-    }
-  }, []);
-
   return (
-    <>
-      <S.Title>Download Excel of Budget</S.Title>
-      <S.BtnWrapper>
+    <S.BtnWrapper>
+      {type === 'yearly' && (
         <S.CsvBtn
           data={currentBudgetYear}
           headers={[
@@ -90,24 +84,28 @@ const DownloadCsv = () => {
           ]}
           filename={`${currentYear}_budget_overview`}
         >
-          Download {currentYear} Budget Overview
+          {currentYear} Budget Overview CSV
         </S.CsvBtn>
-        <S.CsvBtn
-          data={currentIncome}
-          headers={["Income", "Amount (USD)", "Is Paid"]}
-          filename={`${currentMonth}_income`}
-        >
-          Download {currentMonth} Income
-        </S.CsvBtn>
-        <S.CsvBtn
-          data={currentExpense}
-          headers={["Expense", "Amount (USD)", "Is Paid"]}
-          filename={`${currentMonth}_expense`}
-        >
-          Download {currentMonth} Expense
-        </S.CsvBtn>
-      </S.BtnWrapper>
-    </>
+      )}
+      {type === 'monthly' && (
+        <>
+          <S.CsvBtn
+            data={currentIncome}
+            headers={["Income", "Amount (USD)", "Is Paid"]}
+            filename={`${currentMonth}_income`}
+          >
+            {currentMonth} Income CSV
+          </S.CsvBtn>
+          <S.CsvBtn
+            data={currentExpense}
+            headers={["Expense", "Amount (USD)", "Is Paid"]}
+            filename={`${currentMonth}_expense`}
+          >
+            {currentMonth} Expense CSV
+          </S.CsvBtn>
+        </>
+      )}
+    </S.BtnWrapper>
   );
 };
 

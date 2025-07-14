@@ -50,6 +50,7 @@ import { DARKER_GRAY } from "../../index.style.ts";
 import InfoIcon from "../../svg/InfoIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Link from "../../components/Link/Link.tsx";
+import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -402,6 +403,9 @@ const Monthly = () => {
             title={type}
             page="monthly"
           />
+        )}
+        {selectedOption === "download" && (
+          <DownloadCsv type="monthly" />
         )}
       </S.ContentWrapper>
     </S.MonthlyWrapper>

@@ -217,18 +217,6 @@ const Account = () => {
                     </Link>
                   </S.Section>
                 )}
-                {isPro && (
-                  <S.Section>
-                    <Link
-                      url="/account/download"
-                      label={`Download Excel of Budget`}
-                    >
-                      <span>
-                        Download Excel of Budget <DownloadIcon />
-                      </span>
-                    </Link>
-                  </S.Section>
-                )}
               </>
             )}
             {selectedOption === "subscription" && (

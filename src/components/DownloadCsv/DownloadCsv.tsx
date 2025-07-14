@@ -74,7 +74,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
 
   return (
     <S.BtnWrapper>
-      {type === 'yearly' && (
+      {type === "yearly" && (
         <S.CsvBtn
           data={currentBudgetYear}
           headers={[
@@ -87,7 +87,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
           {currentYear} Budget Overview CSV
         </S.CsvBtn>
       )}
-      {type === 'monthly' && (
+      {type === "monthly" && (
         <>
           <S.CsvBtn
             data={currentIncome}

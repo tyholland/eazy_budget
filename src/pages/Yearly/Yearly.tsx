@@ -101,9 +101,7 @@ const Yearly = () => {
             page="yearly"
           />
         )}
-        {selectedOption === "download" && (
-          <DownloadCsv type="yearly" />
-        )}
+        {selectedOption === "download" && <DownloadCsv type="yearly" />}
         <ReactTooltip
           id={`monthly-${type}-tooltip`}
           place="top"

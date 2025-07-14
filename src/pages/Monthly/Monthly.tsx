@@ -404,9 +404,7 @@ const Monthly = () => {
             page="monthly"
           />
         )}
-        {selectedOption === "download" && (
-          <DownloadCsv type="monthly" />
-        )}
+        {selectedOption === "download" && <DownloadCsv type="monthly" />}
       </S.ContentWrapper>
     </S.MonthlyWrapper>
   );

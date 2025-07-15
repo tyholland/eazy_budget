@@ -28,6 +28,7 @@ const Home = () => {
   const currentUser = useAtomValue(userAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isSubmitDisabled, setSubmitIsDisabled] = useState<boolean>(true);
   const [hasBudgetItems, setHasBudgetItems] = useState<boolean>(true);
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -58,6 +59,7 @@ const Home = () => {
   const handleBudgetSubmission = async () => {
     const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
     setIsDisabled(true);
+    setSubmitIsDisabled(true);
 
     try {
       const accessToken = await getAccessTokenSilently({
@@ -73,14 +75,24 @@ const Home = () => {
         insertIds.budget_ids,
       );
       setBudget(formattedBudget);
+      setHasBudgetItems(true);
     } catch (err) {
       console.error("Home - handleBudgetSubmission:", err);
+      setSubmitIsDisabled(false);
+      setIsDisabled(false);
+      setHasBudgetItems(false);
     }
   };
 
   useEffect(() => {
     currentUser && setHasBudgetItems(currentUser.hasBudget);
   }, [currentUser]);
+
+  useEffect(() => {
+    if (budgetIncome.length > 0 && budgetExpense.length > 0) {
+      setSubmitIsDisabled(false);
+    }
+  }, [budgetIncome, budgetExpense])
 
   if (!budget.length && hasBudgetItems) {
     return <Loading />;
@@ -140,9 +152,7 @@ const Home = () => {
             <Button
               handleClick={handleBudgetSubmission}
               buttonSize="large"
-              disabled={
-                !budgetExpense.length || !budgetIncome.length || isDisabled
-              }
+              disabled={isSubmitDisabled}
             >
               Submit Budget
             </Button>

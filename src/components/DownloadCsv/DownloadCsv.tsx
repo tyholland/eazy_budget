@@ -19,17 +19,17 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   const currentMonth = params.month;
   const currentYear = Number(params.year) || theYear;
   const currentBudget = budget.filter(
-    (bud: BudgetData) => bud.month === currentMonth
+    (bud: BudgetData) => bud.month === currentMonth,
   )[0];
   const { newBudget: yearlyIncome } = getYearlyBudgetBreakdown(
     budget,
     currentYear,
-    "income"
+    "income",
   );
   const { newBudget: yearlyExpense } = getYearlyBudgetBreakdown(
     budget,
     currentYear,
-    "expense"
+    "expense",
   );
   const currentExpense: Omit<
     BudgetDataItem,
@@ -82,7 +82,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     () => {
       trackEvent(`Download ${currentMonth} Income CSV`);
     },
-    { once: true }
+    { once: true },
   );
 
   expenseBtn?.addEventListener(
@@ -90,7 +90,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     () => {
       trackEvent(`Download ${currentMonth} Expense CSV`);
     },
-    { once: true }
+    { once: true },
   );
 
   yearBtn?.addEventListener(
@@ -98,7 +98,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     () => {
       trackEvent(`Download ${currentYear} Budget Overview CSV`);
     },
-    { once: true }
+    { once: true },
   );
 
   return (

@@ -123,6 +123,13 @@ const BudgetItem = ({
     item && setSelectedFrequency(item.frequency || specificFrequency[3].label);
   }, [item?.frequency]);
 
+  useEffect(() => {
+    const expenseCategory = currentUser?.categories.filter(
+      (category) => category.id === item?.category_id,
+    )[0];
+    item && setSelectedCategory(expenseCategory?.label || "");
+  }, [item?.category_id]);
+
   const closeModal = () => {
     setIsOpen(false);
   };

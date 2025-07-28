@@ -6,6 +6,7 @@ import { BudgetData, BudgetDataItem, DownloadTypes } from "../../types.ts";
 import { getYearlyBudgetBreakdown } from "../../functions/budget.ts";
 import { useParams } from "react-router-dom";
 import { getDateInfo } from "../../functions/helper.ts";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 interface DownloadCsvProps {
   type: DownloadTypes;
@@ -72,6 +73,34 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     });
   });
 
+  const incomeBtn = document.querySelector(".incomeBtn");
+  const expenseBtn = document.querySelector(".expenseBtn");
+  const yearBtn = document.querySelector(".yearBtn");
+
+  incomeBtn?.addEventListener(
+    "click",
+    () => {
+      trackEvent(`Download ${currentMonth} Income CSV`);
+    },
+    { once: true },
+  );
+
+  expenseBtn?.addEventListener(
+    "click",
+    () => {
+      trackEvent(`Download ${currentMonth} Expense CSV`);
+    },
+    { once: true },
+  );
+
+  yearBtn?.addEventListener(
+    "click",
+    () => {
+      trackEvent(`Download ${currentYear} Budget Overview CSV`);
+    },
+    { once: true },
+  );
+
   return (
     <S.BtnWrapper>
       {type === "yearly" && (
@@ -83,6 +112,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
             "Expense Total Amount (USD)",
           ]}
           filename={`${currentYear}_budget_overview`}
+          className="yearBtn"
         >
           Download {currentYear} Budget Overview CSV
         </S.CsvBtn>
@@ -93,6 +123,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
             data={currentIncome}
             headers={["Income", "Amount (USD)", "Is Paid"]}
             filename={`${currentMonth}_income`}
+            className="incomeBtn"
           >
             Download {currentMonth} Income CSV
           </S.CsvBtn>
@@ -100,6 +131,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
             data={currentExpense}
             headers={["Expense", "Amount (USD)", "Is Paid"]}
             filename={`${currentMonth}_expense`}
+            className="expenseBtn"
           >
             Download {currentMonth} Expense CSV
           </S.CsvBtn>

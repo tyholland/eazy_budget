@@ -10,6 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { createCategory, deleteCategory } from "../../requests/category.ts";
 import { ExpenseCategory } from "../../types.ts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 const Category = () => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
@@ -47,6 +48,7 @@ const Category = () => {
             ...currentUser,
             categories: categoryArr,
           });
+          trackEvent("Add a Category");
         }
       } else {
         setIsDisabled(false);

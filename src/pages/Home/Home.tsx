@@ -19,6 +19,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -76,6 +77,7 @@ const Home = () => {
       );
       setBudget(formattedBudget);
       setHasBudgetItems(true);
+      trackEvent("Submitted Initial Budget");
     } catch (err) {
       console.error("Home - handleBudgetSubmission:", err);
       setSubmitIsDisabled(false);
@@ -92,7 +94,7 @@ const Home = () => {
     if (budgetIncome.length > 0 && budgetExpense.length > 0) {
       setSubmitIsDisabled(false);
     }
-  }, [budgetIncome, budgetExpense])
+  }, [budgetIncome, budgetExpense]);
 
   if (!budget.length && hasBudgetItems) {
     return <Loading />;

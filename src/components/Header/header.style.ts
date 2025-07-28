@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { COSMIC, DARKER_GRAY, OFF_WHITE } from "../../index.style.ts";
+import { BLACK, COSMIC, DARKER_GRAY, OFF_WHITE } from "../../index.style.ts";
 
 export const HeaderWrapper = styled.div`
   display: flex;
@@ -14,6 +14,10 @@ export const HeaderWrapper = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 15px;
+  }
+
+  a.text {
+    color: ${BLACK};
   }
 `;
 

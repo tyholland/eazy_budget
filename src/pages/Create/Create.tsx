@@ -18,6 +18,7 @@ import {
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 import { removeItemFromNumberArray } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 const Create = () => {
   const { register, handleSubmit, getValues, unregister, setValue } = useForm();
@@ -53,6 +54,7 @@ const Create = () => {
 
   const handleAddNewBudget = () => {
     const updatedBudgetArray = addAdditionalBudget(budgetArr);
+    trackEvent("Add New Budget");
     setBudgetArr(updatedBudgetArray);
   };
 

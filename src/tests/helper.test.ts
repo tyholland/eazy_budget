@@ -56,10 +56,10 @@ describe("getDateInfo", () => {
 });
 
 describe("getCurrentPageName", () => {
-  test("should return empty string", () => {
+  test("should return Home", () => {
     const page = getCurrentPageName("/");
     const result = JSON.stringify({
-      pageName: "",
+      pageName: "Home",
       page2Name: "",
     });
 

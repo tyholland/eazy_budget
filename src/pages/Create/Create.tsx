@@ -54,7 +54,7 @@ const Create = () => {
 
   const handleAddNewBudget = () => {
     const updatedBudgetArray = addAdditionalBudget(budgetArr);
-    trackEvent('Add New Budget');
+    trackEvent("Add New Budget");
     setBudgetArr(updatedBudgetArray);
   };
 

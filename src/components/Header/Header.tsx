@@ -13,7 +13,7 @@ const Header = () => {
 
   useEffect(() => {
     trackPage(location.pathname);
-  }, [location])
+  }, [location]);
 
   return (
     <S.HeaderWrapper>

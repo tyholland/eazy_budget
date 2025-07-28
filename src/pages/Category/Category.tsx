@@ -48,7 +48,7 @@ const Category = () => {
             ...currentUser,
             categories: categoryArr,
           });
-          trackEvent('Add a Category');
+          trackEvent("Add a Category");
         }
       } else {
         setIsDisabled(false);

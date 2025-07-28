@@ -77,7 +77,7 @@ const Home = () => {
       );
       setBudget(formattedBudget);
       setHasBudgetItems(true);
-      trackEvent('Submitted Initial Budget');
+      trackEvent("Submitted Initial Budget");
     } catch (err) {
       console.error("Home - handleBudgetSubmission:", err);
       setSubmitIsDisabled(false);
@@ -94,7 +94,7 @@ const Home = () => {
     if (budgetIncome.length > 0 && budgetExpense.length > 0) {
       setSubmitIsDisabled(false);
     }
-  }, [budgetIncome, budgetExpense])
+  }, [budgetIncome, budgetExpense]);
 
   if (!budget.length && hasBudgetItems) {
     return <Loading />;

@@ -14,7 +14,7 @@ export const trackIdentity = (
   email?: string,
 ) => {
   if (process.env.NODE_ENV === "development") {
-    console.log("trackIdentity", {
+    console.warn("trackIdentity", {
       identify: auth_id,
       people: {
         $email: email,
@@ -35,7 +35,7 @@ export const trackIdentity = (
 
 export const trackEvent = (eventName: string, eventProperties?: Object) => {
   if (process.env.NODE_ENV === "development") {
-    console.log("trackEvent", {
+    console.warn("trackEvent", {
       eventName,
       eventProperties,
     });
@@ -50,7 +50,7 @@ export const trackPage = (path: string) => {
   const pageTitle = getCurrentPageName(path).pageName;
 
   if (process.env.NODE_ENV === "development") {
-    console.log("trackPage", {
+    console.warn("trackPage", {
       eventName: "Page View",
       eventProperties: { title: pageTitle },
     });

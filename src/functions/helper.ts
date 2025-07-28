@@ -36,6 +36,13 @@ const capitalizePageTitle = (title: string) => {
 };
 
 export const getCurrentPageName = (pathName: string) => {
+  if (pathName === "/") {
+    return {
+      pageName: "Home",
+      page2Name: "",
+    };
+  }
+
   const page = pathName.split("/");
   const path = page.length === 2 ? `/${page[1]}` : `/${page[1]}/${page[2]}`;
   const { currentYear } = getDateInfo();

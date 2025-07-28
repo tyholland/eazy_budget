@@ -51,6 +51,7 @@ import InfoIcon from "../../svg/InfoIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Link from "../../components/Link/Link.tsx";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
+import { trackEvent } from "../../functions/mixpanel.ts";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -263,6 +264,8 @@ const Monthly = () => {
                                 accessToken,
                                 updatedItem[0],
                               );
+
+                              trackEvent(`Edit ${type}`);
                             } else {
                               insertBasedOnCadence(
                                 item,
@@ -291,6 +294,7 @@ const Monthly = () => {
                                 updatedBudgetItem,
                               );
                               setBudgetChange(true);
+                              trackEvent(`Add New ${type}`);
                             }
                             setIsNewBudget(false);
                           } catch (err) {

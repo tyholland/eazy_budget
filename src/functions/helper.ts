@@ -27,6 +27,14 @@ export const getDateInfo = () => {
   };
 };
 
+const capitalizePageTitle = (title: string) => {
+  let pageTitle = title.replace("/", "");
+  const firstLetter = pageTitle.charAt(0).toUpperCase();
+  pageTitle = pageTitle.slice(1);
+
+  return firstLetter.concat(pageTitle);
+};
+
 export const getCurrentPageName = (pathName: string) => {
   const page = pathName.split("/");
   const path = page.length === 2 ? `/${page[1]}` : `/${page[1]}/${page[2]}`;
@@ -83,7 +91,7 @@ export const getCurrentPageName = (pathName: string) => {
       pageName = "Account";
       break;
     default:
-      pageName = "";
+      pageName = capitalizePageTitle(path);
       break;
   }
 

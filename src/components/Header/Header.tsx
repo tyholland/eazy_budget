@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as S from "./header.style.ts";
 import UserIcon from "../../svg/UserIcon.tsx";
 import Link from "../Link/Link.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../Button/Button.tsx";
+import { useLocation } from "react-router-dom";
+import { trackPage } from "../../functions/mixpanel.ts";
 
 const Header = () => {
   const { user, loginWithRedirect } = useAuth0();
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPage(location.pathname);
+  }, [location])
 
   return (
     <S.HeaderWrapper>

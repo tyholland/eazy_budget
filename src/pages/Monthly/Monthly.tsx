@@ -328,6 +328,8 @@ const Monthly = () => {
                                 accessToken,
                                 data.budget_id,
                               );
+
+                              trackEvent(`Delete ${type}`);
                             }
 
                             setIsNewBudget(false);

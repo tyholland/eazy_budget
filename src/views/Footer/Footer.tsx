@@ -29,9 +29,14 @@ const Footer = () => {
         >
           About
         </Link>
-        {/* <Link url="/pricing" label="Pricing" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
+        <Link
+          url="/pricing"
+          label="Pricing"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           Pricing
-        </Link> */}
+        </Link>
         <Link
           url="/privacy"
           label="Privacy Policy"

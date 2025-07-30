@@ -7,17 +7,18 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
 
 interface PricingDetailsProps {
-  hasBtn?: boolean;
+  isSignUp?: boolean;
+  isUpgrade?: boolean;
   isHighlighted?: boolean;
 }
 
 const PricingDetails = ({
-  hasBtn = true,
+  isSignUp = false,
+  isUpgrade = false,
   isHighlighted = false,
 }: PricingDetailsProps) => {
   const { loginWithRedirect } = useAuth0();
   const currentUser = useAtomValue(userAtom);
-
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
@@ -25,6 +26,14 @@ const PricingDetails = ({
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
     !isOriginal &&
     !isPro;
+
+  const getSubscription = () => {
+    loginWithRedirect({
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
+  };
 
   return (
     <S.Wrapper>
@@ -43,10 +52,12 @@ const PricingDetails = ({
           </li>
           <li>Access to the 3-Year Financial Forecasting Tool</li>
         </ul>
-        {hasBtn && (
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
-            Sign Up
-          </Button>
+        {isSignUp && (
+          <S.SubscribeBtn>
+            <Button handleClick={getSubscription} buttonSize="medium">
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         )}
       </S.Container>
       <S.Container className={isStarter && isHighlighted ? "highlight" : ""}>
@@ -70,10 +81,12 @@ const PricingDetails = ({
             Get a quick snapshot of previous months within the current year
           </li>
         </ul>
-        {hasBtn && (
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
-            Sign Up
-          </Button>
+        {isSignUp && (
+          <S.SubscribeBtn>
+            <Button handleClick={getSubscription} buttonSize="medium">
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         )}
       </S.Container>
       <S.Container
@@ -104,10 +117,12 @@ const PricingDetails = ({
           </li>
           <li>Share account access with one additional user</li>
         </ul>
-        {hasBtn && (
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
-            Sign Up
-          </Button>
+        {isSignUp && (
+          <S.SubscribeBtn>
+            <Button handleClick={getSubscription} buttonSize="medium">
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         )}
       </S.Container>
     </S.Wrapper>

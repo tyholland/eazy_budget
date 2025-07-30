@@ -31,7 +31,12 @@ const Login = () => {
             Tired of using pen and paper to track your monthly expenses every
             single month?
           </h1>
-          <Link url="/pricing" classType="button" label="Get Started">
+          <Link
+            url="/pricing"
+            classType="button"
+            label="Get Started"
+            linkSize="large"
+          >
             Get Started
           </Link>
         </S.Catchphrase>
@@ -78,7 +83,12 @@ const Login = () => {
           Ready to take control of your finances and build a smarter financial
           future?
         </h2>
-        <Link url="/pricing" classType="button" label="Get Started Now">
+        <Link
+          url="/pricing"
+          classType="button"
+          label="Get Started Now"
+          linkSize="large"
+        >
           Get Started Now
         </Link>
       </S.Pitch>

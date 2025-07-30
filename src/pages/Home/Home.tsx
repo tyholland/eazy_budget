@@ -20,6 +20,8 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackEvent } from "../../functions/mixpanel.ts";
+import { useParams } from "react-router-dom";
+import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -27,6 +29,7 @@ const Home = () => {
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const currentUser = useAtomValue(userAtom);
+  const params = useParams();
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isSubmitDisabled, setSubmitIsDisabled] = useState<boolean>(true);
@@ -100,6 +103,9 @@ const Home = () => {
     return <Loading />;
   }
 
+  const isSubscriber = !hasBudgetItems && !!params.sub;
+  const isFreeUser = !hasBudgetItems && !params.sub;
+
   return (
     <S.HomeWrapper>
       {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
@@ -144,7 +150,7 @@ const Home = () => {
           </S.BudgetSection>
         </>
       )}
-      {!budget.length && !hasBudgetItems && (
+      {!budget.length && isFreeUser && (
         <SetupBudget
           month={currentMonth}
           year={currentYear}
@@ -160,6 +166,14 @@ const Home = () => {
             </Button>
           </S.SubmitBudget>
         </SetupBudget>
+      )}
+      {/* 
+        Add a component here that reviews pricing model.
+        Have the selected subscription choice highlighted.
+        Buttons should say "Select", which will trigger the PayPal payment screen.
+       */}
+      {!budget.length && isSubscriber && (
+        <PricingDetails isPayPal isSelected={Number(params.sub)} />
       )}
     </S.HomeWrapper>
   );

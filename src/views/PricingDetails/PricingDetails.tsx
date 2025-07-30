@@ -8,14 +8,16 @@ import { getSubscriptionStatus } from "../../functions/helper.ts";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
-  isUpgrade?: boolean;
+  isPayPal?: boolean;
   isHighlighted?: boolean;
+  isSelected?: number;
 }
 
 const PricingDetails = ({
   isSignUp = false,
-  isUpgrade = false,
+  isPayPal = false,
   isHighlighted = false,
+  isSelected = 0,
 }: PricingDetailsProps) => {
   const { loginWithRedirect } = useAuth0();
   const currentUser = useAtomValue(userAtom);
@@ -27,10 +29,13 @@ const PricingDetails = ({
     !isOriginal &&
     !isPro;
 
-  const getSubscription = () => {
+  const getSubscription = (sub: number) => {
     loginWithRedirect({
       authorizationParams: {
         screen_hint: "signup",
+      },
+      appState: {
+        returnTo: `/overview?sub=${sub}`,
       },
     });
   };
@@ -54,13 +59,37 @@ const PricingDetails = ({
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>
-            <Button handleClick={getSubscription} buttonSize="medium">
+            <Button
+              handleClick={() =>
+                loginWithRedirect({
+                  authorizationParams: {
+                    screen_hint: "signup",
+                  },
+                })
+              }
+              buttonSize="medium"
+            >
               Sign Up
             </Button>
           </S.SubscribeBtn>
         )}
+        {isPayPal && (
+          <S.SubscribeBtn>
+            <Button handleClick={() => {}} buttonSize="medium">
+              Select
+            </Button>
+          </S.SubscribeBtn>
+        )}
       </S.Container>
-      <S.Container className={isStarter && isHighlighted ? "highlight" : ""}>
+      <S.Container
+        className={
+          isStarter && isHighlighted
+            ? "highlight"
+            : isSelected === 2
+              ? "highlight"
+              : ""
+        }
+      >
         <S.Title>Starter Plan</S.Title>
         <S.Price>
           <span>Price:</span> $10/month
@@ -83,14 +112,27 @@ const PricingDetails = ({
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>
-            <Button handleClick={getSubscription} buttonSize="medium">
+            <Button handleClick={() => getSubscription(3)} buttonSize="medium">
               Sign Up
+            </Button>
+          </S.SubscribeBtn>
+        )}
+        {isPayPal && (
+          <S.SubscribeBtn>
+            <Button handleClick={() => {}} buttonSize="medium">
+              Select & Pay
             </Button>
           </S.SubscribeBtn>
         )}
       </S.Container>
       <S.Container
-        className={(isPro || isOriginal) && isHighlighted ? "highlight" : ""}
+        className={
+          (isPro || isOriginal) && isHighlighted
+            ? "highlight"
+            : isSelected === 3
+              ? "highlight"
+              : ""
+        }
       >
         <S.Title>Pro Plan</S.Title>
         <S.Price>
@@ -119,8 +161,15 @@ const PricingDetails = ({
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>
-            <Button handleClick={getSubscription} buttonSize="medium">
+            <Button handleClick={() => getSubscription(4)} buttonSize="medium">
               Sign Up
+            </Button>
+          </S.SubscribeBtn>
+        )}
+        {isPayPal && (
+          <S.SubscribeBtn>
+            <Button handleClick={() => {}} buttonSize="medium">
+              Select & Pay
             </Button>
           </S.SubscribeBtn>
         )}

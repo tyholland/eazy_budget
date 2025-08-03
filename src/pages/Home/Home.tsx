@@ -174,7 +174,16 @@ const Home = () => {
           </S.SubmitBudget>
         </SetupBudget>
       )}
-      {!budget.length && isPayingSubscriber && <PricingDetails isPayPal />}
+      {!budget.length && isPayingSubscriber && (
+        <>
+          <div>
+            Kindly select and complete payment for your preferred subscription
+            plan. Alternatively, feel free to choose any option that best fits
+            your needs.
+          </div>
+          <PricingDetails isPayPal />
+        </>
+      )}
     </S.HomeWrapper>
   );
 };

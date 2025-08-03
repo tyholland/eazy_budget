@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./account.style.ts";
 import Link from "../../components/Link/Link.tsx";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import Input from "../../components/Input/Input.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";

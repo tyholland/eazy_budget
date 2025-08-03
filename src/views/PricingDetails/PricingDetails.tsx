@@ -31,7 +31,7 @@ const PricingDetails = ({
     !isOriginal &&
     !isPro;
 
-  const isSelected = currentUser?.subscription_id || 2;
+  const isSelected = currentUser ? currentUser.subscription_id || 2 : null;
 
   const getSubscription = (sub: number) => {
     loginWithRedirect({

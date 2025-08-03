@@ -174,11 +174,6 @@ const Home = () => {
           </S.SubmitBudget>
         </SetupBudget>
       )}
-      {/* 
-        Add a component here that reviews pricing model.
-        Have the selected subscription choice highlighted.
-        Buttons should say "Select", which will trigger the PayPal payment screen.
-       */}
       {!budget.length && isPayingSubscriber && <PricingDetails isPayPal />}
     </S.HomeWrapper>
   );

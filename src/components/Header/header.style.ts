@@ -16,7 +16,8 @@ export const HeaderWrapper = styled.div`
     border-radius: 15px;
   }
 
-  a.text {
+  a.text,
+  button {
     color: ${BLACK};
   }
 `;

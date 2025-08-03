@@ -3,14 +3,18 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./account.style.ts";
 import Link from "../../components/Link/Link.tsx";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import Input from "../../components/Input/Input.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
-import { deleteUser, removeSharedAccount } from "../../requests/users.ts";
+import {
+  deleteUser,
+  removeSharedAccount,
+  updateUserSub,
+} from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
   getDateInfo,
@@ -32,9 +36,10 @@ const Account = () => {
   const setBudget = useSetAtom(budgetAtom);
   const setIncome = useSetAtom(incomeAtom);
   const setExpense = useSetAtom(expenseAtom);
-  const currentUser = useAtomValue(userAtom);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
+  const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -67,6 +72,33 @@ const Account = () => {
       trackEvent("Delete Account");
     } catch (err) {
       trackError("Account - deleteAccount:", { result: err });
+    }
+
+    logOutAccount();
+  };
+
+  const cancelSubscription = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          paid_sub: false,
+          subscription_id: 2,
+        });
+
+      await updateUserSub(accessToken, {
+        plan: 2,
+        paid: false,
+      });
+      trackEvent("Cancel Subscription");
+    } catch (err) {
+      trackError("Account - cancelSubscription:", { result: err });
     }
 
     logOutAccount();
@@ -246,7 +278,7 @@ const Account = () => {
                 </S.Section>
                 {!isOriginal && (
                   <S.Section>
-                    <Link url="#" label="Change Subscription">
+                    <Link url="/pricing" label="Change Subscription">
                       Change Subscription
                     </Link>
                   </S.Section>
@@ -261,11 +293,15 @@ const Account = () => {
                 </S.Section>
                 {!isOriginal && (
                   <S.Section>
-                    <Link url="#" label="Cancel Subscription">
+                    <Button
+                      handleClick={() => setIsSharedOpen(true)}
+                      buttonSize="medium"
+                      classType="text"
+                    >
                       <span>
                         Cancel Subscription <RemoveAccountIcon />
                       </span>
-                    </Link>
+                    </Button>
                   </S.Section>
                 )}
               </>
@@ -310,6 +346,29 @@ const Account = () => {
                   <Button
                     buttonSize="small"
                     handleClick={() => setIsSharedOpen(false)}
+                  >
+                    No
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent
+              isOpen={isCancelOpen}
+              title={`Confirm Cancel Subscription`}
+            >
+              <S.ModalWrapper>
+                <span>Are you sure you want to cancel your subscription?</span>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={cancelSubscription}
+                    classType="register"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setIsCancelOpen(false)}
                   >
                     No
                   </Button>

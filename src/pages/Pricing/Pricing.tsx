@@ -10,7 +10,11 @@ const Pricing = () => {
   return (
     <>
       <S.Title>Subscription Pricing</S.Title>
-      <PricingDetails isSignUp={!currentUser} isPayPal={!!currentUser} />
+      <PricingDetails
+        isSignUp={!currentUser}
+        isPayPal={!!currentUser}
+        isUpgrade={!!currentUser && currentUser.hasBudget}
+      />
     </>
   );
 };

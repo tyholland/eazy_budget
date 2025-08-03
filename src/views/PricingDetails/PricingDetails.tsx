@@ -11,12 +11,14 @@ import { trackError } from "../../functions/mixpanel.ts";
 interface PricingDetailsProps {
   isSignUp?: boolean;
   isPayPal?: boolean;
+  isUpgrade?: boolean;
   isHighlighted?: boolean;
 }
 
 const PricingDetails = ({
   isSignUp = false,
   isPayPal = false,
+  isUpgrade = false,
   isHighlighted = false,
 }: PricingDetailsProps) => {
   const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
@@ -68,7 +70,15 @@ const PricingDetails = ({
 
   return (
     <S.Wrapper>
-      <S.Container>
+      <S.Container
+        className={
+          isStarter && isHighlighted
+            ? "highlight"
+            : isSelected === 2
+              ? "highlight"
+              : ""
+        }
+      >
         <S.Title>Free Plan</S.Title>
         <S.Price>
           <span>Price:</span> $0/month
@@ -104,8 +114,9 @@ const PricingDetails = ({
             <Button
               handleClick={() => updateSubscription(2, false)}
               buttonSize="medium"
+              disabled={isUpgrade && isSelected === 2}
             >
-              Free
+              {isUpgrade ? "Switch" : "Free"}
             </Button>
           </S.SubscribeBtn>
         )}
@@ -148,8 +159,12 @@ const PricingDetails = ({
         )}
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            <Button handleClick={() => {}} buttonSize="medium">
-              Pay $10
+            <Button
+              handleClick={() => {}}
+              buttonSize="medium"
+              disabled={isUpgrade && isSelected === 3}
+            >
+              {isUpgrade ? "Switch & Pay $10" : "Pay $10"}
             </Button>
           </S.SubscribeBtn>
         )}
@@ -197,8 +212,12 @@ const PricingDetails = ({
         )}
         {isPayPal && (
           <S.SubscribeBtn>
-            <Button handleClick={() => {}} buttonSize="medium">
-              Pay $20
+            <Button
+              handleClick={() => {}}
+              buttonSize="medium"
+              disabled={isUpgrade && isSelected === 4}
+            >
+              {isUpgrade ? "Switch & Pay $20" : "Pay $20"}
             </Button>
           </S.SubscribeBtn>
         )}

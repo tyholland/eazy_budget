@@ -2,25 +2,25 @@ import React from "react";
 import * as S from "./pricingDetails.style.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { updateUserSub } from "../../requests/users.ts";
+import { trackError } from "../../functions/mixpanel.ts";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
   isPayPal?: boolean;
   isHighlighted?: boolean;
-  isSelected?: number;
 }
 
 const PricingDetails = ({
   isSignUp = false,
   isPayPal = false,
   isHighlighted = false,
-  isSelected = 0,
 }: PricingDetailsProps) => {
-  const { loginWithRedirect } = useAuth0();
-  const currentUser = useAtomValue(userAtom);
+  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
@@ -29,15 +29,41 @@ const PricingDetails = ({
     !isOriginal &&
     !isPro;
 
+  const isSelected = currentUser?.subscription_id || 2;
+
   const getSubscription = (sub: number) => {
     loginWithRedirect({
+      appState: {
+        returnTo: `/overview?plan=${sub}`,
+      },
       authorizationParams: {
         screen_hint: "signup",
       },
-      appState: {
-        returnTo: `/overview?sub=${sub}`,
-      },
     });
+  };
+
+  const updateSubscription = async (plan: number, paid: boolean) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          paid_sub: paid,
+          subscription_id: plan,
+        });
+
+      await updateUserSub(accessToken, {
+        plan,
+        paid,
+      });
+    } catch (err) {
+      trackError("PricingDeltails - updateSubscription:", { result: err });
+    }
   };
 
   return (
@@ -75,8 +101,11 @@ const PricingDetails = ({
         )}
         {isPayPal && (
           <S.SubscribeBtn>
-            <Button handleClick={() => {}} buttonSize="medium">
-              Select
+            <Button
+              handleClick={() => updateSubscription(2, false)}
+              buttonSize="medium"
+            >
+              Free
             </Button>
           </S.SubscribeBtn>
         )}
@@ -85,7 +114,7 @@ const PricingDetails = ({
         className={
           isStarter && isHighlighted
             ? "highlight"
-            : isSelected === 2
+            : isSelected === 3
               ? "highlight"
               : ""
         }
@@ -118,9 +147,9 @@ const PricingDetails = ({
           </S.SubscribeBtn>
         )}
         {isPayPal && (
-          <S.SubscribeBtn>
+          <S.SubscribeBtn className="paypal">
             <Button handleClick={() => {}} buttonSize="medium">
-              Select & Pay
+              Pay $10
             </Button>
           </S.SubscribeBtn>
         )}
@@ -129,7 +158,7 @@ const PricingDetails = ({
         className={
           (isPro || isOriginal) && isHighlighted
             ? "highlight"
-            : isSelected === 3
+            : isSelected === 4
               ? "highlight"
               : ""
         }
@@ -169,7 +198,7 @@ const PricingDetails = ({
         {isPayPal && (
           <S.SubscribeBtn>
             <Button handleClick={() => {}} buttonSize="medium">
-              Select & Pay
+              Pay $20
             </Button>
           </S.SubscribeBtn>
         )}

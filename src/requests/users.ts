@@ -93,3 +93,23 @@ export const removeSharedAccount = async (accessToken: string) => {
     throw new Error(`Failed to remove shared account access`);
   }
 };
+
+export const updateUserSub = async (
+  accessToken: string,
+  updatedSub: Object,
+) => {
+  try {
+    const userUpdateResponse = await fetch(`${api}/user/update/sub`, {
+      method: "PUT",
+      body: JSON.stringify({ ...updatedSub }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await userUpdateResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to update user sub`);
+  }
+};

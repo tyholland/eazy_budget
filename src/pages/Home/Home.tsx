@@ -11,7 +11,7 @@ import {
   getMonthlyTotalAmount,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
-import { getDateInfo } from "../../functions/helper.ts";
+import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 import { createBudget } from "../../requests/budget.ts";
@@ -19,8 +19,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
-import { trackEvent } from "../../functions/mixpanel.ts";
-import { useParams } from "react-router-dom";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 
 const Home = () => {
@@ -29,7 +28,6 @@ const Home = () => {
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
   const currentUser = useAtomValue(userAtom);
-  const params = useParams();
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isSubmitDisabled, setSubmitIsDisabled] = useState<boolean>(true);
@@ -82,7 +80,7 @@ const Home = () => {
       setHasBudgetItems(true);
       trackEvent("Submitted Initial Budget");
     } catch (err) {
-      console.error("Home - handleBudgetSubmission:", err);
+      trackError("Home - handleBudgetSubmission:", { result: err });
       setSubmitIsDisabled(false);
       setIsDisabled(false);
       setHasBudgetItems(false);
@@ -103,8 +101,17 @@ const Home = () => {
     return <Loading />;
   }
 
-  const isSubscriber = !hasBudgetItems && !!params.sub;
-  const isFreeUser = !hasBudgetItems && !params.sub;
+  const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isPro =
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+  const isStarter =
+    getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
+    !isOriginal &&
+    !isPro;
+  const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
+  const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;
+  const isPayingSubscriber = !hasBudgetItems && !!subOwesPayment;
+  const isNormalUser = !hasBudgetItems && subIsAllSet;
 
   return (
     <S.HomeWrapper>
@@ -150,7 +157,7 @@ const Home = () => {
           </S.BudgetSection>
         </>
       )}
-      {!budget.length && isFreeUser && (
+      {!budget.length && isNormalUser && (
         <SetupBudget
           month={currentMonth}
           year={currentYear}
@@ -172,9 +179,7 @@ const Home = () => {
         Have the selected subscription choice highlighted.
         Buttons should say "Select", which will trigger the PayPal payment screen.
        */}
-      {!budget.length && isSubscriber && (
-        <PricingDetails isPayPal isSelected={Number(params.sub)} />
-      )}
+      {!budget.length && isPayingSubscriber && <PricingDetails isPayPal />}
     </S.HomeWrapper>
   );
 };

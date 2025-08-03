@@ -24,7 +24,7 @@ import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
-import { trackEvent } from "../../functions/mixpanel.ts";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -66,7 +66,7 @@ const Account = () => {
       await deleteUser(accessToken);
       trackEvent("Delete Account");
     } catch (err) {
-      console.error("Account - deleteAccount:", err);
+      trackError("Account - deleteAccount:", { result: err });
     }
 
     logOutAccount();
@@ -83,7 +83,7 @@ const Account = () => {
       await removeSharedAccount(accessToken);
       trackEvent("Remove Shared Account Access");
     } catch (err) {
-      console.error("Account - removeSharedAccess:", err);
+      trackError("Account - removeSharedAccess:", { result: err });
     }
 
     logOutAccount();

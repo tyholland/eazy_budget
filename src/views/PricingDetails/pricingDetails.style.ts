@@ -1,5 +1,12 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_SKY_BLUE, RUBIK, WHITE } from "../../index.style.ts";
+import {
+  BLACK,
+  GREEN,
+  LIGHT_GREEN,
+  LIGHT_SKY_BLUE,
+  RUBIK,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Container = styled.div`
   border: 1px solid ${BLACK};
@@ -34,6 +41,15 @@ export const Container = styled.div`
 
   &.highlight {
     background: ${LIGHT_SKY_BLUE};
+
+    .paypal button {
+      border: 1px solid ${BLACK};
+      background: ${LIGHT_GREEN};
+
+      &:hover {
+        background: ${GREEN};
+      }
+    }
   }
 `;
 

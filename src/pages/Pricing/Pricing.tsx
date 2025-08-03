@@ -10,7 +10,7 @@ const Pricing = () => {
   return (
     <>
       <S.Title>Subscription Pricing</S.Title>
-      <PricingDetails isSignUp={!currentUser} isUpgrade={!!currentUser} />
+      <PricingDetails isSignUp={!currentUser} isPayPal={!!currentUser} />
     </>
   );
 };

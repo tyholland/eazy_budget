@@ -60,3 +60,18 @@ export const trackPage = (path: string) => {
 
   mixpanel.track("Page View", { title: pageTitle });
 };
+
+export const trackError = (eventName: string, eventProperties?: Object) => {
+  const name = `Error: ${eventName}`;
+
+  if (process.env.NODE_ENV === "development") {
+    console.warn("trackError", {
+      eventName: name,
+      eventProperties,
+    });
+
+    return null;
+  }
+
+  mixpanel.track(name, eventProperties);
+};

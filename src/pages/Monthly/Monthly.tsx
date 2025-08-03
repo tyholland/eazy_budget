@@ -51,7 +51,7 @@ import InfoIcon from "../../svg/InfoIcon.tsx";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Link from "../../components/Link/Link.tsx";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
-import { trackEvent } from "../../functions/mixpanel.ts";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -298,7 +298,9 @@ const Monthly = () => {
                             }
                             setIsNewBudget(false);
                           } catch (err) {
-                            console.error("Monthly - handleSaveEvent:", err);
+                            trackError("Monthly - handleSaveEvent:", {
+                              result: err,
+                            });
                           }
                         };
 
@@ -334,7 +336,9 @@ const Monthly = () => {
 
                             setIsNewBudget(false);
                           } catch (err) {
-                            console.error("Monthly - handleDeleteEvent:", err);
+                            trackError("Monthly - handleDeleteEvent:", {
+                              result: err,
+                            });
                           }
                         };
 

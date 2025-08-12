@@ -3,6 +3,8 @@ import * as S from "./footer.style.ts";
 import Link from "../../components/Link/Link.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import FacebookIcon from "../../svg/FacebookIcon.tsx";
+import InstagramIcon from "../../svg/InstagramIcon.tsx";
 
 const Footer = () => {
   const date = new Date();
@@ -52,6 +54,24 @@ const Footer = () => {
           callBack={() => window.scrollTo(0, 0)}
         >
           Contact Us
+        </Link>
+      </S.Links>
+      <S.Links>
+        <Link
+          url="https://www.facebook.com/people/Simple-Budgeting/61579168717987/"
+          label="Simple Budgeting Facebook Page"
+          linkSize="medium"
+          target="_blank"
+        >
+          <FacebookIcon />
+        </Link>
+        <Link
+          url="https://www.instagram.com/sbudgeting/"
+          label="Simple Budgeting Instagram Account"
+          linkSize="medium"
+          target="_blank"
+        >
+          <InstagramIcon />
         </Link>
       </S.Links>
       <S.Copyright>

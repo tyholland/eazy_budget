@@ -6,6 +6,7 @@ interface LinkProps {
   children: string | JSX.Element;
   url: string;
   label: string;
+  target?: string;
   classType?: LinkClassType;
   linkSize?: ElementSize;
   isDisabled?: boolean;
@@ -17,6 +18,7 @@ const Link = ({
   linkSize = "small",
   url,
   label,
+  target = "_self",
   classType = "text",
   isDisabled = false,
   callBack = () => {},
@@ -27,6 +29,7 @@ const Link = ({
       to={url}
       aria-label={label}
       onClick={callBack}
+      target={target}
     >
       {children}
     </S.LinkElement>

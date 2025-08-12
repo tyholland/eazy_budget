@@ -17,7 +17,7 @@ export const HeaderWrapper = styled.div`
   }
 
   a.text,
-  button {
+  button.text {
     color: ${BLACK};
   }
 `;

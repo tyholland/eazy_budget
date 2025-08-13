@@ -40,6 +40,7 @@ const Account = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
+  const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
@@ -181,7 +182,11 @@ const Account = () => {
                 )}
                 <S.Section>
                   <Button
-                    handleClick={() => setIsOpen(true)}
+                    handleClick={() => {
+                      isStarter || isPro
+                        ? setIsSubActive(true)
+                        : setIsOpen(true);
+                    }}
                     buttonSize="medium"
                     classType="text"
                   >
@@ -341,6 +346,24 @@ const Account = () => {
                     Please verify whether your subscription is still active.
                   </S.ErrorMsg>
                 )}
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent isOpen={isSubActive} title={`Active Subscription`}>
+              <S.ModalWrapper>
+                <span>
+                  Your account currently has an active subscription. Please
+                  cancel your subscription prior to requesting account deletion.
+                </span>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => {
+                      setIsSubActive(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </S.ModalBtn>
               </S.ModalWrapper>
             </ModalComponent>
             <ModalComponent

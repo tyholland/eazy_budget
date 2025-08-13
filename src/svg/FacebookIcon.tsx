@@ -18,8 +18,8 @@ const FacebookIcon = () => {
         </clipPath>
       </defs>
       <g transform="matrix(1.3333 0 0 -1.3333 0 1122.5) translate(-1485 -3205) scale(5.2)">
-        <g clip-path="url(#c)">
-          <g clip-path="url(#d)" opacity=".89999">
+        <g clipPath="url(#c)">
+          <g clipPath="url(#d)" opacity=".89999">
             <g transform="translate(438.52 660.21)">
               <path
                 d="m0 0c0-12.587-10.203-22.791-22.79-22.791h-104.4c-12.587 0-22.791 10.204-22.791 22.791v104.4c0 12.587 10.204 22.791 22.791 22.791h104.4c12.587 0 22.79-10.204 22.79-22.791z"

@@ -306,7 +306,7 @@ const Account = () => {
                 {!isOriginal && (
                   <S.Section>
                     <Button
-                      handleClick={() => setIsSharedOpen(true)}
+                      handleClick={() => setIsCancelOpen(true)}
                       buttonSize="medium"
                       classType="text"
                     >

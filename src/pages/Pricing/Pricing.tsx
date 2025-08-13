@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as S from "./pricing.style.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 import { useAtomValue } from "jotai";
@@ -10,7 +10,7 @@ const Pricing = () => {
   return (
     <>
       {!currentUser && <S.Title>Subscription Pricing</S.Title>}
-      {!!currentUser && (
+      {!!currentUser && !currentUser.hasBudget && (
         <S.Section>
           Kindly select and complete payment for your preferred subscription
           plan. Alternatively, feel free to choose any option that best fits
@@ -19,7 +19,7 @@ const Pricing = () => {
       )}
       {!!currentUser && currentUser.hasBudget && (
         <S.Section>
-          Kindly select a new subscription plan to add to your account.
+          Kindly select a new subscription plan to switch your account to.
         </S.Section>
       )}
       <PricingDetails

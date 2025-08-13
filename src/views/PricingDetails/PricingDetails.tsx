@@ -7,6 +7,7 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { updateUserSub } from "../../requests/users.ts";
 import { trackError } from "../../functions/mixpanel.ts";
+import Loading from "../../components/Loading/Loading.tsx";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
@@ -21,7 +22,7 @@ const PricingDetails = ({
   isUpgrade = false,
   isHighlighted = false,
 }: PricingDetailsProps) => {
-  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
+  const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isPro =
@@ -30,6 +31,7 @@ const PricingDetails = ({
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
     !isOriginal &&
     !isPro;
+  const isFree = !isOriginal && !isStarter && !isPro;
 
   const isSelected = currentUser ? currentUser.subscription_id || 2 : null;
 
@@ -68,11 +70,15 @@ const PricingDetails = ({
     }
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <S.Wrapper>
       <S.Container
         className={
-          isStarter && isHighlighted
+          isFree && isHighlighted
             ? "highlight"
             : isSelected === 2
               ? "highlight"
@@ -116,7 +122,11 @@ const PricingDetails = ({
               buttonSize="medium"
               disabled={isUpgrade && isSelected === 2}
             >
-              {isUpgrade ? "Switch" : "Free"}
+              {isUpgrade && isSelected === 2
+                ? "Current Plan"
+                : isUpgrade
+                  ? "Switch"
+                  : "Free"}
             </Button>
           </S.SubscribeBtn>
         )}
@@ -164,7 +174,11 @@ const PricingDetails = ({
               buttonSize="medium"
               disabled={isUpgrade && isSelected === 3}
             >
-              {isUpgrade ? "Switch & Pay $10" : "Pay $10"}
+              {isUpgrade && isSelected === 3
+                ? "Current Plan"
+                : isUpgrade
+                  ? "Switch & Pay $10"
+                  : "Pay $10"}
             </Button>
           </S.SubscribeBtn>
         )}
@@ -217,7 +231,11 @@ const PricingDetails = ({
               buttonSize="medium"
               disabled={isUpgrade && isSelected === 4}
             >
-              {isUpgrade ? "Switch & Pay $20" : "Pay $20"}
+              {isUpgrade && isSelected === 4
+                ? "Current Plan"
+                : isUpgrade
+                  ? "Switch & Pay $20"
+                  : "Pay $20"}
             </Button>
           </S.SubscribeBtn>
         )}

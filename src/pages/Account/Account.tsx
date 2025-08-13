@@ -29,6 +29,7 @@ import HistoryIcon from "../../svg/HistoryIcon.tsx";
 import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import moment from "moment-business-days";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -284,7 +285,9 @@ const Account = () => {
                     onChange={() => {}}
                     placeHolder="Enter date subscribed"
                     isDisabled
-                    defaultValue={"10/12/2025"}
+                    defaultValue={moment(currentUser?.created_at).format(
+                      "MM/DD/YYYY",
+                    )}
                     inputType="text"
                   />
                 </S.Section>

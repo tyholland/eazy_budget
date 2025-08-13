@@ -41,6 +41,7 @@ export const addUser = async (
         categories: userResponse.categories,
         shared_account_email: userResponse.shared_account_email,
         paid_sub: userResponse.paid_sub,
+        created_at: userResponse.created_at,
       });
       setHasBudget(userResponse.hasBudget);
       trackIdentity(userResponse.subscription_id, user.sub, user.email);

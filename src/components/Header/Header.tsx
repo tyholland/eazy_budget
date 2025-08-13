@@ -20,7 +20,7 @@ const Header = () => {
   const [hasBudget, setHasBudget] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser && location.pathname === "/pricing") {
       user && addUser(auth, setCurrentUser, setHasBudget);
     }
   }, [user]);

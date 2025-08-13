@@ -87,6 +87,7 @@ export interface UserResponse {
   is_connected: boolean;
   categories: ExpenseCategory[];
   paid_sub: boolean;
+  created_at: string;
   connected_id?: number;
   primary_request?: string;
   shared_account_email?: string;

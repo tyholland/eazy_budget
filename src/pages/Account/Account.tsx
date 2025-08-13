@@ -40,6 +40,7 @@ const Account = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
+  const [deleteError, setDeleteError] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -61,6 +62,8 @@ const Account = () => {
   };
 
   const deleteAccount = async () => {
+    setDeleteError(false);
+
     try {
       const accessToken = await getAccessTokenSilently({
         authorizationParams: {
@@ -68,13 +71,17 @@ const Account = () => {
         },
       });
 
-      await deleteUser(accessToken);
-      trackEvent("Delete Account");
+      const result = await deleteUser(accessToken);
+
+      if (result.success) {
+        trackEvent("Delete Account");
+        logOutAccount();
+      } else {
+        setDeleteError(true);
+      }
     } catch (err) {
       trackError("Account - deleteAccount:", { result: err });
     }
-
-    logOutAccount();
   };
 
   const cancelSubscription = async () => {
@@ -319,11 +326,21 @@ const Account = () => {
                   </Button>
                   <Button
                     buttonSize="small"
-                    handleClick={() => setIsOpen(false)}
+                    handleClick={() => {
+                      setIsOpen(false);
+                      setDeleteError(false);
+                    }}
                   >
                     No
                   </Button>
                 </S.ModalBtn>
+                {deleteError && (
+                  <S.ErrorMsg>
+                    Your account cannot be deleted at this time.
+                    <br />
+                    Please verify whether your subscription is still active.
+                  </S.ErrorMsg>
+                )}
               </S.ModalWrapper>
             </ModalComponent>
             <ModalComponent

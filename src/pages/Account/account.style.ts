@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DARKER_GRAY, SKY_BLUE } from "../../index.style.ts";
+import { DARKER_GRAY, ERROR_RED, SKY_BLUE, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -108,4 +108,14 @@ export const ContentWrapper = styled.div`
     min-width: unset;
     max-width: unset;
   }
+`;
+
+export const ErrorMsg = styled.div`
+  background: ${ERROR_RED};
+  color: ${WHITE};
+  border-radius: 10px;
+  padding: 10px 15px;
+  max-width: 400px;
+  width: auto;
+  font-weight: 700;
 `;

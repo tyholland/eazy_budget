@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import * as S from "./pricing.style.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 import { useAtomValue } from "jotai";

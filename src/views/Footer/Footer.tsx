@@ -75,7 +75,7 @@ const Footer = () => {
         </Link>
       </S.Links>
       <S.Copyright>
-        &copy; {year} Simple Budgeting. All rights reserved.
+        &copy; {year} KTH Creative Martketing LLC. All rights reserved.
       </S.Copyright>
     </S.Wrapper>
   );

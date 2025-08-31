@@ -5,7 +5,7 @@ import {
   PayPalScriptProvider,
   ReactPayPalScriptOptions,
 } from "@paypal/react-paypal-js";
-import { trackError } from "../../functions/mixpanel.ts";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 interface PaypalBtnProps {
   sub: string;
@@ -37,6 +37,9 @@ const PaypalBtn = ({ sub, addSub, planNum }: PaypalBtnProps) => {
 
   const onApprove = async (data, actions) => {
     try {
+      trackEvent("Selected Subscription", {
+        subscription: planNum,
+      });
       await addSub(planNum, true);
     } catch (err) {
       trackError("PaypalBtn - onApprove:", { result: err });

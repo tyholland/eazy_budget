@@ -38,7 +38,7 @@ const PaypalBtn = ({ sub, addSub, planNum }: PaypalBtnProps) => {
   const onApprove = async (data, actions) => {
     try {
       trackEvent("Selected Subscription", {
-        subscription: planNum,
+        subscription_id: planNum,
       });
       await addSub(planNum, true);
     } catch (err) {

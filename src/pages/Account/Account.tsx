@@ -285,7 +285,7 @@ const Account = () => {
                     onChange={() => {}}
                     placeHolder="Enter date subscribed"
                     isDisabled
-                    defaultValue={moment(currentUser?.created_at).format(
+                    defaultValue={moment(currentUser?.subscribed_at).format(
                       "MM/DD/YYYY",
                     )}
                     inputType="text"

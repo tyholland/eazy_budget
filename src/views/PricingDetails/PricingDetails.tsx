@@ -8,6 +8,7 @@ import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { updateUserSub } from "../../requests/users.ts";
 import { trackError } from "../../functions/mixpanel.ts";
 import Loading from "../../components/Loading/Loading.tsx";
+import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
@@ -77,19 +78,34 @@ const PricingDetails = ({
   return (
     <S.Wrapper>
       <S.Container
-        className={
+        className={`${
           isFree && isHighlighted
             ? "highlight"
             : isSelected === 2
               ? "highlight"
               : ""
-        }
+        } ${isPayPal && "paypal"}`}
       >
         <S.Title>Free Plan</S.Title>
         <S.Price>
           <span>Price:</span> $0/month
         </S.Price>
         <div>Perfect for getting started with basic budgeting.</div>
+        {isPayPal && (
+          <S.SubscribeBtn className="paypal">
+            <Button
+              handleClick={() => updateSubscription(2, false)}
+              buttonSize="medium"
+              disabled={isUpgrade && isSelected === 2}
+            >
+              {isUpgrade && isSelected === 2
+                ? "Current Plan"
+                : isUpgrade
+                  ? "Switch"
+                  : "Free"}
+            </Button>
+          </S.SubscribeBtn>
+        )}
         <ul>
           <li>Create a full-year budget by entering income and expenses</li>
           <li>Edit existing income and expense entries at any time</li>
@@ -115,30 +131,15 @@ const PricingDetails = ({
             </Button>
           </S.SubscribeBtn>
         )}
-        {isPayPal && (
-          <S.SubscribeBtn>
-            <Button
-              handleClick={() => updateSubscription(2, false)}
-              buttonSize="medium"
-              disabled={isUpgrade && isSelected === 2}
-            >
-              {isUpgrade && isSelected === 2
-                ? "Current Plan"
-                : isUpgrade
-                  ? "Switch"
-                  : "Free"}
-            </Button>
-          </S.SubscribeBtn>
-        )}
       </S.Container>
       <S.Container
-        className={
+        className={`${
           isStarter && isHighlighted
             ? "highlight"
             : isSelected === 3
               ? "highlight"
               : ""
-        }
+        } ${isPayPal && "paypal"}`}
       >
         <S.Title>Starter Plan</S.Title>
         <S.Price>
@@ -147,6 +148,25 @@ const PricingDetails = ({
         <div>
           For users who want enhanced control and a more streamlined experience.
         </div>
+        {isPayPal && (
+          <S.SubscribeBtn className="paypal">
+            {(isUpgrade && isSelected === 3) || isUpgrade ? (
+              <Button
+                handleClick={() => {}}
+                buttonSize="medium"
+                disabled={isSelected === 3}
+              >
+                {isSelected === 3 ? "Current Plan" : "Switch & Pay $10"}
+              </Button>
+            ) : (
+              <PaypalBtn
+                sub="P-4UE89663UT051505WNCZW36A"
+                addSub={updateSubscription}
+                planNum={3}
+              />
+            )}
+          </S.SubscribeBtn>
+        )}
         <ul>
           <li>Everything included in the Free Plan</li>
           <li>
@@ -167,30 +187,15 @@ const PricingDetails = ({
             </Button>
           </S.SubscribeBtn>
         )}
-        {isPayPal && (
-          <S.SubscribeBtn className="paypal">
-            <Button
-              handleClick={() => {}}
-              buttonSize="medium"
-              disabled={isUpgrade && isSelected === 3}
-            >
-              {isUpgrade && isSelected === 3
-                ? "Current Plan"
-                : isUpgrade
-                  ? "Switch & Pay $10"
-                  : "Pay $10"}
-            </Button>
-          </S.SubscribeBtn>
-        )}
       </S.Container>
       <S.Container
-        className={
+        className={`${
           (isPro || isOriginal) && isHighlighted
             ? "highlight"
             : isSelected === 4
               ? "highlight"
               : ""
-        }
+        } ${isPayPal && "paypal"}`}
       >
         <S.Title>Pro Plan</S.Title>
         <S.Price>
@@ -200,6 +205,25 @@ const PricingDetails = ({
           For advanced users who need more customization, flexibility, and
           sharing options.
         </div>
+        {isPayPal && (
+          <S.SubscribeBtn className="paypal">
+            {(isUpgrade && isSelected === 4) || isUpgrade ? (
+              <Button
+                handleClick={() => {}}
+                buttonSize="medium"
+                disabled={isSelected === 4}
+              >
+                {isSelected === 4 ? "Current Plan" : "Switch & Pay $20"}
+              </Button>
+            ) : (
+              <PaypalBtn
+                sub="P-0U075029M3838631HNCZ3PQI"
+                addSub={updateSubscription}
+                planNum={4}
+              />
+            )}
+          </S.SubscribeBtn>
+        )}
         <ul>
           <li>Everything included in the Starter Plan</li>
           <li>
@@ -221,21 +245,6 @@ const PricingDetails = ({
           <S.SubscribeBtn>
             <Button handleClick={() => getSubscription(4)} buttonSize="medium">
               Sign Up
-            </Button>
-          </S.SubscribeBtn>
-        )}
-        {isPayPal && (
-          <S.SubscribeBtn>
-            <Button
-              handleClick={() => {}}
-              buttonSize="medium"
-              disabled={isUpgrade && isSelected === 4}
-            >
-              {isUpgrade && isSelected === 4
-                ? "Current Plan"
-                : isUpgrade
-                  ? "Switch & Pay $20"
-                  : "Pay $20"}
             </Button>
           </S.SubscribeBtn>
         )}

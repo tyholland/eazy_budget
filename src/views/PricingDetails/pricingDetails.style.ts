@@ -1,12 +1,5 @@
 import styled from "styled-components";
-import {
-  BLACK,
-  GREEN,
-  LIGHT_GREEN,
-  LIGHT_SKY_BLUE,
-  RUBIK,
-  WHITE,
-} from "../../index.style.ts";
+import { BLACK, LIGHT_SKY_BLUE, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Container = styled.div`
   border: 1px solid ${BLACK};
@@ -20,6 +13,14 @@ export const Container = styled.div`
   min-width: 220px;
   position: relative;
   height: 560px;
+
+  &.paypal {
+    height: 700px;
+
+    @media only screen and (max-width: 800px) {
+      height: auto;
+    }
+  }
 
   @media only screen and (max-width: 800px) {
     min-width: fit-content;
@@ -41,15 +42,6 @@ export const Container = styled.div`
 
   &.highlight {
     background: ${LIGHT_SKY_BLUE};
-
-    .paypal button {
-      border: 1px solid ${BLACK};
-      background: ${LIGHT_GREEN};
-
-      &:hover {
-        background: ${GREEN};
-      }
-    }
   }
 `;
 
@@ -81,6 +73,18 @@ export const SubscribeBtn = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  &.paypal {
+    position: relative;
+    bottom: 0;
+    margin-top: 20px;
+
+    @media only screen and (max-width: 800px) {
+      position: relative;
+      bottom: auto;
+      left: auto;
+    }
+  }
 
   @media only screen and (max-width: 800px) {
     position: relative;

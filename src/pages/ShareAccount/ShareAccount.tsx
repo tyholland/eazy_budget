@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { shareAccount } from "../../requests/users.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import SaveIcon from "../../svg/SaveIcon.tsx";
-import { trackEvent } from "../../functions/mixpanel.ts";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 const ShareAccount = () => {
   const currentUser = useAtomValue(userAtom);
@@ -47,7 +47,7 @@ const ShareAccount = () => {
     } catch (err) {
       setIsDisabled(false);
       setHasError(true);
-      console.error("ShareAccount - submitEmail:", err);
+      trackError("ShareAccount - submitEmail:", { result: err });
     }
   };
 

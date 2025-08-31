@@ -50,6 +50,7 @@ export const Section = styled.div`
     min-width: 300px;
     max-width: 720px;
     width: 100%;
+    border-radius: 15px;
 
     @media only screen and (max-width: 800px) {
       min-width: unset;

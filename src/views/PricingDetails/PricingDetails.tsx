@@ -2,22 +2,29 @@ import React from "react";
 import * as S from "./pricingDetails.style.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { updateUserSub } from "../../requests/users.ts";
+import { trackError } from "../../functions/mixpanel.ts";
+import Loading from "../../components/Loading/Loading.tsx";
+import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 
 interface PricingDetailsProps {
-  hasBtn?: boolean;
+  isSignUp?: boolean;
+  isPayPal?: boolean;
+  isUpgrade?: boolean;
   isHighlighted?: boolean;
 }
 
 const PricingDetails = ({
-  hasBtn = true,
+  isSignUp = false,
+  isPayPal = false,
+  isUpgrade = false,
   isHighlighted = false,
 }: PricingDetailsProps) => {
-  const { loginWithRedirect } = useAuth0();
-  const currentUser = useAtomValue(userAtom);
-
+  const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
@@ -25,15 +32,80 @@ const PricingDetails = ({
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
     !isOriginal &&
     !isPro;
+  const isFree = !isOriginal && !isStarter && !isPro;
+
+  const isSelected = currentUser ? currentUser.subscription_id || 2 : null;
+
+  const getSubscription = (sub: number) => {
+    loginWithRedirect({
+      appState: {
+        returnTo: `/overview?plan=${sub}`,
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
+  };
+
+  const updateSubscription = async (plan: number, paid: boolean) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          paid_sub: paid,
+          subscription_id: plan,
+        });
+
+      await updateUserSub(accessToken, {
+        plan,
+        paid,
+      });
+    } catch (err) {
+      trackError("PricingDeltails - updateSubscription:", { result: err });
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <S.Wrapper>
-      <S.Container>
+      <S.Container
+        className={`${
+          isFree && isHighlighted
+            ? "highlight"
+            : isSelected === 2
+              ? "highlight"
+              : ""
+        } ${isPayPal && "paypal"}`}
+      >
         <S.Title>Free Plan</S.Title>
         <S.Price>
           <span>Price:</span> $0/month
         </S.Price>
         <div>Perfect for getting started with basic budgeting.</div>
+        {isPayPal && (
+          <S.SubscribeBtn className="paypal">
+            <Button
+              handleClick={() => updateSubscription(2, false)}
+              buttonSize="medium"
+              disabled={isUpgrade && isSelected === 2}
+            >
+              {isUpgrade && isSelected === 2
+                ? "Current Plan"
+                : isUpgrade
+                  ? "Switch"
+                  : "Free"}
+            </Button>
+          </S.SubscribeBtn>
+        )}
         <ul>
           <li>Create a full-year budget by entering income and expenses</li>
           <li>Edit existing income and expense entries at any time</li>
@@ -43,13 +115,32 @@ const PricingDetails = ({
           </li>
           <li>Access to the 3-Year Financial Forecasting Tool</li>
         </ul>
-        {hasBtn && (
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
-            Sign Up
-          </Button>
+        {isSignUp && (
+          <S.SubscribeBtn>
+            <Button
+              handleClick={() =>
+                loginWithRedirect({
+                  authorizationParams: {
+                    screen_hint: "signup",
+                  },
+                })
+              }
+              buttonSize="medium"
+            >
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         )}
       </S.Container>
-      <S.Container className={isStarter && isHighlighted ? "highlight" : ""}>
+      <S.Container
+        className={`${
+          isStarter && isHighlighted
+            ? "highlight"
+            : isSelected === 3
+              ? "highlight"
+              : ""
+        } ${isPayPal && "paypal"}`}
+      >
         <S.Title>Starter Plan</S.Title>
         <S.Price>
           <span>Price:</span> $10/month
@@ -57,6 +148,25 @@ const PricingDetails = ({
         <div>
           For users who want enhanced control and a more streamlined experience.
         </div>
+        {isPayPal && (
+          <S.SubscribeBtn className="paypal">
+            {(isUpgrade && isSelected === 3) || isUpgrade ? (
+              <Button
+                handleClick={() => {}}
+                buttonSize="medium"
+                disabled={isSelected === 3}
+              >
+                {isSelected === 3 ? "Current Plan" : "Switch & Pay $10"}
+              </Button>
+            ) : (
+              <PaypalBtn
+                sub="P-4UE89663UT051505WNCZW36A"
+                addSub={updateSubscription}
+                planNum={3}
+              />
+            )}
+          </S.SubscribeBtn>
+        )}
         <ul>
           <li>Everything included in the Free Plan</li>
           <li>
@@ -70,14 +180,22 @@ const PricingDetails = ({
             Get a quick snapshot of previous months within the current year
           </li>
         </ul>
-        {hasBtn && (
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
-            Sign Up
-          </Button>
+        {isSignUp && (
+          <S.SubscribeBtn>
+            <Button handleClick={() => getSubscription(3)} buttonSize="medium">
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         )}
       </S.Container>
       <S.Container
-        className={(isPro || isOriginal) && isHighlighted ? "highlight" : ""}
+        className={`${
+          (isPro || isOriginal) && isHighlighted
+            ? "highlight"
+            : isSelected === 4
+              ? "highlight"
+              : ""
+        } ${isPayPal && "paypal"}`}
       >
         <S.Title>Pro Plan</S.Title>
         <S.Price>
@@ -87,6 +205,25 @@ const PricingDetails = ({
           For advanced users who need more customization, flexibility, and
           sharing options.
         </div>
+        {isPayPal && (
+          <S.SubscribeBtn className="paypal">
+            {(isUpgrade && isSelected === 4) || isUpgrade ? (
+              <Button
+                handleClick={() => {}}
+                buttonSize="medium"
+                disabled={isSelected === 4}
+              >
+                {isSelected === 4 ? "Current Plan" : "Switch & Pay $20"}
+              </Button>
+            ) : (
+              <PaypalBtn
+                sub="P-0U075029M3838631HNCZ3PQI"
+                addSub={updateSubscription}
+                planNum={4}
+              />
+            )}
+          </S.SubscribeBtn>
+        )}
         <ul>
           <li>Everything included in the Starter Plan</li>
           <li>
@@ -104,10 +241,12 @@ const PricingDetails = ({
           </li>
           <li>Share account access with one additional user</li>
         </ul>
-        {hasBtn && (
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
-            Sign Up
-          </Button>
+        {isSignUp && (
+          <S.SubscribeBtn>
+            <Button handleClick={() => getSubscription(4)} buttonSize="medium">
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         )}
       </S.Container>
     </S.Wrapper>

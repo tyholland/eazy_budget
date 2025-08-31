@@ -14,7 +14,7 @@ import Login from "./pages/Login/Login.tsx";
 import Account from "./pages/Account/Account.tsx";
 import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
-// import Pricing from "./pages/Pricing/Pricing.tsx";
+import Pricing from "./pages/Pricing/Pricing.tsx";
 import Subscription from "./pages/Subscription/Subscription.tsx";
 import Footer from "./views/Footer/Footer.tsx";
 import About from "./pages/About/About.tsx";
@@ -31,7 +31,7 @@ const App = () => {
           <Breadcrumb />
           <Routes>
             <Route path="/" element={<Login />} />
-            {/* <Route path="/pricing" element={<Pricing />} /> */}
+            <Route path="/pricing" element={<Pricing />} />
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />

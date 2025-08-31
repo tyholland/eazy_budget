@@ -66,10 +66,10 @@ export const GlobalStyles = createGlobalStyle`
       max-height: fit-content;
       height: auto;
       position: relative;
-      padding-bottom: 95px;
+      padding-bottom: 140px;
 
       @media only screen and (max-width: 800px) {
-        padding-bottom: 115px;
+        padding-bottom: 150px;
       }
     }
   }

@@ -7,3 +7,7 @@ export const Title = styled.div`
   font-family: ${RUBIK};
   margin-bottom: 30px;
 `;
+
+export const Section = styled.div`
+  margin-bottom: 30px;
+`;

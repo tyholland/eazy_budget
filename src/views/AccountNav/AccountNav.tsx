@@ -30,30 +30,33 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           Settings
         </Button>
       </S.NavItem>
-      <S.NavItem
-        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "budget" ? "open" : "close"}`}
-      >
-        <Button
-          classType="text"
-          handleClick={() => {
-            setSelectedOption("budget");
-          }}
-        >
-          Budget
-        </Button>
-      </S.NavItem>
-      {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+      {currentUser?.hasBudget && (
         <S.NavItem
-          className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "budget" ? "open" : "close"}`}
         >
           <Button
             classType="text"
-            handleClick={() => setSelectedOption("subscription")}
+            handleClick={() => {
+              setSelectedOption("budget");
+            }}
           >
-            Subscription
+            Budget
           </Button>
         </S.NavItem>
       )}
+      {getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
+        currentUser?.hasBudget && (
+          <S.NavItem
+            className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+          >
+            <Button
+              classType="text"
+              handleClick={() => setSelectedOption("subscription")}
+            >
+              Subscription
+            </Button>
+          </S.NavItem>
+        )}
     </S.NavWrapper>
   );
 };

@@ -5,6 +5,7 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import { shareAccountDecision } from "../../requests/users.ts";
 import Button from "../Button/Button.tsx";
+import { trackError } from "../../functions/mixpanel.ts";
 
 interface SharedAccountMessageProps {
   setHasMessage: (val: boolean) => void;
@@ -39,7 +40,9 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
       window.location.reload();
     } catch (err) {
       setIsDisabled(false);
-      console.error("SharedAccountMessage - handleConnectedAccount:", err);
+      trackError("SharedAccountMessage - handleConnectedAccount:", {
+        result: err,
+      });
     }
   };
 

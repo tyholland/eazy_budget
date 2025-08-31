@@ -16,18 +16,25 @@ export const HeaderWrapper = styled.div`
     border-radius: 15px;
   }
 
-  a.text {
+  a.text,
+  button.text {
     color: ${BLACK};
   }
 `;
 
 export const Title = styled.div`
-  font-family: ${COSMIC};
-  font-style: italic;
-  font-size: 40px;
-  font-weight: 700;
+  a.text {
+    font-family: ${COSMIC};
+    font-style: italic;
+    font-size: 40px;
+    font-weight: 700;
 
-  @media only screen and (max-width: 800px) {
-    font-size: 30px;
+    &:hover {
+      text-decoration: none;
+    }
+
+    @media only screen and (max-width: 800px) {
+      font-size: 30px;
+    }
   }
 `;

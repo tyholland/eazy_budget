@@ -3,6 +3,8 @@ import * as S from "./footer.style.ts";
 import Link from "../../components/Link/Link.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import FacebookIcon from "../../svg/FacebookIcon.tsx";
+import InstagramIcon from "../../svg/InstagramIcon.tsx";
 
 const Footer = () => {
   const date = new Date();
@@ -29,9 +31,14 @@ const Footer = () => {
         >
           About
         </Link>
-        {/* <Link url="/pricing" label="Pricing" linkSize="medium" callBack={() => window.scrollTo(0, 0)}>
+        <Link
+          url="/pricing"
+          label="Pricing"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           Pricing
-        </Link> */}
+        </Link>
         <Link
           url="/privacy"
           label="Privacy Policy"
@@ -49,8 +56,26 @@ const Footer = () => {
           Contact Us
         </Link>
       </S.Links>
+      <S.Links>
+        <Link
+          url="https://www.facebook.com/people/Simple-Budgeting/61579168717987/"
+          label="Simple Budgeting Facebook Page"
+          linkSize="medium"
+          target="_blank"
+        >
+          <FacebookIcon />
+        </Link>
+        <Link
+          url="https://www.instagram.com/sbudgeting/"
+          label="Simple Budgeting Instagram Account"
+          linkSize="medium"
+          target="_blank"
+        >
+          <InstagramIcon />
+        </Link>
+      </S.Links>
       <S.Copyright>
-        &copy; {year} Simple Budgeting. All rights reserved.
+        &copy; {year} KTH Creative Martketing LLC. All rights reserved.
       </S.Copyright>
     </S.Wrapper>
   );

@@ -11,11 +11,22 @@ export const Container = styled.div`
   gap: 10px;
   width: 100%;
   min-width: 220px;
+  position: relative;
+  height: 560px;
+
+  &.paypal {
+    height: 700px;
+
+    @media only screen and (max-width: 800px) {
+      height: auto;
+    }
+  }
 
   @media only screen and (max-width: 800px) {
     min-width: fit-content;
     width: 94%;
     padding: 4% 3%;
+    height: auto;
   }
 
   span {
@@ -52,5 +63,32 @@ export const Title = styled.div`
 export const Price = styled.div`
   span {
     font-weight: 700;
+  }
+`;
+
+export const SubscribeBtn = styled.div`
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &.paypal {
+    position: relative;
+    bottom: 0;
+    margin-top: 20px;
+
+    @media only screen and (max-width: 800px) {
+      position: relative;
+      bottom: auto;
+      left: auto;
+    }
+  }
+
+  @media only screen and (max-width: 800px) {
+    position: relative;
+    bottom: auto;
+    left: auto;
   }
 `;

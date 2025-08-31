@@ -1,12 +1,12 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import Button from "../../components/Button/Button.tsx";
 import * as S from "./login.style.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
+import Link from "../../components/Link/Link.tsx";
 
 const Login = () => {
-  const { loginWithRedirect, isLoading, user } = useAuth0();
+  const { isLoading, user } = useAuth0();
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -31,9 +31,14 @@ const Login = () => {
             Tired of using pen and paper to track your monthly expenses every
             single month?
           </h1>
-          <Button handleClick={loginWithRedirect} buttonSize="medium">
+          <Link
+            url="/pricing"
+            classType="button"
+            label="Get Started"
+            linkSize="large"
+          >
             Get Started
-          </Button>
+          </Link>
         </S.Catchphrase>
       </S.Section>
       <S.Section className="title">
@@ -78,9 +83,14 @@ const Login = () => {
           Ready to take control of your finances and build a smarter financial
           future?
         </h2>
-        <Button handleClick={loginWithRedirect} buttonSize="medium">
+        <Link
+          url="/pricing"
+          classType="button"
+          label="Get Started Now"
+          linkSize="large"
+        >
           Get Started Now
-        </Button>
+        </Link>
       </S.Pitch>
     </S.Wrapper>
   );

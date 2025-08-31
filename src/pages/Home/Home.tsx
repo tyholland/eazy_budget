@@ -11,7 +11,7 @@ import {
   getMonthlyTotalAmount,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
-import { getDateInfo } from "../../functions/helper.ts";
+import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 import { createBudget } from "../../requests/budget.ts";
@@ -19,7 +19,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
-import { trackEvent } from "../../functions/mixpanel.ts";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -79,7 +80,7 @@ const Home = () => {
       setHasBudgetItems(true);
       trackEvent("Submitted Initial Budget");
     } catch (err) {
-      console.error("Home - handleBudgetSubmission:", err);
+      trackError("Home - handleBudgetSubmission:", { result: err });
       setSubmitIsDisabled(false);
       setIsDisabled(false);
       setHasBudgetItems(false);
@@ -99,6 +100,18 @@ const Home = () => {
   if (!budget.length && hasBudgetItems) {
     return <Loading />;
   }
+
+  const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isPro =
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+  const isStarter =
+    getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
+    !isOriginal &&
+    !isPro;
+  const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
+  const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;
+  const isPayingSubscriber = !hasBudgetItems && !!subOwesPayment;
+  const isNormalUser = !hasBudgetItems && subIsAllSet;
 
   return (
     <S.HomeWrapper>
@@ -144,7 +157,7 @@ const Home = () => {
           </S.BudgetSection>
         </>
       )}
-      {!budget.length && !hasBudgetItems && (
+      {!budget.length && isNormalUser && (
         <SetupBudget
           month={currentMonth}
           year={currentYear}
@@ -160,6 +173,16 @@ const Home = () => {
             </Button>
           </S.SubmitBudget>
         </SetupBudget>
+      )}
+      {!budget.length && isPayingSubscriber && (
+        <>
+          <div>
+            Kindly select and complete payment for your preferred subscription
+            plan. Alternatively, feel free to choose any option that best fits
+            your needs.
+          </div>
+          <PricingDetails isPayPal />
+        </>
       )}
     </S.HomeWrapper>
   );

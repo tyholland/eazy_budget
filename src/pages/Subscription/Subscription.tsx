@@ -22,7 +22,7 @@ const Subscription = () => {
   return (
     <>
       <S.Title>Subscription Details</S.Title>
-      <PricingDetails hasBtn={false} isHighlighted />
+      <PricingDetails isHighlighted />
     </>
   );
 };

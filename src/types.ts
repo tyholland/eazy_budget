@@ -66,6 +66,7 @@ export interface BudgetBodyInfo {
 
 export interface UserRequest {
   email: string;
+  plan?: number;
 }
 
 export interface ConnectedDecisionRequest {
@@ -85,6 +86,8 @@ export interface UserResponse {
   connected_message: boolean;
   is_connected: boolean;
   categories: ExpenseCategory[];
+  paid_sub: boolean;
+  subscribed_at: string;
   connected_id?: number;
   primary_request?: string;
   shared_account_email?: string;

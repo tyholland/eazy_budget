@@ -14,7 +14,6 @@ import {
   cancelUserSub,
   deleteUser,
   removeSharedAccount,
-  updateUserSub,
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {

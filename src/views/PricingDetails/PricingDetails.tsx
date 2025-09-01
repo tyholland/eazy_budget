@@ -47,7 +47,11 @@ const PricingDetails = ({
     });
   };
 
-  const updateSubscription = async (plan: number, paid: boolean) => {
+  const updateSubscription = async (
+    plan: number,
+    paid: boolean,
+    sub_id?: string | null,
+  ) => {
     try {
       const accessToken = await getAccessTokenSilently({
         authorizationParams: {
@@ -60,11 +64,13 @@ const PricingDetails = ({
           ...currentUser,
           paid_sub: paid,
           subscription_id: plan,
+          paypal_sub_id: sub_id,
         });
 
       await updateUserSub(accessToken, {
         plan,
         paid,
+        paypal_sub: sub_id,
       });
     } catch (err) {
       trackError("PricingDeltails - updateSubscription:", { result: err });

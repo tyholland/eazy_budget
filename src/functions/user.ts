@@ -42,6 +42,7 @@ export const addUser = async (
         shared_account_email: userResponse.shared_account_email,
         paid_sub: userResponse.paid_sub,
         subscribed_at: userResponse.subscribed_at,
+        paypal_sub_id: userResponse.paypal_sub_id,
       });
       setHasBudget(userResponse.hasBudget);
       trackIdentity(userResponse.subscription_id, user.sub, user.email);

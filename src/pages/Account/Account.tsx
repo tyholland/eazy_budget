@@ -54,6 +54,7 @@ const Account = () => {
     currentUser?.subscription_id,
   );
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isFree = !isOriginal && !isStarter && !isPro;
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -181,6 +182,13 @@ const Account = () => {
                     </Button>
                   </S.Section>
                 )}
+                {isFree && (
+                  <S.Section>
+                    <Link url="/pricing" label="Upgrade to Subscription">
+                      Upgrade to Subscription
+                    </Link>
+                  </S.Section>
+                )}
                 <S.Section>
                   <Button
                     handleClick={() => {
@@ -291,13 +299,6 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                {!isOriginal && (
-                  <S.Section>
-                    <Link url="/pricing" label="Change Subscription">
-                      Change Subscription
-                    </Link>
-                  </S.Section>
-                )}
                 <S.Section>
                   <Link
                     url="/account/subscription"

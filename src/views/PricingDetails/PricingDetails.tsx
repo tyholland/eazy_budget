@@ -33,8 +33,9 @@ const PricingDetails = ({
     !isOriginal &&
     !isPro;
   const isFree = !isOriginal && !isStarter && !isPro;
-
   const isSelected = currentUser ? currentUser.subscription_id || 2 : null;
+  const notComplete =
+    !!currentUser && !currentUser.paid_sub && !currentUser.paypal_sub_id;
 
   const getSubscription = (sub: number) => {
     loginWithRedirect({
@@ -90,7 +91,7 @@ const PricingDetails = ({
             : isSelected === 2
               ? "highlight"
               : ""
-        } ${isPayPal && "paypal"}`}
+        } ${(isPayPal || isUpgrade) && "paypal"}`}
       >
         <S.Title>Free Plan</S.Title>
         <S.Price>
@@ -102,13 +103,15 @@ const PricingDetails = ({
             <Button
               handleClick={() => updateSubscription(2, false)}
               buttonSize="medium"
-              disabled={isUpgrade && isSelected === 2}
             >
-              {isUpgrade && isSelected === 2
-                ? "Current Plan"
-                : isUpgrade
-                  ? "Switch"
-                  : "Free"}
+              Switch to Free
+            </Button>
+          </S.SubscribeBtn>
+        )}
+        {isUpgrade && (
+          <S.SubscribeBtn className="paypal">
+            <Button buttonSize="medium" disabled={isSelected === 2}>
+              Current Plan
             </Button>
           </S.SubscribeBtn>
         )}
@@ -145,7 +148,7 @@ const PricingDetails = ({
             : isSelected === 3
               ? "highlight"
               : ""
-        } ${isPayPal && "paypal"}`}
+        } ${(isPayPal || isUpgrade) && "paypal"}`}
       >
         <S.Title>Starter Plan</S.Title>
         <S.Price>
@@ -156,13 +159,9 @@ const PricingDetails = ({
         </div>
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            {(isUpgrade && isSelected === 3) || isUpgrade ? (
-              <Button
-                handleClick={() => {}}
-                buttonSize="medium"
-                disabled={isSelected === 3}
-              >
-                {isSelected === 3 ? "Current Plan" : "Switch & Pay $10"}
+            {isSelected === 3 && !notComplete ? (
+              <Button buttonSize="medium" disabled={isSelected === 3}>
+                Current Plan
               </Button>
             ) : (
               <PaypalBtn
@@ -171,6 +170,15 @@ const PricingDetails = ({
                 planNum={3}
               />
             )}
+          </S.SubscribeBtn>
+        )}
+        {isUpgrade && (
+          <S.SubscribeBtn className="paypal">
+            <PaypalBtn
+              sub="P-4UE89663UT051505WNCZW36A"
+              addSub={updateSubscription}
+              planNum={3}
+            />
           </S.SubscribeBtn>
         )}
         <ul>
@@ -201,7 +209,7 @@ const PricingDetails = ({
             : isSelected === 4
               ? "highlight"
               : ""
-        } ${isPayPal && "paypal"}`}
+        } ${(isPayPal || isUpgrade) && "paypal"}`}
       >
         <S.Title>Pro Plan</S.Title>
         <S.Price>
@@ -213,13 +221,9 @@ const PricingDetails = ({
         </div>
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            {(isUpgrade && isSelected === 4) || isUpgrade ? (
-              <Button
-                handleClick={() => {}}
-                buttonSize="medium"
-                disabled={isSelected === 4}
-              >
-                {isSelected === 4 ? "Current Plan" : "Switch & Pay $20"}
+            {isSelected === 4 && !notComplete ? (
+              <Button buttonSize="medium" disabled={isSelected === 4}>
+                Current Plan
               </Button>
             ) : (
               <PaypalBtn
@@ -228,6 +232,15 @@ const PricingDetails = ({
                 planNum={4}
               />
             )}
+          </S.SubscribeBtn>
+        )}
+        {isUpgrade && (
+          <S.SubscribeBtn className="paypal">
+            <PaypalBtn
+              sub="P-0U075029M3838631HNCZ3PQI"
+              addSub={updateSubscription}
+              planNum={4}
+            />
           </S.SubscribeBtn>
         )}
         <ul>

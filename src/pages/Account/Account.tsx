@@ -11,6 +11,7 @@ import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import {
+  cancelUserSub,
   deleteUser,
   removeSharedAccount,
   updateUserSub,
@@ -100,18 +101,17 @@ const Account = () => {
           ...currentUser,
           paid_sub: false,
           subscription_id: 2,
+          paypal_sub_id: null,
         });
 
-      await updateUserSub(accessToken, {
-        plan: 2,
-        paid: false,
+      await cancelUserSub(accessToken, {
+        paypal_sub: currentUser?.paypal_sub_id,
       });
       trackEvent("Cancel Subscription");
+      setIsCancelOpen(false);
     } catch (err) {
       trackError("Account - cancelSubscription:", { result: err });
     }
-
-    logOutAccount();
   };
 
   const removeSharedAccess = async () => {

@@ -27,7 +27,7 @@ const Home = () => {
   const { getAccessTokenSilently } = useAuth0();
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
-  const currentUser = useAtomValue(userAtom);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isSubmitDisabled, setSubmitIsDisabled] = useState<boolean>(true);
@@ -78,6 +78,11 @@ const Home = () => {
       );
       setBudget(formattedBudget);
       setHasBudgetItems(true);
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          hasBudget: true,
+        });
       trackEvent("Submitted Initial Budget");
     } catch (err) {
       trackError("Home - handleBudgetSubmission:", { result: err });

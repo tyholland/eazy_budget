@@ -3,9 +3,17 @@ import * as S from "./pricing.style.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { getSubscriptionStatus } from "../../functions/helper.ts";
 
 const Pricing = () => {
   const currentUser = useAtomValue(userAtom);
+  const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isPro =
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+  const isStarter =
+    getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
+    !isOriginal &&
+    !isPro;
 
   return (
     <>
@@ -24,8 +32,10 @@ const Pricing = () => {
       )}
       <PricingDetails
         isSignUp={!currentUser}
-        isPayPal={!!currentUser}
-        isUpgrade={!!currentUser && currentUser.hasBudget}
+        isPayPal={
+          !!currentUser && (isStarter || isPro) && !currentUser.paypal_sub_id
+        }
+        isUpgrade={!!currentUser && currentUser.subscription_id === 2}
       />
     </>
   );

@@ -9,7 +9,7 @@ import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 interface PaypalBtnProps {
   sub: string;
-  addSub: (plan: number, paid: boolean) => void;
+  addSub: (plan: number, paid: boolean, sub_id?: string | null) => void;
   planNum: number;
 }
 
@@ -40,7 +40,7 @@ const PaypalBtn = ({ sub, addSub, planNum }: PaypalBtnProps) => {
       trackEvent("Selected Subscription", {
         subscription_id: planNum,
       });
-      await addSub(planNum, true);
+      await addSub(planNum, true, data.subscriptionID);
     } catch (err) {
       trackError("PaypalBtn - onApprove:", { result: err });
     }

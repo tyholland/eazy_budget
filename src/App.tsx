@@ -21,6 +21,7 @@ import About from "./pages/About/About.tsx";
 import Contact from "./pages/Contact/Contact.tsx";
 import Privacy from "./pages/Privacy/Privacy.tsx";
 import Category from "./pages/Category/Category.tsx";
+import Ad from "./components/Ad/Ad.tsx";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <>
           <Header />
           <Breadcrumb />
+          <Ad />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/pricing" element={<Pricing />} />

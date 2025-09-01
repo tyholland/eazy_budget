@@ -113,3 +113,23 @@ export const updateUserSub = async (
     throw new Error(`Failed to update user sub`);
   }
 };
+
+export const cancelUserSub = async (
+  accessToken: string,
+  updatedSub: Object,
+) => {
+  try {
+    const userCancelResponse = await fetch(`${api}/user/cancel/sub`, {
+      method: "PUT",
+      body: JSON.stringify({ ...updatedSub }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await userCancelResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to cancel user sub`);
+  }
+};

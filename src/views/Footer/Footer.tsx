@@ -5,6 +5,7 @@ import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import FacebookIcon from "../../svg/FacebookIcon.tsx";
 import InstagramIcon from "../../svg/InstagramIcon.tsx";
+import LinkedInIcon from "../../svg/LinkedInIcon.tsx";
 
 const Footer = () => {
   const date = new Date();
@@ -72,6 +73,14 @@ const Footer = () => {
           target="_blank"
         >
           <InstagramIcon />
+        </Link>
+        <Link
+          url="https://www.linkedin.com/company/simple-budgeting"
+          label="Simple Budgeting LinkedIn Account"
+          linkSize="medium"
+          target="_blank"
+        >
+          <LinkedInIcon />
         </Link>
       </S.Links>
       <S.Copyright>

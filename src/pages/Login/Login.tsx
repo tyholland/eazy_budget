@@ -53,7 +53,7 @@ const Login = () => {
           automatically apply them across the entire year—saving you time and
           ensuring consistent financial planning.
         </h2>
-        <video width="650" height="auto" muted loop controls>
+        <video width="650" height="auto" muted loop autoPlay>
           <source src="/videos/create-budget.mp4" type="video/mp4" />
           <img
             src="/images/homepage-create.png"
@@ -68,7 +68,7 @@ const Login = () => {
           Easily customize your budget—edit existing items or add new expenses
           to keep your financial plan accurate and up to date.
         </h2>
-        <video width="650" height="auto" muted loop controls>
+        <video width="650" height="auto" muted loop autoPlay>
           <source src="/videos/add-edit-budget.mp4" type="video/mp4" />
           <img
             src="/images/homepage-add-edit.png"

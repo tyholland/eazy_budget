@@ -17,6 +17,7 @@ const Breadcrumb = () => {
     "/about",
     "/privacy",
     "/contact",
+    "/referral",
   ];
 
   if (noBreadCrumbList.includes(pathname)) {

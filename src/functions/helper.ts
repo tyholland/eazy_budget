@@ -137,15 +137,32 @@ export const getSubscriptionStatus = (
   }
 
   const ogPlan = subscription_id === 1;
+  const freePlan = subscription_id === 2;
   const starterPlan = subscription_id === 3;
   const proPlan = subscription_id === 4;
+  const testerPlan = subscription_id === 5;
+
+  // Referral plans
+  const starterYearPlan = subscription_id === 6;
+  const proYearPlan = subscription_id === 7;
 
   if ("Starter" === expectedPlan) {
-    return starterPlan || proPlan || ogPlan;
+    return (
+      starterPlan ||
+      proPlan ||
+      ogPlan ||
+      starterYearPlan ||
+      proYearPlan ||
+      testerPlan
+    );
   }
 
   if ("Pro" === expectedPlan) {
-    return proPlan || ogPlan;
+    return proPlan || ogPlan || testerPlan || proYearPlan;
+  }
+
+  if ("Free" === expectedPlan) {
+    return freePlan || ogPlan;
   }
 
   return ogPlan;

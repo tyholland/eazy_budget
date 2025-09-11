@@ -41,6 +41,7 @@ const Account = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
+  const [isReferralOpen, setIsReferralOpen] = useState<boolean>(false);
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
@@ -270,6 +271,41 @@ const Account = () => {
                 )}
               </>
             )}
+            {selectedOption === "referrals" && (
+              <>
+                <S.Section>
+                  <Input
+                    label="referral_code"
+                    labelValue="Code:"
+                    onChange={() => {}}
+                    placeHolder="Referral Code"
+                    isDisabled
+                    defaultValue={currentUser?.referral_code || ""}
+                    inputType="text"
+                  />
+                </S.Section>
+                <S.Section>
+                  <Input
+                    label="referral_count"
+                    labelValue="Count:"
+                    onChange={() => {}}
+                    placeHolder="Referral Count"
+                    isDisabled
+                    defaultValue={currentUser?.referral_count || ""}
+                    inputType="text"
+                  />
+                </S.Section>
+                <S.Section>
+                  <Button
+                    handleClick={() => setIsReferralOpen(true)}
+                    buttonSize="medium"
+                    classType="text"
+                  >
+                    <span>Choose Referral Plan</span>
+                  </Button>
+                </S.Section>
+              </>
+            )}
             {selectedOption === "subscription" && (
               <>
                 <S.Section>
@@ -414,6 +450,41 @@ const Account = () => {
                     handleClick={() => setIsCancelOpen(false)}
                   >
                     No
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent
+              isOpen={isReferralOpen}
+              title={`Choose Referral Plans`}
+              size="medium"
+            >
+              <S.ModalWrapper>
+                <span>
+                  Which plan would you like to select for the year?
+                  <br />
+                  Please note that you must meet the required referral count to
+                  be eligible for each option.
+                </span>
+                <S.ModalBtn>
+                  {/* Add logic to endpoint to make update & update currentUser */}
+                  <Button buttonSize="medium" handleClick={() => {}}>
+                    Starter Plan for 1 Year
+                  </Button>
+                  {/* Add logic to endpoint to make update & update currentUser */}
+                  <Button buttonSize="medium" handleClick={() => {}}>
+                    Pro Plan for 1 Year
+                  </Button>
+                </S.ModalBtn>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    classType="exit"
+                    handleClick={() => {
+                      setIsReferralOpen(false);
+                    }}
+                  >
+                    Close
                   </Button>
                 </S.ModalBtn>
               </S.ModalWrapper>

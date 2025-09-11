@@ -88,6 +88,8 @@ export interface UserResponse {
   categories: ExpenseCategory[];
   paid_sub: boolean;
   subscribed_at: string;
+  referral_code: string;
+  referral_count: string;
   paypal_sub_id?: string | null;
   connected_id?: number;
   primary_request?: string;

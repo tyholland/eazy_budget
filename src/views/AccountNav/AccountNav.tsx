@@ -12,9 +12,14 @@ interface AccountNavProps {
 
 const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
   const currentUser = useAtomValue(userAtom);
-  const subscribe =
+  const subscribe = getSubscriptionStatus(
+    "Starter",
+    currentUser?.subscription_id,
+  );
+  const referralSub =
     currentUser &&
-    (currentUser.subscription_id >= 3 || currentUser.subscription_id === 1);
+    currentUser.subscription_id !== 2 &&
+    currentUser.subscription_id !== 1;
 
   return (
     <S.NavWrapper>
@@ -41,6 +46,21 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
             }}
           >
             Budget
+          </Button>
+        </S.NavItem>
+      )}
+      {/* Add logic to show only if it has a budget and if a referral plan hasn't been selected */}
+      {currentUser?.hasBudget && !referralSub && (
+        <S.NavItem
+          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}
+        >
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("referrals");
+            }}
+          >
+            Referrals
           </Button>
         </S.NavItem>
       )}

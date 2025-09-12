@@ -82,6 +82,11 @@ const Referral = () => {
             </li>
           </ul>
         </div>
+        <div>
+          <strong>Note</strong>: After the one-year reward period ends, your
+          account will automatically transition to the{" "}
+          <strong>free plan</strong>.
+        </div>
       </S.Section>
       <S.Section>
         <S.SubTitle>Why Join?</S.SubTitle>

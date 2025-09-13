@@ -15,6 +15,8 @@ const Pricing = () => {
     !isOriginal &&
     !isPro;
 
+  console.log(currentUser);
+
   return (
     <>
       {!currentUser && <S.Title>Subscription Pricing</S.Title>}

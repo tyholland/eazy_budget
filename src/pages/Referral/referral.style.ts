@@ -44,4 +44,23 @@ export const Section = styled.div`
       margin-top: 10px;
     }
   }
+
+  a.text {
+    font-weight: 600;
+    display: inline-block;
+    color: ${BLACK};
+    font-size: 16px;
+    text-decoration: underline;
+
+    &:hover {
+      color: ${BLACK};
+    }
+  }
+
+  &.disclaimer {
+    border: 0;
+    flex-direction: row;
+    padding: 0;
+    gap: 0;
+  }
 `;

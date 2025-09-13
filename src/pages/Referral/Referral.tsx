@@ -19,12 +19,18 @@ const Referral = () => {
         <div>
           <ol>
             <li>
-              <strong>Sign Up for Free</strong>
+              <Link url="/pricing" label="Sign Up for Free">
+                Sign Up for Free
+              </Link>
               <ul>
                 <li>Anyone can join at no cost.</li>
                 <li>
-                  After signing up, enter your income and expenses to create
-                  your <strong>budgeting profile</strong>.
+                  After{" "}
+                  <Link url="/pricing" label="signing up">
+                    signing up
+                  </Link>
+                  , enter your income and expenses to create your{" "}
+                  <strong>budgeting profile</strong>.
                 </li>
               </ul>
             </li>
@@ -70,15 +76,15 @@ const Referral = () => {
           <ul>
             <li>
               <strong>10 Confirmed Referrals</strong> → Unlock the{" "}
-              <strong>Starter Plan FREE for 1 Year</strong>
+              <Link url="/privacy" label="Starter Plan FREE for 1 Year">
+                Starter Plan FREE for 1 Year
+              </Link>
             </li>
             <li>
               <strong>20 Confirmed Referrals</strong> → Unlock the{" "}
-              <strong>
-                <Link url="/privacy" label="Pro Plan FREE for 1 Year">
-                  Pro Plan FREE for 1 Year
-                </Link>
-              </strong>
+              <Link url="/privacy" label="Pro Plan FREE for 1 Year">
+                Pro Plan FREE for 1 Year
+              </Link>
             </li>
           </ul>
         </div>
@@ -105,12 +111,15 @@ const Referral = () => {
           </ul>
         </div>
       </S.Section>
-      <div>
+      <S.Section className="disclaimer">
         Don't miss your chance—
+        <Link url="/pricing" label="sign up">
+          sign up
+        </Link>
         <strong>
-          sign up, share your code, and win premium rewards this October!
+          , share your code, and win premium rewards this October!
         </strong>
-      </div>
+      </S.Section>
     </S.Wrapper>
   );
 };

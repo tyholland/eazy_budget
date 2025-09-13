@@ -43,6 +43,8 @@ export const addUser = async (
         paid_sub: userResponse.paid_sub,
         subscribed_at: userResponse.subscribed_at,
         paypal_sub_id: userResponse.paypal_sub_id,
+        referral_code: userResponse.referral_code,
+        referral_count: userResponse.referral_count,
       });
       setHasBudget(userResponse.hasBudget);
       trackIdentity(userResponse.subscription_id, user.sub, user.email);

@@ -138,7 +138,7 @@ const Monthly = () => {
       />
       <S.ContentWrapper>
         <S.Title>
-          {month} {theYear} {type}
+          {month} {theYear} {selectedOption === "details" ? "Details" : type}
         </S.Title>
         {selectedOption === type && (
           <>

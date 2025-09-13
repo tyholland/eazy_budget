@@ -3,13 +3,9 @@ import {
   BLACK,
   EARTH_GREEN,
   LIGHT_GREEN,
-  LIGHT_RED,
-  LIGHT_SKY_BLUE,
   LIGHT_YELLOW,
   OFF_WHITE,
-  RED,
   RUBIK,
-  SKY_BLUE,
   WHITE,
 } from "../../index.style.ts";
 

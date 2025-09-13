@@ -165,6 +165,10 @@ export const getSubscriptionStatus = (
     return freePlan || ogPlan;
   }
 
+  if ("Tester" === expectedPlan) {
+    return testerPlan;
+  }
+
   return ogPlan;
 };
 

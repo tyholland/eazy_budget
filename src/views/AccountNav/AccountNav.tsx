@@ -16,10 +16,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
     "Starter",
     currentUser?.subscription_id,
   );
-  const referralSub =
-    currentUser &&
-    currentUser.subscription_id !== 2 &&
-    currentUser.subscription_id !== 1;
+  const referralSub = currentUser && currentUser.subscription_id === 2;
 
   return (
     <S.NavWrapper>
@@ -49,7 +46,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           </Button>
         </S.NavItem>
       )}
-      {/* Add logic to show only if it has a budget and if a referral plan hasn't been selected */}
+      {/* Add logic to show only if it has a budget and if on a free plan only */}
       {currentUser?.hasBudget && !referralSub && (
         <S.NavItem
           className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}

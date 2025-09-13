@@ -107,11 +107,16 @@ const Home = () => {
   }
 
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isTester = getSubscriptionStatus(
+    "Tester",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester;
   const isPro =
-    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-    !isOriginal &&
+    !foreverFree &&
     !isPro;
   const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
   const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;

@@ -103,7 +103,13 @@ export const budgetViewMatch = [
   },
 ];
 
-export const subscriptionPlan = ["Grandfathered", "Free", "Starter", "Pro"];
+export const subscriptionPlan = [
+  "Grandfathered",
+  "Free",
+  "Starter",
+  "Pro",
+  "Tester",
+];
 
 export const budgetQuotes = [
   '"Budgeting your money is the key to having enough." by Elizabeth Warren',

@@ -55,7 +55,12 @@ const Account = () => {
     currentUser?.subscription_id,
   );
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
-  const isFree = !isOriginal && !isStarter && !isPro;
+  const isTester = getSubscriptionStatus(
+    "Tester",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester;
+  const isFree = !foreverFree && !isStarter && !isPro && !isTester;
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -342,7 +347,7 @@ const Account = () => {
                     Subscription Details
                   </Link>
                 </S.Section>
-                {!isOriginal && (
+                {!foreverFree && (
                   <S.Section>
                     <Button
                       handleClick={() => setIsCancelOpen(true)}

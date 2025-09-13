@@ -169,7 +169,7 @@ export const getSubscriptionStatus = (
     return testerPlan;
   }
 
-  return ogPlan;
+  return freePlan;
 };
 
 export const getSubscriptionName = (subscription_id?: number) => {

@@ -19,6 +19,16 @@ const Login = () => {
 
   return (
     <S.Wrapper>
+      <S.Section className="link">
+        <Link
+          url="/referral"
+          classType="button"
+          linkSize="large"
+          label="Play Simple Budgeting's Referral Game this October!"
+        >
+          Play Simple Budgeting's Referral Game this October!
+        </Link>
+      </S.Section>
       <S.Section>
         <img
           src="/images/login.jpg"

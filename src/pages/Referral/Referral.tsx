@@ -8,6 +8,15 @@ const Referral = () => {
       <S.Section>
         <S.Title>Simple Budgeting's Referral Program Game</S.Title>
         <strong>Game Duration: October 1-31, 2025</strong>
+
+        <Link
+          url="/pricing"
+          classType="button"
+          label="Sign Up"
+          linkSize="medium"
+        >
+          Sign Up
+        </Link>
         <div>
           This October, Simple Budgeting is turning referrals into rewards! Join
           the <strong>Referral Program Game</strong> and earn premium
@@ -120,6 +129,9 @@ const Referral = () => {
           , share your code, and win premium rewards this October!
         </strong>
       </S.Section>
+      <Link url="/pricing" classType="button" label="Sign Up" linkSize="medium">
+        Sign Up
+      </Link>
     </S.Wrapper>
   );
 };

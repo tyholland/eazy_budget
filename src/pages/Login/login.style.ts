@@ -1,5 +1,17 @@
 import styled from "styled-components";
-import { EARTH_GREEN, OFF_WHITE, RUBIK, WHITE } from "../../index.style.ts";
+import {
+  BLACK,
+  EARTH_GREEN,
+  LIGHT_GREEN,
+  LIGHT_RED,
+  LIGHT_SKY_BLUE,
+  LIGHT_YELLOW,
+  OFF_WHITE,
+  RED,
+  RUBIK,
+  SKY_BLUE,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -69,6 +81,29 @@ export const Section = styled.div`
     @media only screen and (max-width: 800px) {
       width: 100%;
       height: auto;
+    }
+  }
+
+  &.link {
+    justify-content: center;
+    padding: 0;
+
+    a {
+      width: 90%;
+      height: 60px;
+      font-size: 28px;
+      border-radius: 15px;
+      background: ${LIGHT_GREEN};
+      box-shadow: 0 0 10px ${BLACK};
+
+      &:hover {
+        background: ${LIGHT_YELLOW};
+      }
+
+      @media only screen and (max-width: 800px) {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 `;

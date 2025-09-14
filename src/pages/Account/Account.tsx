@@ -14,6 +14,7 @@ import {
   cancelUserSub,
   deleteUser,
   removeSharedAccount,
+  startReferralPlan,
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
@@ -134,6 +135,30 @@ const Account = () => {
     }
 
     logOutAccount();
+  };
+
+  const startReferralTrial = async (plan: number) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          subscription_id: plan,
+        });
+
+      await startReferralPlan(accessToken, {
+        plan,
+      });
+      trackEvent("Start Referral Plan Trial");
+      setIsReferralOpen(false);
+    } catch (err) {
+      trackError("Account - startReferralTrial:", { result: err });
+    }
   };
 
   if (isLoading) {
@@ -472,10 +497,9 @@ const Account = () => {
                   be eligible for each option.
                 </span>
                 <S.ModalBtn className="referral">
-                  {/* Add logic to endpoint to make update & update currentUser */}
                   <Button
                     buttonSize="medium"
-                    handleClick={() => {}}
+                    handleClick={() => startReferralTrial(6)}
                     disabled={
                       currentUser && Number(currentUser.referral_count) < 10
                     }
@@ -485,10 +509,9 @@ const Account = () => {
                       <span>for 1 Year</span>
                     </>
                   </Button>
-                  {/* Add logic to endpoint to make update & update currentUser */}
                   <Button
                     buttonSize="medium"
-                    handleClick={() => {}}
+                    handleClick={() => startReferralTrial(7)}
                     disabled={
                       currentUser && Number(currentUser.referral_count) < 20
                     }

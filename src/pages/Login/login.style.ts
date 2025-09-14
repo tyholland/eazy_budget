@@ -97,7 +97,6 @@ export const Section = styled.div`
       }
 
       @media only screen and (max-width: 800px) {
-        width: 100%;
         height: auto;
       }
     }

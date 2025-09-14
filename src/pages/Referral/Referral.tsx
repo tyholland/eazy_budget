@@ -100,7 +100,10 @@ const Referral = () => {
         <div>
           <strong>Note</strong>: After the one-year reward period ends, your
           account will automatically transition to the{" "}
-          <strong>free plan</strong>.
+          <Link url="/privacy" label="free plan">
+            free plan
+          </Link>
+          .
         </div>
       </S.Section>
       <S.Section>

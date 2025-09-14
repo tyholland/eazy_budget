@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { BLACK, RUBIK } from "../../index.style.ts";
+import { BLACK, LIGHT_SKY_BLUE, RUBIK, SKY_BLUE } from "../../index.style.ts";
 
 export const Title = styled.div`
   font-family: ${RUBIK};
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 700;
 `;
 
@@ -42,18 +42,19 @@ export const Section = styled.div`
 
     li ul {
       margin-top: 10px;
+      padding: 0 0 0 20px;
     }
   }
 
   a.text {
     font-weight: 600;
     display: inline-block;
-    color: ${BLACK};
+    color: #06c;
     font-size: 16px;
     text-decoration: underline;
 
     &:hover {
-      color: ${BLACK};
+      color: ${SKY_BLUE};
     }
   }
 
@@ -62,5 +63,9 @@ export const Section = styled.div`
     flex-direction: row;
     padding: 0;
     gap: 0;
+
+    @media only screen and (max-width: 800px) {
+      display: block;
+    }
   }
 `;

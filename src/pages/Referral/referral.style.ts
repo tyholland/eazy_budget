@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_SKY_BLUE, RUBIK, SKY_BLUE } from "../../index.style.ts";
+import { BLACK, RUBIK, SKY_BLUE } from "../../index.style.ts";
 
 export const Title = styled.div`
   font-family: ${RUBIK};

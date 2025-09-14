@@ -109,6 +109,8 @@ export const subscriptionPlan = [
   "Starter",
   "Pro",
   "Tester",
+  "Starter Plan - 1 Year",
+  "Pro Plan - 1 Year",
 ];
 
 export const budgetQuotes = [

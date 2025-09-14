@@ -15,6 +15,7 @@ interface PricingDetailsProps {
   isPayPal?: boolean;
   isUpgrade?: boolean;
   isHighlighted?: boolean;
+  isSelectedPlan?: string | null;
 }
 
 const PricingDetails = ({
@@ -22,6 +23,7 @@ const PricingDetails = ({
   isPayPal = false,
   isUpgrade = false,
   isHighlighted = false,
+  isSelectedPlan,
 }: PricingDetailsProps) => {
   const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
@@ -38,7 +40,11 @@ const PricingDetails = ({
     !foreverFree &&
     !isPro;
   const isFree = !foreverFree && !isStarter && !isPro;
-  const isSelected = currentUser ? currentUser.subscription_id || 2 : null;
+  const isSelected = isSelectedPlan
+    ? isSelectedPlan
+    : currentUser
+      ? currentUser.subscription_id || 2
+      : null;
   const notComplete =
     !!currentUser && !currentUser.paid_sub && !currentUser.paypal_sub_id;
 
@@ -73,6 +79,8 @@ const PricingDetails = ({
           paypal_sub_id: sub_id,
         });
 
+      localStorage.removeItem("plan");
+      localStorage.removeItem("referral");
       await updateUserSub(accessToken, {
         plan,
         paid,

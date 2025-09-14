@@ -47,7 +47,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
         </S.NavItem>
       )}
       {/* Add logic to show only if it has a budget and if on a free plan only */}
-      {currentUser?.hasBudget && !referralSub && (
+      {currentUser?.hasBudget && referralSub && (
         <S.NavItem
           className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}
         >

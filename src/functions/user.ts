@@ -20,14 +20,13 @@ export const addUser = async (
     });
 
     if (user) {
-      const params = new URLSearchParams(window.location.search);
-      const plan = params.get("plan");
+      const referral_code = localStorage.getItem("referral_code");
 
       const userResponse: UserResponse =
         user.email &&
         (await createUser(accessToken, {
           email: user.email,
-          plan: Number(plan) || 2,
+          referral_code: referral_code || undefined,
         }));
 
       setCurrentUser({
@@ -44,7 +43,7 @@ export const addUser = async (
         subscribed_at: userResponse.subscribed_at,
         paypal_sub_id: userResponse.paypal_sub_id,
         referral_code: userResponse.referral_code,
-        referral_count: userResponse.referral_count,
+        referral_count: userResponse.referral_count.toString() || "0",
       });
       setHasBudget(userResponse.hasBudget);
       trackIdentity(userResponse.subscription_id, user.sub, user.email);

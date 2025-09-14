@@ -66,7 +66,7 @@ export interface BudgetBodyInfo {
 
 export interface UserRequest {
   email: string;
-  plan?: number;
+  referral_code?: string;
 }
 
 export interface ConnectedDecisionRequest {

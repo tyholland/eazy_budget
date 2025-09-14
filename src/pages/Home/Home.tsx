@@ -58,6 +58,11 @@ const Home = () => {
     "expense",
   );
 
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+
+  plan && localStorage.setItem("plan", plan);
+
   const handleBudgetSubmission = async () => {
     const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
     setIsDisabled(true);
@@ -191,7 +196,10 @@ const Home = () => {
             plan. Alternatively, feel free to choose any option that best fits
             your needs.
           </div>
-          <PricingDetails isPayPal />
+          <PricingDetails
+            isPayPal
+            isSelectedPlan={plan || localStorage.getItem("plan")}
+          />
         </>
       )}
     </S.HomeWrapper>

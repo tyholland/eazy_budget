@@ -285,7 +285,7 @@ const Account = () => {
                     onChange={() => {}}
                     placeHolder="Referral Code"
                     isDisabled
-                    defaultValue={currentUser?.referral_code || ""}
+                    defaultValue={`https://www.sbudgeting.com?referral=${currentUser?.referral_code || ""}`}
                     inputType="text"
                   />
                 </S.Section>
@@ -471,14 +471,32 @@ const Account = () => {
                   Please note that you must meet the required referral count to
                   be eligible for each option.
                 </span>
-                <S.ModalBtn>
+                <S.ModalBtn className="referral">
                   {/* Add logic to endpoint to make update & update currentUser */}
-                  <Button buttonSize="medium" handleClick={() => {}}>
-                    Starter Plan for 1 Year
+                  <Button
+                    buttonSize="medium"
+                    handleClick={() => {}}
+                    disabled={
+                      currentUser && Number(currentUser.referral_count) < 10
+                    }
+                  >
+                    <>
+                      <span>Starter Plan</span>
+                      <span>for 1 Year</span>
+                    </>
                   </Button>
                   {/* Add logic to endpoint to make update & update currentUser */}
-                  <Button buttonSize="medium" handleClick={() => {}}>
-                    Pro Plan for 1 Year
+                  <Button
+                    buttonSize="medium"
+                    handleClick={() => {}}
+                    disabled={
+                      currentUser && Number(currentUser.referral_count) < 20
+                    }
+                  >
+                    <>
+                      <span>Pro Plan</span>
+                      <span>for 1 Year</span>
+                    </>
                   </Button>
                 </S.ModalBtn>
                 <S.ModalBtn>

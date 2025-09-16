@@ -45,6 +45,8 @@ export interface BudgetDataItem {
   cadence?: string;
   type?: string;
   category_id?: number;
+  item_name?: string[];
+  item_value?: number[];
 }
 
 export interface BudgetData {

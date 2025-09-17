@@ -32,7 +32,11 @@ const PricingDetails = ({
     "Tester",
     currentUser?.subscription_id,
   );
-  const foreverFree = isOriginal || isTester;
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =
@@ -47,6 +51,13 @@ const PricingDetails = ({
       : null;
   const notComplete =
     !!currentUser && !currentUser.paid_sub && !currentUser.paypal_sub_id;
+
+  const isSelectedStarter = isSelected === 3 || isSelected === 6;
+  const isSelectedPro =
+    isSelected === 1 ||
+    isSelected === 4 ||
+    isSelected === 5 ||
+    isSelected === 7;
 
   const getSubscription = (sub: number) => {
     loginWithRedirect({
@@ -158,7 +169,7 @@ const PricingDetails = ({
         className={`${
           isStarter && isHighlighted
             ? "highlight"
-            : isSelected === 3
+            : isSelectedStarter
               ? "highlight"
               : ""
         } ${(isPayPal || isUpgrade) && "paypal"}`}
@@ -172,8 +183,8 @@ const PricingDetails = ({
         </div>
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            {isSelected === 3 && !notComplete ? (
-              <Button buttonSize="medium" disabled={isSelected === 3}>
+            {isSelectedStarter && !notComplete ? (
+              <Button buttonSize="medium" disabled={isSelectedStarter}>
                 Current Plan
               </Button>
             ) : (
@@ -219,7 +230,7 @@ const PricingDetails = ({
         className={`${
           (isPro || isOriginal) && isHighlighted
             ? "highlight"
-            : isSelected === 4
+            : isSelectedPro
               ? "highlight"
               : ""
         } ${(isPayPal || isUpgrade) && "paypal"}`}
@@ -234,8 +245,8 @@ const PricingDetails = ({
         </div>
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            {isSelected === 4 && !notComplete ? (
-              <Button buttonSize="medium" disabled={isSelected === 4}>
+            {isSelectedPro && !notComplete ? (
+              <Button buttonSize="medium" disabled={isSelectedPro}>
                 Current Plan
               </Button>
             ) : (

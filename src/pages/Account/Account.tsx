@@ -61,7 +61,11 @@ const Account = () => {
     "Tester",
     currentUser?.subscription_id,
   );
-  const foreverFree = isOriginal || isTester;
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
   const isFree = !foreverFree && !isStarter && !isPro && !isTester;
 
   const logOutAccount = () => {

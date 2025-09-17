@@ -12,7 +12,11 @@ const Pricing = () => {
     "Tester",
     currentUser?.subscription_id,
   );
-  const foreverFree = isOriginal || isTester;
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =

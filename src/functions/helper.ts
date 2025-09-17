@@ -169,6 +169,10 @@ export const getSubscriptionStatus = (
     return testerPlan || ogPlan;
   }
 
+  if ("Referral" === expectedPlan) {
+    return starterYearPlan || proYearPlan;
+  }
+
   if ("OG" === expectedPlan) {
     return ogPlan;
   }

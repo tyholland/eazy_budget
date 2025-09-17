@@ -31,6 +31,7 @@ import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import moment from "moment-business-days";
+import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -186,6 +187,7 @@ const Account = () => {
   return (
     <>
       {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
+      {currentUser?.subscription_id === 2 && <ReferralBtn type="account" />}
       <S.Wrapper>
         <AccountNav
           setSelectedOption={setSelectedOption}

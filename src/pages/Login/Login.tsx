@@ -4,6 +4,7 @@ import * as S from "./login.style.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
 import Link from "../../components/Link/Link.tsx";
+import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 
 const Login = () => {
   const { isLoading, user } = useAuth0();
@@ -23,16 +24,7 @@ const Login = () => {
 
   return (
     <S.Wrapper>
-      <S.Section className="link">
-        <Link
-          url="/referral"
-          classType="button"
-          linkSize="large"
-          label="Play Simple Budgeting's Referral Game this October!"
-        >
-          Play Simple Budgeting's Referral Game this October!
-        </Link>
-      </S.Section>
+      <ReferralBtn />
       <S.Section>
         <img
           src="/images/login.jpg"

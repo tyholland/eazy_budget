@@ -79,28 +79,6 @@ export const Section = styled.div`
       height: auto;
     }
   }
-
-  &.link {
-    justify-content: center;
-    padding: 0;
-
-    a {
-      width: 90%;
-      height: 60px;
-      font-size: 28px;
-      border-radius: 15px;
-      background: ${LIGHT_GREEN};
-      box-shadow: 0 0 10px ${BLACK};
-
-      &:hover {
-        background: ${LIGHT_YELLOW};
-      }
-
-      @media only screen and (max-width: 800px) {
-        height: auto;
-      }
-    }
-  }
 `;
 
 export const Catchphrase = styled.div`

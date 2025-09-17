@@ -377,7 +377,6 @@ const BudgetItem = ({
         </S.ItemTopRow>
         {!hidePaidContent && (
           <>
-            {/* For Daily as a question mark tooltip to let the user know that amount doesn't reflect holidays */}
             <div>
               {getFrequencyContent(month, year, item?.value, item?.frequency)}
             </div>

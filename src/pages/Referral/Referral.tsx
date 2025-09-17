@@ -93,7 +93,7 @@ const Referral = () => {
         <div>
           <ul>
             <li>
-              <strong>10 Confirmed Referrals</strong> → Unlock the{" "}
+              <strong>5 Confirmed Referrals</strong> → Unlock the{" "}
               <Link
                 url="/pricing"
                 label="Starter Plan at $1/month for 1 Year"
@@ -103,7 +103,7 @@ const Referral = () => {
               </Link>
             </li>
             <li>
-              <strong>20 Confirmed Referrals</strong> → Unlock the{" "}
+              <strong>10 Confirmed Referrals</strong> → Unlock the{" "}
               <Link
                 url="/pricing"
                 label="Pro Plan at $1/month for 1 Year"
@@ -116,13 +116,13 @@ const Referral = () => {
         </div>
         <div>
           <strong>Note</strong>: After the one-year reward period ends, your
-          account will automatically transition to the current{" "}
+          account will automatically transition to the{" "}
           <Link
             url="/pricing"
             label="plan's actual amount"
             callBack={() => window.scrollTo(0, 0)}
           >
-            plan's actual amount
+            free plan
           </Link>
           .
         </div>

@@ -522,7 +522,7 @@ const Account = () => {
                     buttonSize="medium"
                     handleClick={() => startReferralTrial(6)}
                     disabled={
-                      currentUser && Number(currentUser.referral_count) < 10
+                      currentUser && Number(currentUser.referral_count) < 5
                     }
                   >
                     <>
@@ -534,7 +534,7 @@ const Account = () => {
                     buttonSize="medium"
                     handleClick={() => startReferralTrial(7)}
                     disabled={
-                      currentUser && Number(currentUser.referral_count) < 20
+                      currentUser && Number(currentUser.referral_count) < 10
                     }
                   >
                     <>

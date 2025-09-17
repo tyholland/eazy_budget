@@ -70,7 +70,7 @@ const BudgetItem = ({
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
-  const expenseCategory = currentUser?.categories.filter(
+  const expenseCategory = currentUser?.categories?.filter(
     (category) => category.id === item?.category_id,
   )[0];
   const specificFrequency = getSubscriptionStatus(
@@ -124,7 +124,7 @@ const BudgetItem = ({
   }, [item?.frequency]);
 
   useEffect(() => {
-    const expenseCategory = currentUser?.categories.filter(
+    const expenseCategory = currentUser?.categories?.filter(
       (category) => category.id === item?.category_id,
     )[0];
     item && setSelectedCategory(expenseCategory?.label || "");

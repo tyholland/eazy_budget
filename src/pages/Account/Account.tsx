@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import * as S from "./account.style.ts";
@@ -45,6 +45,7 @@ const Account = () => {
   const [isReferralOpen, setIsReferralOpen] = useState<boolean>(false);
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -158,6 +159,18 @@ const Account = () => {
       setIsReferralOpen(false);
     } catch (err) {
       trackError("Account - startReferralTrial:", { result: err });
+    }
+  };
+
+  const handleClick = async () => {
+    const codeText = document.querySelector("#referral_code");
+    const text = codeText?.getAttribute("value");
+
+    try {
+      await navigator.clipboard.writeText(text || "");
+      setIsCopied(true);
+    } catch (err) {
+      trackError("Account - handleClick:", { result: err });
     }
   };
 
@@ -308,8 +321,9 @@ const Account = () => {
                     label="referral_code"
                     labelValue="Code:"
                     onChange={() => {}}
+                    onClick={handleClick}
                     placeHolder="Referral Code"
-                    isDisabled
+                    isReadOnly
                     defaultValue={`https://www.sbudgeting.com?referral=${currentUser?.referral_code || ""}`}
                     inputType="text"
                   />
@@ -528,6 +542,24 @@ const Account = () => {
                     classType="exit"
                     handleClick={() => {
                       setIsReferralOpen(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent isOpen={isCopied} title={`Referral Link Copied`}>
+              <S.ModalWrapper>
+                <span>
+                  Your referral link has been copied to your clipboard. Share it
+                  to gain more confirmed referrals.
+                </span>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => {
+                      setIsCopied(false);
                     }}
                   >
                     Close

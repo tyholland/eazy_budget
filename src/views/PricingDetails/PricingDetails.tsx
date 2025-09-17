@@ -88,6 +88,7 @@ const PricingDetails = ({
           paid_sub: paid,
           subscription_id: plan,
           paypal_sub_id: sub_id,
+          subscribed_at: new Date(Date.now()).toISOString(),
         });
 
       localStorage.removeItem("plan");

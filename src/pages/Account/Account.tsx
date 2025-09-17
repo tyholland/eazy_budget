@@ -154,6 +154,7 @@ const Account = () => {
         setCurrentUser({
           ...currentUser,
           subscription_id: plan,
+          subscribed_at: new Date(Date.now()).toISOString(),
         });
 
       await startReferralPlan(accessToken, {

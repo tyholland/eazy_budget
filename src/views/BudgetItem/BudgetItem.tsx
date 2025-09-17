@@ -70,7 +70,7 @@ const BudgetItem = ({
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
-  const expenseCategory = currentUser?.categories.filter(
+  const expenseCategory = currentUser?.categories?.filter(
     (category) => category.id === item?.category_id,
   )[0];
   const specificFrequency = getSubscriptionStatus(
@@ -124,7 +124,7 @@ const BudgetItem = ({
   }, [item?.frequency]);
 
   useEffect(() => {
-    const expenseCategory = currentUser?.categories.filter(
+    const expenseCategory = currentUser?.categories?.filter(
       (category) => category.id === item?.category_id,
     )[0];
     item && setSelectedCategory(expenseCategory?.label || "");
@@ -139,7 +139,7 @@ const BudgetItem = ({
 
   const showCategorySelector =
     currentUser && theType === "expense"
-      ? currentUser.categories.length > 0
+      ? currentUser.categories?.length > 0
       : false;
 
   return (
@@ -207,7 +207,7 @@ const BudgetItem = ({
                       ) && (
                         <SelectComponent
                           options={
-                            currentUser?.categories.concat({
+                            currentUser?.categories?.concat({
                               id: 0,
                               label: "None",
                             }) || []
@@ -294,7 +294,7 @@ const BudgetItem = ({
                         setChangeInputVal(false);
 
                         const expenseCategory_id =
-                          currentUser?.categories.filter(
+                          currentUser?.categories?.filter(
                             (item) => item.label === selectedCategory,
                           )[0]?.id;
 
@@ -377,7 +377,6 @@ const BudgetItem = ({
         </S.ItemTopRow>
         {!hidePaidContent && (
           <>
-            {/* For Daily as a question mark tooltip to let the user know that amount doesn't reflect holidays */}
             <div>
               {getFrequencyContent(month, year, item?.value, item?.frequency)}
             </div>

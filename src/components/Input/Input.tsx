@@ -6,7 +6,9 @@ interface InputProps {
   labelValue: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeHolder: string;
+  onClick?: () => void;
   isDisabled?: boolean;
+  isReadOnly?: boolean;
   defaultValue?: string;
   inputType?: string;
 }
@@ -15,8 +17,10 @@ const Input = ({
   label,
   labelValue,
   onChange,
+  onClick = () => {},
   placeHolder,
   isDisabled,
+  isReadOnly = false,
   defaultValue,
   inputType = "number",
 }: InputProps) => {
@@ -31,6 +35,8 @@ const Input = ({
         onChange={onChange}
         disabled={isDisabled}
         value={defaultValue}
+        readOnly={isReadOnly}
+        onClick={onClick}
       />
     </S.InputWrapper>
   );

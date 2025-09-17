@@ -15,6 +15,7 @@ interface PricingDetailsProps {
   isPayPal?: boolean;
   isUpgrade?: boolean;
   isHighlighted?: boolean;
+  isSelectedPlan?: string | null;
 }
 
 const PricingDetails = ({
@@ -22,20 +23,41 @@ const PricingDetails = ({
   isPayPal = false,
   isUpgrade = false,
   isHighlighted = false,
+  isSelectedPlan,
 }: PricingDetailsProps) => {
   const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isTester = getSubscriptionStatus(
+    "Tester",
+    currentUser?.subscription_id,
+  );
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
   const isPro =
-    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-    !isOriginal &&
+    !foreverFree &&
     !isPro;
-  const isFree = !isOriginal && !isStarter && !isPro;
-  const isSelected = currentUser ? currentUser.subscription_id || 2 : null;
+  const isFree = !foreverFree && !isStarter && !isPro;
+  const isSelected = isSelectedPlan
+    ? isSelectedPlan
+    : currentUser
+      ? currentUser.subscription_id || 2
+      : null;
   const notComplete =
     !!currentUser && !currentUser.paid_sub && !currentUser.paypal_sub_id;
+
+  const isSelectedStarter = isSelected === 3 || isSelected === 6;
+  const isSelectedPro =
+    isSelected === 1 ||
+    isSelected === 4 ||
+    isSelected === 5 ||
+    isSelected === 7;
 
   const getSubscription = (sub: number) => {
     loginWithRedirect({
@@ -66,8 +88,11 @@ const PricingDetails = ({
           paid_sub: paid,
           subscription_id: plan,
           paypal_sub_id: sub_id,
+          subscribed_at: new Date(Date.now()).toISOString(),
         });
 
+      localStorage.removeItem("plan");
+      localStorage.removeItem("referral_code");
       await updateUserSub(accessToken, {
         plan,
         paid,
@@ -145,7 +170,7 @@ const PricingDetails = ({
         className={`${
           isStarter && isHighlighted
             ? "highlight"
-            : isSelected === 3
+            : isSelectedStarter
               ? "highlight"
               : ""
         } ${(isPayPal || isUpgrade) && "paypal"}`}
@@ -159,8 +184,8 @@ const PricingDetails = ({
         </div>
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            {isSelected === 3 && !notComplete ? (
-              <Button buttonSize="medium" disabled={isSelected === 3}>
+            {isSelectedStarter && !notComplete ? (
+              <Button buttonSize="medium" disabled={isSelectedStarter}>
                 Current Plan
               </Button>
             ) : (
@@ -206,7 +231,7 @@ const PricingDetails = ({
         className={`${
           (isPro || isOriginal) && isHighlighted
             ? "highlight"
-            : isSelected === 4
+            : isSelectedPro
               ? "highlight"
               : ""
         } ${(isPayPal || isUpgrade) && "paypal"}`}
@@ -221,8 +246,8 @@ const PricingDetails = ({
         </div>
         {isPayPal && (
           <S.SubscribeBtn className="paypal">
-            {isSelected === 4 && !notComplete ? (
-              <Button buttonSize="medium" disabled={isSelected === 4}>
+            {isSelectedPro && !notComplete ? (
+              <Button buttonSize="medium" disabled={isSelectedPro}>
                 Current Plan
               </Button>
             ) : (

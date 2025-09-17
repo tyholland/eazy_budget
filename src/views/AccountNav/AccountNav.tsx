@@ -12,9 +12,11 @@ interface AccountNavProps {
 
 const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
   const currentUser = useAtomValue(userAtom);
-  const subscribe =
-    currentUser &&
-    (currentUser.subscription_id >= 3 || currentUser.subscription_id === 1);
+  const subscribe = getSubscriptionStatus(
+    "Starter",
+    currentUser?.subscription_id,
+  );
+  // const referralSub = currentUser && currentUser.subscription_id === 2;
 
   return (
     <S.NavWrapper>
@@ -44,6 +46,20 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           </Button>
         </S.NavItem>
       )}
+      {/* {currentUser?.hasBudget && referralSub && (
+        <S.NavItem
+          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}
+        >
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("referrals");
+            }}
+          >
+            Referrals
+          </Button>
+        </S.NavItem>
+      )} */}
       {getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
         currentUser?.hasBudget && (
           <S.NavItem

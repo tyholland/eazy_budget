@@ -14,6 +14,7 @@ import {
   cancelUserSub,
   deleteUser,
   removeSharedAccount,
+  startReferralPlan,
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
@@ -30,6 +31,7 @@ import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import moment from "moment-business-days";
+import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -41,8 +43,10 @@ const Account = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
+  const [isReferralOpen, setIsReferralOpen] = useState<boolean>(false);
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -54,7 +58,16 @@ const Account = () => {
     currentUser?.subscription_id,
   );
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
-  const isFree = !isOriginal && !isStarter && !isPro;
+  const isTester = getSubscriptionStatus(
+    "Tester",
+    currentUser?.subscription_id,
+  );
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
+  const isFree = !foreverFree && !isStarter && !isPro && !isTester;
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -130,6 +143,43 @@ const Account = () => {
     logOutAccount();
   };
 
+  const startReferralTrial = async (plan: number) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          subscription_id: plan,
+          subscribed_at: new Date(Date.now()).toISOString(),
+        });
+
+      await startReferralPlan(accessToken, {
+        plan,
+      });
+      trackEvent("Start Referral Plan Trial");
+      setIsReferralOpen(false);
+    } catch (err) {
+      trackError("Account - startReferralTrial:", { result: err });
+    }
+  };
+
+  const handleClick = async () => {
+    const codeText = document.querySelector("#referral_code");
+    const text = codeText?.getAttribute("value");
+
+    try {
+      await navigator.clipboard.writeText(text || "");
+      setIsCopied(true);
+    } catch (err) {
+      trackError("Account - handleClick:", { result: err });
+    }
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -137,6 +187,7 @@ const Account = () => {
   return (
     <>
       {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
+      {currentUser?.subscription_id === 2 && <ReferralBtn type="account" />}
       <S.Wrapper>
         <AccountNav
           setSelectedOption={setSelectedOption}
@@ -270,6 +321,42 @@ const Account = () => {
                 )}
               </>
             )}
+            {selectedOption === "referrals" && (
+              <>
+                <S.Section>
+                  <Input
+                    label="referral_code"
+                    labelValue="Code:"
+                    onChange={() => {}}
+                    onClick={handleClick}
+                    placeHolder="Referral Code"
+                    isReadOnly
+                    defaultValue={`https://www.sbudgeting.com?referral=${currentUser?.referral_code || ""}`}
+                    inputType="text"
+                  />
+                </S.Section>
+                <S.Section>
+                  <Input
+                    label="referral_count"
+                    labelValue="Count:"
+                    onChange={() => {}}
+                    placeHolder="Referral Count"
+                    isDisabled
+                    defaultValue={currentUser?.referral_count || ""}
+                    inputType="text"
+                  />
+                </S.Section>
+                <S.Section>
+                  <Button
+                    handleClick={() => setIsReferralOpen(true)}
+                    buttonSize="medium"
+                    classType="text"
+                  >
+                    <span>Choose Referral Plan</span>
+                  </Button>
+                </S.Section>
+              </>
+            )}
             {selectedOption === "subscription" && (
               <>
                 <S.Section>
@@ -306,7 +393,7 @@ const Account = () => {
                     Subscription Details
                   </Link>
                 </S.Section>
-                {!isOriginal && (
+                {!foreverFree && (
                   <S.Section>
                     <Button
                       handleClick={() => setIsCancelOpen(true)}
@@ -414,6 +501,75 @@ const Account = () => {
                     handleClick={() => setIsCancelOpen(false)}
                   >
                     No
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent
+              isOpen={isReferralOpen}
+              title={`Choose Referral Plans`}
+              size="medium"
+            >
+              <S.ModalWrapper>
+                <span>
+                  Which plan would you like to select for the year?
+                  <br />
+                  Please note that you must meet the required referral count to
+                  be eligible for each option.
+                </span>
+                <S.ModalBtn className="referral">
+                  <Button
+                    buttonSize="medium"
+                    handleClick={() => startReferralTrial(6)}
+                    disabled={
+                      currentUser && Number(currentUser.referral_count) < 10
+                    }
+                  >
+                    <>
+                      <span>Starter Plan</span>
+                      <span>for 1 Year</span>
+                    </>
+                  </Button>
+                  <Button
+                    buttonSize="medium"
+                    handleClick={() => startReferralTrial(7)}
+                    disabled={
+                      currentUser && Number(currentUser.referral_count) < 20
+                    }
+                  >
+                    <>
+                      <span>Pro Plan</span>
+                      <span>for 1 Year</span>
+                    </>
+                  </Button>
+                </S.ModalBtn>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    classType="exit"
+                    handleClick={() => {
+                      setIsReferralOpen(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent isOpen={isCopied} title={`Referral Link Copied`}>
+              <S.ModalWrapper>
+                <span>
+                  Your referral link has been copied to your clipboard. Share it
+                  to gain more confirmed referrals.
+                </span>
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => {
+                      setIsCopied(false);
+                    }}
+                  >
+                    Close
                   </Button>
                 </S.ModalBtn>
               </S.ModalWrapper>

@@ -45,6 +45,8 @@ export interface BudgetDataItem {
   cadence?: string;
   type?: string;
   category_id?: number;
+  item_name?: string[];
+  item_value?: number[];
 }
 
 export interface BudgetData {
@@ -66,7 +68,7 @@ export interface BudgetBodyInfo {
 
 export interface UserRequest {
   email: string;
-  plan?: number;
+  referral_code?: string;
 }
 
 export interface ConnectedDecisionRequest {
@@ -88,6 +90,8 @@ export interface UserResponse {
   categories: ExpenseCategory[];
   paid_sub: boolean;
   subscribed_at: string;
+  referral_code: string;
+  referral_count: string;
   paypal_sub_id?: string | null;
   connected_id?: number;
   primary_request?: string;

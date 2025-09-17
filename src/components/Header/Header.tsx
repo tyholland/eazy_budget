@@ -18,9 +18,16 @@ const Header = () => {
   const setBudget = useSetAtom(budgetAtom);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [hasBudget, setHasBudget] = useState<boolean>(false);
+  const nonPrivatePages = [
+    "/pricing",
+    "/about",
+    "/privacy",
+    "/contact",
+    "/referral",
+  ];
 
   useEffect(() => {
-    if (!currentUser && location.pathname === "/pricing") {
+    if (!currentUser && nonPrivatePages.includes(location.pathname)) {
       user && addUser(auth, setCurrentUser, setHasBudget);
     }
   }, [user]);

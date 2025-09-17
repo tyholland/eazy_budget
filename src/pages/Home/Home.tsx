@@ -58,6 +58,11 @@ const Home = () => {
     "expense",
   );
 
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+
+  plan && localStorage.setItem("plan", plan);
+
   const handleBudgetSubmission = async () => {
     const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
     setIsDisabled(true);
@@ -107,11 +112,20 @@ const Home = () => {
   }
 
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isTester = getSubscriptionStatus(
+    "Tester",
+    currentUser?.subscription_id,
+  );
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
   const isPro =
-    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-    !isOriginal &&
+    !foreverFree &&
     !isPro;
   const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
   const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;
@@ -186,7 +200,10 @@ const Home = () => {
             plan. Alternatively, feel free to choose any option that best fits
             your needs.
           </div>
-          <PricingDetails isPayPal />
+          <PricingDetails
+            isPayPal
+            isSelectedPlan={plan || localStorage.getItem("plan")}
+          />
         </>
       )}
     </S.HomeWrapper>

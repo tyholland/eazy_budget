@@ -8,11 +8,20 @@ import { getSubscriptionStatus } from "../../functions/helper.ts";
 const Pricing = () => {
   const currentUser = useAtomValue(userAtom);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
+  const isTester = getSubscriptionStatus(
+    "Tester",
+    currentUser?.subscription_id,
+  );
+  const isReferrals = getSubscriptionStatus(
+    "Referral",
+    currentUser?.subscription_id,
+  );
+  const foreverFree = isOriginal || isTester || isReferrals;
   const isPro =
-    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !isOriginal;
+    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-    !isOriginal &&
+    !foreverFree &&
     !isPro;
 
   return (

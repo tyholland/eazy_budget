@@ -93,6 +93,12 @@ export const ModalBtn = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+
+  &.referral button {
+    height: 100px;
+    flex-direction: column;
+    font-size: 24px;
+  }
 `;
 
 export const ContentWrapper = styled.div`

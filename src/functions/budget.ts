@@ -93,10 +93,14 @@ export const getYearlyBudgetBreakdown = (
       let count = 0;
       let budgetId: number | null = null;
       let budgetDateId: number | null = null;
+      const itemNames: string[] = [];
+      const itemValues: number[] = [];
 
       item[type].forEach((data: BudgetDataItem) => {
         count += data.value;
         budgetId = data.budget_id;
+        itemNames.push(data.label);
+        itemValues.push(data.value);
       });
 
       dataSet.push(count);
@@ -105,6 +109,8 @@ export const getYearlyBudgetBreakdown = (
         value: count,
         budget_id: budgetId,
         budget_date_id: budgetDateId,
+        item_name: itemNames.length > 0 ? itemNames : undefined,
+        item_value: itemValues.length > 0 ? itemValues : undefined,
       });
     }
   });
@@ -693,4 +699,250 @@ export const insertBudgetIds = (
   });
 
   budget[type] = newBudget;
+};
+
+export const getMonthlyCSV = (currentBudget: BudgetData) => {
+  const currentExpense: Omit<
+    BudgetDataItem,
+    "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
+  >[] = [];
+  const currentIncome: Omit<
+    BudgetDataItem,
+    "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
+  >[] = [];
+
+  // Create the monthly expense
+  currentBudget?.expense.forEach((expense: BudgetDataItem) => {
+    currentExpense.push({
+      label: expense.label,
+      value: expense.value,
+      paid: expense.paid,
+    });
+  });
+
+  // Create the monthly income
+  currentBudget?.income.forEach((expense: BudgetDataItem) => {
+    currentIncome.push({
+      label: expense.label,
+      value: expense.value,
+      paid: expense.paid,
+    });
+  });
+
+  return {
+    currentIncome,
+    currentExpense,
+  };
+};
+
+export const getYearlyCSV = (budget: BudgetData[], currentYear: number) => {
+  const { newBudget: yearlyIncome } = getYearlyBudgetBreakdown(
+    budget,
+    currentYear,
+    "income",
+  );
+  const { newBudget: yearlyExpense } = getYearlyBudgetBreakdown(
+    budget,
+    currentYear,
+    "expense",
+  );
+  const currentBudgetYear: any[] = [];
+
+  // Create the yearly income
+  yearlyIncome.forEach((income) => {
+    currentBudgetYear.push({
+      label: income.label,
+      income: income.value,
+      expense: 0,
+    });
+  });
+
+  // Create the yearly expense
+  yearlyExpense.forEach((expense) => {
+    currentBudgetYear.forEach((item) => {
+      if (expense.label === item.label) {
+        item.expense = expense.value;
+      }
+    });
+  });
+
+  return {
+    currentBudgetYear,
+    yearlyIncome,
+    yearlyExpense,
+  };
+};
+
+export const getMontlyProfitLossCSV = (
+  currentIncome: Omit<
+    BudgetDataItem,
+    "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
+  >[],
+  currentExpense: Omit<
+    BudgetDataItem,
+    "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
+  >[],
+) => {
+  let incomeTotal = 0;
+  let expenseTotal = 0;
+
+  // Creates the first block for the income
+  const currentMonthProfitLoss = [
+    {
+      label: "Income",
+      value: "",
+    },
+  ];
+
+  currentIncome.forEach((item) => {
+    currentMonthProfitLoss.push({
+      label: item.label,
+      value: item.value.toFixed(2),
+    });
+
+    incomeTotal += item.value;
+  });
+
+  currentMonthProfitLoss.push({
+    label: "Total Income:",
+    value: incomeTotal.toFixed(2),
+  });
+
+  // Creates an empty line
+  currentMonthProfitLoss.push({
+    label: "",
+    value: "",
+  });
+
+  // Creates the second block for the expense
+  currentMonthProfitLoss.push({
+    label: "Expense",
+    value: "",
+  });
+
+  currentExpense.forEach((item) => {
+    currentMonthProfitLoss.push({
+      label: item.label,
+      value: item.value.toFixed(2),
+    });
+
+    expenseTotal += item.value;
+  });
+
+  currentMonthProfitLoss.push({
+    label: "Total Expense:",
+    value: expenseTotal.toFixed(2),
+  });
+
+  // Creates an empty line
+  currentMonthProfitLoss.push({
+    label: "",
+    value: "",
+  });
+
+  // Creates the Net Profit line
+  currentMonthProfitLoss.push({
+    label: "Net Profit",
+    value: (incomeTotal - expenseTotal).toFixed(2),
+  });
+
+  return currentMonthProfitLoss;
+};
+
+export const getYearlyProfitLossCSV = (
+  yearlyIncome: BudgetDataItem[],
+  yearlyExpense: BudgetDataItem[],
+) => {
+  let incomeTotal = 0;
+  let expenseTotal = 0;
+
+  // Creates the first block for the income
+  const currentYearProfitLoss = [
+    {
+      label: "Income",
+      value: "",
+    },
+  ];
+
+  yearlyIncome.forEach((item) => {
+    incomeTotal += item.value;
+
+    item.item_name?.forEach((name, i) => {
+      const itemIndex = currentYearProfitLoss
+        .map((income) => income.label)
+        .indexOf(name);
+
+      if (itemIndex > 0) {
+        if (item.item_value) {
+          const updatedValue =
+            Number(currentYearProfitLoss[itemIndex].value) + item.item_value[i];
+          currentYearProfitLoss[itemIndex].value = updatedValue.toFixed(2);
+        }
+        return;
+      }
+      currentYearProfitLoss.push({
+        label: name,
+        value: item.item_value ? item.item_value[i].toFixed(2) : "",
+      });
+    });
+  });
+
+  currentYearProfitLoss.push({
+    label: "Total Income:",
+    value: incomeTotal.toFixed(2),
+  });
+
+  // Creates an empty line
+  currentYearProfitLoss.push({
+    label: "",
+    value: "",
+  });
+
+  // Creates the second block for the expense
+  currentYearProfitLoss.push({
+    label: "Expense",
+    value: "",
+  });
+
+  yearlyExpense.forEach((item) => {
+    expenseTotal += item.value;
+
+    item.item_name?.forEach((name, i) => {
+      const itemIndex = currentYearProfitLoss
+        .map((expense) => expense.label)
+        .indexOf(name);
+
+      if (itemIndex > 0) {
+        if (item.item_value) {
+          const updatedValue =
+            Number(currentYearProfitLoss[itemIndex].value) + item.item_value[i];
+          currentYearProfitLoss[itemIndex].value = updatedValue.toFixed(2);
+        }
+        return;
+      }
+      currentYearProfitLoss.push({
+        label: name,
+        value: item.item_value ? item.item_value[i].toFixed(2) : "",
+      });
+    });
+  });
+
+  currentYearProfitLoss.push({
+    label: "Total Expense:",
+    value: expenseTotal.toFixed(2),
+  });
+
+  // Creates an empty line
+  currentYearProfitLoss.push({
+    label: "",
+    value: "",
+  });
+
+  // Creates the Net Profit line
+  currentYearProfitLoss.push({
+    label: "Net Profit",
+    value: (incomeTotal - expenseTotal).toFixed(2),
+  });
+
+  return currentYearProfitLoss;
 };

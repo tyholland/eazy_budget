@@ -14,6 +14,7 @@ const Referral = () => {
           classType="button"
           label="Sign Up"
           linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
         >
           Sign Up
         </Link>
@@ -28,14 +29,22 @@ const Referral = () => {
         <div>
           <ol>
             <li>
-              <Link url="/pricing" label="Sign Up for Free">
+              <Link
+                url="/pricing"
+                label="Sign Up for Free"
+                callBack={() => window.scrollTo(0, 0)}
+              >
                 Sign Up for Free
               </Link>
               <ul>
                 <li>Anyone can join at no cost.</li>
                 <li>
                   After{" "}
-                  <Link url="/pricing" label="signing up">
+                  <Link
+                    url="/pricing"
+                    label="signing up"
+                    callBack={() => window.scrollTo(0, 0)}
+                  >
                     signing up
                   </Link>
                   , enter your income and expenses to create your{" "}
@@ -85,13 +94,21 @@ const Referral = () => {
           <ul>
             <li>
               <strong>10 Confirmed Referrals</strong> → Unlock the{" "}
-              <Link url="/pricing" label="Starter Plan $1/month for 1 Year">
-                Starter Plan $1/month for 1 Year
+              <Link
+                url="/pricing"
+                label="Starter Plan at $1/month for 1 Year"
+                callBack={() => window.scrollTo(0, 0)}
+              >
+                Starter Plan at $1/month for 1 Year
               </Link>
             </li>
             <li>
               <strong>20 Confirmed Referrals</strong> → Unlock the{" "}
-              <Link url="/pricing" label="Pro Plan $1/month for 1 Year">
+              <Link
+                url="/pricing"
+                label="Pro Plan at $1/month for 1 Year"
+                callBack={() => window.scrollTo(0, 0)}
+              >
                 Pro Plan at $1/month for 1 Year
               </Link>
             </li>
@@ -99,8 +116,12 @@ const Referral = () => {
         </div>
         <div>
           <strong>Note</strong>: After the one-year reward period ends, your
-          account will automatically transition to the{" "}
-          <Link url="/pricing" label="plan's actual amount">
+          account will automatically transition to the current{" "}
+          <Link
+            url="/pricing"
+            label="plan's actual amount"
+            callBack={() => window.scrollTo(0, 0)}
+          >
             plan's actual amount
           </Link>
           .
@@ -117,22 +138,32 @@ const Referral = () => {
               <strong>Help others</strong> take control of their finances.
             </li>
             <li>
-              Earn <strong>premium Simple Budgeting access</strong> just by
-              sharing.
+              Earn <strong>premium Simple Budgeting access</strong> at an
+              extremely low cost just by sharing.
             </li>
           </ul>
         </div>
       </S.Section>
       <S.Section className="disclaimer">
         Don't miss your chance—
-        <Link url="/pricing" label="sign up">
+        <Link
+          url="/pricing"
+          label="sign up"
+          callBack={() => window.scrollTo(0, 0)}
+        >
           sign up
         </Link>
         <strong>
           , share your code, and win premium rewards this October!
         </strong>
       </S.Section>
-      <Link url="/pricing" classType="button" label="Sign Up" linkSize="medium">
+      <Link
+        url="/pricing"
+        classType="button"
+        label="Sign Up"
+        linkSize="medium"
+        callBack={() => window.scrollTo(0, 0)}
+      >
         Sign Up
       </Link>
     </S.Wrapper>

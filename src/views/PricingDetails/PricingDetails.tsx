@@ -92,7 +92,7 @@ const PricingDetails = ({
         });
 
       localStorage.removeItem("plan");
-      localStorage.removeItem("referral");
+      localStorage.removeItem("referral_code");
       await updateUserSub(accessToken, {
         plan,
         paid,

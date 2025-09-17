@@ -139,7 +139,7 @@ const BudgetItem = ({
 
   const showCategorySelector =
     currentUser && theType === "expense"
-      ? currentUser.categories.length > 0
+      ? currentUser.categories?.length > 0
       : false;
 
   return (
@@ -207,7 +207,7 @@ const BudgetItem = ({
                       ) && (
                         <SelectComponent
                           options={
-                            currentUser?.categories.concat({
+                            currentUser?.categories?.concat({
                               id: 0,
                               label: "None",
                             }) || []
@@ -294,7 +294,7 @@ const BudgetItem = ({
                         setChangeInputVal(false);
 
                         const expenseCategory_id =
-                          currentUser?.categories.filter(
+                          currentUser?.categories?.filter(
                             (item) => item.label === selectedCategory,
                           )[0]?.id;
 

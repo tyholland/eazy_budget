@@ -393,7 +393,7 @@ const Account = () => {
                     Subscription Details
                   </Link>
                 </S.Section>
-                {!foreverFree && (
+                {!isOriginal && !isTester && (
                   <S.Section>
                     <Button
                       handleClick={() => setIsCancelOpen(true)}

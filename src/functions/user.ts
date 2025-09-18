@@ -21,12 +21,14 @@ export const addUser = async (
 
     if (user) {
       const referral_code = localStorage.getItem("referral_code");
+      const plan = localStorage.getItem("plan");
 
       const userResponse: UserResponse =
         user.email &&
         (await createUser(accessToken, {
           email: user.email,
           referral_code: referral_code || undefined,
+          plan: plan || undefined,
         }));
 
       setCurrentUser({

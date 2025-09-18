@@ -69,9 +69,6 @@ const Referral = () => {
                   For referrals to count, they must:
                   <ul>
                     <li>Create their own free account</li>
-                    <li>
-                      Enter their budgeting data to complete their profile
-                    </li>
                   </ul>
                 </li>
               </ul>

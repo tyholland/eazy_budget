@@ -203,6 +203,7 @@ const Home = () => {
           <PricingDetails
             isPayPal
             isSelectedPlan={plan || localStorage.getItem("plan")}
+            isHighlighted
           />
         </>
       )}

@@ -32,6 +32,7 @@ import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAc
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import moment from "moment-business-days";
 import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
+import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -47,6 +48,10 @@ const Account = () => {
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isReferralStepOne, setIsReferralStepOne] = useState<boolean>(false);
+  const [isReferralStepTwo, setIsReferralStepTwo] = useState<boolean>(false);
+  const [isReferralStepThree, setIsReferralStepThree] =
+    useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -143,7 +148,11 @@ const Account = () => {
     logOutAccount();
   };
 
-  const startReferralTrial = async (plan: number) => {
+  const startReferralTrial = async (
+    plan: number,
+    paid: boolean,
+    sub_id?: string | null,
+  ) => {
     try {
       const accessToken = await getAccessTokenSilently({
         authorizationParams: {
@@ -155,6 +164,8 @@ const Account = () => {
         setCurrentUser({
           ...currentUser,
           subscription_id: plan,
+          paypal_sub_id: sub_id,
+          paid_sub: paid,
           subscribed_at: new Date(Date.now()).toISOString(),
         });
 
@@ -163,6 +174,9 @@ const Account = () => {
       });
       trackEvent("Start Referral Plan Trial");
       setIsReferralOpen(false);
+      setIsReferralStepOne(false);
+      setIsReferralStepTwo(false);
+      setIsReferralStepThree(false);
     } catch (err) {
       trackError("Account - startReferralTrial:", { result: err });
     }
@@ -348,7 +362,10 @@ const Account = () => {
                 </S.Section>
                 <S.Section>
                   <Button
-                    handleClick={() => setIsReferralOpen(true)}
+                    handleClick={() => {
+                      setIsReferralStepOne(true);
+                      setIsReferralOpen(true);
+                    }}
                     buttonSize="medium"
                     classType="text"
                   >
@@ -507,48 +524,83 @@ const Account = () => {
             </ModalComponent>
             <ModalComponent
               isOpen={isReferralOpen}
-              title={`Choose Referral Plans`}
+              title={
+                isReferralStepOne
+                  ? `Choose Referral Plans`
+                  : isReferralStepTwo
+                    ? "Starter Plan at $1/month for 1 year"
+                    : "Pro Plan at $1/month for 1 year"
+              }
               size="medium"
             >
               <S.ModalWrapper>
-                <span>
-                  Which plan would you like to select for the year?
-                  <br />
-                  Please note that you must meet the required referral count to
-                  be eligible for each option.
-                </span>
-                <S.ModalBtn className="referral">
-                  <Button
-                    buttonSize="medium"
-                    handleClick={() => startReferralTrial(6)}
-                    disabled={
-                      currentUser && Number(currentUser.referral_count) < 5
-                    }
-                  >
-                    <>
-                      <span>Starter Plan</span>
-                      <span>for 1 Year</span>
-                    </>
-                  </Button>
-                  <Button
-                    buttonSize="medium"
-                    handleClick={() => startReferralTrial(7)}
-                    disabled={
-                      currentUser && Number(currentUser.referral_count) < 10
-                    }
-                  >
-                    <>
-                      <span>Pro Plan</span>
-                      <span>for 1 Year</span>
-                    </>
-                  </Button>
-                </S.ModalBtn>
+                {isReferralStepOne && (
+                  <>
+                    <span>
+                      Which plan would you like to select for the year?
+                      <br />
+                      Please note that you must meet the required referral count
+                      to be eligible for each option.
+                    </span>
+                    <S.ModalBtn className="referral">
+                      <Button
+                        buttonSize="medium"
+                        handleClick={() => {
+                          setIsReferralStepTwo(true);
+                          setIsReferralStepOne(false);
+                        }}
+                        disabled={
+                          currentUser && Number(currentUser.referral_count) < 5
+                        }
+                      >
+                        <>
+                          <span>Starter Plan</span>
+                          <span>$1/month</span>
+                          <span>for 1 Year</span>
+                        </>
+                      </Button>
+                      <Button
+                        buttonSize="medium"
+                        handleClick={() => {
+                          setIsReferralStepThree(true);
+                          setIsReferralStepOne(false);
+                        }}
+                        disabled={
+                          currentUser && Number(currentUser.referral_count) < 10
+                        }
+                      >
+                        <>
+                          <span>Pro Plan</span>
+                          <span>$1/month</span>
+                          <span>for 1 Year</span>
+                        </>
+                      </Button>
+                    </S.ModalBtn>
+                  </>
+                )}
+                {isReferralStepTwo && (
+                  <PaypalBtn
+                    sub="P-3SX71776NT4006725NDH7F4A"
+                    addSub={startReferralTrial}
+                    planNum={6}
+                  />
+                )}
+                {isReferralStepThree && (
+                  <PaypalBtn
+                    sub="P-96N11571YK891553DNDH7DOI"
+                    addSub={startReferralTrial}
+                    planNum={7}
+                  />
+                )}
                 <S.ModalBtn>
                   <Button
                     buttonSize="small"
                     classType="exit"
                     handleClick={() => {
                       setIsReferralOpen(false);
+                      setIsReferralStepOne(false);
+                      setIsReferralStepTwo(false);
+                      setIsReferralStepThree(false);
                     }}
                   >
                     Close

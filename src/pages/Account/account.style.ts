@@ -95,7 +95,7 @@ export const ModalBtn = styled.div`
   margin-top: 20px;
 
   &.referral button {
-    height: 100px;
+    height: auto;
     flex-direction: column;
     font-size: 24px;
   }

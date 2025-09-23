@@ -305,40 +305,80 @@ export const sortBudget = (
   sort?: string,
 ) => {
   if (sort === "Low - High") {
-    return a.value > b.value ? 1 : a.value < b.value ? -1 : 0;
+    return a.label === ""
+      ? 1
+      : b.label === ""
+        ? -1
+        : a.value > b.value
+          ? 1
+          : a.value < b.value
+            ? -1
+            : 0;
   }
 
   if (sort === "High - Low") {
-    return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+    return a.label === ""
+      ? 1
+      : b.label === ""
+        ? -1
+        : a.value < b.value
+          ? 1
+          : a.value > b.value
+            ? -1
+            : 0;
   }
 
   if (sort === "Paid") {
     const paidA = a.paid || false;
     const paidB = b.paid || false;
 
-    return paidA < paidB ? 1 : paidA > paidB ? -1 : 0;
+    return a.label === ""
+      ? 1
+      : b.label === ""
+        ? -1
+        : paidA < paidB
+          ? 1
+          : paidA > paidB
+            ? -1
+            : 0;
   }
 
   if (sort === "Unpaid") {
     const paidA = a.paid || false;
     const paidB = b.paid || false;
 
-    return paidA > paidB ? 1 : paidA < paidB ? -1 : 0;
+    return a.label === ""
+      ? 1
+      : b.label === ""
+        ? -1
+        : paidA > paidB
+          ? 1
+          : paidA < paidB
+            ? -1
+            : 0;
   }
 
   if (sort === "Z - A") {
-    return a.label.toLowerCase() < b.label.toLowerCase()
+    return a.label === ""
       ? 1
-      : a.label.toLowerCase() > b.label.toLowerCase()
+      : b.label === ""
         ? -1
-        : 0;
+        : a.label.toLowerCase() < b.label.toLowerCase()
+          ? 1
+          : a.label.toLowerCase() > b.label.toLowerCase()
+            ? -1
+            : 0;
   }
 
-  return a.label.toLowerCase() > b.label.toLowerCase()
+  return a.label === ""
     ? 1
-    : a.label.toLowerCase() < b.label.toLowerCase()
+    : b.label === ""
       ? -1
-      : 0;
+      : a.label.toLowerCase() > b.label.toLowerCase()
+        ? 1
+        : a.label.toLowerCase() < b.label.toLowerCase()
+          ? -1
+          : 0;
 };
 
 export const getMonthlyPaidExpenses = (

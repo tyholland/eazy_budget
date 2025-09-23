@@ -69,28 +69,12 @@ const Monthly = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>("None");
   const [expenseFilter, setExpenseFilter] = useState<number | undefined>(0);
 
-  const sortBudgetItems = (type: string) => {
-    const updatedBudget: BudgetData[] = [...budget];
-
-    updatedBudget.forEach((item: BudgetData) => {
-      item[type].sort((a: BudgetDataItem, b: BudgetDataItem) =>
-        sortBudget(a, b, selectedSort),
-      );
-    });
-
-    setBudget(updatedBudget);
-  };
-
   useEffect(() => {
     if (budgetChange) {
       setBudget(budget);
       setBudgetChange(false);
     }
   }, [budgetChange]);
-
-  useEffect(() => {
-    type && sortBudgetItems(type);
-  }, [selectedSort, type]);
 
   useEffect(() => {
     const filter = currentUser?.categories.filter(
@@ -213,6 +197,9 @@ const Monthly = () => {
                     theYear === item.year
                   ) {
                     return item[type]
+                      .sort((a: BudgetDataItem, b: BudgetDataItem) =>
+                        sortBudget(a, b, selectedSort),
+                      )
                       .filter((response: BudgetDataItem) =>
                         expenseFilter === 0
                           ? response
@@ -380,15 +367,17 @@ const Monthly = () => {
                 </ModalComponent>
               </S.ItemContainer>
             </S.ItemWrapper>
-            <Button
-              buttonSize="large"
-              handleClick={handleAddNewBudget}
-              classType="register"
-            >
-              <>
-                {`Additional ${type}`} <AddIcon />
-              </>
-            </Button>
+            {expenseFilter === 0 && (
+              <Button
+                buttonSize="large"
+                handleClick={handleAddNewBudget}
+                classType="register"
+              >
+                <>
+                  {`Additional ${type}`} <AddIcon />
+                </>
+              </Button>
+            )}
           </>
         )}
         {selectedOption === "details" && (

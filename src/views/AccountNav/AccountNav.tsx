@@ -16,7 +16,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
     "Starter",
     currentUser?.subscription_id,
   );
-  // const referralSub = currentUser && currentUser.subscription_id === 2;
+  const referralSub = currentUser && currentUser.subscription_id === 2;
 
   return (
     <S.NavWrapper>
@@ -46,7 +46,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           </Button>
         </S.NavItem>
       )}
-      {/* {currentUser?.hasBudget && referralSub && (
+      {currentUser?.hasBudget && referralSub && (
         <S.NavItem
           className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}
         >
@@ -59,7 +59,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
             Referrals
           </Button>
         </S.NavItem>
-      )} */}
+      )}
       {getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
         currentUser?.hasBudget && (
           <S.NavItem

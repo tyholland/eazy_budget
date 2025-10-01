@@ -337,10 +337,10 @@ const Account = () => {
             )}
             {selectedOption === "referrals" && (
               <>
-                <S.Section>
+                <S.Section className="referral">
                   <Input
                     label="referral_code"
-                    labelValue="Code:"
+                    labelValue="Referral Link:"
                     onChange={() => {}}
                     onClick={handleClick}
                     placeHolder="Referral Code"
@@ -349,10 +349,10 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                <S.Section>
+                <S.Section className="referral">
                   <Input
                     label="referral_count"
-                    labelValue="Count:"
+                    labelValue="Number of Referrals:"
                     onChange={() => {}}
                     placeHolder="Referral Count"
                     isDisabled

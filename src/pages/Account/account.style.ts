@@ -37,6 +37,10 @@ export const Section = styled.div`
     }
   }
 
+  &.referral label {
+    text-align: left;
+  }
+
   > div {
     width: 100%;
     margin-bottom: 20px;

@@ -236,6 +236,7 @@ export const addNewBudgetItem = (
         cadence: "Current Month",
         budget_id: null,
         budget_date_id: currentItems[0].budget_date_id,
+        temp: true,
       });
 
       item[type] = currentItems;
@@ -292,6 +293,7 @@ export const reformatBudgetItem = (
         category_id,
         budget_id: budgetId,
         budget_date_id: budgetDateId,
+        temp: false,
       };
     },
   );

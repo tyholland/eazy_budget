@@ -33,6 +33,8 @@ export const listOfMonths = [
   "december",
 ];
 
+export const listOfQuarterlyMonths = ["march", "june", "september", "december"];
+
 export const listOfBudgets = ["expense", "income"];
 
 export const budgetSortOptions = [

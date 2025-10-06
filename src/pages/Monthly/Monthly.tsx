@@ -16,6 +16,7 @@ import {
   graphColors,
   listOfBudgets,
   listOfMonths,
+  listOfQuarterlyMonths,
 } from "../../constants.ts";
 import {
   addNewBudgetItem,
@@ -206,6 +207,14 @@ const Monthly = () => {
                           : response.category_id === expenseFilter,
                       )
                       .map((data: BudgetDataItem, i: number) => {
+                        if (
+                          data.label === "" &&
+                          !data.budget_id &&
+                          !data.temp
+                        ) {
+                          return;
+                        }
+
                         const currentItems: BudgetDataItem[] = [...item[type]];
 
                         const handleSaveEvent = async (
@@ -282,6 +291,18 @@ const Monthly = () => {
                               );
                               setBudgetChange(true);
                               trackEvent(`Add New ${type}`);
+                            }
+
+                            if (
+                              updatedItem[0].frequency === "Quarterly" &&
+                              !listOfQuarterlyMonths.includes(month)
+                            ) {
+                              const updatedItems = removeItemFromBudgetArray(
+                                item[type],
+                                i,
+                              );
+                              item[type] = updatedItems;
+                              setBudgetChange(true);
                             }
                             setIsNewBudget(false);
                           } catch (err) {

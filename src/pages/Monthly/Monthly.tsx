@@ -212,7 +212,7 @@ const Monthly = () => {
                           !data.budget_id &&
                           !data.temp
                         ) {
-                          return;
+                          return null;
                         }
 
                         const currentItems: BudgetDataItem[] = [...item[type]];

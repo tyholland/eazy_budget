@@ -29,10 +29,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     (bud: BudgetData) => bud.month === currentMonth,
   )[0];
   const { currentExpense, currentIncome } = getMonthlyCSV(currentBudget);
-  const { currentBudgetYear, yearlyIncome, yearlyExpense } = getYearlyCSV(
-    budget,
-    currentYear,
-  );
+  const { yearlyIncome, yearlyExpense } = getYearlyCSV(budget, currentYear);
   const currentMonthProfitLoss = getMontlyProfitLossCSV(
     currentIncome,
     currentExpense,

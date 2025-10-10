@@ -69,6 +69,7 @@ const Monthly = () => {
   const [selectedSort, setSelectedSort] = useState<string>("A - Z");
   const [selectedFilter, setSelectedFilter] = useState<string>("None");
   const [expenseFilter, setExpenseFilter] = useState<number | undefined>(0);
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
 
   useEffect(() => {
     if (budgetChange) {
@@ -139,55 +140,54 @@ const Monthly = () => {
                   setOption={setSelectedSort}
                 />
               )}
-              {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
-                type === "expense" && (
-                  <>
-                    {currentUser?.categories &&
-                      currentUser.categories.length > 0 && (
-                        <SelectComponent
-                          options={
-                            currentUser.categories.concat({
-                              id: 0,
-                              label: "None",
-                            }) || []
-                          }
-                          placeHolder="Filter by Category"
-                          defaultValue={selectedFilter}
-                          setOption={setSelectedFilter}
-                        />
-                      )}
-                    {currentUser?.categories &&
-                      currentUser.categories.length === 0 && (
-                        <>
-                          <S.FilterLink>
-                            <Link
-                              url="/account/categories"
-                              label="Filter by Category"
-                              linkSize="medium"
-                              classType="text"
+              {isPro && type === "expense" && (
+                <>
+                  {currentUser?.categories &&
+                    currentUser.categories.length > 0 && (
+                      <SelectComponent
+                        options={
+                          currentUser.categories.concat({
+                            id: 0,
+                            label: "None",
+                          }) || []
+                        }
+                        placeHolder="Filter by Category"
+                        defaultValue={selectedFilter}
+                        setOption={setSelectedFilter}
+                      />
+                    )}
+                  {currentUser?.categories &&
+                    currentUser.categories.length === 0 && (
+                      <>
+                        <S.FilterLink>
+                          <Link
+                            url="/account/categories"
+                            label="Filter by Category"
+                            linkSize="medium"
+                            classType="text"
+                          >
+                            Filter by Category
+                          </Link>
+                          <div>
+                            <span
+                              className="tooltip"
+                              data-tooltip-id="filter-tooltip"
                             >
-                              Filter by Category
-                            </Link>
-                            <div>
-                              <span
-                                className="tooltip"
-                                data-tooltip-id="filter-tooltip"
-                              >
-                                <InfoIcon />
-                              </span>
-                            </div>
-                          </S.FilterLink>
-                          <ReactTooltip
-                            id="filter-tooltip"
-                            place="right"
-                            variant="info"
-                            content='Click the link "Filter by Category" to create expense categories'
-                            className="tooltip"
-                          />
-                        </>
-                      )}
-                  </>
-                )}
+                              <InfoIcon />
+                            </span>
+                          </div>
+                        </S.FilterLink>
+                        <ReactTooltip
+                          id="filter-tooltip"
+                          place="right"
+                          variant="info"
+                          content='Click the link "Filter by Category" to create expense categories'
+                          className="tooltip"
+                        />
+                      </>
+                    )}
+                </>
+              )}
             </S.Selectors>
             <S.ItemWrapper>
               <S.ItemContainer>
@@ -409,7 +409,7 @@ const Monthly = () => {
               month={month}
               year={theYear}
             />
-            <DownloadCsv type="monthly" />
+            {isPro && <DownloadCsv type="monthly" />}
           </>
         )}
         {selectedOption === "charts" && (

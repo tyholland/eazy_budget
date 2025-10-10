@@ -12,6 +12,7 @@ import {
 import { useParams } from "react-router-dom";
 import { getDateInfo } from "../../functions/helper.ts";
 import { trackEvent } from "../../functions/mixpanel.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface DownloadCsvProps {
   type: DownloadTypes;
@@ -20,6 +21,7 @@ interface DownloadCsvProps {
 const DownloadCsv = ({ type }: DownloadCsvProps) => {
   const params = useParams();
   const budget = useAtomValue(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const { currentYear: theYear } = getDateInfo();
   const currentMonth = params.month;
   const currentYear = Number(params.year) || theYear;
@@ -34,41 +36,15 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   const currentMonthProfitLoss = getMontlyProfitLossCSV(
     currentIncome,
     currentExpense,
+    currentUser?.categories,
   );
   const currentYearProfitLoss = getYearlyProfitLossCSV(
     yearlyIncome,
     yearlyExpense,
   );
 
-  const incomeBtn = document.querySelector(".incomeBtn");
-  const expenseBtn = document.querySelector(".expenseBtn");
-  const yearBtn = document.querySelector(".yearBtn");
   const profitLossBtn = document.querySelector(".profitLossBtn");
   const profitLossYearBtn = document.querySelector(".profitLossYearBtn");
-
-  incomeBtn?.addEventListener(
-    "click",
-    () => {
-      trackEvent(`Download ${currentMonth} Income CSV`);
-    },
-    { once: true },
-  );
-
-  expenseBtn?.addEventListener(
-    "click",
-    () => {
-      trackEvent(`Download ${currentMonth} Expense CSV`);
-    },
-    { once: true },
-  );
-
-  yearBtn?.addEventListener(
-    "click",
-    () => {
-      trackEvent(`Download ${currentYear} Budget Overview CSV`);
-    },
-    { once: true },
-  );
 
   profitLossBtn?.addEventListener(
     "click",
@@ -86,61 +62,68 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     { once: true },
   );
 
+  const monthlyCsv: Object[] = [];
+
+  currentMonthProfitLoss.forEach((item) => {
+    monthlyCsv.push({
+      label: item.label,
+      value: item.value,
+      percent: item.percent,
+    });
+  });
+
   return (
-    <S.BtnWrapper>
-      {type === "yearly" && (
-        <>
-          <S.CsvBtn
-            data={currentBudgetYear}
-            headers={[
-              "Month",
-              "Income Total Amount (USD)",
-              "Expense Total Amount (USD)",
-            ]}
-            filename={`${currentYear}_budget_overview`}
-            className="yearBtn"
-          >
-            Download {currentYear} Budget Overview CSV
-          </S.CsvBtn>
-          <S.CsvBtn
-            data={currentYearProfitLoss}
-            headers={["Item", "Amount (USD)"]}
-            filename={`${currentYear}_p_and_l`}
-            className="profitLossYearBtn"
-          >
-            Download {currentYear} Profit & Loss Simplified CSV
-          </S.CsvBtn>
-        </>
-      )}
-      {type === "monthly" && (
-        <>
-          <S.CsvBtn
-            data={currentIncome}
-            headers={["Income", "Amount (USD)", "Is Paid"]}
-            filename={`${currentMonth}_income`}
-            className="incomeBtn"
-          >
-            Download {currentMonth} Income CSV
-          </S.CsvBtn>
-          <S.CsvBtn
-            data={currentExpense}
-            headers={["Expense", "Amount (USD)", "Is Paid"]}
-            filename={`${currentMonth}_expense`}
-            className="expenseBtn"
-          >
-            Download {currentMonth} Expense CSV
-          </S.CsvBtn>
-          <S.CsvBtn
-            data={currentMonthProfitLoss}
-            headers={["Item", "Amount (USD)"]}
-            filename={`${currentMonth}_p_and_l`}
-            className="profitLossBtn"
-          >
-            Download {currentMonth} Profit & Loss Simplified CSV
-          </S.CsvBtn>
-        </>
-      )}
-    </S.BtnWrapper>
+    <>
+      <S.Title>
+        {type === "monthly" ? currentMonth : currentYear} Profit & Loss
+        Simplified
+      </S.Title>
+      <S.ContentWrapper>
+        {type === "yearly" && (
+          <>
+            <S.CsvBtn
+              data={currentYearProfitLoss}
+              headers={["Item", "Amount (USD)"]}
+              filename={`${currentYear}_p_and_l`}
+              className="profitLossYearBtn"
+            >
+              Download {currentYear} Profit & Loss Simplified CSV
+            </S.CsvBtn>
+          </>
+        )}
+        {type === "monthly" && (
+          <>
+            <S.BudgetBreakdown>
+              <S.BudgetLineItem className="bold underline">
+                <div className="capital">Item</div>
+                <div>Amount</div>
+                <div>% of Income</div>
+              </S.BudgetLineItem>
+              {currentMonthProfitLoss.map((item, index) => {
+                return (
+                  <S.BudgetLineItem
+                    key={index}
+                    className={item.bold ? "bold" : ""}
+                  >
+                    <div className="capital">{item.label}</div>
+                    <div>{item.value}</div>
+                    <div>{item.percent}</div>
+                  </S.BudgetLineItem>
+                );
+              })}
+            </S.BudgetBreakdown>
+            <S.CsvBtn
+              data={monthlyCsv}
+              headers={["Item", "Amount", "% of Income"]}
+              filename={`${currentMonth}_p_and_l`}
+              className="profitLossBtn"
+            >
+              Download {currentMonth} Profit & Loss Simplified CSV
+            </S.CsvBtn>
+          </>
+        )}
+      </S.ContentWrapper>
+    </>
   );
 };
 

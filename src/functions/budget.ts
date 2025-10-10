@@ -5,6 +5,7 @@ import {
   BudgetDataItem,
   BudgetInsertIds,
   CreateBudgetItems,
+  ExpenseCategory,
   NewBudgetIds,
 } from "../types";
 import { getDateInfo, getFrequencyValue } from "./helper.ts";
@@ -759,15 +760,16 @@ export const getMonthlyCSV = (currentBudget: BudgetData) => {
       label: expense.label,
       value: expense.value,
       paid: expense.paid,
+      category_id: expense.category_id,
     });
   });
 
   // Create the monthly income
-  currentBudget?.income.forEach((expense: BudgetDataItem) => {
+  currentBudget?.income.forEach((income: BudgetDataItem) => {
     currentIncome.push({
-      label: expense.label,
-      value: expense.value,
-      paid: expense.paid,
+      label: income.label,
+      value: income.value,
+      paid: income.paid,
     });
   });
 
@@ -824,6 +826,7 @@ export const getMontlyProfitLossCSV = (
     BudgetDataItem,
     "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
   >[],
+  categories: ExpenseCategory[] | undefined,
 ) => {
   let incomeTotal = 0;
   let expenseTotal = 0;
@@ -833,59 +836,175 @@ export const getMontlyProfitLossCSV = (
     {
       label: "Income",
       value: "",
+      percent: "",
+      bold: true,
     },
   ];
 
   currentIncome.forEach((item) => {
     currentMonthProfitLoss.push({
       label: item.label,
-      value: item.value.toFixed(2),
+      value: item.value.toString(),
+      percent: "",
+      bold: false,
     });
 
     incomeTotal += item.value;
   });
 
+  // Total income
   currentMonthProfitLoss.push({
-    label: "Total Income:",
-    value: incomeTotal.toFixed(2),
+    label: "Total Income",
+    value: incomeTotal.toString(),
+    percent: "",
+    bold: true,
   });
 
   // Creates an empty line
   currentMonthProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    bold: false,
   });
 
   // Creates the second block for the expense
   currentMonthProfitLoss.push({
-    label: "Expense",
+    label: "Expenses",
     value: "",
+    percent: "",
+    bold: true,
   });
 
-  currentExpense.forEach((item) => {
-    currentMonthProfitLoss.push({
-      label: item.label,
-      value: item.value.toFixed(2),
+  if (!!categories && categories.length > 0) {
+    categories.forEach((category) => {
+      let categoryTotal = 0;
+
+      // Category name
+      currentMonthProfitLoss.push({
+        label: category.label,
+        value: "",
+        percent: "",
+        bold: true,
+      });
+
+      currentExpense.forEach((item) => {
+        if (item.category_id === category.id) {
+          currentMonthProfitLoss.push({
+            label: item.label,
+            value: item.value.toString(),
+            percent: "",
+            bold: false,
+          });
+
+          expenseTotal += item.value;
+          categoryTotal += item.value;
+        }
+      });
+
+      // Total category amount
+      currentMonthProfitLoss.push({
+        label: `Total ${category.label}`,
+        value: categoryTotal.toString(),
+        percent: "",
+        bold: true,
+      });
+
+      // Creates an empty line
+      currentMonthProfitLoss.push({
+        label: "",
+        value: "",
+        percent: "",
+        bold: false,
+      });
     });
 
-    expenseTotal += item.value;
+    if (currentExpense.some((item) => !item.category_id)) {
+      let nonCategoryTotal = 0;
+
+      // Expenses without a category
+      currentMonthProfitLoss.push({
+        label: "Other Expenses",
+        value: "",
+        percent: "",
+        bold: true,
+      });
+
+      currentExpense.forEach((item) => {
+        if (!item.category_id) {
+          currentMonthProfitLoss.push({
+            label: item.label,
+            value: item.value.toString(),
+            percent: "",
+            bold: false,
+          });
+
+          expenseTotal += item.value;
+          nonCategoryTotal += item.value;
+        }
+      });
+
+      // Total non-category amount
+      currentMonthProfitLoss.push({
+        label: "Total Other Expenses",
+        value: nonCategoryTotal.toString(),
+        percent: "",
+        bold: true,
+      });
+    }
+  } else {
+    currentExpense.forEach((item) => {
+      currentMonthProfitLoss.push({
+        label: item.label,
+        value: item.value.toString(),
+        percent: "",
+        bold: false,
+      });
+
+      expenseTotal += item.value;
+    });
+  }
+
+  // Creates an empty line
+  currentMonthProfitLoss.push({
+    label: "",
+    value: "",
+    percent: "",
+    bold: false,
   });
 
+  // Total Expenses
   currentMonthProfitLoss.push({
-    label: "Total Expense:",
-    value: expenseTotal.toFixed(2),
+    label: "Total Expenses",
+    value: expenseTotal.toString(),
+    percent: "",
+    bold: true,
   });
 
   // Creates an empty line
   currentMonthProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    bold: false,
   });
 
   // Creates the Net Profit line
   currentMonthProfitLoss.push({
     label: "Net Profit",
-    value: (incomeTotal - expenseTotal).toFixed(2),
+    value: (incomeTotal - expenseTotal).toString(),
+    percent: "",
+    bold: true,
+  });
+
+  currentMonthProfitLoss.forEach((item) => {
+    if (item.value !== "" && item.percent !== "% of Income") {
+      item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(0)}%`;
+      item.value = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(Number(item.value));
+    }
   });
 
   return currentMonthProfitLoss;

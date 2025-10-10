@@ -41,8 +41,6 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     currentUser?.categories,
   );
 
-  console.log(yearlyExpense);
-
   const profitLossBtn = document.querySelector(".profitLossBtn");
   const profitLossYearBtn = document.querySelector(".profitLossYearBtn");
 

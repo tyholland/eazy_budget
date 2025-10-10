@@ -1086,6 +1086,14 @@ export const getYearlyProfitLossCSV = (
     categories.forEach((category) => {
       let categoryTotal = 0;
 
+      // Create a temp array to get expenses into one name
+      const otherCategoryExpense = [
+        {
+          label: "",
+          value: 0,
+        },
+      ];
+
       // Category name
       currentYearProfitLoss.push({
         label: category.label,
@@ -1094,23 +1102,53 @@ export const getYearlyProfitLossCSV = (
         type: "category",
       });
 
+      // Category expenses
       yearlyExpense.forEach((item) => {
         item.item_name?.forEach((name, i) => {
           if (
             item.item_categories &&
             item.item_categories[i] === category.id.toString()
           ) {
-            currentYearProfitLoss.push({
-              label: name,
-              value: item.item_value ? item.item_value[i].toString() : "",
-              percent: "",
-              type: "",
-            });
+            if (otherCategoryExpense.some((item) => item.label === name)) {
+              const itemIndex = otherCategoryExpense
+                .map((expense) => expense.label)
+                .indexOf(name);
 
-            categoryTotal += item.item_value ? item.item_value[i] : 0;
-            expenseTotal += item.item_value ? item.item_value[i] : 0;
+              if (itemIndex > 0) {
+                if (item.item_value) {
+                  const updatedValue =
+                    Number(otherCategoryExpense[itemIndex].value) +
+                    item.item_value[i];
+                  otherCategoryExpense[itemIndex].value = updatedValue;
+                }
+                return;
+              }
+
+              return;
+            }
+
+            otherCategoryExpense.push({
+              label: name,
+              value: item.item_value ? item.item_value[i] : 0,
+            });
           }
         });
+      });
+
+      // Filter temp array into the main array for the expenses
+      otherCategoryExpense.forEach((item) => {
+        if (!item.label) {
+          return;
+        }
+        currentYearProfitLoss.push({
+          label: item.label,
+          value: item.value.toString(),
+          percent: "",
+          type: "",
+        });
+
+        expenseTotal += item.value;
+        categoryTotal += item.value;
       });
 
       // Total category amount
@@ -1140,20 +1178,56 @@ export const getYearlyProfitLossCSV = (
       type: "category",
     });
 
+    // Create a temp array to get expenses into one name
+    const otherExpense = [
+      {
+        label: "",
+        value: 0,
+      },
+    ];
+
     yearlyExpense.forEach((item) => {
       item.item_name?.forEach((name, i) => {
         if (item.item_categories && item.item_categories[i] === "") {
-          currentYearProfitLoss.push({
-            label: name,
-            value: item.item_value ? item.item_value[i].toString() : "",
-            percent: "",
-            type: "",
-          });
+          if (otherExpense.some((item) => item.label === name)) {
+            const itemIndex = otherExpense
+              .map((expense) => expense.label)
+              .indexOf(name);
 
-          expenseTotal += item.item_value ? item.item_value[i] : 0;
-          nonCategoryTotal += item.item_value ? item.item_value[i] : 0;
+            if (itemIndex > 0) {
+              if (item.item_value) {
+                const updatedValue =
+                  Number(otherExpense[itemIndex].value) + item.item_value[i];
+                otherExpense[itemIndex].value = updatedValue;
+              }
+              return;
+            }
+
+            return;
+          }
+
+          otherExpense.push({
+            label: name,
+            value: item.item_value ? item.item_value[i] : 0,
+          });
         }
       });
+    });
+
+    // Filter temp array into the main array for the expenses
+    otherExpense.forEach((item) => {
+      if (!item.label) {
+        return;
+      }
+      currentYearProfitLoss.push({
+        label: item.label,
+        value: item.value.toString(),
+        percent: "",
+        type: "",
+      });
+
+      expenseTotal += item.value;
+      nonCategoryTotal += item.value;
     });
 
     // Total non-category amount

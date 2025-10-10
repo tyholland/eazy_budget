@@ -60,6 +60,11 @@ export const BudgetLineItem = styled.div`
   font-size: 14px;
   padding: 0 10px;
 
+  @media only screen and (max-width: 800px) {
+    align-items: center;
+    gap: 12px;
+  }
+
   &.header {
     font-weight: 700;
     font-size: 18px;
@@ -100,8 +105,16 @@ export const BudgetLineItem = styled.div`
   div {
     width: 200px;
 
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+    }
+
     &.capital {
       text-transform: capitalize;
+
+      @media only screen and (max-width: 800px) {
+        padding-left: 0px;
+      }
     }
   }
 `;

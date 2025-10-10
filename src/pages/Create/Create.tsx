@@ -110,7 +110,7 @@ const Create = () => {
   return (
     <>
       <S.Title>
-        Add {type}s for {month} {year}
+        Add Monthly {type}s for {month} {year}
       </S.Title>
       <S.Wrapper onSubmit={handleSubmit(handleSubmitBudgetType)}>
         {populatedArray.map((item: BudgetDataItem, i: number) => {

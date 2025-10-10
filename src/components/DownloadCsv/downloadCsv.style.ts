@@ -1,5 +1,12 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_SKY_BLUE, RUBIK, SKY_BLUE } from "../../index.style.ts";
+import {
+  BLACK,
+  LIGHT_SKY_BLUE,
+  LIGHT_YELLOW,
+  RUBIK,
+  SKY_BLUE,
+  WHITE,
+} from "../../index.style.ts";
 import CsvDownloadButton from "react-json-to-csv";
 
 export const ContentWrapper = styled.div`
@@ -42,18 +49,52 @@ export const BudgetBreakdown = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: 1px solid ${BLACK};
+  padding: 10px;
+  background: ${WHITE};
 `;
 
 export const BudgetLineItem = styled.div`
   display: flex;
   gap: 8px;
+  font-size: 14px;
+  padding: 0 10px;
 
-  &.bold {
+  &.header {
     font-weight: 700;
+    font-size: 18px;
+    border: 1px solid ${BLACK};
+    background: ${LIGHT_YELLOW};
+    padding: 5px 10px;
   }
 
-  &.underline {
+  &.endCategory,
+  &.category {
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  &.category {
+    .capital {
+      border-bottom: 1px dotted ${BLACK};
+    }
+  }
+
+  &.section {
+    font-weight: 600;
+    font-size: 16px;
     border-bottom: 1px solid ${BLACK};
+  }
+
+  &.endSection {
+    font-weight: 600;
+    font-size: 16px;
+    border-bottom: 1px solid ${BLACK};
+  }
+
+  &.net {
+    font-weight: 600;
+    font-size: 16px;
   }
 
   div {

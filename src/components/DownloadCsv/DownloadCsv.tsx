@@ -91,17 +91,14 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
         {type === "monthly" && (
           <>
             <S.BudgetBreakdown>
-              <S.BudgetLineItem className="bold underline">
+              <S.BudgetLineItem className="header">
                 <div className="capital">Item</div>
                 <div>Amount</div>
                 <div>% of Income</div>
               </S.BudgetLineItem>
               {currentMonthProfitLoss.map((item, index) => {
                 return (
-                  <S.BudgetLineItem
-                    key={index}
-                    className={item.bold ? "bold" : ""}
-                  >
+                  <S.BudgetLineItem key={index} className={item.type}>
                     <div className="capital">{item.label}</div>
                     <div>{item.value}</div>
                     <div>{item.percent}</div>

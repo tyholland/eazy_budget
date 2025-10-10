@@ -264,6 +264,7 @@ export const formatBudgetItem = (data: Object, month: string, year: number) => {
       cadence,
       budget_id: null,
       budget_date_id: null,
+      temp: false,
     });
   });
 
@@ -837,7 +838,7 @@ export const getMontlyProfitLossCSV = (
       label: "Income",
       value: "",
       percent: "",
-      bold: true,
+      type: "section",
     },
   ];
 
@@ -846,7 +847,7 @@ export const getMontlyProfitLossCSV = (
       label: item.label,
       value: item.value.toString(),
       percent: "",
-      bold: false,
+      type: "",
     });
 
     incomeTotal += item.value;
@@ -857,7 +858,7 @@ export const getMontlyProfitLossCSV = (
     label: "Total Income",
     value: incomeTotal.toString(),
     percent: "",
-    bold: true,
+    type: "endSection",
   });
 
   // Creates an empty line
@@ -865,7 +866,7 @@ export const getMontlyProfitLossCSV = (
     label: "",
     value: "",
     percent: "",
-    bold: false,
+    type: "",
   });
 
   // Creates the second block for the expense
@@ -873,7 +874,7 @@ export const getMontlyProfitLossCSV = (
     label: "Expenses",
     value: "",
     percent: "",
-    bold: true,
+    type: "section",
   });
 
   if (!!categories && categories.length > 0) {
@@ -885,7 +886,7 @@ export const getMontlyProfitLossCSV = (
         label: category.label,
         value: "",
         percent: "",
-        bold: true,
+        type: "category",
       });
 
       currentExpense.forEach((item) => {
@@ -894,7 +895,7 @@ export const getMontlyProfitLossCSV = (
             label: item.label,
             value: item.value.toString(),
             percent: "",
-            bold: false,
+            type: "",
           });
 
           expenseTotal += item.value;
@@ -907,7 +908,7 @@ export const getMontlyProfitLossCSV = (
         label: `Total ${category.label}`,
         value: categoryTotal.toString(),
         percent: "",
-        bold: true,
+        type: "endCategory",
       });
 
       // Creates an empty line
@@ -915,7 +916,7 @@ export const getMontlyProfitLossCSV = (
         label: "",
         value: "",
         percent: "",
-        bold: false,
+        type: "",
       });
     });
 
@@ -927,7 +928,7 @@ export const getMontlyProfitLossCSV = (
         label: "Other Expenses",
         value: "",
         percent: "",
-        bold: true,
+        type: "category",
       });
 
       currentExpense.forEach((item) => {
@@ -936,7 +937,7 @@ export const getMontlyProfitLossCSV = (
             label: item.label,
             value: item.value.toString(),
             percent: "",
-            bold: false,
+            type: "",
           });
 
           expenseTotal += item.value;
@@ -949,7 +950,7 @@ export const getMontlyProfitLossCSV = (
         label: "Total Other Expenses",
         value: nonCategoryTotal.toString(),
         percent: "",
-        bold: true,
+        type: "endCategory",
       });
     }
   } else {
@@ -958,7 +959,7 @@ export const getMontlyProfitLossCSV = (
         label: item.label,
         value: item.value.toString(),
         percent: "",
-        bold: false,
+        type: "",
       });
 
       expenseTotal += item.value;
@@ -970,7 +971,7 @@ export const getMontlyProfitLossCSV = (
     label: "",
     value: "",
     percent: "",
-    bold: false,
+    type: "",
   });
 
   // Total Expenses
@@ -978,7 +979,7 @@ export const getMontlyProfitLossCSV = (
     label: "Total Expenses",
     value: expenseTotal.toString(),
     percent: "",
-    bold: true,
+    type: "endSection",
   });
 
   // Creates an empty line
@@ -986,7 +987,7 @@ export const getMontlyProfitLossCSV = (
     label: "",
     value: "",
     percent: "",
-    bold: false,
+    type: "",
   });
 
   // Creates the Net Profit line
@@ -994,12 +995,12 @@ export const getMontlyProfitLossCSV = (
     label: "Net Profit",
     value: (incomeTotal - expenseTotal).toString(),
     percent: "",
-    bold: true,
+    type: "net",
   });
 
   currentMonthProfitLoss.forEach((item) => {
     if (item.value !== "" && item.percent !== "% of Income") {
-      item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(0)}%`;
+      item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
       item.value = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",

@@ -163,6 +163,7 @@ describe("getYearlyBudgetBreakdown", () => {
           budget_date_id: null,
           item_name: ["Netflix", "Hulu"],
           item_value: [19, 17],
+          item_categories: ["", ""],
         },
       ],
     });

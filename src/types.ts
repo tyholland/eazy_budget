@@ -47,6 +47,7 @@ export interface BudgetDataItem {
   category_id?: number;
   item_name?: string[];
   item_value?: number[];
+  item_categories?: string[];
   temp?: boolean;
 }
 

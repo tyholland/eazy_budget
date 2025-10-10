@@ -38,7 +38,10 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   const currentYearProfitLoss = getYearlyProfitLossCSV(
     yearlyIncome,
     yearlyExpense,
+    currentUser?.categories,
   );
+
+  console.log(yearlyExpense);
 
   const profitLossBtn = document.querySelector(".profitLossBtn");
   const profitLossYearBtn = document.querySelector(".profitLossYearBtn");
@@ -60,9 +63,18 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   );
 
   const monthlyCsv: Object[] = [];
+  const yearlyCsv: Object[] = [];
 
   currentMonthProfitLoss.forEach((item) => {
     monthlyCsv.push({
+      label: item.label,
+      value: item.value,
+      percent: item.percent,
+    });
+  });
+
+  currentYearProfitLoss.forEach((item) => {
+    yearlyCsv.push({
       label: item.label,
       value: item.value,
       percent: item.percent,
@@ -78,9 +90,25 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
       <S.ContentWrapper>
         {type === "yearly" && (
           <>
+            <S.BudgetBreakdown>
+              <S.BudgetLineItem className="header">
+                <div className="capital">Item</div>
+                <div>Amount</div>
+                <div>% of Income</div>
+              </S.BudgetLineItem>
+              {currentYearProfitLoss.map((item, index) => {
+                return (
+                  <S.BudgetLineItem key={index} className={item.type}>
+                    <div className="capital">{item.label}</div>
+                    <div>{item.value}</div>
+                    <div>{item.percent}</div>
+                  </S.BudgetLineItem>
+                );
+              })}
+            </S.BudgetBreakdown>
             <S.CsvBtn
-              data={currentYearProfitLoss}
-              headers={["Item", "Amount (USD)"]}
+              data={yearlyCsv}
+              headers={["Item", "Amount", "% of Income"]}
               filename={`${currentYear}_p_and_l`}
               className="profitLossYearBtn"
             >

@@ -96,12 +96,14 @@ export const getYearlyBudgetBreakdown = (
       let budgetDateId: number | null = null;
       const itemNames: string[] = [];
       const itemValues: number[] = [];
+      const itemCategories: string[] = [];
 
       item[type].forEach((data: BudgetDataItem) => {
         count += data.value;
         budgetId = data.budget_id;
         itemNames.push(data.label);
         itemValues.push(data.value);
+        itemCategories.push(data.category_id?.toString() || "");
       });
 
       dataSet.push(count);
@@ -112,6 +114,7 @@ export const getYearlyBudgetBreakdown = (
         budget_date_id: budgetDateId,
         item_name: itemNames.length > 0 ? itemNames : undefined,
         item_value: itemValues.length > 0 ? itemValues : undefined,
+        item_categories: itemCategories.length > 0 ? itemCategories : undefined,
       });
     }
   });
@@ -998,6 +1001,7 @@ export const getMontlyProfitLossCSV = (
     type: "net",
   });
 
+  // Add Percentages and show number as currency
   currentMonthProfitLoss.forEach((item) => {
     if (item.value !== "" && item.percent !== "% of Income") {
       item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
@@ -1014,6 +1018,7 @@ export const getMontlyProfitLossCSV = (
 export const getYearlyProfitLossCSV = (
   yearlyIncome: BudgetDataItem[],
   yearlyExpense: BudgetDataItem[],
+  categories: ExpenseCategory[] | undefined,
 ) => {
   let incomeTotal = 0;
   let expenseTotal = 0;
@@ -1023,6 +1028,8 @@ export const getYearlyProfitLossCSV = (
     {
       label: "Income",
       value: "",
+      percent: "",
+      type: "section",
     },
   ];
 
@@ -1038,72 +1045,193 @@ export const getYearlyProfitLossCSV = (
         if (item.item_value) {
           const updatedValue =
             Number(currentYearProfitLoss[itemIndex].value) + item.item_value[i];
-          currentYearProfitLoss[itemIndex].value = updatedValue.toFixed(2);
+          currentYearProfitLoss[itemIndex].value = updatedValue.toString();
         }
         return;
       }
       currentYearProfitLoss.push({
         label: name,
-        value: item.item_value ? item.item_value[i].toFixed(2) : "",
+        value: item.item_value ? item.item_value[i].toString() : "",
+        percent: "",
+        type: "",
       });
     });
   });
 
+  // Total income
   currentYearProfitLoss.push({
     label: "Total Income:",
-    value: incomeTotal.toFixed(2),
+    value: incomeTotal.toString(),
+    percent: "",
+    type: "endSection",
   });
 
   // Creates an empty line
   currentYearProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    type: "",
   });
 
   // Creates the second block for the expense
   currentYearProfitLoss.push({
-    label: "Expense",
+    label: "Expenses",
     value: "",
+    percent: "",
+    type: "section",
   });
 
-  yearlyExpense.forEach((item) => {
-    expenseTotal += item.value;
+  if (!!categories && categories.length > 0) {
+    categories.forEach((category) => {
+      let categoryTotal = 0;
 
-    item.item_name?.forEach((name, i) => {
-      const itemIndex = currentYearProfitLoss
-        .map((expense) => expense.label)
-        .indexOf(name);
-
-      if (itemIndex > 0) {
-        if (item.item_value) {
-          const updatedValue =
-            Number(currentYearProfitLoss[itemIndex].value) + item.item_value[i];
-          currentYearProfitLoss[itemIndex].value = updatedValue.toFixed(2);
-        }
-        return;
-      }
+      // Category name
       currentYearProfitLoss.push({
-        label: name,
-        value: item.item_value ? item.item_value[i].toFixed(2) : "",
+        label: category.label,
+        value: "",
+        percent: "",
+        type: "category",
+      });
+
+      yearlyExpense.forEach((item) => {
+        item.item_name?.forEach((name, i) => {
+          if (
+            item.item_categories &&
+            item.item_categories[i] === category.id.toString()
+          ) {
+            currentYearProfitLoss.push({
+              label: name,
+              value: item.item_value ? item.item_value[i].toString() : "",
+              percent: "",
+              type: "",
+            });
+
+            categoryTotal += item.item_value ? item.item_value[i] : 0;
+            expenseTotal += item.item_value ? item.item_value[i] : 0;
+          }
+        });
+      });
+
+      // Total category amount
+      currentYearProfitLoss.push({
+        label: `Total ${category.label}`,
+        value: categoryTotal.toString(),
+        percent: "",
+        type: "endCategory",
+      });
+
+      // Creates an empty line
+      currentYearProfitLoss.push({
+        label: "",
+        value: "",
+        percent: "",
+        type: "",
       });
     });
+
+    let nonCategoryTotal = 0;
+
+    // Expenses without a category
+    currentYearProfitLoss.push({
+      label: "Other Expenses",
+      value: "",
+      percent: "",
+      type: "category",
+    });
+
+    yearlyExpense.forEach((item) => {
+      item.item_name?.forEach((name, i) => {
+        if (item.item_categories && item.item_categories[i] === "") {
+          currentYearProfitLoss.push({
+            label: name,
+            value: item.item_value ? item.item_value[i].toString() : "",
+            percent: "",
+            type: "",
+          });
+
+          expenseTotal += item.item_value ? item.item_value[i] : 0;
+          nonCategoryTotal += item.item_value ? item.item_value[i] : 0;
+        }
+      });
+    });
+
+    // Total non-category amount
+    currentYearProfitLoss.push({
+      label: "Total Other Expenses",
+      value: nonCategoryTotal.toString(),
+      percent: "",
+      type: "endCategory",
+    });
+  } else {
+    yearlyExpense.forEach((item) => {
+      expenseTotal += item.value;
+
+      item.item_name?.forEach((name, i) => {
+        const itemIndex = currentYearProfitLoss
+          .map((expense) => expense.label)
+          .indexOf(name);
+
+        if (itemIndex > 0) {
+          if (item.item_value) {
+            const updatedValue =
+              Number(currentYearProfitLoss[itemIndex].value) +
+              item.item_value[i];
+            currentYearProfitLoss[itemIndex].value = updatedValue.toString();
+          }
+          return;
+        }
+        currentYearProfitLoss.push({
+          label: name,
+          value: item.item_value ? item.item_value[i].toString() : "",
+          percent: "",
+          type: "",
+        });
+      });
+    });
+  }
+
+  // Creates an empty line
+  currentYearProfitLoss.push({
+    label: "",
+    value: "",
+    percent: "",
+    type: "",
   });
 
+  // Total expenses
   currentYearProfitLoss.push({
-    label: "Total Expense:",
-    value: expenseTotal.toFixed(2),
+    label: "Total Expenses",
+    value: expenseTotal.toString(),
+    percent: "",
+    type: "endSection",
   });
 
   // Creates an empty line
   currentYearProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    type: "",
   });
 
   // Creates the Net Profit line
   currentYearProfitLoss.push({
     label: "Net Profit",
-    value: (incomeTotal - expenseTotal).toFixed(2),
+    value: (incomeTotal - expenseTotal).toString(),
+    percent: "",
+    type: "net",
+  });
+
+  // Add Percentages and show number as currency
+  currentYearProfitLoss.forEach((item) => {
+    if (item.value !== "" && item.percent !== "% of Income") {
+      item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
+      item.value = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(Number(item.value));
+    }
   });
 
   return currentYearProfitLoss;

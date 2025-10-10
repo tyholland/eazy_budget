@@ -19,13 +19,18 @@ import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import { DARKER_GRAY } from "../../index.style.ts";
+import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
+import { userAtom } from "../../hook/UserAtom.ts";
+import { getSubscriptionStatus } from "../../functions/helper.ts";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const { type, year } = useParams();
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <ErrorPage />;
@@ -79,11 +84,14 @@ const Yearly = () => {
           </S.ItemWrapper>
         )}
         {selectedOption === "details" && (
-          <BudgetDetails
-            income={yearlyTotalIncome}
-            expense={yearlyTotalExpense}
-            hideExpensesPaid
-          />
+          <>
+            <BudgetDetails
+              income={yearlyTotalIncome}
+              expense={yearlyTotalExpense}
+              hideExpensesPaid
+            />
+            {isPro && <DownloadCsv type="yearly" />}
+          </>
         )}
         {selectedOption === "charts" && (
           <Graph

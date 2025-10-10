@@ -28,7 +28,8 @@ const SetupBudget = ({
       <S.ContentSection>
         <h2>Welcome to Simple Budgeting</h2>
         <span>
-          Enter your income and expenses to generate a complete 12-month budget.
+          Enter your income and expenses for one month to generate a complete
+          12-month budget.
         </span>
       </S.ContentSection>
       <S.SelectionWrapper>
@@ -44,10 +45,10 @@ const SetupBudget = ({
               url={`/add/income/${month}/${year}`}
               linkSize="medium"
               classType="button"
-              label="Add income"
+              label="Add income for one month"
               isDisabled={isDisabled}
             >
-              Add income
+              Add income for one month
             </Link>{" "}
             {!budgetIncome.length ? <DisabledSaveIcon /> : <SaveIcon />}
           </S.Section>
@@ -56,10 +57,10 @@ const SetupBudget = ({
               url={`/add/expense/${month}/${year}`}
               linkSize="medium"
               classType="button"
-              label="Add expense"
+              label="Add expenses for one month"
               isDisabled={isDisabled}
             >
-              Add expense
+              Add expenses for one month
             </Link>{" "}
             {!budgetExpense.length ? <DisabledSaveIcon /> : <SaveIcon />}
           </S.Section>

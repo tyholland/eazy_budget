@@ -19,7 +19,6 @@ import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import { DARKER_GRAY } from "../../index.style.ts";
-import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -101,7 +100,6 @@ const Yearly = () => {
             page="yearly"
           />
         )}
-        {selectedOption === "download" && <DownloadCsv type="yearly" />}
         <ReactTooltip
           id={`monthly-${type}-tooltip`}
           place="top"

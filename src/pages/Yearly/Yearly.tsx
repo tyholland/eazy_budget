@@ -57,7 +57,7 @@ const Yearly = () => {
       />
       <S.ContentWrapper>
         <S.Title>
-          {theYear} {type}
+          {selectedOption !== "goals" && theYear} {selectedOption}
         </S.Title>
         {selectedOption === type && (
           <S.ItemWrapper>

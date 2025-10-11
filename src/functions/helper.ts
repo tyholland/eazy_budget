@@ -308,3 +308,17 @@ export const revertAmountToOriginal = (
       return value;
   }
 };
+
+export const getBudgetRule = (
+  discretionary: string,
+  savings: string,
+  fun: string,
+) => {
+  const discretionaryPercent = Math.round(
+    Number(discretionary.replace("%", "")),
+  );
+  const savingsPercent = Math.round(Number(savings.replace("%", "")));
+  const funPercent = Math.round(Number(fun.replace("%", "")));
+
+  return `${discretionaryPercent}/${savingsPercent}/${funPercent}`;
+};

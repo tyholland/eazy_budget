@@ -10,7 +10,7 @@ import {
   getYearlyProfitLossCSV,
 } from "../../functions/budget.ts";
 import { useParams } from "react-router-dom";
-import { getDateInfo } from "../../functions/helper.ts";
+import { getBudgetRule, getDateInfo } from "../../functions/helper.ts";
 import { trackEvent } from "../../functions/mixpanel.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
 
@@ -79,12 +79,47 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     });
   });
 
+  const monthDiscretionary = currentMonthProfitLoss.filter(
+    (item) => item.label === "Total Non-Discretionary",
+  )[0];
+
+  const monthSavings = currentMonthProfitLoss.filter(
+    (item) => item.label === "Total Savings",
+  )[0];
+
+  const monthFun = currentMonthProfitLoss.filter(
+    (item) => item.label === "Total Fun Money",
+  )[0];
+
+  const hasValidMonthBudget =
+    monthDiscretionary.percent === "60%" &&
+    monthSavings.percent === "20%" &&
+    monthFun.percent === "20%";
+
   return (
     <>
       <S.Title>
         {type === "monthly" ? currentMonth : currentYear} Profit & Loss
         Simplified
       </S.Title>
+      <div>
+        Your <span>{type === "monthly" ? currentMonth : currentYear}</span>{" "}
+        financial summary reflects a{" "}
+        {getBudgetRule(
+          monthDiscretionary.percent,
+          monthSavings.percent,
+          monthFun.percent,
+        )}{" "}
+        budget distribution, based on your recorded income and expenses.
+      </div>
+      {!hasValidMonthBudget && (
+        <div>
+          We recommend following the 60/20/20 budgeting rule, where 60% of your
+          income is allocated to Non-Discretionary expenses, 20% to Savings, and
+          the remaining 20% to Fun Money. Consider adjusting your expenses to
+          align more closely with this balanced financial framework.
+        </div>
+      )}
       <S.ContentWrapper>
         {type === "yearly" && (
           <>

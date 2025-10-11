@@ -17,25 +17,25 @@ import { mockBudgetItemArray } from "./mocks";
 
 describe("formatAmount", () => {
   test("should return whole number", () => {
-    const amount = formatAmount(40);
+    const amount = formatAmount(40, "USD");
 
     expect(amount).toBe("$40.00");
   });
 
   test("should return decimal number", () => {
-    const amount = formatAmount(10.55);
+    const amount = formatAmount(10.55, "USD");
 
     expect(amount).toBe("$10.55");
   });
 
   test("should return commas in number", () => {
-    const amount = formatAmount(1946720.55);
+    const amount = formatAmount(1946720.55, "USD");
 
     expect(amount).toBe("$1,946,720.55");
   });
 
   test("should return commas and '.00' in number", () => {
-    const amount = formatAmount(9238465);
+    const amount = formatAmount(9238465, "USD");
 
     expect(amount).toBe("$9,238,465.00");
   });

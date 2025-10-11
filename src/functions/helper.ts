@@ -6,14 +6,19 @@ import {
 } from "../constants.ts";
 import { BudgetDataItem } from "../types.ts";
 
-export const formatAmount = (amount: number) => {
-  const numObj = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  const formattedNum = numObj.format(amount);
-
-  return `$${formattedNum}`;
+export const formatAmount = (amount: number, currency: string) => {
+  switch (currency) {
+    case "USD":
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+    default:
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+  }
 };
 
 export const getDateInfo = () => {
@@ -69,10 +74,6 @@ export const getCurrentPageName = (pathName: string) => {
       break;
     case "/add/income":
       pageName = "Add Income";
-      break;
-    case "/account/predict":
-      pageName = "Budget Prediction";
-      page2Name = "Account";
       break;
     case "/account/history":
       pageName = "Budget History";
@@ -246,7 +247,7 @@ export const getFrequencyContent = (
 
   return freq === "month"
     ? `every ${freq}`
-    : `${formatAmount(val)} every ${freq}`;
+    : `${formatAmount(val, "USD")} every ${freq}`;
 };
 
 export const revertAmountToOriginal = (

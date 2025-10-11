@@ -66,6 +66,20 @@ const BudgetNav = ({
           Details
         </Button>
       </S.NavItem>
+      <S.NavItem className={selectedOption === "goals" ? "open" : "close"}>
+        <Button
+          classType="text"
+          handleClick={() => {
+            setSelectedOption("goals");
+            trackEvent("Viewed Goals", {
+              month: params.month,
+              year: params.year,
+            });
+          }}
+        >
+          Goals
+        </Button>
+      </S.NavItem>
       <S.NavItem className={selectedOption === "charts" ? "open" : "close"}>
         <Button
           classType="text"

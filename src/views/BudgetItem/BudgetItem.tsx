@@ -246,6 +246,7 @@ const BudgetItem = ({
                         Number(year),
                         selectedFrequency,
                       ),
+                      "USD",
                     )}
                   </S.Total>
                   {!hidePaidContent && (

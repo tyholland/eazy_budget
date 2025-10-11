@@ -314,13 +314,6 @@ const Account = () => {
                     </span>
                   </Link>
                 </S.Section>
-                <S.Section>
-                  <Link url="/account/predict" label="3 Year Prediction">
-                    <span>
-                      3 Year Prediction <ChartIcon />
-                    </span>
-                  </Link>
-                </S.Section>
                 {isStarter && (
                   <S.Section>
                     <Link

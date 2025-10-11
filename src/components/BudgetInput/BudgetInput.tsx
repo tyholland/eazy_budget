@@ -87,7 +87,9 @@ const BudgetInput = ({
             className={`${inputSize} ${inputOption}`}
             disabled
             value={
-              percent ? `${defaultValue}%` : formatAmount(Number(defaultValue))
+              percent
+                ? `${defaultValue}%`
+                : formatAmount(Number(defaultValue), "USD")
             }
             aria-label={`${inputLabel} value`}
           />

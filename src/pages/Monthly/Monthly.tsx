@@ -53,6 +53,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import Link from "../../components/Link/Link.tsx";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import Predict from "../../components/Predict/Predict.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -412,6 +413,7 @@ const Monthly = () => {
             {isPro && <DownloadCsv type="monthly" />}
           </>
         )}
+        {selectedOption === "goals" && <Predict />}
         {selectedOption === "charts" && (
           <Graph
             dataset={[

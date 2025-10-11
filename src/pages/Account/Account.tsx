@@ -23,7 +23,6 @@ import {
   getSubscriptionStatus,
 } from "../../functions/helper.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
-import ChartIcon from "../../svg/ChartIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";

@@ -22,6 +22,7 @@ import { DARKER_GRAY } from "../../index.style.ts";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
+import Predict from "../../components/Predict/Predict.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
@@ -93,6 +94,7 @@ const Yearly = () => {
             {isPro && <DownloadCsv type="yearly" />}
           </>
         )}
+        {selectedOption === "goals" && <Predict />}
         {selectedOption === "charts" && (
           <Graph
             dataset={[

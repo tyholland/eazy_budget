@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useState } from "react";
-import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./predict.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";

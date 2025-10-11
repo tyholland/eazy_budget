@@ -13,8 +13,38 @@ export const formatAmount = (amount: number, currency: string) => {
         style: "currency",
         currency: "USD",
       }).format(amount);
-    default:
+    case "EUR":
+      return new Intl.NumberFormat("en-DE", {
+        style: "currency",
+        currency: "EUR",
+      }).format(amount);
+    case "JPY":
+      return new Intl.NumberFormat("ja-JP", {
+        style: "currency",
+        currency: "JPY",
+      }).format(amount);
+    case "GBP":
+      return new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: "GBP",
+      }).format(amount);
+    case "CHF":
+      return new Intl.NumberFormat("de-CH", {
+        style: "currency",
+        currency: "CHF",
+      }).format(amount);
+    case "AUD":
+      return new Intl.NumberFormat("en-AU", {
+        style: "currency",
+        currency: "AUD",
+      }).format(amount);
+    case "CAD":
       return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "CAD",
+      }).format(amount);
+    default:
+      return new Intl.NumberFormat("en-CA", {
         style: "currency",
         currency: "USD",
       }).format(amount);

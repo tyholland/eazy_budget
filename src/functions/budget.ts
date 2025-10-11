@@ -8,7 +8,7 @@ import {
   ExpenseCategory,
   NewBudgetIds,
 } from "../types";
-import { getDateInfo, getFrequencyValue } from "./helper.ts";
+import { formatAmount, getDateInfo, getFrequencyValue } from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
   budget: BudgetData[],
@@ -1005,10 +1005,7 @@ export const getMontlyProfitLossCSV = (
   currentMonthProfitLoss.forEach((item) => {
     if (item.value !== "" && item.percent !== "% of Income") {
       item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
-      item.value = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(Number(item.value));
+      item.value = formatAmount(Number(item.value), "USD");
     }
   });
 
@@ -1301,10 +1298,7 @@ export const getYearlyProfitLossCSV = (
   currentYearProfitLoss.forEach((item) => {
     if (item.value !== "" && item.percent !== "% of Income") {
       item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
-      item.value = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(Number(item.value));
+      item.value = formatAmount(Number(item.value), "USD");
     }
   });
 

@@ -13,7 +13,7 @@ export type ButtonClassType =
   | "image"
   | "text";
 
-export type LinkClassType = "button" | "text";
+export type LinkClassType = "button" | "text" | "partner";
 
 export type GraphType = "doughnut" | "pie" | "bar";
 

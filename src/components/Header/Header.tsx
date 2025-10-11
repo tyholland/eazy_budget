@@ -10,6 +10,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { addUser, getBudgetInfo } from "../../functions/user.ts";
+import { nonPrivatePages } from "../../constants.ts";
 
 const Header = () => {
   const auth = useAuth0();
@@ -18,13 +19,6 @@ const Header = () => {
   const setBudget = useSetAtom(budgetAtom);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [hasBudget, setHasBudget] = useState<boolean>(false);
-  const nonPrivatePages = [
-    "/pricing",
-    "/about",
-    "/privacy",
-    "/contact",
-    "/referral",
-  ];
 
   useEffect(() => {
     if (!currentUser && nonPrivatePages.includes(location.pathname)) {
@@ -49,26 +43,31 @@ const Header = () => {
           Simple Budgeting
         </Link>
       </S.Title>
-      {user?.picture ? (
-        <Link url={"/account"} label={"Account"}>
-          <>
-            <img
-              src={user?.picture}
-              alt="logged in user"
-              title="Logged in user"
-              aria-label="Logged in user"
-            />
-            Account
-          </>
+      <S.HeaderLinks>
+        <Link url={"/partner"} label={"Partner with Us"} classType="partner">
+          Partner with Us
         </Link>
-      ) : (
-        <Button classType="text" handleClick={loginWithRedirect}>
-          <>
-            <UserIcon />
-            Sign In
-          </>
-        </Button>
-      )}
+        {user?.picture ? (
+          <Link url={"/account"} label={"Account"}>
+            <>
+              <img
+                src={user?.picture}
+                alt="logged in user"
+                title="Logged in user"
+                aria-label="Logged in user"
+              />
+              Account
+            </>
+          </Link>
+        ) : (
+          <Button classType="text" handleClick={loginWithRedirect}>
+            <>
+              <UserIcon />
+              Sign In
+            </>
+          </Button>
+        )}
+      </S.HeaderLinks>
     </S.HeaderWrapper>
   );
 };

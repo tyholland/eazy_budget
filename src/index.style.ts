@@ -69,7 +69,7 @@ export const GlobalStyles = createGlobalStyle`
       padding-bottom: 140px;
 
       @media only screen and (max-width: 800px) {
-        padding-bottom: 150px;
+        padding-bottom: 180px;
       }
     }
   }

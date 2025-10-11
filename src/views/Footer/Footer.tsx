@@ -41,6 +41,14 @@ const Footer = () => {
           Pricing
         </Link>
         <Link
+          url="/partner"
+          label="Partner with Us"
+          linkSize="medium"
+          callBack={() => window.scrollTo(0, 0)}
+        >
+          Partner with Us
+        </Link>
+        <Link
           url="/privacy"
           label="Privacy Policy"
           linkSize="medium"

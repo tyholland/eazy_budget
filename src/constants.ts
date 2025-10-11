@@ -200,3 +200,14 @@ export const frequencyShortHandMap = {
 };
 
 export const emailAddress = "info.simplebudget@gmail.com";
+
+export const nonPrivatePages = [
+  "/pricing",
+  "/about",
+  "/privacy",
+  "/contact",
+  "/referral",
+  "/partner",
+];
+
+export const noBreadCrumbList = ["/", "/overview", ...nonPrivatePages];

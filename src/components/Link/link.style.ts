@@ -45,7 +45,8 @@ export const LinkElement = styled(Link)`
     font-size: 18px;
   }
 
-  &.text {
+  &.text,
+  &.partner {
     background: transparent;
     border-radius: 0;
     padding: 0;
@@ -71,6 +72,12 @@ export const LinkElement = styled(Link)`
       color: ${GRAY};
       border: none;
       pointer-events: none;
+    }
+  }
+
+  &.partner {
+    @media only screen and (max-width: 800px) {
+      display: none;
     }
   }
 `;

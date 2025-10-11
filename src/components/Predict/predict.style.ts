@@ -30,17 +30,18 @@ export const PredictInputs = styled.div`
 
 export const PredictBudgets = styled.div`
   display: flex;
-  gap: 30px;
+  gap: 20px;
+  flex-direction: column;
 
-  @media only screen and (max-width: 800px) {
-    flex-direction: column;
+  span {
+    font-weight: 700;
   }
 `;
 
 export const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 30px;
 `;
 
 export const Content = styled.div`
@@ -48,9 +49,5 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 12px;
   font-size: 18px;
-  width: 40%;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
+  width: 100%;
 `;

@@ -29,12 +29,12 @@ const Predict = () => {
       <S.HeaderWrapper>
         <S.Content>
           <span>
-            This tool assumes you have an estimate of your expected income for
-            the next three years.
-          </span>
-          <span>
-            Enter your projected income to see your estimated remaining cash
-            over that period.
+            If you have a specific financial goal in mind, simply enter your
+            target amount along with any existing savings. Our tool will
+            automatically calculate how many years and months it will take to
+            reach your goal based on the income and expenses already in your
+            account. It will also show you the exact amount you need to save
+            each month to stay on track.
           </span>
         </S.Content>
         <S.PredictInputs>
@@ -57,9 +57,16 @@ const Predict = () => {
         </S.PredictInputs>
       </S.HeaderWrapper>
       <S.PredictBudgets>
-        <div>Total Years: {goalAmount > 0 && yearsToGoal}</div>
-        <div>Total Months: {goalAmount > 0 && monthsRemaining}</div>
-        <div>Amount to save per Month: {goalAmount > 0 && monthlySavings}</div>
+        <div>
+          <span>Total Years:</span> {goalAmount > 0 ? yearsToGoal : 0}
+        </div>
+        <div>
+          <span>Total Months:</span> {goalAmount > 0 ? monthsRemaining : 0}
+        </div>
+        <div>
+          <span>Amount to save per Month:</span>{" "}
+          {goalAmount > 0 ? monthlySavings : formatAmount(0, "USD")}
+        </div>
       </S.PredictBudgets>
     </S.PredictWrapper>
   );

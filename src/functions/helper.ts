@@ -4,7 +4,8 @@ import {
   listOfMonths,
   subscriptionPlan,
 } from "../constants.ts";
-import { BudgetDataItem } from "../types.ts";
+import { BudgetDataItem, User } from "../types.ts";
+import { convertCurrency } from "../requests/budget.ts";
 
 export const formatAmount = (amount: number, currency: string) => {
   switch (currency) {
@@ -321,4 +322,29 @@ export const getBudgetRule = (
   const funPercent = Math.round(Number(fun.replace("%", "")));
 
   return `${discretionaryPercent}/${savingsPercent}/${funPercent}`;
+};
+
+export const getFormattedCurrency = async (
+  amount: number,
+  currentUser?: User,
+) => {
+  if (currentUser && currentUser.currency !== "USD") {
+    const currencyRate = await convertCurrency("USD", currentUser.currency);
+    const convertedValue = formatAmount(
+      amount * currencyRate.rates[currentUser.currency],
+      currentUser.currency,
+    );
+
+    return {
+      currencyValue: convertedValue,
+      emptyValue: formatAmount(0, currentUser.currency),
+    };
+  }
+
+  const convertedValue = formatAmount(amount, "USD");
+
+  return {
+    currencyValue: convertedValue,
+    emptyValue: formatAmount(0, "USD"),
+  };
 };

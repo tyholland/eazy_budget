@@ -1,14 +1,17 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import * as S from "./predict.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { getYearlyTotalAmount } from "../../functions/budget.ts";
 import Input from "../Input/Input.tsx";
-import { formatAmount, getDateInfo } from "../../functions/helper.ts";
+import { getDateInfo, getFormattedCurrency } from "../../functions/helper.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const Predict = () => {
   const budget = useAtomValue(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const { currentYear } = getDateInfo();
+  const [monthlySavings, setMontlySavings] = useState<string>("");
   const yearlyTotalIncome = getYearlyTotalAmount(budget, currentYear, "income");
   const yearlyTotalExpense = getYearlyTotalAmount(
     budget,
@@ -22,7 +25,20 @@ const Predict = () => {
   const remainingGoal = goalAmount - currentSavings;
   const yearsToGoal = Math.ceil(remainingGoal / annualSavings);
   const monthsRemaining = yearsToGoal * 12;
-  const monthlySavings = formatAmount(remainingGoal / monthsRemaining, "USD");
+  const amount = remainingGoal / monthsRemaining;
+
+  const savingsAmount = async () => {
+    const { currencyValue, emptyValue } = await getFormattedCurrency(
+      amount,
+      currentUser,
+    );
+
+    setMontlySavings(goalAmount > 0 ? currencyValue : emptyValue);
+  };
+
+  useEffect(() => {
+    savingsAmount();
+  }, [goalAmount, currentSavings]);
 
   return (
     <S.PredictWrapper>
@@ -64,8 +80,7 @@ const Predict = () => {
           <span>Total Months:</span> {goalAmount > 0 ? monthsRemaining : 0}
         </div>
         <div>
-          <span>Amount to save per Month:</span>{" "}
-          {goalAmount > 0 ? monthlySavings : formatAmount(0, "USD")}
+          <span>Amount to save per Month:</span> {monthlySavings}
         </div>
       </S.PredictBudgets>
     </S.PredictWrapper>

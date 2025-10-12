@@ -97,3 +97,16 @@ export const deleteBudgetItem = async (
     throw new Error("Failed to delete budget item");
   }
 };
+
+export const convertCurrency = async (from: string, to: string) => {
+  try {
+    const url = `https://api.frankfurter.dev/v1/latest?base=${from}&symbols=${to}`;
+    const currencyResponse = await fetch(url, {
+      method: "GET",
+    });
+
+    return await currencyResponse.json();
+  } catch (err) {
+    throw new Error("Failed to get currency rates");
+  }
+};

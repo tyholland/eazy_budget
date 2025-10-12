@@ -95,6 +95,7 @@ export interface UserResponse {
   subscribed_at: string;
   referral_code: string;
   referral_count: string;
+  currency: string;
   paypal_sub_id?: string | null;
   connected_id?: number;
   primary_request?: string;

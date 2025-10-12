@@ -48,9 +48,6 @@ import Loading from "../../components/Loading/Loading.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { DARKER_GRAY } from "../../index.style.ts";
-import InfoIcon from "../../svg/InfoIcon.tsx";
-import { Tooltip as ReactTooltip } from "react-tooltip";
-import Link from "../../components/Link/Link.tsx";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
@@ -142,52 +139,17 @@ const Monthly = () => {
                 />
               )}
               {isPro && type === "expense" && (
-                <>
-                  {currentUser?.categories &&
-                    currentUser.categories.length > 0 && (
-                      <SelectComponent
-                        options={
-                          currentUser.categories.concat({
-                            id: 0,
-                            label: "None",
-                          }) || []
-                        }
-                        placeHolder="Filter by Category"
-                        defaultValue={selectedFilter}
-                        setOption={setSelectedFilter}
-                      />
-                    )}
-                  {currentUser?.categories &&
-                    currentUser.categories.length === 0 && (
-                      <>
-                        <S.FilterLink>
-                          <Link
-                            url="/account/categories"
-                            label="Filter by Category"
-                            linkSize="medium"
-                            classType="text"
-                          >
-                            Filter by Category
-                          </Link>
-                          <div>
-                            <span
-                              className="tooltip"
-                              data-tooltip-id="filter-tooltip"
-                            >
-                              <InfoIcon />
-                            </span>
-                          </div>
-                        </S.FilterLink>
-                        <ReactTooltip
-                          id="filter-tooltip"
-                          place="right"
-                          variant="info"
-                          content='Click the link "Filter by Category" to create expense categories'
-                          className="tooltip"
-                        />
-                      </>
-                    )}
-                </>
+                <SelectComponent
+                  options={
+                    currentUser?.categories.concat({
+                      id: 0,
+                      label: "None",
+                    }) || []
+                  }
+                  placeHolder="Filter by Category"
+                  defaultValue={selectedFilter}
+                  setOption={setSelectedFilter}
+                />
               )}
             </S.Selectors>
             <S.ItemWrapper>

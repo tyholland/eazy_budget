@@ -5,10 +5,14 @@ import {
   BudgetDataItem,
   BudgetInsertIds,
   CreateBudgetItems,
-  ExpenseCategory,
   NewBudgetIds,
+  User,
 } from "../types";
-import { formatAmount, getDateInfo, getFrequencyValue } from "./helper.ts";
+import {
+  getDateInfo,
+  getFormattedCurrency,
+  getFrequencyValue,
+} from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
   budget: BudgetData[],
@@ -821,7 +825,7 @@ export const getYearlyCSV = (budget: BudgetData[], currentYear: number) => {
   };
 };
 
-export const getMontlyProfitLossCSV = (
+export const getMontlyProfitLossCSV = async (
   currentIncome: Omit<
     BudgetDataItem,
     "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
@@ -830,10 +834,11 @@ export const getMontlyProfitLossCSV = (
     BudgetDataItem,
     "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
   >[],
-  categories: ExpenseCategory[] | undefined,
+  currentUser?: User,
 ) => {
   let incomeTotal = 0;
   let expenseTotal = 0;
+  const categories = currentUser?.categories;
 
   // Creates the first block for the income
   const currentMonthProfitLoss = [
@@ -1002,23 +1007,33 @@ export const getMontlyProfitLossCSV = (
   });
 
   // Add Percentages and show number as currency
-  currentMonthProfitLoss.forEach((item) => {
-    if (item.value !== "" && item.percent !== "% of Income") {
-      item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
-      item.value = formatAmount(Number(item.value), "USD");
+  for (const arr of currentMonthProfitLoss) {
+    const profitVal = arr.value;
+    const profitPercent = arr.percent;
+
+    if (profitVal !== "" && profitPercent !== "% of Income") {
+      arr.percent = `${((Number(profitVal) / incomeTotal) * 100).toFixed(2)}%`;
+
+      const { currencyValue } = await getFormattedCurrency(
+        Number(profitVal),
+        currentUser,
+      );
+
+      arr.value = currencyValue;
     }
-  });
+  }
 
   return currentMonthProfitLoss;
 };
 
-export const getYearlyProfitLossCSV = (
+export const getYearlyProfitLossCSV = async (
   yearlyIncome: BudgetDataItem[],
   yearlyExpense: BudgetDataItem[],
-  categories: ExpenseCategory[] | undefined,
+  currentUser?: User,
 ) => {
   let incomeTotal = 0;
   let expenseTotal = 0;
+  const categories = currentUser?.categories;
 
   // Creates the first block for the income
   const currentYearProfitLoss = [
@@ -1295,12 +1310,21 @@ export const getYearlyProfitLossCSV = (
   });
 
   // Add Percentages and show number as currency
-  currentYearProfitLoss.forEach((item) => {
-    if (item.value !== "" && item.percent !== "% of Income") {
-      item.percent = `${((Number(item.value) / incomeTotal) * 100).toFixed(2)}%`;
-      item.value = formatAmount(Number(item.value), "USD");
+  for (const arr of currentYearProfitLoss) {
+    const profitVal = arr.value;
+    const profitPercent = arr.percent;
+
+    if (profitVal !== "" && profitPercent !== "% of Income") {
+      arr.percent = `${((Number(profitVal) / incomeTotal) * 100).toFixed(2)}%`;
+
+      const { currencyValue } = await getFormattedCurrency(
+        Number(profitVal),
+        currentUser,
+      );
+
+      arr.value = currencyValue;
     }
-  });
+  }
 
   return currentYearProfitLoss;
 };

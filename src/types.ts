@@ -128,3 +128,10 @@ export interface CreateBudgetItems {
   frequency: string;
   cadence: string;
 }
+
+export interface ProfitLoss {
+  label: string;
+  value: string;
+  percent: string;
+  type: string;
+}

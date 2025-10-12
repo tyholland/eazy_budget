@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./budgetInput.style.ts";
 import {
-  formatAmount,
   getFormattedCurrency,
   revertAmountToOriginal,
 } from "../../functions/helper.ts";

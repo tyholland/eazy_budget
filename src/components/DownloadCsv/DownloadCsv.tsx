@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./downloadCsv.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { BudgetData, DownloadTypes } from "../../types.ts";
+import { BudgetData, DownloadTypes, ProfitLoss } from "../../types.ts";
 import {
   getMonthlyCSV,
   getMontlyProfitLossCSV,
@@ -23,6 +23,12 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   const budget = useAtomValue(budgetAtom);
   const currentUser = useAtomValue(userAtom);
   const { currentYear: theYear } = getDateInfo();
+  const [currentMonthProfitLoss, setCurrentMonthProfitLoss] = useState<
+    ProfitLoss[]
+  >([]);
+  const [currentYearProfitLoss, setCurrentYearProfitLoss] = useState<
+    ProfitLoss[]
+  >([]);
   const currentMonth = params.month;
   const currentYear = Number(params.year) || theYear;
   const currentBudget = budget.filter(
@@ -30,16 +36,34 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   )[0];
   const { currentExpense, currentIncome } = getMonthlyCSV(currentBudget);
   const { yearlyIncome, yearlyExpense } = getYearlyCSV(budget, currentYear);
-  const currentMonthProfitLoss = getMontlyProfitLossCSV(
-    currentIncome,
-    currentExpense,
-    currentUser?.categories,
-  );
-  const currentYearProfitLoss = getYearlyProfitLossCSV(
-    yearlyIncome,
-    yearlyExpense,
-    currentUser?.categories,
-  );
+
+  const getAllProfitLoss = async () => {
+    const monthProfitLoss = await getMontlyProfitLossCSV(
+      currentIncome,
+      currentExpense,
+      currentUser,
+    );
+
+    const yearProfitLoss = await getYearlyProfitLossCSV(
+      yearlyIncome,
+      yearlyExpense,
+      currentUser,
+    );
+
+    setCurrentMonthProfitLoss(monthProfitLoss);
+    setCurrentYearProfitLoss(yearProfitLoss);
+  };
+
+  useEffect(() => {
+    getAllProfitLoss();
+  }, []);
+
+  if (
+    currentMonthProfitLoss.length === 0 ||
+    currentYearProfitLoss.length === 0
+  ) {
+    return <></>;
+  }
 
   const profitLossBtn = document.querySelector(".profitLossBtn");
   const profitLossYearBtn = document.querySelector(".profitLossYearBtn");

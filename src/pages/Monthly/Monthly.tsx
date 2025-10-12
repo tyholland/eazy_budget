@@ -319,7 +319,7 @@ const Monthly = () => {
                             theType={type as InputOption}
                             item={data}
                             labelPlaceHolder={`${type.toLowerCase()} name`}
-                            valuePlaceHolder={`${type.toLowerCase()} amount`}
+                            valuePlaceHolder={`${type.toLowerCase()} (USD)`}
                             inputType="number"
                             saveEvent={handleSaveEvent}
                             deleteEvent={handleDeleteEvent}

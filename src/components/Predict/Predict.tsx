@@ -56,16 +56,16 @@ const Predict = () => {
         <S.PredictInputs>
           <Input
             label="goalAmount"
-            labelValue="Goal Amount:"
-            placeHolder="Enter amount"
+            labelValue="Goal Amount (USD):"
+            placeHolder="Enter amount (USD)"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setGoalAmount(Number(e.target.value))
             }
           />
           <Input
             label="currentSavings"
-            labelValue="Current Savings:"
-            placeHolder="Enter savings"
+            labelValue="Current Savings (USD):"
+            placeHolder="Enter savings (USD)"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setCurrentSavings(Number(e.target.value))
             }

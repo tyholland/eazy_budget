@@ -18,8 +18,8 @@ import {
   proPlanFrequencyOptions,
 } from "../../constants.ts";
 import {
-  formatAmount,
   getErrorMessage,
+  getFormattedCurrency,
   getFrequencyContent,
   getFrequencyValue,
   getSubscriptionStatus,
@@ -104,6 +104,7 @@ const BudgetItem = ({
   const [modalValue, setModalValue] = useState<number | string>(
     item?.value || inputValue,
   );
+  const [totalAmount, setTotalAmount] = useState<string>("");
 
   useEffect(() => {
     item && setInputValue(item.value);
@@ -142,6 +143,22 @@ const BudgetItem = ({
       ? currentUser.categories?.length > 0
       : false;
 
+  const getTotalAmount = async () => {
+    const amount = getFrequencyValue(
+      Number(changeInputVal ? modalValue : inputValue),
+      month as string,
+      Number(year),
+      selectedFrequency,
+    );
+    const { currencyValue } = await getFormattedCurrency(amount, currentUser);
+
+    setTotalAmount(currencyValue);
+  };
+
+  useEffect(() => {
+    getTotalAmount();
+  }, [changeInputVal, selectedFrequency, modalValue, inputValue]);
+
   return (
     <S.ItemWrapper className="itemWrapper">
       <S.Item>
@@ -176,7 +193,7 @@ const BudgetItem = ({
                   <S.TimingSelects>
                     <SelectComponent
                       options={specificFrequency}
-                      placeHolder="Choose Frequency"
+                      placeHolder="Frequency:"
                       defaultValue={
                         item?.frequency || specificFrequency[3].label
                       }
@@ -195,7 +212,7 @@ const BudgetItem = ({
                       ) && (
                         <SelectComponent
                           options={cadenceOptions}
-                          placeHolder="Choose Cadence"
+                          placeHolder="Cadence:"
                           defaultValue={cadenceOptions[0].label}
                           setOption={setSelectedCadence}
                         />
@@ -212,7 +229,7 @@ const BudgetItem = ({
                               label: "None",
                             }) || []
                           }
-                          placeHolder="Choose Category"
+                          placeHolder="Category:"
                           defaultValue={expenseCategory?.label || "None"}
                           setOption={setSelectedCategory}
                         />
@@ -238,16 +255,7 @@ const BudgetItem = ({
                     setChangeInputVal={setChangeInputVal}
                   />
                   <S.Total>
-                    <span>Total {theType} amount:</span>{" "}
-                    {formatAmount(
-                      getFrequencyValue(
-                        Number(changeInputVal ? modalValue : inputValue),
-                        month as string,
-                        Number(year),
-                        selectedFrequency,
-                      ),
-                      "USD",
-                    )}
+                    <span>Total {theType} amount:</span> {totalAmount}
                   </S.Total>
                   {!hidePaidContent && (
                     <CheckboxComponent

@@ -105,6 +105,7 @@ const BudgetItem = ({
     item?.value || inputValue,
   );
   const [totalAmount, setTotalAmount] = useState<string>("");
+  const [frequencyContent, setFrequencyContent] = useState<string>("");
 
   useEffect(() => {
     item && setInputValue(item.value);
@@ -151,8 +152,16 @@ const BudgetItem = ({
       selectedFrequency,
     );
     const { currencyValue } = await getFormattedCurrency(amount, currentUser);
+    const content = await getFrequencyContent(
+      month,
+      year,
+      item?.value,
+      item?.frequency,
+      currentUser,
+    );
 
     setTotalAmount(currencyValue);
+    setFrequencyContent(content);
   };
 
   useEffect(() => {
@@ -386,9 +395,7 @@ const BudgetItem = ({
         </S.ItemTopRow>
         {!hidePaidContent && (
           <>
-            <div>
-              {getFrequencyContent(month, year, item?.value, item?.frequency)}
-            </div>
+            <div>{frequencyContent}</div>
             <CheckboxComponent
               label="Paid"
               isDisabled

@@ -263,11 +263,12 @@ export const getFrequencyValue = (
   }
 };
 
-export const getFrequencyContent = (
+export const getFrequencyContent = async (
   month?: string,
   year?: string,
   amount?: number,
   frequency?: string,
+  currentUser?: User,
 ) => {
   if (!frequency || !month || !year) {
     return "every month";
@@ -275,10 +276,9 @@ export const getFrequencyContent = (
 
   const freq = frequencyShortHandMap[frequency];
   const val = revertAmountToOriginal(amount || 0, month, year, frequency);
+  const { currencyValue } = await getFormattedCurrency(val, currentUser);
 
-  return freq === "month"
-    ? `every ${freq}`
-    : `${formatAmount(val, "USD")} every ${freq}`;
+  return freq === "month" ? `every ${freq}` : `${currencyValue} every ${freq}`;
 };
 
 export const revertAmountToOriginal = (

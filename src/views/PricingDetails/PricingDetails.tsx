@@ -141,13 +141,22 @@ const PricingDetails = ({
           </S.SubscribeBtn>
         )}
         <ul>
-          <li>Create a full-year budget by entering income and expenses</li>
+          <li>
+            Create a full-year budget by manually entering income and expenses
+          </li>
+          <li>
+            Import your income and expenses by uploading a CSV file to create a
+            full-year budget
+          </li>
           <li>Edit existing income and expense entries at any time</li>
           <li>Add additional income and expenses as needed</li>
           <li>
             Visualize your financial data with bar, doughnut, and pie charts
           </li>
-          <li>Access to the 3-Year Financial Forecasting Tool</li>
+          <li>
+            Calculate how long it will take to reach your financial goal and how
+            much you need to save each month
+          </li>
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>
@@ -284,6 +293,10 @@ const PricingDetails = ({
             <span>Yearly</span>
           </li>
           <li>Share account access with one additional user</li>
+          <li>
+            Easily switch between up to seven different currencies for flexible
+            financial tracking
+          </li>
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>

@@ -328,23 +328,23 @@ export const getFormattedCurrency = async (
   amount: number,
   currentUser?: User,
 ) => {
-  if (currentUser && currentUser.currency !== "USD") {
-    const currencyRate = await convertCurrency("USD", currentUser.currency);
-    const convertedValue = formatAmount(
-      amount * currencyRate.rates[currentUser.currency],
-      currentUser.currency,
-    );
+  if (!currentUser || (currentUser && currentUser.currency === "USD")) {
+    const convertedValue = formatAmount(amount, "USD");
 
     return {
       currencyValue: convertedValue,
-      emptyValue: formatAmount(0, currentUser.currency),
+      emptyValue: formatAmount(0, "USD"),
     };
   }
 
-  const convertedValue = formatAmount(amount, "USD");
+  const currencyRate = await convertCurrency("USD", currentUser.currency);
+  const convertedValue = formatAmount(
+    amount * currencyRate.rates[currentUser.currency],
+    currentUser.currency,
+  );
 
   return {
     currencyValue: convertedValue,
-    emptyValue: formatAmount(0, "USD"),
+    emptyValue: formatAmount(0, currentUser.currency),
   };
 };

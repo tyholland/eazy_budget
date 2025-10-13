@@ -257,44 +257,86 @@ describe("getFrequencyValue", () => {
 });
 
 describe("getFrequencyContent", () => {
-  test("should return label default message for no frequency", () => {
-    const content = getFrequencyContent("april", "2025", 20, undefined);
+  test("should return label default message for no frequency", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      undefined,
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });
 
-  test("should return label default message for no month", () => {
-    const content = getFrequencyContent(undefined, "2025", 20, "Monthly");
+  test("should return label default message for no month", async () => {
+    const content = await getFrequencyContent(
+      undefined,
+      "2025",
+      20,
+      "Monthly",
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });
 
-  test("should return label default message for no year", () => {
-    const content = getFrequencyContent("april", undefined, 20, "Monthly");
+  test("should return label default message for no year", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      undefined,
+      20,
+      "Monthly",
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });
 
-  test("should return content for Daily", () => {
-    const content = getFrequencyContent("april", "2025", 44, "Daily");
+  test("should return content for Daily", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      44,
+      "Daily",
+      undefined,
+    );
 
     expect(content).toBe("$2.00 every business day");
   });
 
-  test("should return content for Semi-Monthly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Semi-Monthly");
+  test("should return content for Semi-Monthly", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      "Semi-Monthly",
+      undefined,
+    );
 
     expect(content).toBe("$10.00 every two times a month");
   });
 
-  test("should return content for Weekly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Weekly");
+  test("should return content for Weekly", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      "Weekly",
+      undefined,
+    );
 
     expect(content).toBe("$5.00 every week");
   });
 
-  test("should return content for Monthly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Monthly");
+  test("should return content for Monthly", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      "Monthly",
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });

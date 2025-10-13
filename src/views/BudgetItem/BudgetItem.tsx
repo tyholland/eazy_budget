@@ -106,10 +106,21 @@ const BudgetItem = ({
   );
   const [totalAmount, setTotalAmount] = useState<string>("");
   const [frequencyContent, setFrequencyContent] = useState<string>("");
+  const [triggerFrequencyChange, setTriggerFrequencyChange] =
+    useState<boolean>(false);
 
   useEffect(() => {
     item && setInputValue(item.value);
-    item && modalValue === "New Item" && setModalValue(item.value);
+    item && modalValue === "New Item"
+      ? setModalValue(item.value)
+      : setModalValue(
+          revertAmountToOriginal(
+            Number(item?.value),
+            month,
+            year,
+            selectedFrequency,
+          ),
+        );
   }, [item?.value]);
 
   useEffect(() => {
@@ -147,7 +158,7 @@ const BudgetItem = ({
   const getTotalAmount = async () => {
     const amount = getFrequencyValue(
       Number(
-        changeInputVal
+        changeInputVal || triggerFrequencyChange
           ? modalValue
           : revertAmountToOriginal(
               Number(inputValue),
@@ -160,6 +171,7 @@ const BudgetItem = ({
       Number(year),
       selectedFrequency,
     );
+
     const { currencyValue } = await getFormattedCurrency(amount, currentUser);
     const content = await getFrequencyContent(
       month,
@@ -171,6 +183,7 @@ const BudgetItem = ({
 
     setTotalAmount(currencyValue);
     setFrequencyContent(content);
+    setTriggerFrequencyChange(false);
   };
 
   useEffect(() => {
@@ -217,6 +230,7 @@ const BudgetItem = ({
                       }
                       setOption={(val) => {
                         setSelectedFrequency(val);
+                        setTriggerFrequencyChange(true);
 
                         if (val === "Yearly" || val === "Quarterly") {
                           setSelectedCadence(cadenceOptions[2].label);

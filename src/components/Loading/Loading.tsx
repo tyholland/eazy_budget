@@ -9,7 +9,7 @@ const Loading = () => {
   return (
     <S.Wrapper>
       <img
-        src="/images/loading.gif"
+        src="https://www.sbudgeting.com/images/loading.gif"
         width="500px"
         height="500px"
         alt="loading piggy bank"

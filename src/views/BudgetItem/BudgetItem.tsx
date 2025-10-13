@@ -177,7 +177,7 @@ const BudgetItem = ({
       month,
       year,
       item?.value,
-      item?.frequency,
+      selectedFrequency,
       currentUser,
     );
 

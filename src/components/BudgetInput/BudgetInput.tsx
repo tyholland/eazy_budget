@@ -67,7 +67,7 @@ const BudgetInput = ({
 
   useEffect(() => {
     getInputAmount();
-  }, []);
+  }, [defaultValue]);
 
   return (
     <S.InputWrapper className="inputWrapper">

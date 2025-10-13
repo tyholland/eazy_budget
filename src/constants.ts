@@ -211,3 +211,34 @@ export const nonPrivatePages = [
 ];
 
 export const noBreadCrumbList = ["/", "/overview", ...nonPrivatePages];
+
+export const currencyList = [
+  {
+    id: 0,
+    label: "USD",
+  },
+  {
+    id: 1,
+    label: "EUR",
+  },
+  {
+    id: 2,
+    label: "JPY",
+  },
+  {
+    id: 3,
+    label: "GBP",
+  },
+  {
+    id: 4,
+    label: "CHF",
+  },
+  {
+    id: 5,
+    label: "AUD",
+  },
+  {
+    id: 6,
+    label: "CAD",
+  },
+];

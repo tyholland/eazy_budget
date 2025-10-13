@@ -15,6 +15,7 @@ import {
   deleteUser,
   removeSharedAccount,
   startReferralPlan,
+  updateUserCurrency,
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
@@ -32,6 +33,8 @@ import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import moment from "moment-business-days";
 import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
+import SelectComponent from "../../components/Select/Select.tsx";
+import { currencyList } from "../../constants.ts";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -54,6 +57,13 @@ const Account = () => {
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
+  );
+  const [currencyModal, setCurrencyModal] = useState<boolean>(false);
+  const defaultCurrency = currencyList.filter(
+    (item) => item.label === currentUser?.currency,
+  )[0];
+  const [userCurrency, setUserCurrency] = useState<string>(
+    defaultCurrency?.label,
   );
   const { currentYear, currentMonth } = getDateInfo();
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
@@ -193,6 +203,27 @@ const Account = () => {
     }
   };
 
+  const updateCurrency = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          currency: userCurrency,
+        });
+
+      await updateUserCurrency(accessToken, { currency: userCurrency });
+      trackEvent("Update User Currency");
+    } catch (err) {
+      trackError("Account - updateCurrency:", { result: err });
+    }
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -284,6 +315,17 @@ const Account = () => {
                     >
                       <span>Add Expense Categories</span>
                     </Link>
+                  </S.Section>
+                )}
+                {isPro && (
+                  <S.Section>
+                    <Button
+                      handleClick={() => setCurrencyModal(true)}
+                      buttonSize="medium"
+                      classType="text"
+                    >
+                      <span>Change Currency</span>
+                    </Button>
                   </S.Section>
                 )}
                 <S.Section>
@@ -614,6 +656,34 @@ const Account = () => {
                     }}
                   >
                     Close
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent
+              isOpen={currencyModal}
+              title={`Change Your Currency`}
+            >
+              <S.ModalWrapper>
+                <SelectComponent
+                  options={currencyList}
+                  placeHolder="Currency"
+                  defaultValue={defaultCurrency?.label}
+                  setOption={(val) => setUserCurrency(val)}
+                />
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={updateCurrency}
+                    classType="register"
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setCurrencyModal(false)}
+                  >
+                    Cabcel
                   </Button>
                 </S.ModalBtn>
               </S.ModalWrapper>

@@ -275,7 +275,6 @@ export const getFrequencyContent = async (
   }
 
   const freq = frequencyShortHandMap[frequency];
-  console.log(frequency);
   const val = revertAmountToOriginal(amount || 0, month, year, frequency);
   const { currencyValue } = await getFormattedCurrency(val, currentUser);
 

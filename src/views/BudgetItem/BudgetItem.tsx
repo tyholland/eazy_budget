@@ -146,7 +146,16 @@ const BudgetItem = ({
 
   const getTotalAmount = async () => {
     const amount = getFrequencyValue(
-      Number(changeInputVal ? modalValue : inputValue),
+      Number(
+        changeInputVal
+          ? modalValue
+          : revertAmountToOriginal(
+              Number(inputValue),
+              month,
+              year,
+              selectedFrequency,
+            ),
+      ),
       month as string,
       Number(year),
       selectedFrequency,

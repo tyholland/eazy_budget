@@ -122,7 +122,6 @@ const Footer = () => {
         ref={pwaInstallRef}
         name="Simple Budgeting"
         icon="https://www.sbudgeting.com/images/android-chrome-192x192.png"
-        onPwaInstallAvailableEvent={(event) => console.log(event)}
       ></PWAInstall>
     </S.Wrapper>
   );

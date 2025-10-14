@@ -21,6 +21,7 @@ import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -35,6 +36,7 @@ const Home = () => {
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
   );
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -94,6 +96,14 @@ const Home = () => {
       setSubmitIsDisabled(false);
       setIsDisabled(false);
       setHasBudgetItems(false);
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -207,6 +217,10 @@ const Home = () => {
           />
         </>
       )}
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.HomeWrapper>
   );
 };

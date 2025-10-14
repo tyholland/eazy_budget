@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./pricingDetails.style.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
@@ -9,6 +9,7 @@ import { updateUserSub } from "../../requests/users.ts";
 import { trackError } from "../../functions/mixpanel.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
@@ -27,6 +28,7 @@ const PricingDetails = ({
 }: PricingDetailsProps) => {
   const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isTester = getSubscriptionStatus(
     "Tester",
@@ -100,6 +102,14 @@ const PricingDetails = ({
       });
     } catch (err) {
       trackError("PricingDeltails - updateSubscription:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -306,6 +316,10 @@ const PricingDetails = ({
           </S.SubscribeBtn>
         )}
       </S.Container>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.Wrapper>
   );
 };

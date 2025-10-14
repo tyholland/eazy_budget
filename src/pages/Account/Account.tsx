@@ -35,6 +35,7 @@ import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { currencyList } from "../../constants.ts";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -59,6 +60,7 @@ const Account = () => {
     currentUser?.connected_message,
   );
   const [currencyModal, setCurrencyModal] = useState<boolean>(false);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
   const defaultCurrency = currencyList.filter(
     (item) => item.label === currentUser?.currency,
   )[0];
@@ -111,6 +113,14 @@ const Account = () => {
       }
     } catch (err) {
       trackError("Account - deleteAccount:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -137,6 +147,14 @@ const Account = () => {
       setIsCancelOpen(false);
     } catch (err) {
       trackError("Account - cancelSubscription:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -150,11 +168,19 @@ const Account = () => {
 
       await removeSharedAccount(accessToken);
       trackEvent("Remove Shared Account Access");
+
+      logOutAccount();
     } catch (err) {
       trackError("Account - removeSharedAccess:", { result: err });
-    }
 
-    logOutAccount();
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
+    }
   };
 
   const startReferralTrial = async (
@@ -188,6 +214,14 @@ const Account = () => {
       setIsReferralStepThree(false);
     } catch (err) {
       trackError("Account - startReferralTrial:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -221,6 +255,14 @@ const Account = () => {
       trackEvent("Update User Currency");
     } catch (err) {
       trackError("Account - updateCurrency:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -683,7 +725,7 @@ const Account = () => {
                     buttonSize="small"
                     handleClick={() => setCurrencyModal(false)}
                   >
-                    Cabcel
+                    Cancel
                   </Button>
                 </S.ModalBtn>
               </S.ModalWrapper>
@@ -695,6 +737,10 @@ const Account = () => {
           width="250px"
           height="auto"
           alt="account settings and details"
+        />
+        <SessionExpired
+          isOpen={isSessionExpired}
+          closeModal={setIsSessionExpired}
         />
       </S.Wrapper>
     </>

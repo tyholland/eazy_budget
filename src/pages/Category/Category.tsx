@@ -11,6 +11,7 @@ import { createCategory, deleteCategory } from "../../requests/category.ts";
 import { ExpenseCategory } from "../../types.ts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Category = () => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
@@ -18,6 +19,7 @@ const Category = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [categoryName, setCategoryName] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCategoryName(e.target.value);
@@ -56,6 +58,14 @@ const Category = () => {
     } catch (err) {
       setIsDisabled(false);
       trackError("Category - submitCategory:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -88,6 +98,14 @@ const Category = () => {
     } catch (err) {
       setIsDisabled(false);
       trackError("Category - removeCategory:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -158,6 +176,10 @@ const Category = () => {
           <div>There are no existing categories at this time.</div>
         )}
       </S.Content>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.Wrapper>
   );
 };

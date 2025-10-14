@@ -51,6 +51,7 @@ import { DARKER_GRAY } from "../../index.style.ts";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -68,6 +69,7 @@ const Monthly = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>("None");
   const [expenseFilter, setExpenseFilter] = useState<number | undefined>(0);
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   useEffect(() => {
     if (budgetChange) {
@@ -272,6 +274,14 @@ const Monthly = () => {
                             trackError("Monthly - handleSaveEvent:", {
                               result: err,
                             });
+
+                            if (
+                              err.error === "login_required" ||
+                              err.error === "consent_required" ||
+                              err.error === "invalid_grant"
+                            ) {
+                              setIsSessionExpired(true);
+                            }
                           }
                         };
 
@@ -310,6 +320,14 @@ const Monthly = () => {
                             trackError("Monthly - handleDeleteEvent:", {
                               result: err,
                             });
+
+                            if (
+                              err.error === "login_required" ||
+                              err.error === "consent_required" ||
+                              err.error === "invalid_grant"
+                            ) {
+                              setIsSessionExpired(true);
+                            }
                           }
                         };
 
@@ -392,6 +410,10 @@ const Monthly = () => {
           />
         )}
       </S.ContentWrapper>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.MonthlyWrapper>
   );
 };

@@ -258,8 +258,14 @@ export const formatBudgetItem = (data: Object, month: string, year: number) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.values(data).forEach((item) => {
-    const { value, checked, frequency, label, cadence }: CreateBudgetItems =
-      item;
+    const {
+      value,
+      checked,
+      frequency,
+      label,
+      cadence,
+      category_id,
+    }: CreateBudgetItems = item;
 
     const freqVal = getFrequencyValue(Number(value), month, year, frequency);
 
@@ -269,6 +275,7 @@ export const formatBudgetItem = (data: Object, month: string, year: number) => {
       paid: checked,
       frequency,
       cadence,
+      category_id,
       budget_id: null,
       budget_date_id: null,
       temp: false,

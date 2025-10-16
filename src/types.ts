@@ -127,6 +127,7 @@ export interface CreateBudgetItems {
   checked: boolean;
   frequency: string;
   cadence: string;
+  category_id?: number;
 }
 
 export interface ProfitLoss {

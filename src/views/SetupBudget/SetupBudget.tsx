@@ -8,6 +8,8 @@ import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Papa from "papaparse";
 import Button from "../../components/Button/Button.tsx";
+import { CreateBudgetItems } from "../../types.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface SetupBudgetProps {
   children: JSX.Element;
@@ -24,9 +26,15 @@ const SetupBudget = ({
 }: SetupBudgetProps) => {
   const budgetIncome = useAtomValue(incomeAtom);
   const budgetExpense = useAtomValue(expenseAtom);
+  const currentUser = useAtomValue(userAtom);
   const [inputOption, setInputOption] = useState<string>("manual");
 
-  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
+  console.log(currentUser);
+
+  const handleFileUpload = (
+    event: ChangeEvent<HTMLInputElement>,
+    budgetType: string,
+  ) => {
     if (!event.target.files) {
       return;
     }
@@ -37,13 +45,23 @@ const SetupBudget = ({
       skipEmptyLines: true,
       complete: (results: any) => {
         const resultsData = results.data;
-        const budgetData: Object[] = [];
+        const budgetData: CreateBudgetItems[] = [];
 
         resultsData.forEach((item: any) => {
           if (item["Amount (Monthly)"] === "") {
             return;
           }
-          budgetData.push(item);
+
+          budgetData.push({
+            label: item["Item"],
+            value: item["Amount (Monthly)"],
+            checked: false,
+            frequency: "Monthly",
+            cadence: "Current Month",
+            category_id: currentUser?.categories.filter(
+              (category) => category.label === item["Category"],
+            )[0].id,
+          });
         });
 
         console.log(budgetData);
@@ -137,7 +155,7 @@ const SetupBudget = ({
                 type="file"
                 accept=".csv"
                 id="incomeCsv"
-                onChange={handleFileUpload}
+                onChange={(e) => handleFileUpload(e, "income")}
               />
             </S.UploadSection>
             <S.UploadSection>
@@ -155,7 +173,7 @@ const SetupBudget = ({
                 type="file"
                 accept=".csv"
                 id="expenseCsv"
-                onChange={handleFileUpload}
+                onChange={(e) => handleFileUpload(e, "expense")}
               />
             </S.UploadSection>
           </S.UploadWrapper>

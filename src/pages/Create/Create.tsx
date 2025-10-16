@@ -84,6 +84,7 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
+    console.log(data);
     if (type === "income" && income.length > 0) {
       const updatedIncome = updateBudgetItems(data, income);
       setIncome(updatedIncome);
@@ -106,6 +107,8 @@ const Create = () => {
   const handleSaveEvent = (item: Object) => {
     setHasItems(!!Object.keys(item).length);
   };
+
+  console.log(income);
 
   return (
     <>

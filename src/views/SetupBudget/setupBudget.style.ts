@@ -113,4 +113,5 @@ export const UploadSection = styled.div`
 export const UploadContent = styled.span`
   width: 100%;
   max-width: 600px;
+  margin: 0 auto;
 `;

@@ -18,14 +18,9 @@ export const Wrapper = styled.div`
 
   hr {
     background: ${BLACK};
-    height: 1px;
+    height: 0;
     width: 100%;
-    border: none;
-
-    @media only screen and (max-width: 800px) {
-      border: 1px solid ${BLACK};
-      height: 0;
-    }
+    border: 1px solid ${BLACK};
   }
 `;
 

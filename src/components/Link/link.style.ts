@@ -36,7 +36,7 @@ export const LinkElement = styled(Link)`
   }
 
   &.medium {
-    width: 200px;
+    width: 220px;
     font-size: 16px;
   }
 

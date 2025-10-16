@@ -35,7 +35,7 @@ export const Button = styled.button`
   }
 
   &.medium {
-    width: 200px;
+    width: 220px;
     font-size: 16px;
   }
 

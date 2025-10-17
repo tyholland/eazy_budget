@@ -112,6 +112,7 @@ export interface User extends Omit<UserResponse, "action"> {
   sub?: string;
   updated_at?: string;
   selectedCategory?: string;
+  selectedSort?: string;
 }
 
 export interface BudgetInsertIds {

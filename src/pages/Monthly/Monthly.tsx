@@ -7,7 +7,7 @@ import {
 } from "../../types.ts";
 import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
@@ -65,7 +65,9 @@ const Monthly = () => {
   const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
-  const [selectedSort, setSelectedSort] = useState<string>("A - Z");
+  const [selectedSort, setSelectedSort] = useState<string>(
+    currentUser?.selectedSort || budgetSortOptions[0].label,
+  );
   const [selectedFilter, setSelectedFilter] = useState<string>(
     currentUser?.selectedCategory || "None",
   );
@@ -143,8 +145,16 @@ const Monthly = () => {
                 <SelectComponent
                   options={budgetSortOptions}
                   placeHolder="Sort Items"
-                  defaultValue={budgetSortOptions[0].label}
-                  setOption={setSelectedSort}
+                  defaultValue={currentUser?.selectedSort || selectedSort}
+                  setOption={(val) => {
+                    setSelectedSort(val);
+
+                    currentUser &&
+                      setCurrentUser({
+                        ...currentUser,
+                        selectedSort: val,
+                      });
+                  }}
                 />
               )}
               {isPro && type === "expense" && (

@@ -66,6 +66,7 @@ export interface BudgetBodyInfo {
   amount: number;
   paid?: boolean;
   frequency?: string;
+  category_id?: number;
 }
 
 export interface UserRequest {

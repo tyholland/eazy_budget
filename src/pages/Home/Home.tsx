@@ -26,13 +26,14 @@ import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
   const { getAccessTokenSilently } = useAuth0();
-  const budgetIncome = useAtomValue(incomeAtom);
-  const budgetExpense = useAtomValue(expenseAtom);
+  const [budgetIncome, setBudgetIncome] = useAtom(incomeAtom);
+  const [budgetExpense, setBudgetExpense] = useAtom(expenseAtom);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isSubmitDisabled, setSubmitIsDisabled] = useState<boolean>(true);
   const [hasBudgetItems, setHasBudgetItems] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
   );
@@ -69,6 +70,7 @@ const Home = () => {
     const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
     setIsDisabled(true);
     setSubmitIsDisabled(true);
+    setIsLoading(true);
 
     try {
       const accessToken = await getAccessTokenSilently({
@@ -91,6 +93,9 @@ const Home = () => {
           hasBudget: true,
         });
       trackEvent("Submitted Initial Budget");
+      localStorage.removeItem("budgetIncome");
+      localStorage.removeItem("budgetExpense");
+      setIsLoading(false);
     } catch (err) {
       trackError("Home - handleBudgetSubmission:", { result: err });
       setSubmitIsDisabled(false);
@@ -117,7 +122,19 @@ const Home = () => {
     }
   }, [budgetIncome, budgetExpense]);
 
-  if (!budget.length && hasBudgetItems) {
+  useEffect(() => {
+    const storedIncome = localStorage.getItem("budgetIncome");
+    if (!!storedIncome) {
+      setBudgetIncome(JSON.parse(storedIncome));
+    }
+
+    const storedExpense = localStorage.getItem("budgetExpense");
+    if (!!storedExpense) {
+      setBudgetExpense(JSON.parse(storedExpense));
+    }
+  }, []);
+
+  if ((!budget.length && hasBudgetItems) || isLoading) {
     return <Loading />;
   }
 

@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { getBudgetRule, getDateInfo } from "../../functions/helper.ts";
 import { trackEvent } from "../../functions/mixpanel.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
+import Loading from "../Loading/Loading.tsx";
 
 interface DownloadCsvProps {
   type: DownloadTypes;
@@ -62,7 +63,7 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     currentMonthProfitLoss.length === 0 ||
     currentYearProfitLoss.length === 0
   ) {
-    return <></>;
+    return <Loading />;
   }
 
   const profitLossBtn = document.querySelector(".profitLossBtn");
@@ -116,9 +117,9 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   )[0];
 
   const hasValidMonthBudget =
-    monthDiscretionary.percent === "60%" &&
-    monthSavings.percent === "20%" &&
-    monthFun.percent === "20%";
+    monthDiscretionary.percent === "60.00%" &&
+    monthSavings.percent === "20.00%" &&
+    monthFun.percent === "20.00%";
 
   return (
     <>
@@ -126,23 +127,29 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
         {type === "monthly" ? currentMonth : currentYear} Profit & Loss
         Simplified
       </S.Title>
-      <div>
-        Your <span>{type === "monthly" ? currentMonth : currentYear}</span>{" "}
+      <S.BudgetRuleContent>
+        Your{" "}
+        <span className="month">
+          {type === "monthly" ? currentMonth : currentYear}
+        </span>{" "}
         financial summary reflects a{" "}
-        {getBudgetRule(
-          monthDiscretionary.percent,
-          monthSavings.percent,
-          monthFun.percent,
-        )}{" "}
+        <strong>
+          {getBudgetRule(
+            monthDiscretionary.percent,
+            monthSavings.percent,
+            monthFun.percent,
+          )}
+        </strong>{" "}
         budget distribution, based on your recorded income and expenses.
-      </div>
+      </S.BudgetRuleContent>
       {!hasValidMonthBudget && (
-        <div>
-          We recommend following the 60/20/20 budgeting rule, where 60% of your
-          income is allocated to Non-Discretionary expenses, 20% to Savings, and
-          the remaining 20% to Fun Money. Consider adjusting your expenses to
-          align more closely with this balanced financial framework.
-        </div>
+        <S.BudgetRuleContent>
+          We recommend following the <strong>60/20/20</strong> budgeting rule,
+          where 60% of your income is allocated to Non-Discretionary expenses,
+          20% to Savings, and the remaining 20% to Fun Money. Consider adjusting
+          your expenses to align more closely with this balanced financial
+          framework.
+        </S.BudgetRuleContent>
       )}
       <S.ContentWrapper>
         {type === "yearly" && (

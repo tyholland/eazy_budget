@@ -84,10 +84,10 @@ const Create = () => {
   };
 
   const handleSubmitBudgetType = (data: Object) => {
-    console.log(data);
     if (type === "income" && income.length > 0) {
       const updatedIncome = updateBudgetItems(data, income);
       setIncome(updatedIncome);
+      localStorage.setItem("budgetIncome", JSON.stringify(updatedIncome));
       navigate("/overview");
       return;
     }
@@ -95,20 +95,25 @@ const Create = () => {
     if (type === "expense" && expense.length > 0) {
       const updatedExpense = updateBudgetItems(data, expense);
       setExpense(updatedExpense);
+      localStorage.setItem("budgetExpense", JSON.stringify(updatedExpense));
       navigate("/overview");
       return;
     }
 
     const budgetEntries = formatBudgetItem(data, month, Number(year));
-    type === "income" ? setIncome(budgetEntries) : setExpense(budgetEntries);
+    if (type === "income") {
+      setIncome(budgetEntries);
+      localStorage.setItem("budgetIncome", JSON.stringify(budgetEntries));
+    } else {
+      setExpense(budgetEntries);
+      localStorage.setItem("budgetExpense", JSON.stringify(budgetEntries));
+    }
     navigate("/overview");
   };
 
   const handleSaveEvent = (item: Object) => {
     setHasItems(!!Object.keys(item).length);
   };
-
-  console.log(income);
 
   return (
     <>

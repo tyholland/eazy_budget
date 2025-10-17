@@ -3,13 +3,14 @@ import * as S from "./setupBudget.style.ts";
 import Link from "../../components/Link/Link.tsx";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Papa from "papaparse";
 import Button from "../../components/Button/Button.tsx";
 import { CreateBudgetItems } from "../../types.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { formatBudgetItem } from "../../functions/budget.ts";
 
 interface SetupBudgetProps {
   children: JSX.Element;
@@ -24,12 +25,10 @@ const SetupBudget = ({
   year,
   isDisabled,
 }: SetupBudgetProps) => {
-  const budgetIncome = useAtomValue(incomeAtom);
-  const budgetExpense = useAtomValue(expenseAtom);
+  const [budgetIncome, setBudgetIncome] = useAtom(incomeAtom);
+  const [budgetExpense, setBudgetExpense] = useAtom(expenseAtom);
   const currentUser = useAtomValue(userAtom);
   const [inputOption, setInputOption] = useState<string>("manual");
-
-  console.log(currentUser);
 
   const handleFileUpload = (
     event: ChangeEvent<HTMLInputElement>,
@@ -60,11 +59,18 @@ const SetupBudget = ({
             cadence: "Current Month",
             category_id: currentUser?.categories.filter(
               (category) => category.label === item["Category"],
-            )[0].id,
+            )[0]?.id,
           });
         });
 
-        console.log(budgetData);
+        const budgetEntries = formatBudgetItem(budgetData, month, Number(year));
+        if (budgetType === "income") {
+          setBudgetIncome(budgetEntries);
+          localStorage.setItem("budgetIncome", JSON.stringify(budgetEntries));
+        } else {
+          setBudgetExpense(budgetEntries);
+          localStorage.setItem("budgetExpense", JSON.stringify(budgetEntries));
+        }
       },
     });
   };
@@ -177,6 +183,7 @@ const SetupBudget = ({
               />
             </S.UploadSection>
           </S.UploadWrapper>
+          {children}
           <S.ChangeOption>
             <S.OrLine>
               <hr />

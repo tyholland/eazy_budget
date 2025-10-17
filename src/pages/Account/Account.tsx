@@ -714,16 +714,13 @@ const Account = () => {
                   setOption={(val) => setUserCurrency(val)}
                 />
                 <S.ModalBtn>
-                  <Button
-                    buttonSize="small"
-                    handleClick={updateCurrency}
-                    classType="register"
-                  >
+                  <Button buttonSize="small" handleClick={updateCurrency}>
                     Submit
                   </Button>
                   <Button
                     buttonSize="small"
                     handleClick={() => setCurrencyModal(false)}
+                    classType="register"
                   >
                     Cancel
                   </Button>

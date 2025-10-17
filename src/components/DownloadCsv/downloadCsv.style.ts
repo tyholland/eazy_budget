@@ -124,3 +124,13 @@ export const Title = styled.h2`
   margin: 20px 0 0;
   font-family: ${RUBIK};
 `;
+
+export const BudgetRuleContent = styled.div`
+  .month {
+    text-transform: capitalize;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+`;

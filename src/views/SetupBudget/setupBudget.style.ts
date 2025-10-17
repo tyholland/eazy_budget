@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RUBIK } from "../../index.style.ts";
+import { BLACK, RUBIK, SKY_BLUE, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -108,6 +108,18 @@ export const UploadSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+
+  a.button {
+    background: ${WHITE};
+    border: 1px solid ${BLACK};
+    color: ${BLACK};
+
+    &:hover {
+      border: 1px solid ${SKY_BLUE};
+      background: ${WHITE};
+      color: ${SKY_BLUE};
+    }
+  }
 `;
 
 export const UploadContent = styled.span`

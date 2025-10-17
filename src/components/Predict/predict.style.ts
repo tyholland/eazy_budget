@@ -51,3 +51,8 @@ export const Content = styled.div`
   font-size: 18px;
   width: 100%;
 `;
+
+export const CurrencyValue = styled.div`
+  margin: 0 0 15px 160px;
+  font-style: italic;
+`;

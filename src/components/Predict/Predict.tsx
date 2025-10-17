@@ -12,6 +12,8 @@ const Predict = () => {
   const currentUser = useAtomValue(userAtom);
   const { currentYear } = getDateInfo();
   const [monthlySavings, setMontlySavings] = useState<string>("");
+  const [goalCurrency, setGoalCurrency] = useState<string>("");
+  const [savingsCurrency, setSavingsCurrency] = useState<string>("");
   const yearlyTotalIncome = getYearlyTotalAmount(budget, currentYear, "income");
   const yearlyTotalExpense = getYearlyTotalAmount(
     budget,
@@ -33,7 +35,15 @@ const Predict = () => {
       currentUser,
     );
 
+    const { currencyValue: goalValue, emptyValue: emptyGoal } =
+      await getFormattedCurrency(goalAmount, currentUser);
+
+    const { currencyValue: savingsValue, emptyValue: emptySavings } =
+      await getFormattedCurrency(currentSavings, currentUser);
+
     setMontlySavings(goalAmount > 0 ? currencyValue : emptyValue);
+    setGoalCurrency(goalAmount > 0 ? goalValue : emptyGoal);
+    setSavingsCurrency(goalAmount > 0 ? savingsValue : emptySavings);
   };
 
   useEffect(() => {
@@ -62,6 +72,11 @@ const Predict = () => {
               setGoalAmount(Number(e.target.value))
             }
           />
+          {currentUser?.currency !== "USD" && (
+            <S.CurrencyValue>
+              Amount in ({currentUser?.currency}): {goalCurrency}
+            </S.CurrencyValue>
+          )}
           <Input
             label="currentSavings"
             labelValue="Current Savings (USD):"
@@ -70,6 +85,11 @@ const Predict = () => {
               setCurrentSavings(Number(e.target.value))
             }
           />
+          {currentUser?.currency !== "USD" && (
+            <S.CurrencyValue>
+              Savings in ({currentUser?.currency}): {savingsCurrency}
+            </S.CurrencyValue>
+          )}
         </S.PredictInputs>
       </S.HeaderWrapper>
       <S.PredictBudgets>

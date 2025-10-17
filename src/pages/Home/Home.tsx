@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./home.style.ts";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";

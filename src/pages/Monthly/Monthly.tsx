@@ -56,7 +56,7 @@ import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
-  const currentUser = useAtomValue(userAtom);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const clonedBudget = [...budget];
   const { type, month, year } = useParams();
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
@@ -66,8 +66,15 @@ const Monthly = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<string>("A - Z");
-  const [selectedFilter, setSelectedFilter] = useState<string>("None");
-  const [expenseFilter, setExpenseFilter] = useState<number | undefined>(0);
+  const [selectedFilter, setSelectedFilter] = useState<string>(
+    currentUser?.selectedCategory || "None",
+  );
+  const filter = currentUser?.categories.filter(
+    (item) => item.label === currentUser.selectedCategory,
+  )[0];
+  const [expenseFilter, setExpenseFilter] = useState<number | undefined>(
+    filter?.id || 0,
+  );
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
@@ -79,11 +86,11 @@ const Monthly = () => {
   }, [budgetChange]);
 
   useEffect(() => {
-    const filter = currentUser?.categories.filter(
-      (item) => item.label === selectedFilter,
-    )[0];
-    type === "income" ? setExpenseFilter(0) : setExpenseFilter(filter?.id || 0);
-  }, [selectedFilter, type]);
+    if (type === "income") {
+      setExpenseFilter(0);
+      setSelectedFilter("None");
+    }
+  }, [type]);
 
   if (
     !type ||
@@ -149,8 +156,26 @@ const Monthly = () => {
                     }) || []
                   }
                   placeHolder="Filter by Category"
-                  defaultValue={selectedFilter}
-                  setOption={setSelectedFilter}
+                  defaultValue={
+                    expenseFilter === 0
+                      ? "None"
+                      : currentUser?.selectedCategory || selectedFilter
+                  }
+                  setOption={(val) => {
+                    setSelectedFilter(val);
+
+                    const filter = currentUser?.categories.filter(
+                      (item) => item.label === val,
+                    )[0];
+
+                    setExpenseFilter(filter?.id || 0);
+
+                    currentUser &&
+                      setCurrentUser({
+                        ...currentUser,
+                        selectedCategory: val,
+                      });
+                  }}
                 />
               )}
             </S.Selectors>

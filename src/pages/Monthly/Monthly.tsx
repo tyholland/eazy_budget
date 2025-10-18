@@ -305,6 +305,7 @@ const Monthly = () => {
                               setBudgetChange(true);
                             }
                             setIsNewBudget(false);
+                            setBudgetChange(true);
                           } catch (err) {
                             trackError("Monthly - handleSaveEvent:", {
                               result: err,
@@ -328,7 +329,7 @@ const Monthly = () => {
 
                           const updatedItems = removeItemFromBudgetArray(
                             currentItems,
-                            i,
+                            data.budget_id,
                           );
                           item[type] = updatedItems;
                           setBudgetChange(true);

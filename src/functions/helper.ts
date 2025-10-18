@@ -152,9 +152,10 @@ export const removeItemFromNumberArray = (
 
 export const removeItemFromBudgetArray = (
   budgetArr: BudgetDataItem[],
-  index: number,
+  budgetId: number | null,
 ) => {
   const newArr = [...budgetArr];
+  const index = newArr.findIndex((item) => item.budget_id === budgetId);
   newArr.splice(index, 1);
 
   return newArr;

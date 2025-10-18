@@ -328,7 +328,11 @@ export const getFormattedCurrency = async (
   amount: number,
   currentUser?: User,
 ) => {
-  if (!currentUser || (currentUser && currentUser.currency === "USD")) {
+  if (
+    !currentUser ||
+    (currentUser && currentUser.currency === "USD") ||
+    !currentUser.currency
+  ) {
     const convertedValue = formatAmount(amount, "USD");
 
     return {

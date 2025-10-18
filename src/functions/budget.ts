@@ -201,6 +201,7 @@ export const formatBudgetData = (
         paid: response.paid,
         month: listOfMonths[i],
         year: currentYear,
+        frequency: response.frequency,
       });
     });
 
@@ -213,6 +214,7 @@ export const formatBudgetData = (
         month: listOfMonths[i],
         year: currentYear,
         category_id: response.category_id,
+        frequency: response.frequency,
       });
     });
   }

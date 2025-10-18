@@ -44,9 +44,9 @@ const Header = () => {
         </Link>
       </S.Title>
       <S.HeaderLinks>
-        <Link url={"/partner"} label={"Partner with Us"} classType="partner">
+        {/* <Link url={"/partner"} label={"Partner with Us"} classType="partner">
           Partner with Us
-        </Link>
+        </Link> */}
         {user?.picture ? (
           <Link url={"/account"} label={"Account"}>
             <>

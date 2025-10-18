@@ -56,14 +56,14 @@ const Footer = () => {
         >
           Pricing
         </Link>
-        <Link
+        {/* <Link
           url="/partner"
           label="Partner with Us"
           linkSize="medium"
           callBack={() => window.scrollTo(0, 0)}
         >
           Partner with Us
-        </Link>
+        </Link> */}
         <Link
           url="#"
           label="Download App"

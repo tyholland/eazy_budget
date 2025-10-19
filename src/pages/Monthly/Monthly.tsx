@@ -148,7 +148,7 @@ const Monthly = () => {
         },
       });
 
-      if (!!data?.budget_id || data?.label === updatedItem[0].label) {
+      if (!!data?.budget_id) {
         const updatedBudgets = updateBasedOnCadence(
           item as BudgetData,
           updatedItem[0],

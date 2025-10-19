@@ -127,21 +127,32 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
         {type === "monthly" ? currentMonth : currentYear} Profit & Loss
         Simplified
       </S.Title>
-      <S.BudgetRuleContent>
-        Your{" "}
-        <span className="month">
-          {type === "monthly" ? currentMonth : currentYear}
-        </span>{" "}
-        financial summary reflects a{" "}
-        <strong>
-          {getBudgetRule(
-            monthDiscretionary.percent,
-            monthSavings.percent,
-            monthFun.percent,
-          )}
-        </strong>{" "}
-        budget distribution, based on your recorded income and expenses.
-      </S.BudgetRuleContent>
+      {hasValidMonthBudget ? (
+        <S.BudgetRuleContent>
+          Your{" "}
+          <span className="month">
+            {type === "monthly" ? currentMonth : currentYear}
+          </span>{" "}
+          financial summary reflects a{" "}
+          <strong>
+            {getBudgetRule(
+              monthDiscretionary.percent,
+              monthSavings.percent,
+              monthFun.percent,
+            )}
+          </strong>{" "}
+          budget distribution, based on your recorded income and expenses.
+        </S.BudgetRuleContent>
+      ) : (
+        <S.BudgetRuleContent>
+          Your{" "}
+          <span className="month">
+            {type === "monthly" ? currentMonth : currentYear}
+          </span>{" "}
+          financial summary does not reflect a <strong>60/20/20</strong>
+          budget distribution, based on your recorded income and expenses.
+        </S.BudgetRuleContent>
+      )}
       {!hasValidMonthBudget && (
         <S.BudgetRuleContent>
           We recommend following the <strong>60/20/20</strong> budgeting rule,

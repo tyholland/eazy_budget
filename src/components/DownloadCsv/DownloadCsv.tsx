@@ -117,9 +117,9 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
   )[0];
 
   const hasValidMonthBudget =
-    monthDiscretionary.percent === "60.00%" &&
-    monthSavings.percent === "20.00%" &&
-    monthFun.percent === "20.00%";
+    monthDiscretionary?.percent === "60.00%" &&
+    monthSavings?.percent === "20.00%" &&
+    monthFun?.percent === "20.00%";
 
   return (
     <>

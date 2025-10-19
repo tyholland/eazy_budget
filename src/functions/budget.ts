@@ -475,6 +475,8 @@ export const updateBasedOnCadence = (
 
   if (cadence === "All Months") {
     if (frequency === "Quarterly") {
+      const container: Object[] = [];
+
       for (let i = 0; i <= 11; i++) {
         if (currentYearBudget[i].year === year) {
           const newBudget: BudgetDataItem[] = [];
@@ -497,13 +499,15 @@ export const updateBasedOnCadence = (
               newBudget.push(item);
             });
 
-            currentYearBudget[i][type] = newBudget;
+            container.push([...newBudget]);
           }
         }
       }
 
-      return;
+      return container;
     }
+
+    const container: Object[] = [];
 
     for (let i = 0; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -526,11 +530,11 @@ export const updateBasedOnCadence = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   // cadence equals "Current Month" or anything else
@@ -695,6 +699,8 @@ export const insertBudgetIds = (
 
   if (cadence === "All Months") {
     if (frequency === "Quarterly") {
+      const container: Object[] = [];
+
       for (let i = 0; i <= 11; i++) {
         if (currentYearBudget[i].year === year) {
           const newBudget: BudgetDataItem[] = [];
@@ -714,13 +720,15 @@ export const insertBudgetIds = (
               newBudget.push(item);
             });
 
-            currentYearBudget[i][type] = newBudget;
+            container.push([...newBudget]);
           }
         }
       }
 
-      return;
+      return container;
     }
+
+    const container: Object[] = [];
 
     for (let i = 0; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -739,11 +747,11 @@ export const insertBudgetIds = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   // cadence equals "Current Month" or anything else

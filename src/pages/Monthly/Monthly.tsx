@@ -171,6 +171,26 @@ const Monthly = () => {
           setBudget(tempBudget);
         }
 
+        if (updatedItem[0].cadence === "All Months" && !!updatedBudgets) {
+          const tempBudget = [...budget];
+
+          if (updatedItem[0].frequency === "Quarterly") {
+            for (let i = 0; i <= 11; i++) {
+              if (i === 2 || i === 5 || i === 8 || i === 11) {
+                tempBudget[i][type] = updatedBudgets[i];
+              }
+            }
+
+            setBudget(tempBudget);
+          } else {
+            for (let i = 0; i <= 11; i++) {
+              tempBudget[i][type] = updatedBudgets[i];
+            }
+
+            setBudget(tempBudget);
+          }
+        }
+
         if (updatedItem[0].cadence === "Current Month") {
           const tempBudget = [...budget];
           tempBudget[budgetIndex][type] = updatedBudgets;
@@ -216,6 +236,26 @@ const Monthly = () => {
           }
 
           setBudget(tempBudget);
+        }
+
+        if (updatedItem[0].cadence === "All Months" && !!insertedBudgets) {
+          const tempBudget = [...budget];
+
+          if (updatedItem[0].frequency === "Quarterly") {
+            for (let i = 0; i <= 11; i++) {
+              if (i === 2 || i === 5 || i === 8 || i === 11) {
+                tempBudget[i][type] = insertedBudgets[i];
+              }
+            }
+
+            setBudget(tempBudget);
+          } else {
+            for (let i = 0; i <= 11; i++) {
+              tempBudget[i][type] = insertedBudgets[i];
+            }
+
+            setBudget(tempBudget);
+          }
         }
 
         if (updatedItem[0].cadence === "Current Month") {

@@ -486,7 +486,7 @@ describe("getMonthlyPaidExpenses", () => {
 
 describe("updateBasedOnCadence", () => {
   test("should update current month if no cadence is selected", () => {
-    updateBasedOnCadence(
+    const results = updateBasedOnCadence(
       budgetFull[0],
       budgetFullUpdated[0].income[0],
       budgetFull,
@@ -496,13 +496,13 @@ describe("updateBasedOnCadence", () => {
       "income",
     );
 
-    expect(JSON.stringify(budgetFull[0].income[0])).toBe(
+    expect(JSON.stringify(results[0])).toBe(
       JSON.stringify(budgetFullUpdated[0].income[0]),
     );
   });
 
   test("should update current month", () => {
-    updateBasedOnCadence(
+    const results = updateBasedOnCadence(
       budgetFull[0],
       budgetFullUpdated[0].expense[0],
       budgetFull,
@@ -512,13 +512,13 @@ describe("updateBasedOnCadence", () => {
       "expense",
     );
 
-    expect(JSON.stringify(budgetFull[0].expense[0])).toBe(
+    expect(JSON.stringify(results[0])).toBe(
       JSON.stringify(budgetFullUpdated[0].expense[0]),
     );
   });
 
   test("should update future months", () => {
-    updateBasedOnCadence(
+    const results = updateBasedOnCadence(
       budgetFull[1],
       budgetFullUpdated[1].income[0],
       budgetFull,
@@ -811,14 +811,14 @@ describe("updateBasedOnCadence", () => {
     ];
 
     for (let i = 1; i <= 11; i++) {
-      expect(JSON.stringify(budgetFull[i].income[0])).toBe(
+      expect(JSON.stringify(results[i - 1][0])).toBe(
         JSON.stringify(updatedBudget[i].income[0]),
       );
     }
   });
 
   test("should update all months", () => {
-    updateBasedOnCadence(
+    const results = updateBasedOnCadence(
       budgetFull[1],
       budgetFullUpdated[1].expense[0],
       budgetFull,
@@ -1131,14 +1131,14 @@ describe("updateBasedOnCadence", () => {
     ];
 
     for (let i = 0; i <= 11; i++) {
-      expect(JSON.stringify(budgetFull[i].expense[0])).toBe(
+      expect(JSON.stringify(results[i][0])).toBe(
         JSON.stringify(updatedBudget[i].expense[0]),
       );
     }
   });
 
   test("should update quarter months", () => {
-    updateBasedOnCadence(
+    const results = updateBasedOnCadence(
       budgetFull[2],
       budgetFullUpdated[2].income[0],
       budgetFull,
@@ -1411,11 +1411,18 @@ describe("updateBasedOnCadence", () => {
       },
     ];
 
-    for (let i = 0; i <= 11; i++) {
-      expect(JSON.stringify(budgetFull[i].income[0])).toBe(
-        JSON.stringify(updatedBudget[i].income[0]),
-      );
-    }
+    expect(JSON.stringify(results[0][0])).toBe(
+      JSON.stringify(updatedBudget[2].income[0]),
+    );
+    expect(JSON.stringify(results[1][0])).toBe(
+      JSON.stringify(updatedBudget[5].income[0]),
+    );
+    expect(JSON.stringify(results[2][0])).toBe(
+      JSON.stringify(updatedBudget[8].income[0]),
+    );
+    expect(JSON.stringify(results[3][0])).toBe(
+      JSON.stringify(updatedBudget[11].income[0]),
+    );
   });
 });
 
@@ -2546,7 +2553,7 @@ describe("insertBasedOnCadence", () => {
 
 describe("insertBudgetIds", () => {
   test("should update current month with budget_ids", () => {
-    insertBudgetIds(
+    const results: any[] = insertBudgetIds(
       budgetFullInserted[0],
       budgetFullInserted[0].income[1],
       budgetFull,
@@ -2556,11 +2563,11 @@ describe("insertBudgetIds", () => {
       { budget_id: 25 },
     );
 
-    expect(budgetFullInserted[0].income[1].budget_id).toBe(25);
+    expect(results[1].budget_id).toBe(25);
   });
 
   test("should update future months", () => {
-    insertBudgetIds(
+    const results = insertBudgetIds(
       budgetFullInserted[1],
       budgetFullInserted[1].income[1],
       budgetFullInserted,
@@ -2939,14 +2946,14 @@ describe("insertBudgetIds", () => {
     ];
 
     for (let i = 1; i <= 11; i++) {
-      expect(JSON.stringify(budgetFullInserted[i].income[1])).toBe(
+      expect(JSON.stringify(results[i - 1][1])).toBe(
         JSON.stringify(insertedBudget[i].income[1]),
       );
     }
   });
 
   test("should update all months", () => {
-    insertBudgetIds(
+    const results = insertBudgetIds(
       budgetFullInserted[1],
       budgetFullInserted[1].expense[1],
       budgetFullInserted,
@@ -3344,14 +3351,14 @@ describe("insertBudgetIds", () => {
     ];
 
     for (let i = 0; i <= 11; i++) {
-      expect(JSON.stringify(budgetFullInserted[i].expense[1])).toBe(
+      expect(JSON.stringify(results[i][1])).toBe(
         JSON.stringify(insertedBudget[i].expense[1]),
       );
     }
   });
 
   test("should update quarter months", () => {
-    insertBudgetIds(
+    const results = insertBudgetIds(
       budgetFullInserted[2],
       budgetFullInserted[2].income[1],
       budgetFullInserted,
@@ -3711,10 +3718,17 @@ describe("insertBudgetIds", () => {
       },
     ];
 
-    for (let i = 0; i <= 11; i++) {
-      expect(JSON.stringify(budgetFullInserted[i].income[1])).toBe(
-        JSON.stringify(insertedBudget[i].income[1]),
-      );
-    }
+    expect(JSON.stringify(results[0][1])).toBe(
+      JSON.stringify(insertedBudget[2].income[1]),
+    );
+    expect(JSON.stringify(results[1][1])).toBe(
+      JSON.stringify(insertedBudget[5].income[1]),
+    );
+    expect(JSON.stringify(results[2][1])).toBe(
+      JSON.stringify(insertedBudget[8].income[1]),
+    );
+    expect(JSON.stringify(results[3][1])).toBe(
+      JSON.stringify(insertedBudget[11].income[1]),
+    );
   });
 });

@@ -107,6 +107,7 @@ describe("removeItemFromNumberArray", () => {
 
 describe("removeItemFromBudgetArray", () => {
   test("should return array with removed index", () => {
+    mockBudgetItemArray[1].budget_id = 1;
     const page = removeItemFromBudgetArray(mockBudgetItemArray, 1);
     const response = JSON.stringify([
       { ...mockBudgetItemArray[0] },

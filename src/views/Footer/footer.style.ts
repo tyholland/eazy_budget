@@ -12,14 +12,15 @@ export const Wrapper = styled.div`
   height: 120px;
 
   @media only screen and (max-width: 800px) {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    height: 150px;
   }
 
   hr {
     background: ${BLACK};
-    height: 1px;
+    height: 0;
     width: 100%;
-    border: none;
+    border: 1px solid ${BLACK};
   }
 `;
 
@@ -27,6 +28,13 @@ export const Links = styled.div`
   display: flex;
   gap: 20px;
   justify-content: center;
+
+  @media only screen and (max-width: 800px) {
+    flex-wrap: wrap;
+    gap: 20px;
+    line-height: 6px;
+    margin-bottom: 10px;
+  }
 
   a.text {
     color: ${BLACK};

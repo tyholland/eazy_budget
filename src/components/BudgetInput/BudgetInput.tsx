@@ -1,11 +1,13 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ElementSize, InputOption, InputType } from "../../types.ts";
 import * as S from "./budgetInput.style.ts";
 import {
-  formatAmount,
+  getFormattedCurrency,
   revertAmountToOriginal,
 } from "../../functions/helper.ts";
 import { useParams } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface BudgetInputProps {
   inputLabel: string;
@@ -39,6 +41,9 @@ const BudgetInput = ({
   frequency = "Monthly",
 }: BudgetInputProps) => {
   const { month, year } = useParams();
+  const currentUser = useAtomValue(userAtom);
+  const [inputVal, setInputVal] = useState<string>("");
+
   const handleLabelOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUpdatedLabel(e.target.value);
     setInputValue(defaultValue);
@@ -50,6 +55,19 @@ const BudgetInput = ({
     setUpdatedLabel(inputLabel);
     setChangeInputVal(true);
   };
+
+  const getInputAmount = async () => {
+    const { currencyValue } = await getFormattedCurrency(
+      Number(defaultValue),
+      currentUser,
+    );
+
+    setInputVal(currencyValue);
+  };
+
+  useEffect(() => {
+    getInputAmount();
+  }, [defaultValue]);
 
   return (
     <S.InputWrapper className="inputWrapper">
@@ -86,9 +104,7 @@ const BudgetInput = ({
             id={inputLabel}
             className={`${inputSize} ${inputOption}`}
             disabled
-            value={
-              percent ? `${defaultValue}%` : formatAmount(Number(defaultValue))
-            }
+            value={percent ? `${defaultValue}%` : inputVal}
             aria-label={`${inputLabel} value`}
           />
         </>

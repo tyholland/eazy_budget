@@ -17,7 +17,8 @@ export const HeaderWrapper = styled.div`
   }
 
   a.text,
-  button.text {
+  button.text,
+  a.partner {
     color: ${BLACK};
   }
 `;
@@ -37,4 +38,10 @@ export const Title = styled.div`
       font-size: 30px;
     }
   }
+`;
+
+export const HeaderLinks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
 `;

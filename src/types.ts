@@ -13,7 +13,7 @@ export type ButtonClassType =
   | "image"
   | "text";
 
-export type LinkClassType = "button" | "text";
+export type LinkClassType = "button" | "text" | "partner";
 
 export type GraphType = "doughnut" | "pie" | "bar";
 
@@ -47,6 +47,7 @@ export interface BudgetDataItem {
   category_id?: number;
   item_name?: string[];
   item_value?: number[];
+  item_categories?: string[];
   temp?: boolean;
 }
 
@@ -65,6 +66,7 @@ export interface BudgetBodyInfo {
   amount: number;
   paid?: boolean;
   frequency?: string;
+  category_id?: number;
 }
 
 export interface UserRequest {
@@ -94,6 +96,7 @@ export interface UserResponse {
   subscribed_at: string;
   referral_code: string;
   referral_count: string;
+  currency: string;
   paypal_sub_id?: string | null;
   connected_id?: number;
   primary_request?: string;
@@ -108,6 +111,8 @@ export interface User extends Omit<UserResponse, "action"> {
   picture?: string;
   sub?: string;
   updated_at?: string;
+  selectedCategory?: string;
+  selectedSort?: string;
 }
 
 export interface BudgetInsertIds {
@@ -125,4 +130,12 @@ export interface CreateBudgetItems {
   checked: boolean;
   frequency: string;
   cadence: string;
+  category_id?: number;
+}
+
+export interface ProfitLoss {
+  label: string;
+  value: string;
+  percent: string;
+  type: string;
 }

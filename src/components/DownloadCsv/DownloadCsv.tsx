@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./downloadCsv.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { BudgetData, DownloadTypes } from "../../types.ts";
+import { BudgetData, DownloadTypes, ProfitLoss } from "../../types.ts";
 import {
   getMonthlyCSV,
   getMontlyProfitLossCSV,
@@ -10,8 +10,10 @@ import {
   getYearlyProfitLossCSV,
 } from "../../functions/budget.ts";
 import { useParams } from "react-router-dom";
-import { getDateInfo } from "../../functions/helper.ts";
+import { getBudgetRule, getDateInfo } from "../../functions/helper.ts";
 import { trackEvent } from "../../functions/mixpanel.ts";
+import { userAtom } from "../../hook/UserAtom.ts";
+import Loading from "../Loading/Loading.tsx";
 
 interface DownloadCsvProps {
   type: DownloadTypes;
@@ -20,55 +22,52 @@ interface DownloadCsvProps {
 const DownloadCsv = ({ type }: DownloadCsvProps) => {
   const params = useParams();
   const budget = useAtomValue(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const { currentYear: theYear } = getDateInfo();
+  const [currentMonthProfitLoss, setCurrentMonthProfitLoss] = useState<
+    ProfitLoss[]
+  >([]);
+  const [currentYearProfitLoss, setCurrentYearProfitLoss] = useState<
+    ProfitLoss[]
+  >([]);
   const currentMonth = params.month;
   const currentYear = Number(params.year) || theYear;
   const currentBudget = budget.filter(
     (bud: BudgetData) => bud.month === currentMonth,
   )[0];
   const { currentExpense, currentIncome } = getMonthlyCSV(currentBudget);
-  const { currentBudgetYear, yearlyIncome, yearlyExpense } = getYearlyCSV(
-    budget,
-    currentYear,
-  );
-  const currentMonthProfitLoss = getMontlyProfitLossCSV(
-    currentIncome,
-    currentExpense,
-  );
-  const currentYearProfitLoss = getYearlyProfitLossCSV(
-    yearlyIncome,
-    yearlyExpense,
-  );
+  const { yearlyIncome, yearlyExpense } = getYearlyCSV(budget, currentYear);
 
-  const incomeBtn = document.querySelector(".incomeBtn");
-  const expenseBtn = document.querySelector(".expenseBtn");
-  const yearBtn = document.querySelector(".yearBtn");
+  const getAllProfitLoss = async () => {
+    const monthProfitLoss = await getMontlyProfitLossCSV(
+      currentIncome,
+      currentExpense,
+      currentUser,
+    );
+
+    const yearProfitLoss = await getYearlyProfitLossCSV(
+      yearlyIncome,
+      yearlyExpense,
+      currentUser,
+    );
+
+    setCurrentMonthProfitLoss(monthProfitLoss);
+    setCurrentYearProfitLoss(yearProfitLoss);
+  };
+
+  useEffect(() => {
+    getAllProfitLoss();
+  }, []);
+
+  if (
+    currentMonthProfitLoss.length === 0 ||
+    currentYearProfitLoss.length === 0
+  ) {
+    return <Loading />;
+  }
+
   const profitLossBtn = document.querySelector(".profitLossBtn");
   const profitLossYearBtn = document.querySelector(".profitLossYearBtn");
-
-  incomeBtn?.addEventListener(
-    "click",
-    () => {
-      trackEvent(`Download ${currentMonth} Income CSV`);
-    },
-    { once: true },
-  );
-
-  expenseBtn?.addEventListener(
-    "click",
-    () => {
-      trackEvent(`Download ${currentMonth} Expense CSV`);
-    },
-    { once: true },
-  );
-
-  yearBtn?.addEventListener(
-    "click",
-    () => {
-      trackEvent(`Download ${currentYear} Budget Overview CSV`);
-    },
-    { once: true },
-  );
 
   profitLossBtn?.addEventListener(
     "click",
@@ -86,61 +85,131 @@ const DownloadCsv = ({ type }: DownloadCsvProps) => {
     { once: true },
   );
 
+  const monthlyCsv: Object[] = [];
+  const yearlyCsv: Object[] = [];
+
+  currentMonthProfitLoss.forEach((item) => {
+    monthlyCsv.push({
+      label: item.label,
+      value: item.value,
+      percent: item.percent,
+    });
+  });
+
+  currentYearProfitLoss.forEach((item) => {
+    yearlyCsv.push({
+      label: item.label,
+      value: item.value,
+      percent: item.percent,
+    });
+  });
+
+  const monthDiscretionary = currentMonthProfitLoss.filter(
+    (item) => item.label === "Total Non-Discretionary",
+  )[0];
+
+  const monthSavings = currentMonthProfitLoss.filter(
+    (item) => item.label === "Total Savings",
+  )[0];
+
+  const monthFun = currentMonthProfitLoss.filter(
+    (item) => item.label === "Total Fun Money",
+  )[0];
+
+  const hasValidMonthBudget =
+    monthDiscretionary.percent === "60.00%" &&
+    monthSavings.percent === "20.00%" &&
+    monthFun.percent === "20.00%";
+
   return (
-    <S.BtnWrapper>
-      {type === "yearly" && (
-        <>
-          <S.CsvBtn
-            data={currentBudgetYear}
-            headers={[
-              "Month",
-              "Income Total Amount (USD)",
-              "Expense Total Amount (USD)",
-            ]}
-            filename={`${currentYear}_budget_overview`}
-            className="yearBtn"
-          >
-            Download {currentYear} Budget Overview CSV
-          </S.CsvBtn>
-          <S.CsvBtn
-            data={currentYearProfitLoss}
-            headers={["Item", "Amount (USD)"]}
-            filename={`${currentYear}_p_and_l`}
-            className="profitLossYearBtn"
-          >
-            Download {currentYear} Profit & Loss Simplified CSV
-          </S.CsvBtn>
-        </>
+    <>
+      <S.Title>
+        {type === "monthly" ? currentMonth : currentYear} Profit & Loss
+        Simplified
+      </S.Title>
+      <S.BudgetRuleContent>
+        Your{" "}
+        <span className="month">
+          {type === "monthly" ? currentMonth : currentYear}
+        </span>{" "}
+        financial summary reflects a{" "}
+        <strong>
+          {getBudgetRule(
+            monthDiscretionary.percent,
+            monthSavings.percent,
+            monthFun.percent,
+          )}
+        </strong>{" "}
+        budget distribution, based on your recorded income and expenses.
+      </S.BudgetRuleContent>
+      {!hasValidMonthBudget && (
+        <S.BudgetRuleContent>
+          We recommend following the <strong>60/20/20</strong> budgeting rule,
+          where 60% of your income is allocated to Non-Discretionary expenses,
+          20% to Savings, and the remaining 20% to Fun Money. Consider adjusting
+          your expenses to align more closely with this balanced financial
+          framework.
+        </S.BudgetRuleContent>
       )}
-      {type === "monthly" && (
-        <>
-          <S.CsvBtn
-            data={currentIncome}
-            headers={["Income", "Amount (USD)", "Is Paid"]}
-            filename={`${currentMonth}_income`}
-            className="incomeBtn"
-          >
-            Download {currentMonth} Income CSV
-          </S.CsvBtn>
-          <S.CsvBtn
-            data={currentExpense}
-            headers={["Expense", "Amount (USD)", "Is Paid"]}
-            filename={`${currentMonth}_expense`}
-            className="expenseBtn"
-          >
-            Download {currentMonth} Expense CSV
-          </S.CsvBtn>
-          <S.CsvBtn
-            data={currentMonthProfitLoss}
-            headers={["Item", "Amount (USD)"]}
-            filename={`${currentMonth}_p_and_l`}
-            className="profitLossBtn"
-          >
-            Download {currentMonth} Profit & Loss Simplified CSV
-          </S.CsvBtn>
-        </>
-      )}
-    </S.BtnWrapper>
+      <S.ContentWrapper>
+        {type === "yearly" && (
+          <>
+            <S.BudgetBreakdown>
+              <S.BudgetLineItem className="header">
+                <div className="capital">Item</div>
+                <div>Amount</div>
+                <div>% of Income</div>
+              </S.BudgetLineItem>
+              {currentYearProfitLoss.map((item, index) => {
+                return (
+                  <S.BudgetLineItem key={index} className={item.type}>
+                    <div className="capital">{item.label}</div>
+                    <div>{item.value}</div>
+                    <div>{item.percent}</div>
+                  </S.BudgetLineItem>
+                );
+              })}
+            </S.BudgetBreakdown>
+            <S.CsvBtn
+              data={yearlyCsv}
+              headers={["Item", "Amount", "% of Income"]}
+              filename={`${currentYear}_p_and_l`}
+              className="profitLossYearBtn"
+            >
+              Download {currentYear} Profit & Loss Simplified CSV
+            </S.CsvBtn>
+          </>
+        )}
+        {type === "monthly" && (
+          <>
+            <S.BudgetBreakdown>
+              <S.BudgetLineItem className="header">
+                <div className="capital">Item</div>
+                <div>Amount</div>
+                <div>% of Income</div>
+              </S.BudgetLineItem>
+              {currentMonthProfitLoss.map((item, index) => {
+                return (
+                  <S.BudgetLineItem key={index} className={item.type}>
+                    <div className="capital">{item.label}</div>
+                    <div>{item.value}</div>
+                    <div>{item.percent}</div>
+                  </S.BudgetLineItem>
+                );
+              })}
+            </S.BudgetBreakdown>
+            <S.CsvBtn
+              data={monthlyCsv}
+              headers={["Item", "Amount", "% of Income"]}
+              filename={`${currentMonth}_p_and_l`}
+              className="profitLossBtn"
+            >
+              Download {currentMonth} Profit & Loss Simplified CSV
+            </S.CsvBtn>
+          </>
+        )}
+      </S.ContentWrapper>
+    </>
   );
 };
 

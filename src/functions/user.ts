@@ -33,18 +33,7 @@ export const addUser = async (
 
       setCurrentUser({
         ...user,
-        hasBudget: userResponse.hasBudget,
-        subscription_id: userResponse.subscription_id,
-        connected_message: userResponse.connected_message,
-        connected_id: userResponse.connected_id,
-        primary_request: userResponse.primary_request,
-        is_connected: userResponse.is_connected,
-        categories: userResponse.categories,
-        shared_account_email: userResponse.shared_account_email,
-        paid_sub: userResponse.paid_sub,
-        subscribed_at: userResponse.subscribed_at,
-        paypal_sub_id: userResponse.paypal_sub_id,
-        referral_code: userResponse.referral_code,
+        ...userResponse,
         referral_count: userResponse.referral_count.toString() || "0",
       });
       setHasBudget(userResponse.hasBudget);

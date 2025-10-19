@@ -10,6 +10,7 @@ import { shareAccount } from "../../requests/users.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const ShareAccount = () => {
   const currentUser = useAtomValue(userAtom);
@@ -19,6 +20,7 @@ const ShareAccount = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [showComplete, setShowComplete] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserEmail(e.target.value);
@@ -48,6 +50,14 @@ const ShareAccount = () => {
       setIsDisabled(false);
       setHasError(true);
       trackError("ShareAccount - submitEmail:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -116,6 +126,10 @@ const ShareAccount = () => {
           </S.Confirmed>
         )}
       </S.ShareWrapper>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.Wrapper>
   );
 };

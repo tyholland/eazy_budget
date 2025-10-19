@@ -17,25 +17,25 @@ import { mockBudgetItemArray } from "./mocks";
 
 describe("formatAmount", () => {
   test("should return whole number", () => {
-    const amount = formatAmount(40);
+    const amount = formatAmount(40, "USD");
 
     expect(amount).toBe("$40.00");
   });
 
   test("should return decimal number", () => {
-    const amount = formatAmount(10.55);
+    const amount = formatAmount(10.55, "USD");
 
     expect(amount).toBe("$10.55");
   });
 
   test("should return commas in number", () => {
-    const amount = formatAmount(1946720.55);
+    const amount = formatAmount(1946720.55, "USD");
 
     expect(amount).toBe("$1,946,720.55");
   });
 
   test("should return commas and '.00' in number", () => {
-    const amount = formatAmount(9238465);
+    const amount = formatAmount(9238465, "USD");
 
     expect(amount).toBe("$9,238,465.00");
   });
@@ -107,6 +107,7 @@ describe("removeItemFromNumberArray", () => {
 
 describe("removeItemFromBudgetArray", () => {
   test("should return array with removed index", () => {
+    mockBudgetItemArray[1].budget_id = 1;
     const page = removeItemFromBudgetArray(mockBudgetItemArray, 1);
     const response = JSON.stringify([
       { ...mockBudgetItemArray[0] },
@@ -257,44 +258,86 @@ describe("getFrequencyValue", () => {
 });
 
 describe("getFrequencyContent", () => {
-  test("should return label default message for no frequency", () => {
-    const content = getFrequencyContent("april", "2025", 20, undefined);
+  test("should return label default message for no frequency", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      undefined,
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });
 
-  test("should return label default message for no month", () => {
-    const content = getFrequencyContent(undefined, "2025", 20, "Monthly");
+  test("should return label default message for no month", async () => {
+    const content = await getFrequencyContent(
+      undefined,
+      "2025",
+      20,
+      "Monthly",
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });
 
-  test("should return label default message for no year", () => {
-    const content = getFrequencyContent("april", undefined, 20, "Monthly");
+  test("should return label default message for no year", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      undefined,
+      20,
+      "Monthly",
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });
 
-  test("should return content for Daily", () => {
-    const content = getFrequencyContent("april", "2025", 44, "Daily");
+  test("should return content for Daily", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      44,
+      "Daily",
+      undefined,
+    );
 
     expect(content).toBe("$2.00 every business day");
   });
 
-  test("should return content for Semi-Monthly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Semi-Monthly");
+  test("should return content for Semi-Monthly", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      "Semi-Monthly",
+      undefined,
+    );
 
     expect(content).toBe("$10.00 every two times a month");
   });
 
-  test("should return content for Weekly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Weekly");
+  test("should return content for Weekly", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      "Weekly",
+      undefined,
+    );
 
     expect(content).toBe("$5.00 every week");
   });
 
-  test("should return content for Monthly", () => {
-    const content = getFrequencyContent("april", "2025", 20, "Monthly");
+  test("should return content for Monthly", async () => {
+    const content = await getFrequencyContent(
+      "april",
+      "2025",
+      20,
+      "Monthly",
+      undefined,
+    );
 
     expect(content).toBe("every month");
   });

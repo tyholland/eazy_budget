@@ -7,7 +7,7 @@ import {
 } from "../../types.ts";
 import { useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import Graph from "../../components/Graph/Graph.tsx";
@@ -48,41 +48,43 @@ import Loading from "../../components/Loading/Loading.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { DARKER_GRAY } from "../../index.style.ts";
-import InfoIcon from "../../svg/InfoIcon.tsx";
-import { Tooltip as ReactTooltip } from "react-tooltip";
-import Link from "../../components/Link/Link.tsx";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import Predict from "../../components/Predict/Predict.tsx";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
-  const currentUser = useAtomValue(userAtom);
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const clonedBudget = [...budget];
   const { type, month, year } = useParams();
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
-  const [budgetChange, setBudgetChange] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
-  const [selectedSort, setSelectedSort] = useState<string>("A - Z");
-  const [selectedFilter, setSelectedFilter] = useState<string>("None");
-  const [expenseFilter, setExpenseFilter] = useState<number | undefined>(0);
+  const [selectedSort, setSelectedSort] = useState<string>(
+    currentUser?.selectedSort || budgetSortOptions[0].label,
+  );
+  const [selectedFilter, setSelectedFilter] = useState<string>(
+    currentUser?.selectedCategory || "None",
+  );
+  const filter = currentUser?.categories.filter(
+    (item) => item.label === currentUser.selectedCategory,
+  )[0];
+  const [expenseFilter, setExpenseFilter] = useState<number | undefined>(
+    filter?.id || 0,
+  );
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   useEffect(() => {
-    if (budgetChange) {
-      setBudget(budget);
-      setBudgetChange(false);
+    if (type === "income") {
+      setExpenseFilter(0);
+      setSelectedFilter("None");
     }
-  }, [budgetChange]);
-
-  useEffect(() => {
-    const filter = currentUser?.categories.filter(
-      (item) => item.label === selectedFilter,
-    )[0];
-    type === "income" ? setExpenseFilter(0) : setExpenseFilter(filter?.id || 0);
-  }, [selectedFilter, type]);
+  }, [type]);
 
   if (
     !type ||
@@ -105,12 +107,241 @@ const Monthly = () => {
     type,
     theYear,
   );
+  const budgetIndex = clonedBudget.findIndex(
+    (item) => item.year === theYear && item.month === month,
+  );
 
   const handleAddNewBudget = () => {
     const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
 
     setBudget(updatedBudget);
     setIsNewBudget(true);
+  };
+
+  const handleSaveEvent = async (
+    obj: Object,
+    data?: BudgetDataItem,
+    isPaid?: boolean,
+    frequency?: string,
+    cadence?: string,
+    category_id?: number,
+    item?: BudgetData,
+    i?: number,
+  ) => {
+    const updatedItem = reformatBudgetItem(
+      obj,
+      data?.budget_id || null,
+      data?.budget_date_id || null,
+      month,
+      theYear,
+      isPaid,
+      frequency,
+      cadence,
+      category_id,
+    );
+
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+          scope: "read:user",
+        },
+      });
+
+      if (!!data?.budget_id) {
+        const updatedBudgets = updateBasedOnCadence(
+          item as BudgetData,
+          updatedItem[0],
+          budget,
+          data,
+          month,
+          theYear,
+          type,
+        );
+
+        if (updatedItem[0].cadence === "Future Months" && !!updatedBudgets) {
+          const tempBudget = [...budget];
+
+          for (let i = budgetIndex; i <= 11; i++) {
+            const count = i - budgetIndex;
+
+            tempBudget[i][type] = updatedBudgets[count];
+          }
+
+          setBudget(tempBudget);
+        }
+
+        if (updatedItem[0].cadence === "All Months" && !!updatedBudgets) {
+          const tempBudget = [...budget];
+
+          if (updatedItem[0].frequency === "Quarterly") {
+            for (let i = 0; i <= 11; i++) {
+              if (i === 2 || i === 5 || i === 8 || i === 11) {
+                tempBudget[i][type] = updatedBudgets[i];
+              }
+            }
+
+            setBudget(tempBudget);
+          } else {
+            for (let i = 0; i <= 11; i++) {
+              tempBudget[i][type] = updatedBudgets[i];
+            }
+
+            setBudget(tempBudget);
+          }
+        }
+
+        if (updatedItem[0].cadence === "Current Month") {
+          const tempBudget = [...budget];
+          tempBudget[budgetIndex][type] = updatedBudgets;
+          setBudget(tempBudget);
+        }
+
+        await updateBudgetItem(accessToken, updatedItem[0]);
+
+        trackEvent(`Edit ${type}`);
+      } else {
+        insertBasedOnCadence(
+          item as BudgetData,
+          updatedItem[0],
+          budget,
+          month,
+          theYear,
+          type,
+        );
+
+        updatedItem[0].type = type;
+        const updatedBudgetItem: NewBudgetIds = await addBudgetItem(
+          accessToken,
+          updatedItem[0],
+        );
+
+        const insertedBudgets = insertBudgetIds(
+          item as BudgetData,
+          updatedItem[0],
+          budget,
+          month,
+          theYear,
+          type,
+          updatedBudgetItem,
+        );
+
+        if (updatedItem[0].cadence === "Future Months" && !!insertedBudgets) {
+          const tempBudget = [...budget];
+
+          for (let i = budgetIndex; i <= 11; i++) {
+            const count = i - budgetIndex;
+
+            tempBudget[i][type] = insertedBudgets[count];
+          }
+
+          setBudget(tempBudget);
+        }
+
+        if (updatedItem[0].cadence === "All Months" && !!insertedBudgets) {
+          const tempBudget = [...budget];
+
+          if (updatedItem[0].frequency === "Quarterly") {
+            for (let i = 0; i <= 11; i++) {
+              if (i === 2 || i === 5 || i === 8 || i === 11) {
+                tempBudget[i][type] = insertedBudgets[i];
+              }
+            }
+
+            setBudget(tempBudget);
+          } else {
+            for (let i = 0; i <= 11; i++) {
+              tempBudget[i][type] = insertedBudgets[i];
+            }
+
+            setBudget(tempBudget);
+          }
+        }
+
+        if (updatedItem[0].cadence === "Current Month") {
+          const tempBudget = [...budget];
+          tempBudget[budgetIndex][type] = insertedBudgets;
+          setBudget(tempBudget);
+        }
+
+        trackEvent(`Add New ${type}`);
+      }
+
+      if (
+        updatedItem[0].frequency === "Quarterly" &&
+        !listOfQuarterlyMonths.includes(month) &&
+        item &&
+        i
+      ) {
+        const updatedItems = removeItemFromBudgetArray(item[type], i);
+        const tempBudget = [...budget];
+        tempBudget[budgetIndex][type] = updatedItems;
+
+        setBudget(tempBudget);
+      }
+
+      setIsNewBudget(false);
+    } catch (err) {
+      trackError("Monthly - handleSaveEvent:", {
+        result: err,
+      });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
+    }
+  };
+
+  const handleDeleteEvent = async (
+    currentItems: BudgetDataItem[],
+    data: BudgetDataItem,
+  ) => {
+    if (currentItems.length === 1) {
+      setIsOpen(true);
+      return;
+    }
+
+    const updatedItems = removeItemFromBudgetArray(
+      currentItems,
+      data.budget_id,
+    );
+
+    const tempBudget = [...budget];
+    tempBudget[budgetIndex][type] = updatedItems;
+    setBudget(tempBudget);
+
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+          scope: "read:user",
+        },
+      });
+
+      if (!!data.budget_id) {
+        await deleteBudgetItem(accessToken, data.budget_id);
+
+        trackEvent(`Delete ${type}`);
+      }
+
+      setIsNewBudget(false);
+    } catch (err) {
+      trackError("Monthly - handleDeleteEvent:", {
+        result: err,
+      });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
+    }
   };
 
   return (
@@ -123,7 +354,7 @@ const Monthly = () => {
       />
       <S.ContentWrapper>
         <S.Title>
-          {month} {theYear} {selectedOption === "details" ? "Details" : type}
+          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}
         </S.Title>
         {selectedOption === type && (
           <>
@@ -135,239 +366,91 @@ const Monthly = () => {
                 <SelectComponent
                   options={budgetSortOptions}
                   placeHolder="Sort Items"
-                  defaultValue={budgetSortOptions[0].label}
-                  setOption={setSelectedSort}
+                  defaultValue={currentUser?.selectedSort || selectedSort}
+                  setOption={(val) => {
+                    setSelectedSort(val);
+
+                    currentUser &&
+                      setCurrentUser({
+                        ...currentUser,
+                        selectedSort: val,
+                      });
+                  }}
                 />
               )}
-              {getSubscriptionStatus("Pro", currentUser?.subscription_id) &&
-                type === "expense" && (
-                  <>
-                    {currentUser?.categories &&
-                      currentUser.categories.length > 0 && (
-                        <SelectComponent
-                          options={
-                            currentUser.categories.concat({
-                              id: 0,
-                              label: "None",
-                            }) || []
-                          }
-                          placeHolder="Filter by Category"
-                          defaultValue={selectedFilter}
-                          setOption={setSelectedFilter}
-                        />
-                      )}
-                    {currentUser?.categories &&
-                      currentUser.categories.length === 0 && (
-                        <>
-                          <S.FilterLink>
-                            <Link
-                              url="/account/categories"
-                              label="Filter by Category"
-                              linkSize="medium"
-                              classType="text"
-                            >
-                              Filter by Category
-                            </Link>
-                            <div>
-                              <span
-                                className="tooltip"
-                                data-tooltip-id="filter-tooltip"
-                              >
-                                <InfoIcon />
-                              </span>
-                            </div>
-                          </S.FilterLink>
-                          <ReactTooltip
-                            id="filter-tooltip"
-                            place="right"
-                            variant="info"
-                            content='Click the link "Filter by Category" to create expense categories'
-                            className="tooltip"
-                          />
-                        </>
-                      )}
-                  </>
-                )}
+              {isPro && type === "expense" && (
+                <SelectComponent
+                  options={
+                    currentUser?.categories.concat({
+                      id: 0,
+                      label: "None",
+                    }) || []
+                  }
+                  placeHolder="Filter by Category"
+                  defaultValue={
+                    expenseFilter === 0
+                      ? "None"
+                      : currentUser?.selectedCategory || selectedFilter
+                  }
+                  setOption={(val) => {
+                    setSelectedFilter(val);
+
+                    const filter = currentUser?.categories.filter(
+                      (item) => item.label === val,
+                    )[0];
+
+                    setExpenseFilter(filter?.id || 0);
+
+                    currentUser &&
+                      setCurrentUser({
+                        ...currentUser,
+                        selectedCategory: val,
+                      });
+                  }}
+                />
+              )}
             </S.Selectors>
             <S.ItemWrapper>
               <S.ItemContainer>
                 {!budget.length && <Loading />}
-                {budget.map((item: BudgetData) => {
-                  if (
-                    month === item.month.toLowerCase() &&
-                    theYear === item.year
-                  ) {
-                    return item[type]
-                      .sort((a: BudgetDataItem, b: BudgetDataItem) =>
-                        sortBudget(a, b, selectedSort),
-                      )
-                      .filter((response: BudgetDataItem) =>
-                        expenseFilter === 0
-                          ? response
-                          : response.category_id === expenseFilter,
-                      )
-                      .map((data: BudgetDataItem, i: number) => {
-                        if (
-                          data.label === "" &&
-                          !data.budget_id &&
-                          !data.temp
-                        ) {
-                          return {};
-                        }
+                {!!budget.length &&
+                  budget[budgetIndex][type]
+                    .sort((a: BudgetDataItem, b: BudgetDataItem) =>
+                      sortBudget(a, b, selectedSort),
+                    )
+                    .filter((response: BudgetDataItem) =>
+                      expenseFilter === 0
+                        ? response
+                        : response.category_id === expenseFilter,
+                    )
+                    .map((data: BudgetDataItem, i: number) => {
+                      if (data.label === "" && !data.budget_id && !data.temp) {
+                        return {};
+                      }
 
-                        const currentItems: BudgetDataItem[] = [...item[type]];
+                      const currentItems: BudgetDataItem[] = [
+                        ...budget[budgetIndex][type],
+                      ];
 
-                        const handleSaveEvent = async (
-                          obj: Object,
-                          isPaid?: boolean,
-                          frequency?: string,
-                          cadence?: string,
-                          category_id?: number,
-                        ) => {
-                          const updatedItem = reformatBudgetItem(
-                            obj,
-                            data.budget_id,
-                            data.budget_date_id,
-                            month,
-                            theYear,
-                            isPaid,
-                            frequency,
-                            cadence,
-                            category_id,
-                          );
-
-                          try {
-                            const accessToken = await getAccessTokenSilently({
-                              authorizationParams: {
-                                audience: process.env.REACT_APP_AUDIENCE,
-                                scope: "read:user",
-                              },
-                            });
-
-                            if (!!data.budget_id) {
-                              updateBasedOnCadence(
-                                item,
-                                updatedItem[0],
-                                budget,
-                                data,
-                                month,
-                                theYear,
-                                type,
-                              );
-                              setBudgetChange(true);
-
-                              await updateBudgetItem(
-                                accessToken,
-                                updatedItem[0],
-                              );
-
-                              trackEvent(`Edit ${type}`);
-                            } else {
-                              insertBasedOnCadence(
-                                item,
-                                updatedItem[0],
-                                budget,
-                                month,
-                                theYear,
-                                type,
-                              );
-                              setBudgetChange(true);
-
-                              updatedItem[0].type = type;
-                              const updatedBudgetItem: NewBudgetIds =
-                                await addBudgetItem(
-                                  accessToken,
-                                  updatedItem[0],
-                                );
-
-                              insertBudgetIds(
-                                item,
-                                updatedItem[0],
-                                budget,
-                                month,
-                                theYear,
-                                type,
-                                updatedBudgetItem,
-                              );
-                              setBudgetChange(true);
-                              trackEvent(`Add New ${type}`);
-                            }
-
-                            if (
-                              updatedItem[0].frequency === "Quarterly" &&
-                              !listOfQuarterlyMonths.includes(month)
-                            ) {
-                              const updatedItems = removeItemFromBudgetArray(
-                                item[type],
-                                i,
-                              );
-                              item[type] = updatedItems;
-                              setBudgetChange(true);
-                            }
-                            setIsNewBudget(false);
-                          } catch (err) {
-                            trackError("Monthly - handleSaveEvent:", {
-                              result: err,
-                            });
+                      return (
+                        <BudgetItem
+                          key={i}
+                          theType={type as InputOption}
+                          item={data}
+                          labelPlaceHolder={`${type.toLowerCase()} name`}
+                          valuePlaceHolder={`${type.toLowerCase()} (USD)`}
+                          inputType="number"
+                          budgetItemData={budget[budgetIndex]}
+                          saveEvent={handleSaveEvent}
+                          deleteEvent={() =>
+                            handleDeleteEvent(currentItems, data)
                           }
-                        };
-
-                        const handleDeleteEvent = async () => {
-                          if (currentItems.length === 1) {
-                            setIsOpen(true);
-                            return;
-                          }
-
-                          const updatedItems = removeItemFromBudgetArray(
-                            currentItems,
-                            i,
-                          );
-                          item[type] = updatedItems;
-                          setBudgetChange(true);
-
-                          try {
-                            const accessToken = await getAccessTokenSilently({
-                              authorizationParams: {
-                                audience: process.env.REACT_APP_AUDIENCE,
-                                scope: "read:user",
-                              },
-                            });
-
-                            if (!!data.budget_id) {
-                              await deleteBudgetItem(
-                                accessToken,
-                                data.budget_id,
-                              );
-
-                              trackEvent(`Delete ${type}`);
-                            }
-
-                            setIsNewBudget(false);
-                          } catch (err) {
-                            trackError("Monthly - handleDeleteEvent:", {
-                              result: err,
-                            });
-                          }
-                        };
-
-                        return (
-                          <BudgetItem
-                            key={i}
-                            theType={type as InputOption}
-                            item={data}
-                            labelPlaceHolder={`${type.toLowerCase()} name`}
-                            valuePlaceHolder={`${type.toLowerCase()} amount`}
-                            inputType="number"
-                            saveEvent={handleSaveEvent}
-                            deleteEvent={handleDeleteEvent}
-                            hidePaidContent={type === "income"}
-                            openModal={isNewBudget}
-                          />
-                        );
-                      });
-                  }
-                  return null;
-                })}
+                          hidePaidContent={type === "income"}
+                          openModal={isNewBudget}
+                          index={i}
+                        />
+                      );
+                    })}
                 <ModalComponent
                   isOpen={isOpen}
                   title={`Want to remove the last ${type}?`}
@@ -402,13 +485,17 @@ const Monthly = () => {
           </>
         )}
         {selectedOption === "details" && (
-          <BudgetDetails
-            income={totalIncome}
-            expense={totalExpense}
-            month={month}
-            year={theYear}
-          />
+          <>
+            <BudgetDetails
+              income={totalIncome}
+              expense={totalExpense}
+              month={month}
+              year={theYear}
+            />
+            {isPro && <DownloadCsv type="monthly" />}
+          </>
         )}
+        {selectedOption === "goals" && <Predict />}
         {selectedOption === "charts" && (
           <Graph
             dataset={[
@@ -424,8 +511,11 @@ const Monthly = () => {
             page="monthly"
           />
         )}
-        {selectedOption === "download" && <DownloadCsv type="monthly" />}
       </S.ContentWrapper>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.MonthlyWrapper>
   );
 };

@@ -4,7 +4,12 @@ import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import CancelIcon from "../../svg/CancelIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
-import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
+import {
+  BudgetData,
+  BudgetDataItem,
+  InputOption,
+  InputType,
+} from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import * as S from "./budgetItem.style.ts";
@@ -18,8 +23,8 @@ import {
   proPlanFrequencyOptions,
 } from "../../constants.ts";
 import {
-  formatAmount,
   getErrorMessage,
+  getFormattedCurrency,
   getFrequencyContent,
   getFrequencyValue,
   getSubscriptionStatus,
@@ -42,14 +47,19 @@ interface BudgetItemProps {
   hidePaidContent?: boolean;
   saveEvent?: (
     val: Object,
+    data?: BudgetDataItem,
     paid?: boolean,
     frequency?: string,
     cadence?: string,
     category_id?: number,
+    item?: BudgetData,
+    index?: number,
   ) => void;
+  index?: number;
   deleteEvent?: () => void;
   setValue?: UseFormSetValue<FieldValues>;
   inputName?: string;
+  budgetItemData?: BudgetData;
 }
 
 const BudgetItem = ({
@@ -64,9 +74,11 @@ const BudgetItem = ({
   hidePaidContent = false,
   register,
   saveEvent,
+  index,
   deleteEvent,
   setValue,
   inputName,
+  budgetItemData,
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
@@ -104,10 +116,23 @@ const BudgetItem = ({
   const [modalValue, setModalValue] = useState<number | string>(
     item?.value || inputValue,
   );
+  const [totalAmount, setTotalAmount] = useState<string>("");
+  const [frequencyContent, setFrequencyContent] = useState<string>("");
+  const [triggerFrequencyChange, setTriggerFrequencyChange] =
+    useState<boolean>(false);
 
   useEffect(() => {
     item && setInputValue(item.value);
-    item && modalValue === "New Item" && setModalValue(item.value);
+    item && modalValue === "New Item"
+      ? setModalValue(item.value)
+      : setModalValue(
+          revertAmountToOriginal(
+            Number(item?.value),
+            month,
+            year,
+            selectedFrequency,
+          ),
+        );
   }, [item?.value]);
 
   useEffect(() => {
@@ -141,6 +166,41 @@ const BudgetItem = ({
     currentUser && theType === "expense"
       ? currentUser.categories?.length > 0
       : false;
+
+  const getTotalAmount = async () => {
+    const amount = getFrequencyValue(
+      Number(
+        changeInputVal || triggerFrequencyChange
+          ? modalValue
+          : revertAmountToOriginal(
+              Number(inputValue),
+              month,
+              year,
+              selectedFrequency,
+            ),
+      ),
+      month as string,
+      Number(year),
+      selectedFrequency,
+    );
+
+    const { currencyValue } = await getFormattedCurrency(amount, currentUser);
+    const content = await getFrequencyContent(
+      month,
+      year,
+      item?.value,
+      selectedFrequency,
+      currentUser,
+    );
+
+    setTotalAmount(currencyValue);
+    setFrequencyContent(content);
+    setTriggerFrequencyChange(false);
+  };
+
+  useEffect(() => {
+    getTotalAmount();
+  }, [changeInputVal, selectedFrequency, modalValue, inputValue]);
 
   return (
     <S.ItemWrapper className="itemWrapper">
@@ -176,12 +236,13 @@ const BudgetItem = ({
                   <S.TimingSelects>
                     <SelectComponent
                       options={specificFrequency}
-                      placeHolder="Choose Frequency"
+                      placeHolder="Frequency:"
                       defaultValue={
                         item?.frequency || specificFrequency[3].label
                       }
                       setOption={(val) => {
                         setSelectedFrequency(val);
+                        setTriggerFrequencyChange(true);
 
                         if (val === "Yearly" || val === "Quarterly") {
                           setSelectedCadence(cadenceOptions[2].label);
@@ -195,7 +256,7 @@ const BudgetItem = ({
                       ) && (
                         <SelectComponent
                           options={cadenceOptions}
-                          placeHolder="Choose Cadence"
+                          placeHolder="Cadence:"
                           defaultValue={cadenceOptions[0].label}
                           setOption={setSelectedCadence}
                         />
@@ -212,7 +273,7 @@ const BudgetItem = ({
                               label: "None",
                             }) || []
                           }
-                          placeHolder="Choose Category"
+                          placeHolder="Category:"
                           defaultValue={expenseCategory?.label || "None"}
                           setOption={setSelectedCategory}
                         />
@@ -238,15 +299,7 @@ const BudgetItem = ({
                     setChangeInputVal={setChangeInputVal}
                   />
                   <S.Total>
-                    <span>Total {theType} amount:</span>{" "}
-                    {formatAmount(
-                      getFrequencyValue(
-                        Number(changeInputVal ? modalValue : inputValue),
-                        month as string,
-                        Number(year),
-                        selectedFrequency,
-                      ),
-                    )}
+                    <span>Total {theType} amount:</span> {totalAmount}
                   </S.Total>
                   {!hidePaidContent && (
                     <CheckboxComponent
@@ -318,10 +371,13 @@ const BudgetItem = ({
                         saveEvent &&
                           saveEvent(
                             budgetItem,
+                            item,
                             checkedVal,
                             selectedFrequency,
                             selectedCadence,
                             expenseCategory_id,
+                            budgetItemData,
+                            index,
                           );
                         setErrorMessage([]);
                         closeModal();
@@ -377,9 +433,7 @@ const BudgetItem = ({
         </S.ItemTopRow>
         {!hidePaidContent && (
           <>
-            <div>
-              {getFrequencyContent(month, year, item?.value, item?.frequency)}
-            </div>
+            <div>{frequencyContent}</div>
             <CheckboxComponent
               label="Paid"
               isDisabled

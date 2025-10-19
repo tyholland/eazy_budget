@@ -3,6 +3,7 @@ import * as S from "./breadcrumb.style.ts";
 import Link from "../Link/Link.tsx";
 import { useLocation } from "react-router-dom";
 import { getCurrentPageName } from "../../functions/helper.ts";
+import { noBreadCrumbList } from "../../constants.ts";
 
 const Breadcrumb = () => {
   const { pathname } = useLocation();
@@ -10,15 +11,6 @@ const Breadcrumb = () => {
   const { pageName, page2Name } = getCurrentPageName(pathname);
   const isMonthly = pathname.includes("monthly");
   const isAccount = pathname.includes("/account/");
-  const noBreadCrumbList = [
-    "/",
-    "/overview",
-    "/pricing",
-    "/about",
-    "/privacy",
-    "/contact",
-    "/referral",
-  ];
 
   if (noBreadCrumbList.includes(pathname)) {
     return <></>;

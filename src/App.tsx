@@ -5,7 +5,6 @@ import Monthly from "./pages/Monthly/Monthly.tsx";
 import Yearly from "./pages/Yearly/Yearly.tsx";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
 import Create from "./pages/Create/Create.tsx";
-import Predict from "./pages/Predict/Predict.tsx";
 import History from "./pages/History/History.tsx";
 import Header from "./components/Header/Header.tsx";
 import Auth0ProviderRedirect from "./components/Auth0ProviderRedirect/Auth0ProviderRedirect.tsx";
@@ -23,6 +22,7 @@ import Privacy from "./pages/Privacy/Privacy.tsx";
 import Category from "./pages/Category/Category.tsx";
 import Ad from "./components/Ad/Ad.tsx";
 import Referral from "./pages/Referral/Referral.tsx";
+// import Partner from "./pages/Partner/Partner.tsx";
 
 const App = () => {
   return (
@@ -39,6 +39,7 @@ const App = () => {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/referral" element={<Referral />} />
+            {/* <Route path="/partner" element={<Partner />} /> */}
             <Route
               path="/overview"
               element={<PrivateRoute component={Home} />}
@@ -54,10 +55,6 @@ const App = () => {
             <Route
               path="/add/:type/:month/:year"
               element={<PrivateRoute component={Create} />}
-            />
-            <Route
-              path="/account/predict"
-              element={<PrivateRoute component={Predict} />}
             />
             <Route
               path="/account/history"

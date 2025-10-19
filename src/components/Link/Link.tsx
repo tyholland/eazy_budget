@@ -11,6 +11,7 @@ interface LinkProps {
   linkSize?: ElementSize;
   isDisabled?: boolean;
   callBack?: () => void;
+  download?: boolean;
 }
 
 const Link = ({
@@ -22,6 +23,7 @@ const Link = ({
   classType = "text",
   isDisabled = false,
   callBack = () => {},
+  download = false,
 }: LinkProps) => {
   return (
     <S.LinkElement
@@ -30,6 +32,7 @@ const Link = ({
       aria-label={label}
       onClick={callBack}
       target={target}
+      download={download}
     >
       {children}
     </S.LinkElement>

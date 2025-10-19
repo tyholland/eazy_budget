@@ -153,3 +153,23 @@ export const startReferralPlan = async (
     throw new Error(`Failed to start referral plan`);
   }
 };
+
+export const updateUserCurrency = async (
+  accessToken: string,
+  updatedSub: Object,
+) => {
+  try {
+    const currencyResponse = await fetch(`${api}/user/currency`, {
+      method: "PUT",
+      body: JSON.stringify({ ...updatedSub }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await currencyResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to update user sub`);
+  }
+};

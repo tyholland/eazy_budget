@@ -1,15 +1,12 @@
 import styled from "styled-components";
 
 export const PredictWrapper = styled.div`
-  margin-top: 30px;
   display: flex;
   gap: 40px;
   flex-direction: column;
-  margin-bottom: 40px;
 
   @media only screen and (max-width: 800px) {
     gap: 20px;
-    margin-bottom: 20px;
   }
 `;
 
@@ -33,25 +30,18 @@ export const PredictInputs = styled.div`
 
 export const PredictBudgets = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: space-between;
+  gap: 20px;
+  flex-direction: column;
 
-  @media only screen and (max-width: 800px) {
-    flex-wrap: nowrap;
-    flex-direction: column;
+  span {
+    font-weight: 700;
   }
 `;
 
 export const HeaderWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  @media only screen and (max-width: 800px) {
-    flex-direction: column;
-    gap: 12px;
-  }
+  flex-direction: column;
+  gap: 30px;
 `;
 
 export const Content = styled.div`
@@ -59,9 +49,10 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 12px;
   font-size: 18px;
-  width: 40%;
+  width: 100%;
+`;
 
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
+export const CurrencyValue = styled.div`
+  margin: 0 0 15px 160px;
+  font-style: italic;
 `;

@@ -15,6 +15,7 @@ import {
   deleteUser,
   removeSharedAccount,
   startReferralPlan,
+  updateUserCurrency,
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
@@ -23,7 +24,6 @@ import {
   getSubscriptionStatus,
 } from "../../functions/helper.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
-import ChartIcon from "../../svg/ChartIcon.tsx";
 import ViewIcon from "../../svg/ViewIcon.tsx";
 import RemoveAccountIcon from "../../svg/RemoveAccountIcon.tsx";
 import HistoryIcon from "../../svg/HistoryIcon.tsx";
@@ -33,6 +33,9 @@ import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import moment from "moment-business-days";
 import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
+import SelectComponent from "../../components/Select/Select.tsx";
+import { currencyList } from "../../constants.ts";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -55,6 +58,14 @@ const Account = () => {
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
+  );
+  const [currencyModal, setCurrencyModal] = useState<boolean>(false);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
+  const defaultCurrency = currencyList.filter(
+    (item) => item.label === currentUser?.currency,
+  )[0];
+  const [userCurrency, setUserCurrency] = useState<string>(
+    defaultCurrency?.label,
   );
   const { currentYear, currentMonth } = getDateInfo();
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
@@ -102,6 +113,14 @@ const Account = () => {
       }
     } catch (err) {
       trackError("Account - deleteAccount:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -128,6 +147,14 @@ const Account = () => {
       setIsCancelOpen(false);
     } catch (err) {
       trackError("Account - cancelSubscription:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -141,11 +168,19 @@ const Account = () => {
 
       await removeSharedAccount(accessToken);
       trackEvent("Remove Shared Account Access");
+
+      logOutAccount();
     } catch (err) {
       trackError("Account - removeSharedAccess:", { result: err });
-    }
 
-    logOutAccount();
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
+    }
   };
 
   const startReferralTrial = async (
@@ -179,6 +214,14 @@ const Account = () => {
       setIsReferralStepThree(false);
     } catch (err) {
       trackError("Account - startReferralTrial:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -191,6 +234,35 @@ const Account = () => {
       setIsCopied(true);
     } catch (err) {
       trackError("Account - handleClick:", { result: err });
+    }
+  };
+
+  const updateCurrency = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          currency: userCurrency,
+        });
+
+      await updateUserCurrency(accessToken, { currency: userCurrency });
+      trackEvent("Update User Currency");
+    } catch (err) {
+      trackError("Account - updateCurrency:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -287,6 +359,17 @@ const Account = () => {
                     </Link>
                   </S.Section>
                 )}
+                {isPro && (
+                  <S.Section>
+                    <Button
+                      handleClick={() => setCurrencyModal(true)}
+                      buttonSize="medium"
+                      classType="text"
+                    >
+                      <span>Change Currency</span>
+                    </Button>
+                  </S.Section>
+                )}
                 <S.Section>
                   <Link
                     url={`/yearly/income/${currentYear}`}
@@ -311,13 +394,6 @@ const Account = () => {
                   <Link url="/account/history" label="Overall Budget History">
                     <span>
                       Overall Budget History <HistoryIcon />
-                    </span>
-                  </Link>
-                </S.Section>
-                <S.Section>
-                  <Link url="/account/predict" label="3 Year Prediction">
-                    <span>
-                      3 Year Prediction <ChartIcon />
                     </span>
                   </Link>
                 </S.Section>
@@ -626,6 +702,31 @@ const Account = () => {
                 </S.ModalBtn>
               </S.ModalWrapper>
             </ModalComponent>
+            <ModalComponent
+              isOpen={currencyModal}
+              title={`Change Your Currency`}
+            >
+              <S.ModalWrapper>
+                <SelectComponent
+                  options={currencyList}
+                  placeHolder="Currency"
+                  defaultValue={defaultCurrency?.label}
+                  setOption={(val) => setUserCurrency(val)}
+                />
+                <S.ModalBtn>
+                  <Button buttonSize="small" handleClick={updateCurrency}>
+                    Submit
+                  </Button>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setCurrencyModal(false)}
+                    classType="register"
+                  >
+                    Cancel
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
           </>
         </S.ContentWrapper>
         <img
@@ -633,6 +734,10 @@ const Account = () => {
           width="250px"
           height="auto"
           alt="account settings and details"
+        />
+        <SessionExpired
+          isOpen={isSessionExpired}
+          closeModal={setIsSessionExpired}
         />
       </S.Wrapper>
     </>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./pricingDetails.style.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
@@ -9,6 +9,7 @@ import { updateUserSub } from "../../requests/users.ts";
 import { trackError } from "../../functions/mixpanel.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
@@ -27,6 +28,7 @@ const PricingDetails = ({
 }: PricingDetailsProps) => {
   const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isTester = getSubscriptionStatus(
     "Tester",
@@ -100,6 +102,14 @@ const PricingDetails = ({
       });
     } catch (err) {
       trackError("PricingDeltails - updateSubscription:", { result: err });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -141,13 +151,22 @@ const PricingDetails = ({
           </S.SubscribeBtn>
         )}
         <ul>
-          <li>Create a full-year budget by entering income and expenses</li>
+          <li>
+            Create a full-year budget by manually entering income and expenses
+          </li>
+          <li>
+            Import your income and expenses by uploading a CSV file to create a
+            full-year budget
+          </li>
           <li>Edit existing income and expense entries at any time</li>
           <li>Add additional income and expenses as needed</li>
           <li>
             Visualize your financial data with bar, doughnut, and pie charts
           </li>
-          <li>Access to the 3-Year Financial Forecasting Tool</li>
+          <li>
+            Calculate how long it will take to reach your financial goal and how
+            much you need to save each month
+          </li>
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>
@@ -284,6 +303,10 @@ const PricingDetails = ({
             <span>Yearly</span>
           </li>
           <li>Share account access with one additional user</li>
+          <li>
+            Easily switch between up to seven different currencies for flexible
+            financial tracking
+          </li>
         </ul>
         {isSignUp && (
           <S.SubscribeBtn>
@@ -293,6 +316,10 @@ const PricingDetails = ({
           </S.SubscribeBtn>
         )}
       </S.Container>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.Wrapper>
   );
 };

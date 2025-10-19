@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { shareAccountDecision } from "../../requests/users.ts";
 import Button from "../Button/Button.tsx";
 import { trackError } from "../../functions/mixpanel.ts";
+import SessionExpired from "../SessionExpired/SessionExpired.tsx";
 
 interface SharedAccountMessageProps {
   setHasMessage: (val: boolean) => void;
@@ -15,6 +16,7 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
   const { getAccessTokenSilently } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   const handleConnectedAccount = async (decision: boolean) => {
     setIsDisabled(true);
@@ -43,6 +45,14 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
       trackError("SharedAccountMessage - handleConnectedAccount:", {
         result: err,
       });
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -67,6 +77,10 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
           Decline
         </Button>
       </S.SharedBtnWrapper>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.SharedWrapper>
   );
 };

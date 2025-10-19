@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { RUBIK } from "../../index.style.ts";
+import { BLACK, RUBIK, SKY_BLUE, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -33,6 +33,9 @@ export const ContentSection = styled.div`
   }
 
   span {
+    max-width: 600px;
+    width: 100%;
+
     @media only screen and (max-width: 800px) {
       text-align: center;
     }
@@ -60,4 +63,67 @@ export const SectionWrapper = styled.div`
   @media only screen and (max-width: 800px) {
     width: 100%;
   }
+`;
+
+export const ChangeOption = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const OrLine = styled.div`
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  @media only screen and (max-width: 800px) {
+    margin-bottom: 40px;
+  }
+
+  hr {
+    width: 100%;
+    margin: 5px 0 0 0;
+  }
+`;
+
+export const UploadWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  justify-content: end;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    gap: 40px;
+  }
+`;
+
+export const UploadSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  a.button {
+    background: ${WHITE};
+    border: 1px solid ${BLACK};
+    color: ${BLACK};
+
+    &:hover {
+      border: 1px solid ${SKY_BLUE};
+      background: ${WHITE};
+      color: ${SKY_BLUE};
+    }
+  }
+`;
+
+export const UploadContent = styled.span`
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 `;

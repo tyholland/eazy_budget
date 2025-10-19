@@ -20,13 +20,18 @@ import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import { DARKER_GRAY } from "../../index.style.ts";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
+import { userAtom } from "../../hook/UserAtom.ts";
+import { getSubscriptionStatus } from "../../functions/helper.ts";
+import Predict from "../../components/Predict/Predict.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
+  const currentUser = useAtomValue(userAtom);
   const { type, year } = useParams();
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <ErrorPage />;
@@ -52,7 +57,7 @@ const Yearly = () => {
       />
       <S.ContentWrapper>
         <S.Title>
-          {theYear} {type}
+          {selectedOption !== "goals" && theYear} {selectedOption}
         </S.Title>
         {selectedOption === type && (
           <S.ItemWrapper>
@@ -80,12 +85,16 @@ const Yearly = () => {
           </S.ItemWrapper>
         )}
         {selectedOption === "details" && (
-          <BudgetDetails
-            income={yearlyTotalIncome}
-            expense={yearlyTotalExpense}
-            hideExpensesPaid
-          />
+          <>
+            <BudgetDetails
+              income={yearlyTotalIncome}
+              expense={yearlyTotalExpense}
+              hideExpensesPaid
+            />
+            {isPro && <DownloadCsv type="yearly" />}
+          </>
         )}
+        {selectedOption === "goals" && <Predict />}
         {selectedOption === "charts" && (
           <Graph
             dataset={[
@@ -101,7 +110,6 @@ const Yearly = () => {
             page="yearly"
           />
         )}
-        {selectedOption === "download" && <DownloadCsv type="yearly" />}
         <ReactTooltip
           id={`monthly-${type}-tooltip`}
           place="top"

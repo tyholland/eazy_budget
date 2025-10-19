@@ -6,8 +6,13 @@ import {
   BudgetInsertIds,
   CreateBudgetItems,
   NewBudgetIds,
+  User,
 } from "../types";
-import { getDateInfo, getFrequencyValue } from "./helper.ts";
+import {
+  getDateInfo,
+  getFormattedCurrency,
+  getFrequencyValue,
+} from "./helper.ts";
 
 export const getMonthlyTotalAmount = (
   budget: BudgetData[],
@@ -95,12 +100,14 @@ export const getYearlyBudgetBreakdown = (
       let budgetDateId: number | null = null;
       const itemNames: string[] = [];
       const itemValues: number[] = [];
+      const itemCategories: string[] = [];
 
       item[type].forEach((data: BudgetDataItem) => {
         count += data.value;
         budgetId = data.budget_id;
         itemNames.push(data.label);
         itemValues.push(data.value);
+        itemCategories.push(data.category_id?.toString() || "");
       });
 
       dataSet.push(count);
@@ -111,6 +118,7 @@ export const getYearlyBudgetBreakdown = (
         budget_date_id: budgetDateId,
         item_name: itemNames.length > 0 ? itemNames : undefined,
         item_value: itemValues.length > 0 ? itemValues : undefined,
+        item_categories: itemCategories.length > 0 ? itemCategories : undefined,
       });
     }
   });
@@ -193,6 +201,7 @@ export const formatBudgetData = (
         paid: response.paid,
         month: listOfMonths[i],
         year: currentYear,
+        frequency: response.frequency,
       });
     });
 
@@ -204,6 +213,8 @@ export const formatBudgetData = (
         paid: response.paid,
         month: listOfMonths[i],
         year: currentYear,
+        category_id: response.category_id,
+        frequency: response.frequency,
       });
     });
   }
@@ -250,8 +261,14 @@ export const formatBudgetItem = (data: Object, month: string, year: number) => {
   const budgetEntries: BudgetDataItem[] = [];
 
   Object.values(data).forEach((item) => {
-    const { value, checked, frequency, label, cadence }: CreateBudgetItems =
-      item;
+    const {
+      value,
+      checked,
+      frequency,
+      label,
+      cadence,
+      category_id,
+    }: CreateBudgetItems = item;
 
     const freqVal = getFrequencyValue(Number(value), month, year, frequency);
 
@@ -261,8 +278,10 @@ export const formatBudgetItem = (data: Object, month: string, year: number) => {
       paid: checked,
       frequency,
       cadence,
+      category_id,
       budget_id: null,
       budget_date_id: null,
+      temp: false,
     });
   });
 
@@ -424,6 +443,7 @@ export const updateBasedOnCadence = (
 
   if (cadence === "Future Months") {
     const startingMonth: number = listOfMonths.indexOf(month);
+    const container: Object[] = [];
 
     for (let i = startingMonth; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -446,15 +466,17 @@ export const updateBasedOnCadence = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   if (cadence === "All Months") {
     if (frequency === "Quarterly") {
+      const container: Object[] = [];
+
       for (let i = 0; i <= 11; i++) {
         if (currentYearBudget[i].year === year) {
           const newBudget: BudgetDataItem[] = [];
@@ -477,13 +499,15 @@ export const updateBasedOnCadence = (
               newBudget.push(item);
             });
 
-            currentYearBudget[i][type] = newBudget;
+            container.push([...newBudget]);
           }
         }
       }
 
-      return;
+      return container;
     }
+
+    const container: Object[] = [];
 
     for (let i = 0; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -506,11 +530,11 @@ export const updateBasedOnCadence = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   // cadence equals "Current Month" or anything else
@@ -525,7 +549,7 @@ export const updateBasedOnCadence = (
     newBudget.push(item);
   });
 
-  budget[type] = newBudget;
+  return newBudget;
 };
 
 export const insertBasedOnCadence = (
@@ -647,6 +671,7 @@ export const insertBudgetIds = (
 
   if (cadence === "Future Months") {
     const startingMonth: number = listOfMonths.indexOf(month);
+    const container: Object[] = [];
 
     for (let i = startingMonth; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -665,15 +690,17 @@ export const insertBudgetIds = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   if (cadence === "All Months") {
     if (frequency === "Quarterly") {
+      const container: Object[] = [];
+
       for (let i = 0; i <= 11; i++) {
         if (currentYearBudget[i].year === year) {
           const newBudget: BudgetDataItem[] = [];
@@ -693,13 +720,15 @@ export const insertBudgetIds = (
               newBudget.push(item);
             });
 
-            currentYearBudget[i][type] = newBudget;
+            container.push([...newBudget]);
           }
         }
       }
 
-      return;
+      return container;
     }
+
+    const container: Object[] = [];
 
     for (let i = 0; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -718,11 +747,11 @@ export const insertBudgetIds = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   // cadence equals "Current Month" or anything else
@@ -732,15 +761,14 @@ export const insertBudgetIds = (
     if (!item.budget_id) {
       newBudget.push({
         ...updatedBudgetItem,
-        budget_id: budgetItems.budget_id as number,
+        budget_id: Number(budgetItems.budget_id),
       });
-      return;
+    } else {
+      newBudget.push(item);
     }
-
-    newBudget.push(item);
   });
 
-  budget[type] = newBudget;
+  return newBudget;
 };
 
 export const getMonthlyCSV = (currentBudget: BudgetData) => {
@@ -759,15 +787,16 @@ export const getMonthlyCSV = (currentBudget: BudgetData) => {
       label: expense.label,
       value: expense.value,
       paid: expense.paid,
+      category_id: expense.category_id,
     });
   });
 
   // Create the monthly income
-  currentBudget?.income.forEach((expense: BudgetDataItem) => {
+  currentBudget?.income.forEach((income: BudgetDataItem) => {
     currentIncome.push({
-      label: expense.label,
-      value: expense.value,
-      paid: expense.paid,
+      label: income.label,
+      value: income.value,
+      paid: income.paid,
     });
   });
 
@@ -815,7 +844,7 @@ export const getYearlyCSV = (budget: BudgetData[], currentYear: number) => {
   };
 };
 
-export const getMontlyProfitLossCSV = (
+export const getMontlyProfitLossCSV = async (
   currentIncome: Omit<
     BudgetDataItem,
     "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
@@ -824,85 +853,214 @@ export const getMontlyProfitLossCSV = (
     BudgetDataItem,
     "frequency" | "cadence" | "budget_id" | "budget_date_id" | "type"
   >[],
+  currentUser?: User,
 ) => {
   let incomeTotal = 0;
   let expenseTotal = 0;
+  const categories = currentUser?.categories;
 
   // Creates the first block for the income
   const currentMonthProfitLoss = [
     {
       label: "Income",
       value: "",
+      percent: "",
+      type: "section",
     },
   ];
 
   currentIncome.forEach((item) => {
     currentMonthProfitLoss.push({
       label: item.label,
-      value: item.value.toFixed(2),
+      value: item.value.toString(),
+      percent: "",
+      type: "",
     });
 
     incomeTotal += item.value;
   });
 
+  // Total income
   currentMonthProfitLoss.push({
-    label: "Total Income:",
-    value: incomeTotal.toFixed(2),
+    label: "Total Income",
+    value: incomeTotal.toString(),
+    percent: "",
+    type: "endSection",
   });
 
   // Creates an empty line
   currentMonthProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    type: "",
   });
 
   // Creates the second block for the expense
   currentMonthProfitLoss.push({
-    label: "Expense",
+    label: "Expenses",
     value: "",
+    percent: "",
+    type: "section",
   });
 
-  currentExpense.forEach((item) => {
-    currentMonthProfitLoss.push({
-      label: item.label,
-      value: item.value.toFixed(2),
+  if (!!categories && categories.length > 0) {
+    categories.forEach((category) => {
+      let categoryTotal = 0;
+
+      // Category name
+      currentMonthProfitLoss.push({
+        label: category.label,
+        value: "",
+        percent: "",
+        type: "category",
+      });
+
+      currentExpense.forEach((item) => {
+        if (item.category_id === category.id) {
+          currentMonthProfitLoss.push({
+            label: item.label,
+            value: item.value.toString(),
+            percent: "",
+            type: "",
+          });
+
+          expenseTotal += item.value;
+          categoryTotal += item.value;
+        }
+      });
+
+      // Total category amount
+      currentMonthProfitLoss.push({
+        label: `Total ${category.label}`,
+        value: categoryTotal.toString(),
+        percent: "",
+        type: "endCategory",
+      });
+
+      // Creates an empty line
+      currentMonthProfitLoss.push({
+        label: "",
+        value: "",
+        percent: "",
+        type: "",
+      });
     });
 
-    expenseTotal += item.value;
+    if (currentExpense.some((item) => !item.category_id)) {
+      let nonCategoryTotal = 0;
+
+      // Expenses without a category
+      currentMonthProfitLoss.push({
+        label: "Other Expenses",
+        value: "",
+        percent: "",
+        type: "category",
+      });
+
+      currentExpense.forEach((item) => {
+        if (!item.category_id) {
+          currentMonthProfitLoss.push({
+            label: item.label,
+            value: item.value.toString(),
+            percent: "",
+            type: "",
+          });
+
+          expenseTotal += item.value;
+          nonCategoryTotal += item.value;
+        }
+      });
+
+      // Total non-category amount
+      currentMonthProfitLoss.push({
+        label: "Total Other Expenses",
+        value: nonCategoryTotal.toString(),
+        percent: "",
+        type: "endCategory",
+      });
+    }
+  } else {
+    currentExpense.forEach((item) => {
+      currentMonthProfitLoss.push({
+        label: item.label,
+        value: item.value.toString(),
+        percent: "",
+        type: "",
+      });
+
+      expenseTotal += item.value;
+    });
+  }
+
+  // Creates an empty line
+  currentMonthProfitLoss.push({
+    label: "",
+    value: "",
+    percent: "",
+    type: "",
   });
 
+  // Total Expenses
   currentMonthProfitLoss.push({
-    label: "Total Expense:",
-    value: expenseTotal.toFixed(2),
+    label: "Total Expenses",
+    value: expenseTotal.toString(),
+    percent: "",
+    type: "endSection",
   });
 
   // Creates an empty line
   currentMonthProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    type: "",
   });
 
   // Creates the Net Profit line
   currentMonthProfitLoss.push({
     label: "Net Profit",
-    value: (incomeTotal - expenseTotal).toFixed(2),
+    value: (incomeTotal - expenseTotal).toString(),
+    percent: "",
+    type: "net",
   });
+
+  // Add Percentages and show number as currency
+  for (const arr of currentMonthProfitLoss) {
+    const profitVal = arr.value;
+    const profitPercent = arr.percent;
+
+    if (profitVal !== "" && profitPercent !== "% of Income") {
+      arr.percent = `${((Number(profitVal) / incomeTotal) * 100).toFixed(2)}%`;
+
+      const { currencyValue } = await getFormattedCurrency(
+        Number(profitVal),
+        currentUser,
+      );
+
+      arr.value = currencyValue;
+    }
+  }
 
   return currentMonthProfitLoss;
 };
 
-export const getYearlyProfitLossCSV = (
+export const getYearlyProfitLossCSV = async (
   yearlyIncome: BudgetDataItem[],
   yearlyExpense: BudgetDataItem[],
+  currentUser?: User,
 ) => {
   let incomeTotal = 0;
   let expenseTotal = 0;
+  const categories = currentUser?.categories;
 
   // Creates the first block for the income
   const currentYearProfitLoss = [
     {
       label: "Income",
       value: "",
+      percent: "",
+      type: "section",
     },
   ];
 
@@ -918,73 +1076,274 @@ export const getYearlyProfitLossCSV = (
         if (item.item_value) {
           const updatedValue =
             Number(currentYearProfitLoss[itemIndex].value) + item.item_value[i];
-          currentYearProfitLoss[itemIndex].value = updatedValue.toFixed(2);
+          currentYearProfitLoss[itemIndex].value = updatedValue.toString();
         }
         return;
       }
       currentYearProfitLoss.push({
         label: name,
-        value: item.item_value ? item.item_value[i].toFixed(2) : "",
+        value: item.item_value ? item.item_value[i].toString() : "",
+        percent: "",
+        type: "",
       });
     });
   });
 
+  // Total income
   currentYearProfitLoss.push({
     label: "Total Income:",
-    value: incomeTotal.toFixed(2),
+    value: incomeTotal.toString(),
+    percent: "",
+    type: "endSection",
   });
 
   // Creates an empty line
   currentYearProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    type: "",
   });
 
   // Creates the second block for the expense
   currentYearProfitLoss.push({
-    label: "Expense",
+    label: "Expenses",
     value: "",
+    percent: "",
+    type: "section",
   });
 
-  yearlyExpense.forEach((item) => {
-    expenseTotal += item.value;
+  if (!!categories && categories.length > 0) {
+    categories.forEach((category) => {
+      let categoryTotal = 0;
 
-    item.item_name?.forEach((name, i) => {
-      const itemIndex = currentYearProfitLoss
-        .map((expense) => expense.label)
-        .indexOf(name);
+      // Create a temp array to get expenses into one name
+      const otherCategoryExpense = [
+        {
+          label: "",
+          value: 0,
+        },
+      ];
 
-      if (itemIndex > 0) {
-        if (item.item_value) {
-          const updatedValue =
-            Number(currentYearProfitLoss[itemIndex].value) + item.item_value[i];
-          currentYearProfitLoss[itemIndex].value = updatedValue.toFixed(2);
+      // Category name
+      currentYearProfitLoss.push({
+        label: category.label,
+        value: "",
+        percent: "",
+        type: "category",
+      });
+
+      // Category expenses
+      yearlyExpense.forEach((item) => {
+        item.item_name?.forEach((name, i) => {
+          if (
+            item.item_categories &&
+            item.item_categories[i] === category.id.toString()
+          ) {
+            if (otherCategoryExpense.some((item) => item.label === name)) {
+              const itemIndex = otherCategoryExpense
+                .map((expense) => expense.label)
+                .indexOf(name);
+
+              if (itemIndex > 0) {
+                if (item.item_value) {
+                  const updatedValue =
+                    Number(otherCategoryExpense[itemIndex].value) +
+                    item.item_value[i];
+                  otherCategoryExpense[itemIndex].value = updatedValue;
+                }
+                return;
+              }
+
+              return;
+            }
+
+            otherCategoryExpense.push({
+              label: name,
+              value: item.item_value ? item.item_value[i] : 0,
+            });
+          }
+        });
+      });
+
+      // Filter temp array into the main array for the expenses
+      otherCategoryExpense.forEach((item) => {
+        if (!item.label) {
+          return;
         }
+        currentYearProfitLoss.push({
+          label: item.label,
+          value: item.value.toString(),
+          percent: "",
+          type: "",
+        });
+
+        expenseTotal += item.value;
+        categoryTotal += item.value;
+      });
+
+      // Total category amount
+      currentYearProfitLoss.push({
+        label: `Total ${category.label}`,
+        value: categoryTotal.toString(),
+        percent: "",
+        type: "endCategory",
+      });
+
+      // Creates an empty line
+      currentYearProfitLoss.push({
+        label: "",
+        value: "",
+        percent: "",
+        type: "",
+      });
+    });
+
+    let nonCategoryTotal = 0;
+
+    // Expenses without a category
+    currentYearProfitLoss.push({
+      label: "Other Expenses",
+      value: "",
+      percent: "",
+      type: "category",
+    });
+
+    // Create a temp array to get expenses into one name
+    const otherExpense = [
+      {
+        label: "",
+        value: 0,
+      },
+    ];
+
+    yearlyExpense.forEach((item) => {
+      item.item_name?.forEach((name, i) => {
+        if (item.item_categories && item.item_categories[i] === "") {
+          if (otherExpense.some((item) => item.label === name)) {
+            const itemIndex = otherExpense
+              .map((expense) => expense.label)
+              .indexOf(name);
+
+            if (itemIndex > 0) {
+              if (item.item_value) {
+                const updatedValue =
+                  Number(otherExpense[itemIndex].value) + item.item_value[i];
+                otherExpense[itemIndex].value = updatedValue;
+              }
+              return;
+            }
+
+            return;
+          }
+
+          otherExpense.push({
+            label: name,
+            value: item.item_value ? item.item_value[i] : 0,
+          });
+        }
+      });
+    });
+
+    // Filter temp array into the main array for the expenses
+    otherExpense.forEach((item) => {
+      if (!item.label) {
         return;
       }
       currentYearProfitLoss.push({
-        label: name,
-        value: item.item_value ? item.item_value[i].toFixed(2) : "",
+        label: item.label,
+        value: item.value.toString(),
+        percent: "",
+        type: "",
+      });
+
+      expenseTotal += item.value;
+      nonCategoryTotal += item.value;
+    });
+
+    // Total non-category amount
+    currentYearProfitLoss.push({
+      label: "Total Other Expenses",
+      value: nonCategoryTotal.toString(),
+      percent: "",
+      type: "endCategory",
+    });
+  } else {
+    yearlyExpense.forEach((item) => {
+      expenseTotal += item.value;
+
+      item.item_name?.forEach((name, i) => {
+        const itemIndex = currentYearProfitLoss
+          .map((expense) => expense.label)
+          .indexOf(name);
+
+        if (itemIndex > 0) {
+          if (item.item_value) {
+            const updatedValue =
+              Number(currentYearProfitLoss[itemIndex].value) +
+              item.item_value[i];
+            currentYearProfitLoss[itemIndex].value = updatedValue.toString();
+          }
+          return;
+        }
+        currentYearProfitLoss.push({
+          label: name,
+          value: item.item_value ? item.item_value[i].toString() : "",
+          percent: "",
+          type: "",
+        });
       });
     });
+  }
+
+  // Creates an empty line
+  currentYearProfitLoss.push({
+    label: "",
+    value: "",
+    percent: "",
+    type: "",
   });
 
+  // Total expenses
   currentYearProfitLoss.push({
-    label: "Total Expense:",
-    value: expenseTotal.toFixed(2),
+    label: "Total Expenses",
+    value: expenseTotal.toString(),
+    percent: "",
+    type: "endSection",
   });
 
   // Creates an empty line
   currentYearProfitLoss.push({
     label: "",
     value: "",
+    percent: "",
+    type: "",
   });
 
   // Creates the Net Profit line
   currentYearProfitLoss.push({
     label: "Net Profit",
-    value: (incomeTotal - expenseTotal).toFixed(2),
+    value: (incomeTotal - expenseTotal).toString(),
+    percent: "",
+    type: "net",
   });
+
+  // Add Percentages and show number as currency
+  for (const arr of currentYearProfitLoss) {
+    const profitVal = arr.value;
+    const profitPercent = arr.percent;
+
+    if (profitVal !== "" && profitPercent !== "% of Income") {
+      arr.percent = `${((Number(profitVal) / incomeTotal) * 100).toFixed(2)}%`;
+
+      const { currencyValue } = await getFormattedCurrency(
+        Number(profitVal),
+        currentUser,
+      );
+
+      arr.value = currencyValue;
+    }
+  }
 
   return currentYearProfitLoss;
 };

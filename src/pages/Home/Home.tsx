@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./home.style.ts";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
@@ -21,20 +21,23 @@ import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
+import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
   const { getAccessTokenSilently } = useAuth0();
-  const budgetIncome = useAtomValue(incomeAtom);
-  const budgetExpense = useAtomValue(expenseAtom);
+  const [budgetIncome, setBudgetIncome] = useAtom(incomeAtom);
+  const [budgetExpense, setBudgetExpense] = useAtom(expenseAtom);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const { currentYear, currentMonth } = getDateInfo();
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isSubmitDisabled, setSubmitIsDisabled] = useState<boolean>(true);
   const [hasBudgetItems, setHasBudgetItems] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
   );
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   const montlyTotalIncome = getMonthlyTotalAmount(
     budget,
@@ -67,6 +70,7 @@ const Home = () => {
     const initialBudget = formatBudgetData(budgetIncome, budgetExpense);
     setIsDisabled(true);
     setSubmitIsDisabled(true);
+    setIsLoading(true);
 
     try {
       const accessToken = await getAccessTokenSilently({
@@ -89,11 +93,22 @@ const Home = () => {
           hasBudget: true,
         });
       trackEvent("Submitted Initial Budget");
+      localStorage.removeItem("budgetIncome");
+      localStorage.removeItem("budgetExpense");
+      setIsLoading(false);
     } catch (err) {
       trackError("Home - handleBudgetSubmission:", { result: err });
       setSubmitIsDisabled(false);
       setIsDisabled(false);
       setHasBudgetItems(false);
+
+      if (
+        err.error === "login_required" ||
+        err.error === "consent_required" ||
+        err.error === "invalid_grant"
+      ) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -107,7 +122,19 @@ const Home = () => {
     }
   }, [budgetIncome, budgetExpense]);
 
-  if (!budget.length && hasBudgetItems) {
+  useEffect(() => {
+    const storedIncome = localStorage.getItem("budgetIncome");
+    if (!!storedIncome) {
+      setBudgetIncome(JSON.parse(storedIncome));
+    }
+
+    const storedExpense = localStorage.getItem("budgetExpense");
+    if (!!storedExpense) {
+      setBudgetExpense(JSON.parse(storedExpense));
+    }
+  }, []);
+
+  if ((!budget.length && hasBudgetItems) || isLoading) {
     return <Loading />;
   }
 
@@ -207,6 +234,10 @@ const Home = () => {
           />
         </>
       )}
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </S.HomeWrapper>
   );
 };

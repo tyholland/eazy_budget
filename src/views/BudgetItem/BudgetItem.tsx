@@ -4,7 +4,12 @@ import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import CancelIcon from "../../svg/CancelIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
-import { BudgetDataItem, InputOption, InputType } from "../../types.ts";
+import {
+  BudgetData,
+  BudgetDataItem,
+  InputOption,
+  InputType,
+} from "../../types.ts";
 import Button from "../../components/Button/Button.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import * as S from "./budgetItem.style.ts";
@@ -42,14 +47,19 @@ interface BudgetItemProps {
   hidePaidContent?: boolean;
   saveEvent?: (
     val: Object,
+    data?: BudgetDataItem,
     paid?: boolean,
     frequency?: string,
     cadence?: string,
     category_id?: number,
+    item?: BudgetData,
+    index?: number,
   ) => void;
+  index?: number;
   deleteEvent?: () => void;
   setValue?: UseFormSetValue<FieldValues>;
   inputName?: string;
+  budgetItemData?: BudgetData;
 }
 
 const BudgetItem = ({
@@ -64,9 +74,11 @@ const BudgetItem = ({
   hidePaidContent = false,
   register,
   saveEvent,
+  index,
   deleteEvent,
   setValue,
   inputName,
+  budgetItemData,
 }: BudgetItemProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
@@ -359,10 +371,13 @@ const BudgetItem = ({
                         saveEvent &&
                           saveEvent(
                             budgetItem,
+                            item,
                             checkedVal,
                             selectedFrequency,
                             selectedCadence,
                             expenseCategory_id,
+                            budgetItemData,
+                            index,
                           );
                         setErrorMessage([]);
                         closeModal();

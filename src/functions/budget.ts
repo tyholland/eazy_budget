@@ -443,6 +443,7 @@ export const updateBasedOnCadence = (
 
   if (cadence === "Future Months") {
     const startingMonth: number = listOfMonths.indexOf(month);
+    const container: Object[] = [];
 
     for (let i = startingMonth; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -465,11 +466,11 @@ export const updateBasedOnCadence = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   if (cadence === "All Months") {
@@ -544,7 +545,7 @@ export const updateBasedOnCadence = (
     newBudget.push(item);
   });
 
-  budget[type] = newBudget;
+  return newBudget;
 };
 
 export const insertBasedOnCadence = (
@@ -666,6 +667,7 @@ export const insertBudgetIds = (
 
   if (cadence === "Future Months") {
     const startingMonth: number = listOfMonths.indexOf(month);
+    const container: Object[] = [];
 
     for (let i = startingMonth; i <= 11; i++) {
       if (currentYearBudget[i].year === year) {
@@ -684,11 +686,11 @@ export const insertBudgetIds = (
           newBudget.push(item);
         });
 
-        currentYearBudget[i][type] = newBudget;
+        container.push([...newBudget]);
       }
     }
 
-    return;
+    return container;
   }
 
   if (cadence === "All Months") {
@@ -751,15 +753,14 @@ export const insertBudgetIds = (
     if (!item.budget_id) {
       newBudget.push({
         ...updatedBudgetItem,
-        budget_id: budgetItems.budget_id as number,
+        budget_id: Number(budgetItems.budget_id),
       });
-      return;
+    } else {
+      newBudget.push(item);
     }
-
-    newBudget.push(item);
   });
 
-  budget[type] = newBudget;
+  return newBudget;
 };
 
 export const getMonthlyCSV = (currentBudget: BudgetData) => {

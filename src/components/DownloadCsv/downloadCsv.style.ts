@@ -12,7 +12,6 @@ import CsvDownloadButton from "react-json-to-csv";
 export const ContentWrapper = styled.div`
   display: flex;
   gap: 40px;
-  flex-wrap: wrap;
   flex-direction: column;
   max-width: 650px;
   width: 100%;
@@ -35,10 +34,6 @@ export const CsvBtn = styled(CsvDownloadButton)`
   width: 100%;
   height: auto;
   font-size: 20px;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
 
   &:hover {
     background: ${SKY_BLUE};

@@ -1,6 +1,5 @@
 import React from "react";
 import * as S from "./partner.style.ts";
-import Link from "../../components/Link/Link.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loading from "../../components/Loading/Loading.tsx";
 import Button from "../../components/Button/Button.tsx";

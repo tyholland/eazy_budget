@@ -11,6 +11,7 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 import { checkIsExpiredSession } from "../../functions/helper.ts";
+import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 const Client = () => {
   const { loginWithRedirect, isLoading, user, getAccessTokenSilently } =
@@ -30,8 +31,6 @@ const Client = () => {
   // if (user) {
   //   navigate("/overview");
   // }
-
-  // If there is no referral code. Throw the error page
 
   const updateSubscription = async (
     plan: number,
@@ -69,6 +68,19 @@ const Client = () => {
       }
     }
   };
+
+  // if (!referral_code) {
+  //   return (
+  //     <S.Container>
+  //       <S.Title>
+  //         The referral link provided by your financial advisor is missing the
+  //         referral code. Please request that your advisor include the referral
+  //         code in the link.
+  //       </S.Title>
+  //       <ErrorPage />
+  //     </S.Container>
+  //   );
+  // }
 
   return (
     <S.Container>

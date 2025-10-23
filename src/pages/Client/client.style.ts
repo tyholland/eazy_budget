@@ -13,7 +13,6 @@ export const Container = styled.div`
   max-width: 700px;
   position: relative;
   height: 100%;
-  min-height: 400px;
   margin: 0 auto;
 
   @media only screen and (max-width: 800px) {

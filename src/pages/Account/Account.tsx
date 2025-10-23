@@ -419,7 +419,7 @@ const Account = () => {
                     onClick={handleClick}
                     placeHolder="Referral Code"
                     isReadOnly
-                    defaultValue={`https://www.sbudgeting.com?referral=${currentUser?.referral_code || ""}`}
+                    defaultValue={`https://www.sbudgeting.com/client?referral=${currentUser?.referral_code || ""}`}
                     inputType="text"
                   />
                 </S.Section>

@@ -5,6 +5,9 @@ export const Title = styled.div`
   font-family: ${RUBIK};
   font-size: 25px;
   font-weight: 700;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 `;
 
 export const SubTitle = styled.div`

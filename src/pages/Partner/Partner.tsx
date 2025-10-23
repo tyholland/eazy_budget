@@ -1,12 +1,23 @@
 import React from "react";
 import * as S from "./partner.style.ts";
 import { emailAddress } from "../../constants.ts";
+import Link from "../../components/Link/Link.tsx";
 
 const Partner = () => {
   return (
     <S.Wrapper>
       <S.Section>
-        <S.Title>Partner with Simple Budgeting</S.Title>
+        <S.Title>
+          Partner with Simple Budgeting
+          <Link
+            url="/partner/login"
+            label="Join Now"
+            classType="button"
+            callBack={() => window.scrollTo(0, 0)}
+          >
+            Join Now
+          </Link>
+        </S.Title>
         <br />
         <S.SubTitle>
           Empower Your Clients. Simplify Your Workflow. Grow Together.
@@ -112,8 +123,14 @@ const Partner = () => {
           Budgeting to transform how clients think about money.
         </div>
         <div>
-          Become a Partner today by contacting us at{" "}
-          <a href={`mailto:${emailAddress}`}>{emailAddress}</a>
+          <Link
+            url="/partner/login"
+            label="Become a Partner"
+            classType="button"
+            callBack={() => window.scrollTo(0, 0)}
+          >
+            Become a Partner
+          </Link>
         </div>
       </S.Section>
     </S.Wrapper>

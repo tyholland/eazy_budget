@@ -143,11 +143,7 @@ const Home = () => {
     "Tester",
     currentUser?.subscription_id,
   );
-  const isReferrals = getSubscriptionStatus(
-    "Referral",
-    currentUser?.subscription_id,
-  );
-  const foreverFree = isOriginal || isTester || isReferrals;
+  const foreverFree = isOriginal || isTester;
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =

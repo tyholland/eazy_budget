@@ -21,7 +21,6 @@ import Contact from "./pages/Contact/Contact.tsx";
 import Privacy from "./pages/Privacy/Privacy.tsx";
 import Category from "./pages/Category/Category.tsx";
 import Ad from "./components/Ad/Ad.tsx";
-import Referral from "./pages/Referral/Referral.tsx";
 import Partner from "./pages/Partner/Partner.tsx";
 
 const App = () => {
@@ -38,7 +37,6 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/referral" element={<Referral />} />
             <Route path="/partner" element={<Partner />} />
             <Route
               path="/overview"

@@ -1,12 +1,12 @@
 import React from "react";
-import * as S from "./referralBtn.style.ts";
+import * as S from "./bannerBtn.style.ts";
 import Link from "../Link/Link.tsx";
 
-interface ReferralBtnProps {
+interface BannerBtnProps {
   type?: string;
 }
 
-const ReferralBtn = ({ type }: ReferralBtnProps) => {
+const BannerBtn = ({ type }: BannerBtnProps) => {
   return (
     <S.Section className={`link ${type}`}>
       <Link
@@ -21,4 +21,4 @@ const ReferralBtn = ({ type }: ReferralBtnProps) => {
   );
 };
 
-export default ReferralBtn;
+export default BannerBtn;

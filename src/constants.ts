@@ -206,7 +206,6 @@ export const nonPrivatePages = [
   "/about",
   "/privacy",
   "/contact",
-  "/referral",
   "/partner",
 ];
 

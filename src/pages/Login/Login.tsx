@@ -4,7 +4,6 @@ import * as S from "./login.style.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
 import Link from "../../components/Link/Link.tsx";
-import ReferralBtn from "../../components/ReferralBtn/ReferralBtn.tsx";
 
 const Login = () => {
   const { isLoading, user } = useAuth0();
@@ -24,7 +23,6 @@ const Login = () => {
 
   return (
     <S.Wrapper>
-      <ReferralBtn />
       <S.Section>
         <img
           src="/images/login.jpg"

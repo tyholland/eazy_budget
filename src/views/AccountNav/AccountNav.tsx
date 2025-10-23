@@ -16,7 +16,10 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
     "Starter",
     currentUser?.subscription_id,
   );
-  const referralSub = currentUser && currentUser.subscription_id === 2;
+  const partnerAdmin = getSubscriptionStatus(
+    "Admin",
+    currentUser?.subscription_id,
+  );
 
   return (
     <S.NavWrapper>
@@ -46,33 +49,32 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           </Button>
         </S.NavItem>
       )}
-      {currentUser?.hasBudget && referralSub && (
+      {partnerAdmin && (
         <S.NavItem
-          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}
+          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "admin" ? "open" : "close"}`}
         >
           <Button
             classType="text"
             handleClick={() => {
-              setSelectedOption("referrals");
+              setSelectedOption("admin");
             }}
           >
-            Referrals
+            Admin
           </Button>
         </S.NavItem>
       )}
-      {getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-        currentUser?.hasBudget && (
-          <S.NavItem
-            className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+      {subscribe && currentUser?.hasBudget && (
+        <S.NavItem
+          className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+        >
+          <Button
+            classType="text"
+            handleClick={() => setSelectedOption("subscription")}
           >
-            <Button
-              classType="text"
-              handleClick={() => setSelectedOption("subscription")}
-            >
-              Subscription
-            </Button>
-          </S.NavItem>
-        )}
+            Subscription
+          </Button>
+        </S.NavItem>
+      )}
     </S.NavWrapper>
   );
 };

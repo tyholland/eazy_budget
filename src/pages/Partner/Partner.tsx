@@ -3,9 +3,10 @@ import * as S from "./partner.style.ts";
 import Link from "../../components/Link/Link.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loading from "../../components/Loading/Loading.tsx";
+import Button from "../../components/Button/Button.tsx";
 
 const Partner = () => {
-  const { isLoading, user } = useAuth0();
+  const { isLoading, user, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
     return <Loading />;
@@ -17,14 +18,21 @@ const Partner = () => {
         <S.Title>
           Partner with Simple Budgeting
           {!user && (
-            <Link
-              url="/partner/login"
-              label="Join Now"
-              classType="button"
-              callBack={() => window.scrollTo(0, 0)}
+            <Button
+              handleClick={() =>
+                loginWithRedirect({
+                  appState: {
+                    returnTo: `/overview?plan=8`,
+                  },
+                  authorizationParams: {
+                    screen_hint: "signup",
+                  },
+                })
+              }
+              buttonSize="medium"
             >
               Join Now
-            </Link>
+            </Button>
           )}
         </S.Title>
         <br />
@@ -133,14 +141,21 @@ const Partner = () => {
         </div>
         {!user && (
           <div>
-            <Link
-              url="/partner/login"
-              label="Become a Partner"
-              classType="button"
-              callBack={() => window.scrollTo(0, 0)}
+            <Button
+              handleClick={() =>
+                loginWithRedirect({
+                  appState: {
+                    returnTo: `/overview?plan=8`,
+                  },
+                  authorizationParams: {
+                    screen_hint: "signup",
+                  },
+                })
+              }
+              buttonSize="medium"
             >
               Become a Partner
-            </Link>
+            </Button>
           </div>
         )}
       </S.Section>

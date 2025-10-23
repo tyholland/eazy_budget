@@ -208,7 +208,6 @@ export const nonPrivatePages = [
   "/contact",
   "/client",
   "/partner",
-  "/partner/login",
 ];
 
 export const noBreadCrumbList = ["/", "/overview", ...nonPrivatePages];

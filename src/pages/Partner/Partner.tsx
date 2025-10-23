@@ -1,6 +1,5 @@
 import React from "react";
 import * as S from "./partner.style.ts";
-import { emailAddress } from "../../constants.ts";
 import Link from "../../components/Link/Link.tsx";
 
 const Partner = () => {

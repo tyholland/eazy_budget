@@ -32,6 +32,7 @@ import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import {
+  checkIsExpiredSession,
   getSubscriptionStatus,
   removeItemFromBudgetArray,
 } from "../../functions/helper.ts";
@@ -286,11 +287,7 @@ const Monthly = () => {
         result: err,
       });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }
@@ -334,11 +331,7 @@ const Monthly = () => {
         result: err,
       });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }

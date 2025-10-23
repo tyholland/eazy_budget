@@ -19,6 +19,7 @@ import {
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
 import {
+  checkIsExpiredSession,
   getDateInfo,
   getSubscriptionName,
   getSubscriptionStatus,
@@ -113,11 +114,7 @@ const Account = () => {
     } catch (err) {
       trackError("Account - deleteAccount:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }
@@ -147,11 +144,7 @@ const Account = () => {
     } catch (err) {
       trackError("Account - cancelSubscription:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }
@@ -172,11 +165,7 @@ const Account = () => {
     } catch (err) {
       trackError("Account - removeSharedAccess:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }
@@ -214,11 +203,7 @@ const Account = () => {
     } catch (err) {
       trackError("Account - startReferralTrial:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }
@@ -255,11 +240,7 @@ const Account = () => {
     } catch (err) {
       trackError("Account - updateCurrency:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }

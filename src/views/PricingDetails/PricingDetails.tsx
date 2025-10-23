@@ -4,7 +4,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
 import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
-import { getSubscriptionStatus } from "../../functions/helper.ts";
+import {
+  checkIsExpiredSession,
+  getSubscriptionStatus,
+} from "../../functions/helper.ts";
 import { updateUserSub } from "../../requests/users.ts";
 import { trackError } from "../../functions/mixpanel.ts";
 import Loading from "../../components/Loading/Loading.tsx";
@@ -103,11 +106,7 @@ const PricingDetails = ({
     } catch (err) {
       trackError("PricingDeltails - updateSubscription:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }

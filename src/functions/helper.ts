@@ -368,3 +368,11 @@ export const getFormattedCurrency = async (
     emptyValue: formatAmount(0, currentUser.currency),
   };
 };
+
+export const checkIsExpiredSession = (err: any) => {
+  return (
+    err.error === "login_required" ||
+    err.error === "consent_required" ||
+    err.error === "invalid_grant"
+  );
+};

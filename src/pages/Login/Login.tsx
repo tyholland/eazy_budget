@@ -8,10 +8,6 @@ import Link from "../../components/Link/Link.tsx";
 const Login = () => {
   const { isLoading, user } = useAuth0();
   const navigate = useNavigate();
-  const params = new URLSearchParams(window.location.search);
-  const referral_code = params.get("referral");
-
-  referral_code && localStorage.setItem("referral_code", referral_code);
 
   if (isLoading) {
     return <Loading />;

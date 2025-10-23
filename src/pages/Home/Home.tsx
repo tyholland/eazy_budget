@@ -11,7 +11,11 @@ import {
   getMonthlyTotalAmount,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
-import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
+import {
+  checkIsExpiredSession,
+  getDateInfo,
+  getSubscriptionStatus,
+} from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 import { createBudget } from "../../requests/budget.ts";
@@ -102,11 +106,7 @@ const Home = () => {
       setIsDisabled(false);
       setHasBudgetItems(false);
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }

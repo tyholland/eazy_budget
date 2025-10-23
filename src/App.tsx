@@ -23,6 +23,7 @@ import Category from "./pages/Category/Category.tsx";
 import Ad from "./components/Ad/Ad.tsx";
 import Partner from "./pages/Partner/Partner.tsx";
 import PartnerLogin from "./pages/PartnerLogin/PartnerLogin.tsx";
+import Client from "./pages/Client/Client.tsx";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/partner" element={<Partner />} />
             <Route path="/partner/login" element={<PartnerLogin />} />
+            <Route path="/client" element={<Client />} />
             <Route
               path="/overview"
               element={<PrivateRoute component={Home} />}

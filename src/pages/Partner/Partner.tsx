@@ -1,21 +1,31 @@
 import React from "react";
 import * as S from "./partner.style.ts";
 import Link from "../../components/Link/Link.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
+import Loading from "../../components/Loading/Loading.tsx";
 
 const Partner = () => {
+  const { isLoading, user } = useAuth0();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <S.Wrapper>
       <S.Section>
         <S.Title>
           Partner with Simple Budgeting
-          <Link
-            url="/partner/login"
-            label="Join Now"
-            classType="button"
-            callBack={() => window.scrollTo(0, 0)}
-          >
-            Join Now
-          </Link>
+          {!user && (
+            <Link
+              url="/partner/login"
+              label="Join Now"
+              classType="button"
+              callBack={() => window.scrollTo(0, 0)}
+            >
+              Join Now
+            </Link>
+          )}
         </S.Title>
         <br />
         <S.SubTitle>
@@ -121,16 +131,18 @@ const Partner = () => {
           Join a growing network of financial professionals using Simple
           Budgeting to transform how clients think about money.
         </div>
-        <div>
-          <Link
-            url="/partner/login"
-            label="Become a Partner"
-            classType="button"
-            callBack={() => window.scrollTo(0, 0)}
-          >
-            Become a Partner
-          </Link>
-        </div>
+        {!user && (
+          <div>
+            <Link
+              url="/partner/login"
+              label="Become a Partner"
+              classType="button"
+              callBack={() => window.scrollTo(0, 0)}
+            >
+              Become a Partner
+            </Link>
+          </div>
+        )}
       </S.Section>
     </S.Wrapper>
   );

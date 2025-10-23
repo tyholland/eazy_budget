@@ -152,7 +152,7 @@ const Client = () => {
       </S.SubscribeBtn>
       <S.SubscribeBtn className="paypal">
         <PaypalBtn
-          sub="P-4UE89663UT051505WNCZW36A"
+          sub="P-28018484HA158741AND42KHQ"
           addSub={updateSubscription}
           planNum={9}
         />

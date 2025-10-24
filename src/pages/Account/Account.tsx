@@ -51,7 +51,10 @@ const Account = () => {
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isClientNameOpen, setIsClientNameOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
+  const [clientFirstName, setClientFirstName] = useState<string>("");
+  const [clientLastName, setClientLastName] = useState<string>("");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
   );
@@ -399,12 +402,12 @@ const Account = () => {
                               </Link>
                             </span>
                             <span data-tooltip-id="client-detail">
-                              <Link
-                                url={`/account/partner/client/${item.id}`}
-                                label="add client name"
+                              <Button
+                                classType="text"
+                                handleClick={() => setIsClientNameOpen(true)}
                               >
                                 <EditIcon />
-                              </Link>
+                              </Button>
                             </span>
                           </S.AdminSection>
                         );
@@ -601,6 +604,46 @@ const Account = () => {
                     classType="register"
                   >
                     Cancel
+                  </Button>
+                </S.ModalBtn>
+              </S.ModalWrapper>
+            </ModalComponent>
+            <ModalComponent
+              isOpen={isClientNameOpen}
+              title={`Add Client's first & last name`}
+            >
+              <S.ModalWrapper>
+                <Input
+                  label="first_name"
+                  labelValue="First Name:"
+                  onChange={(e) => setClientFirstName(e.target.value)}
+                  placeHolder="First Name"
+                  inputType="text"
+                />
+                <Input
+                  label="last_name"
+                  labelValue="Last Name:"
+                  onChange={(e) => setClientLastName(e.target.value)}
+                  placeHolder="Last Name"
+                  inputType="text"
+                />
+                <S.ModalBtn>
+                  <Button
+                    buttonSize="small"
+                    handleClick={() => setIsClientNameOpen(false)}
+                    classType="exit"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    buttonSize="small"
+                    handleClick={removeSharedAccess}
+                    disabled={
+                      clientFirstName.length === 0 ||
+                      clientLastName.length === 0
+                    }
+                  >
+                    Save
                   </Button>
                 </S.ModalBtn>
               </S.ModalWrapper>

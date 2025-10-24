@@ -384,9 +384,17 @@ const Account = () => {
                       currentUser.all_referrals.map((item: ClientReferrals) => {
                         if (!!item.first_name) {
                           return (
-                            <div key={item.email}>
-                              {item.first_name} {item.last_name}{" "}
-                            </div>
+                            <S.AdminSection key={item.email}>
+                              {item.first_name} {item.last_name}
+                              <span data-tooltip-id="client-account">
+                                <Link
+                                  url={`/account/partner/client/${item.id}`}
+                                  label="view client account"
+                                >
+                                  <ViewIcon />
+                                </Link>
+                              </span>
+                            </S.AdminSection>
                           );
                         }
 

@@ -132,4 +132,6 @@ export const AdminSection = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  border-bottom: 1px solid ${DARKER_GRAY};
+  padding-bottom: 10px;
 `;

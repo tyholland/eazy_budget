@@ -34,7 +34,6 @@ export const addUser = async (
       setCurrentUser({
         ...user,
         ...userResponse,
-        referral_count: userResponse.referral_count.toString() || "0",
       });
       setHasBudget(userResponse.hasBudget);
       trackIdentity(userResponse.subscription_id, user.sub, user.email);

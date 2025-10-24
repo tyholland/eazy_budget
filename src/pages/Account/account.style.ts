@@ -37,13 +37,11 @@ export const Section = styled.div`
     }
   }
 
-  &.referral label {
-    text-align: left;
-  }
-
   > div {
     width: 100%;
     margin-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
 
     @media only screen and (max-width: 800px) {
       margin-bottom: 10px;
@@ -128,4 +126,10 @@ export const ErrorMsg = styled.div`
   max-width: 400px;
   width: auto;
   font-weight: 700;
+`;
+
+export const AdminSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;

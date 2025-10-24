@@ -76,6 +76,10 @@ const App = () => {
               path="/account/categories"
               element={<PrivateRoute component={Category} />}
             />
+            {/* <Route
+              path="/account/parnter/client/:client"
+              element={<PrivateRoute component={ClientAccount} />}
+            /> */}
             <Route
               path="/account"
               element={<PrivateRoute component={Account} />}

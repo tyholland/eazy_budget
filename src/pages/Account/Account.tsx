@@ -14,7 +14,6 @@ import {
   cancelUserSub,
   deleteUser,
   removeSharedAccount,
-  startReferralPlan,
   updateUserCurrency,
 } from "../../requests/users.ts";
 import AccountNav from "../../views/AccountNav/AccountNav.tsx";
@@ -32,10 +31,12 @@ import ShareAccountIcon from "../../svg/ShareAccountIcon.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import moment from "moment-business-days";
-import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { currencyList } from "../../constants.ts";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import { ClientReferrals } from "../../types.ts";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import EditIcon from "../../svg/EditIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -47,14 +48,9 @@ const Account = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
   const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
-  const [isReferralOpen, setIsReferralOpen] = useState<boolean>(false);
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const [isReferralStepOne, setIsReferralStepOne] = useState<boolean>(false);
-  const [isReferralStepTwo, setIsReferralStepTwo] = useState<boolean>(false);
-  const [isReferralStepThree, setIsReferralStepThree] =
-    useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("settings");
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
@@ -78,8 +74,17 @@ const Account = () => {
     "Tester",
     currentUser?.subscription_id,
   );
+  const isPartnerAdmin = getSubscriptionStatus(
+    "Admin",
+    currentUser?.subscription_id,
+  );
   const foreverFree = isOriginal || isTester;
   const isFree = !foreverFree && !isStarter && !isPro;
+
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+
+  plan && localStorage.setItem("plan", plan);
 
   const logOutAccount = () => {
     setIsloading(true);
@@ -167,44 +172,6 @@ const Account = () => {
     }
   };
 
-  const startReferralTrial = async (
-    plan: number,
-    paid: boolean,
-    sub_id?: string | null,
-  ) => {
-    try {
-      const accessToken = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: process.env.REACT_APP_AUDIENCE,
-        },
-      });
-
-      currentUser &&
-        setCurrentUser({
-          ...currentUser,
-          subscription_id: plan,
-          paypal_sub_id: sub_id,
-          paid_sub: paid,
-          subscribed_at: new Date(Date.now()).toISOString(),
-        });
-
-      await startReferralPlan(accessToken, {
-        plan,
-      });
-      trackEvent("Start Referral Plan Trial");
-      setIsReferralOpen(false);
-      setIsReferralStepOne(false);
-      setIsReferralStepTwo(false);
-      setIsReferralStepThree(false);
-    } catch (err) {
-      trackError("Account - startReferralTrial:", { result: err });
-
-      if (checkIsExpiredSession(err)) {
-        setIsSessionExpired(true);
-      }
-    }
-  };
-
   const handleClick = async () => {
     const codeText = document.querySelector("#referral_code");
     const text = codeText?.getAttribute("value");
@@ -269,7 +236,8 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                {isPro &&
+                {!isPartnerAdmin &&
+                  isPro &&
                   !currentUser?.connected_id &&
                   !currentUser?.is_connected && (
                     <S.Section>
@@ -388,7 +356,7 @@ const Account = () => {
             )}
             {selectedOption === "admin" && (
               <>
-                <S.Section className="referral">
+                <S.Section>
                   <Input
                     label="referral_code"
                     labelValue="Referral Link:"
@@ -400,29 +368,49 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                <S.Section className="referral">
-                  <Input
-                    label="referral_count"
-                    labelValue="Number of Referrals:"
-                    onChange={() => {}}
-                    placeHolder="Referral Count"
-                    isDisabled
-                    defaultValue={currentUser?.referral_count || ""}
-                    inputType="text"
-                  />
-                </S.Section>
-                <S.Section>
-                  <Button
-                    handleClick={() => {
-                      setIsReferralStepOne(true);
-                      setIsReferralOpen(true);
-                    }}
-                    buttonSize="medium"
-                    classType="text"
-                  >
-                    <span>Choose Referral Plan</span>
-                  </Button>
-                </S.Section>
+                {currentUser && (
+                  <>
+                    {currentUser.all_referrals.length === 0 && (
+                      <div>
+                        You currently don't have any clients connected to your
+                        account. Click the referral link above to copy it and
+                        share it with your clients to get them started.
+                      </div>
+                    )}
+                    {currentUser.all_referrals.length > 0 &&
+                      currentUser.all_referrals.map((item: ClientReferrals) => {
+                        if (!!item.first_name) {
+                          return (
+                            <div key={item.email}>
+                              {item.first_name} {item.last_name}{" "}
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <S.AdminSection key={item.email}>
+                            <div>{item.email}</div>
+                            <span data-tooltip-id="client-account">
+                              <Link
+                                url={`/account/partner/client/${item.id}`}
+                                label="view client account"
+                              >
+                                <ViewIcon />
+                              </Link>
+                            </span>
+                            <span data-tooltip-id="client-detail">
+                              <Link
+                                url={`/account/partner/client/${item.id}`}
+                                label="add client name"
+                              >
+                                <EditIcon />
+                              </Link>
+                            </span>
+                          </S.AdminSection>
+                        );
+                      })}
+                  </>
+                )}
               </>
             )}
             {selectedOption === "subscription" && (
@@ -573,97 +561,12 @@ const Account = () => {
                 </S.ModalBtn>
               </S.ModalWrapper>
             </ModalComponent>
-            <ModalComponent
-              isOpen={isReferralOpen}
-              title={
-                isReferralStepOne
-                  ? `Choose Referral Plans`
-                  : isReferralStepTwo
-                    ? "Starter Plan at $1/month for 1 year"
-                    : "Pro Plan at $1/month for 1 year"
-              }
-              size="medium"
-            >
-              <S.ModalWrapper>
-                {isReferralStepOne && (
-                  <>
-                    <span>
-                      Which plan would you like to select for the year?
-                      <br />
-                      Please note that you must meet the required referral count
-                      to be eligible for each option.
-                    </span>
-                    <S.ModalBtn className="referral">
-                      <Button
-                        buttonSize="medium"
-                        handleClick={() => {
-                          setIsReferralStepTwo(true);
-                          setIsReferralStepOne(false);
-                        }}
-                        disabled={
-                          currentUser && Number(currentUser.referral_count) < 5
-                        }
-                      >
-                        <>
-                          <span>Starter Plan</span>
-                          <span>$1/month</span>
-                          <span>for 1 Year</span>
-                        </>
-                      </Button>
-                      <Button
-                        buttonSize="medium"
-                        handleClick={() => {
-                          setIsReferralStepThree(true);
-                          setIsReferralStepOne(false);
-                        }}
-                        disabled={
-                          currentUser && Number(currentUser.referral_count) < 10
-                        }
-                      >
-                        <>
-                          <span>Pro Plan</span>
-                          <span>$1/month</span>
-                          <span>for 1 Year</span>
-                        </>
-                      </Button>
-                    </S.ModalBtn>
-                  </>
-                )}
-                {isReferralStepTwo && (
-                  <PaypalBtn
-                    sub="P-3SX71776NT4006725NDH7F4A"
-                    addSub={startReferralTrial}
-                    planNum={6}
-                  />
-                )}
-                {isReferralStepThree && (
-                  <PaypalBtn
-                    sub="P-96N11571YK891553DNDH7DOI"
-                    addSub={startReferralTrial}
-                    planNum={7}
-                  />
-                )}
-                <S.ModalBtn>
-                  <Button
-                    buttonSize="small"
-                    classType="exit"
-                    handleClick={() => {
-                      setIsReferralOpen(false);
-                      setIsReferralStepOne(false);
-                      setIsReferralStepTwo(false);
-                      setIsReferralStepThree(false);
-                    }}
-                  >
-                    Close
-                  </Button>
-                </S.ModalBtn>
-              </S.ModalWrapper>
-            </ModalComponent>
             <ModalComponent isOpen={isCopied} title={`Referral Link Copied`}>
               <S.ModalWrapper>
                 <span>
-                  Your referral link has been copied to your clipboard. Share it
-                  to gain more confirmed referrals.
+                  Your unique referral link has been copied to your clipboard.
+                  Share it with your clients so they can use it to sign up
+                  directly under your partnership account.
                 </span>
                 <S.ModalBtn>
                   <Button
@@ -702,6 +605,20 @@ const Account = () => {
                 </S.ModalBtn>
               </S.ModalWrapper>
             </ModalComponent>
+            <ReactTooltip
+              id="client-account"
+              place="top"
+              variant="info"
+              content={`View client's monthly budget`}
+              className="tooltip"
+            />
+            <ReactTooltip
+              id="client-detail"
+              place="top"
+              variant="info"
+              content={`Add client's first and last name`}
+              className="tooltip"
+            />
           </>
         </S.ContentWrapper>
         <img

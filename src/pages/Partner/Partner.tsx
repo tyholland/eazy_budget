@@ -21,7 +21,7 @@ const Partner = () => {
               handleClick={() =>
                 loginWithRedirect({
                   appState: {
-                    returnTo: `/overview?plan=8`,
+                    returnTo: `/account?plan=8`,
                   },
                   authorizationParams: {
                     screen_hint: "signup",
@@ -144,7 +144,7 @@ const Partner = () => {
               handleClick={() =>
                 loginWithRedirect({
                   appState: {
-                    returnTo: `/overview?plan=8`,
+                    returnTo: `/account?plan=8`,
                   },
                   authorizationParams: {
                     screen_hint: "signup",

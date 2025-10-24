@@ -85,6 +85,13 @@ export interface ExpenseCategory {
   label: string;
 }
 
+export interface ClientReferrals {
+  email: number;
+  id: number;
+  first_name?: string;
+  last_name?: string;
+}
+
 export interface UserResponse {
   action: string;
   hasBudget: boolean;
@@ -95,7 +102,7 @@ export interface UserResponse {
   paid_sub: boolean;
   subscribed_at: string;
   referral_code: string;
-  referral_count: string;
+  all_referrals: ClientReferrals[];
   currency: string;
   paypal_sub_id?: string | null;
   connected_id?: number;

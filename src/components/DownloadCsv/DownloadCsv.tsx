@@ -30,21 +30,19 @@ const DownloadCsv = ({
   let budget = useAtomValue(budgetAtom);
   let currentUser = useAtomValue(userAtom);
 
-  console.log(clientBudget);
-
   if (!!currentClient && !!clientBudget) {
     budget = clientBudget;
     currentUser = currentClient;
   }
 
-  const { currentYear: theYear } = getDateInfo();
+  const { currentYear: theYear, currentMonth: theMonth } = getDateInfo();
   const [currentMonthProfitLoss, setCurrentMonthProfitLoss] = useState<
     ProfitLoss[]
   >([]);
   const [currentYearProfitLoss, setCurrentYearProfitLoss] = useState<
     ProfitLoss[]
   >([]);
-  const currentMonth = params.month;
+  const currentMonth = params.month || theMonth;
   const currentYear = Number(params.year) || theYear;
   const currentBudget = budget.filter(
     (bud: BudgetData) => bud.month === currentMonth,

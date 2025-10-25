@@ -539,7 +539,12 @@ const ClientDetails = () => {
               )}
             </>
           )}
-          {selectedOption === "goals" && <Predict />}
+          {selectedOption === "goals" && (
+            <Predict
+              clientBudget={clientBudget}
+              currentClient={currentClient}
+            />
+          )}
         </S.ContentWrapper>
         <SessionExpired
           isOpen={isSessionExpired}

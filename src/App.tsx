@@ -23,6 +23,7 @@ import Category from "./pages/Category/Category.tsx";
 import Ad from "./components/Ad/Ad.tsx";
 import Partner from "./pages/Partner/Partner.tsx";
 import Client from "./pages/Client/Client.tsx";
+import ClientDetails from "./pages/ClientDetails/ClientDetails.tsx";
 
 const App = () => {
   return (
@@ -76,10 +77,10 @@ const App = () => {
               path="/account/categories"
               element={<PrivateRoute component={Category} />}
             />
-            {/* <Route
+            <Route
               path="/account/parnter/client/:client"
-              element={<PrivateRoute component={ClientAccount} />}
-            /> */}
+              element={<PrivateRoute component={ClientDetails} />}
+            />
             <Route
               path="/account"
               element={<PrivateRoute component={Account} />}

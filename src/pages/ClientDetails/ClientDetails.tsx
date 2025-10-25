@@ -18,7 +18,6 @@ import {
 } from "../../constants.ts";
 import {
   addNewBudgetItem,
-  getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   insertBasedOnCadence,
   insertBudgetIds,
@@ -99,12 +98,6 @@ const ClientDetails = () => {
 
   const totalIncome = getMonthlyTotalAmount(budget, month, theYear, "income");
   const totalExpense = getMonthlyTotalAmount(budget, month, theYear, "expense");
-  const { data, labels } = getMonthlyBudgetBreakdown(
-    budget,
-    month,
-    type,
-    theYear,
-  );
   const budgetIndex = clonedBudget.findIndex(
     (item) => item.year === theYear && item.month === month,
   );

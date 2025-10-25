@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import * as S from "./clientOption.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
-import Loading from "../../components/Loading/Loading.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 import { trackError } from "../../functions/mixpanel.ts";
 import { updateUserSub } from "../../requests/users.ts";
@@ -11,30 +9,15 @@ import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 import { checkIsExpiredSession } from "../../functions/helper.ts";
-import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 
 interface ClientOptionProps {
   isPayPal?: boolean;
 }
 
 const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
-  const { loginWithRedirect, isLoading, user, getAccessTokenSilently } =
-    useAuth0();
-  const navigate = useNavigate();
+  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const params = new URLSearchParams(window.location.search);
-  const referral_code = params.get("referral");
-
-  referral_code && localStorage.setItem("referral_code", referral_code);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (user) {
-    navigate("/overview");
-  }
 
   const updateSubscription = async (
     plan: number,
@@ -72,19 +55,6 @@ const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
       }
     }
   };
-
-  if (!referral_code) {
-    return (
-      <S.Container>
-        <S.Title>
-          The referral link provided by your financial advisor is missing the
-          referral code. Please request that your advisor include the referral
-          code in the link.
-        </S.Title>
-        <ErrorPage />
-      </S.Container>
-    );
-  }
 
   return (
     <S.Container>

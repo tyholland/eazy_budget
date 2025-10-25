@@ -10,10 +10,8 @@ import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
 import * as S from "./clientDetails.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
-import Graph from "../../components/Graph/Graph.tsx";
 import {
   budgetSortOptions,
-  graphColors,
   listOfBudgets,
   listOfMonths,
   listOfQuarterlyMonths,
@@ -47,7 +45,6 @@ import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
 import { userAtom } from "../../hook/UserAtom.ts";
-import { DARKER_GRAY } from "../../index.style.ts";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
@@ -489,21 +486,6 @@ const ClientDetails = () => {
           </>
         )}
         {selectedOption === "goals" && <Predict />}
-        {selectedOption === "charts" && (
-          <Graph
-            dataset={[
-              {
-                backgroundColor: graphColors,
-                borderWidth: 1,
-                data: data,
-                borderColor: DARKER_GRAY,
-              },
-            ]}
-            label={labels}
-            title={type}
-            page="monthly"
-          />
-        )}
       </S.ContentWrapper>
       <SessionExpired
         isOpen={isSessionExpired}

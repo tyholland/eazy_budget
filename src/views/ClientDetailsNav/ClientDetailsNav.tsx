@@ -80,20 +80,6 @@ const ClientDetailsNav = ({
           Goals
         </Button>
       </S.NavItem>
-      <S.NavItem className={selectedOption === "charts" ? "open" : "close"}>
-        <Button
-          classType="text"
-          handleClick={() => {
-            setSelectedOption("charts");
-            trackEvent("Viewed Charts", {
-              month: params.month,
-              year: params.year,
-            });
-          }}
-        >
-          Charts
-        </Button>
-      </S.NavItem>
     </S.NavWrapper>
   );
 };

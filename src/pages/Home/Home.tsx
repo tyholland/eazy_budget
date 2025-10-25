@@ -26,6 +26,7 @@ import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAc
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import ClientOption from "../../components/ClientOption/ClientOption.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -150,6 +151,10 @@ const Home = () => {
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
     !foreverFree &&
     !isPro;
+  const isClientPlan = getSubscriptionStatus(
+    "Client",
+    currentUser?.subscription_id,
+  );
   const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
   const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;
   const isPayingSubscriber = !hasBudgetItems && !!subOwesPayment;
@@ -218,16 +223,21 @@ const Home = () => {
       )}
       {!budget.length && isPayingSubscriber && (
         <>
-          <div>
-            Kindly select and complete payment for your preferred subscription
-            plan. Alternatively, feel free to choose any option that best fits
-            your needs.
-          </div>
-          <PricingDetails
-            isPayPal
-            isSelectedPlan={plan || localStorage.getItem("plan")}
-            isHighlighted
-          />
+          {!!isClientPlan && <ClientOption isPayPal />}
+          {!isClientPlan && (
+            <>
+              <div>
+                Kindly select and complete payment for your preferred
+                subscription plan. Alternatively, feel free to choose any option
+                that best fits your needs.
+              </div>
+              <PricingDetails
+                isPayPal
+                isSelectedPlan={plan || localStorage.getItem("plan")}
+                isHighlighted
+              />
+            </>
+          )}
         </>
       )}
       <SessionExpired

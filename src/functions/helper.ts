@@ -221,6 +221,10 @@ export const getSubscriptionStatus = (
     return partnerPlan;
   }
 
+  if ("Client" === expectedPlan) {
+    return clientPlan;
+  }
+
   if ("OG" === expectedPlan) {
     return ogPlan;
   }

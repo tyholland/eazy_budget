@@ -9,7 +9,6 @@ import {
 import * as S from "./clientDetails.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import {
-  budgetSortOptions,
   listOfBudgets,
   listOfMonths,
   listOfQuarterlyMonths,
@@ -20,7 +19,6 @@ import {
   insertBasedOnCadence,
   insertBudgetIds,
   reformatBudgetItem,
-  sortBudget,
   updateBasedOnCadence,
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
@@ -28,7 +26,6 @@ import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import {
   checkIsExpiredSession,
-  getSubscriptionStatus,
   removeItemFromBudgetArray,
 } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
@@ -40,7 +37,6 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
-import SelectComponent from "../../components/Select/Select.tsx";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
@@ -48,9 +44,15 @@ import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 import ClientDetailsNav from "../../views/ClientDetailsNav/ClientDetailsNav.tsx";
 import moment from "moment-business-days";
 import { getClientBudgetInfo, getClientInfo } from "../../requests/referral.ts";
+import { useParams } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const ClientDetails = () => {
   const { getAccessTokenSilently } = useAuth0();
+  const currentUser = useAtomValue(userAtom);
+  const clientParam = useParams();
+  const clientId = clientParam.client;
   const [clientBudget, setClientBudget] = useState<BudgetData[] | []>([]);
   const [currentClient, setCurrentClient] = useState<User | undefined>(
     undefined,
@@ -66,27 +68,10 @@ const ClientDetails = () => {
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
-  const [selectedSort, setSelectedSort] = useState<string>(
-    currentClient?.selectedSort || budgetSortOptions[0].label,
-  );
-  const [selectedFilter, setSelectedFilter] = useState<string>(
-    currentClient?.selectedCategory || "None",
-  );
-  const filter = currentClient?.categories.filter(
-    (item) => item.label === currentClient.selectedCategory,
-  )[0];
-  const [expenseFilter, setExpenseFilter] = useState<number | undefined>(
-    filter?.id || 0,
-  );
-  const isPro = getSubscriptionStatus("Pro", currentClient?.subscription_id);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (type === "income") {
-      setExpenseFilter(0);
-      setSelectedFilter("None");
-    }
-  }, [type]);
+  const clientData = currentUser?.all_referrals.filter(
+    (item) => item.id === Number(clientId),
+  )[0];
 
   const getClientData = async () => {
     try {
@@ -379,7 +364,13 @@ const ClientDetails = () => {
 
   return (
     <>
-      <div>Add client name</div>
+      <S.ClientName>
+        Viewing{" "}
+        {!!clientData?.first_name
+          ? `${clientData.first_name} ${clientData.last_name}`
+          : clientData?.email}
+        's account
+      </S.ClientName>
       <S.MonthlyWrapper>
         <ClientDetailsNav
           selectedOption={selectedOption}
@@ -392,72 +383,12 @@ const ClientDetails = () => {
           </S.Title>
           {selectedOption === type && (
             <>
-              <S.Selectors>
-                {getSubscriptionStatus(
-                  "Starter",
-                  currentClient?.subscription_id,
-                ) && (
-                  <SelectComponent
-                    options={budgetSortOptions}
-                    placeHolder="Sort Items"
-                    defaultValue={currentClient?.selectedSort || selectedSort}
-                    setOption={(val) => {
-                      setSelectedSort(val);
-
-                      currentClient &&
-                        setCurrentClient({
-                          ...currentClient,
-                          selectedSort: val,
-                        });
-                    }}
-                  />
-                )}
-                {isPro && type === "expense" && (
-                  <SelectComponent
-                    options={
-                      currentClient?.categories.concat({
-                        id: 0,
-                        label: "None",
-                      }) || []
-                    }
-                    placeHolder="Filter by Category"
-                    defaultValue={
-                      expenseFilter === 0
-                        ? "None"
-                        : currentClient?.selectedCategory || selectedFilter
-                    }
-                    setOption={(val) => {
-                      setSelectedFilter(val);
-
-                      const filter = currentClient?.categories.filter(
-                        (item) => item.label === val,
-                      )[0];
-
-                      setExpenseFilter(filter?.id || 0);
-
-                      currentClient &&
-                        setCurrentClient({
-                          ...currentClient,
-                          selectedCategory: val,
-                        });
-                    }}
-                  />
-                )}
-              </S.Selectors>
               <S.ItemWrapper>
                 <S.ItemContainer>
                   {!clientBudget.length && <Loading />}
                   {!!clientBudget.length &&
-                    clientBudget[budgetIndex][type]
-                      .sort((a: BudgetDataItem, b: BudgetDataItem) =>
-                        sortBudget(a, b, selectedSort),
-                      )
-                      .filter((response: BudgetDataItem) =>
-                        expenseFilter === 0
-                          ? response
-                          : response.category_id === expenseFilter,
-                      )
-                      .map((data: BudgetDataItem, i: number) => {
+                    clientBudget[budgetIndex][type].map(
+                      (data: BudgetDataItem, i: number) => {
                         if (
                           data.label === "" &&
                           !data.budget_id &&
@@ -488,7 +419,8 @@ const ClientDetails = () => {
                             index={i}
                           />
                         );
-                      })}
+                      },
+                    )}
                   <ModalComponent
                     isOpen={isOpen}
                     title={`Want to remove the last ${type}?`}
@@ -509,17 +441,15 @@ const ClientDetails = () => {
                   </ModalComponent>
                 </S.ItemContainer>
               </S.ItemWrapper>
-              {expenseFilter === 0 && (
-                <Button
-                  buttonSize="large"
-                  handleClick={handleAddNewBudget}
-                  classType="register"
-                >
-                  <>
-                    {`Additional ${type}`} <AddIcon />
-                  </>
-                </Button>
-              )}
+              <Button
+                buttonSize="large"
+                handleClick={handleAddNewBudget}
+                classType="register"
+              >
+                <>
+                  {`Additional ${type}`} <AddIcon />
+                </>
+              </Button>
             </>
           )}
           {selectedOption === "details" && (
@@ -530,13 +460,11 @@ const ClientDetails = () => {
                 month={month}
                 year={theYear}
               />
-              {isPro && (
-                <DownloadCsv
-                  type="monthly"
-                  clientBudget={clientBudget}
-                  currentClient={currentClient}
-                />
-              )}
+              <DownloadCsv
+                type="monthly"
+                clientBudget={clientBudget}
+                currentClient={currentClient}
+              />
             </>
           )}
           {selectedOption === "goals" && (

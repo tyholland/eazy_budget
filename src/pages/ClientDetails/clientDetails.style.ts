@@ -86,3 +86,10 @@ export const FilterLink = styled.div`
     height: 25px;
   }
 `;
+
+export const ClientName = styled.div`
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 10px;
+  font-family: ${RUBIK};
+`;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./downloadCsv.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { BudgetData, DownloadTypes, ProfitLoss } from "../../types.ts";
+import { BudgetData, DownloadTypes, ProfitLoss, User } from "../../types.ts";
 import {
   getMonthlyCSV,
   getMontlyProfitLossCSV,
@@ -17,12 +17,26 @@ import Loading from "../Loading/Loading.tsx";
 
 interface DownloadCsvProps {
   type: DownloadTypes;
+  currentClient?: User;
+  clientBudget?: BudgetData[];
 }
 
-const DownloadCsv = ({ type }: DownloadCsvProps) => {
+const DownloadCsv = ({
+  type,
+  currentClient,
+  clientBudget,
+}: DownloadCsvProps) => {
   const params = useParams();
-  const budget = useAtomValue(budgetAtom);
-  const currentUser = useAtomValue(userAtom);
+  let budget = useAtomValue(budgetAtom);
+  let currentUser = useAtomValue(userAtom);
+
+  console.log(clientBudget);
+
+  if (!!currentClient && !!clientBudget) {
+    budget = clientBudget;
+    currentUser = currentClient;
+  }
+
   const { currentYear: theYear } = getDateInfo();
   const [currentMonthProfitLoss, setCurrentMonthProfitLoss] = useState<
     ProfitLoss[]

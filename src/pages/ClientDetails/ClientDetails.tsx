@@ -4,10 +4,8 @@ import {
   BudgetDataItem,
   InputOption,
   NewBudgetIds,
+  User,
 } from "../../types.ts";
-import { useParams } from "react-router-dom";
-import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { useAtom } from "jotai";
 import * as S from "./clientDetails.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import {
@@ -43,37 +41,44 @@ import { useAuth0 } from "@auth0/auth0-react";
 import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
-import { userAtom } from "../../hook/UserAtom.ts";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 import ClientDetailsNav from "../../views/ClientDetailsNav/ClientDetailsNav.tsx";
+import moment from "moment-business-days";
+import { getClientBudgetInfo, getClientInfo } from "../../requests/referral.ts";
 
 const ClientDetails = () => {
   const { getAccessTokenSilently } = useAuth0();
-  const [budget, setBudget] = useAtom(budgetAtom);
-  const [currentUser, setCurrentUser] = useAtom(userAtom);
-  const clonedBudget = [...budget];
-  const { type, month, year } = useParams();
+  const [clientBudget, setClientBudget] = useState<BudgetData[] | []>([]);
+  const [currentClient, setCurrentClient] = useState<User | undefined>(
+    undefined,
+  );
+  const params = new URLSearchParams(window.location.search);
+  const clonedBudget = [...clientBudget];
+  const date = new Date();
+  const month = moment(date).format("MMMM").toLocaleLowerCase();
+  const year = moment(date).format("YYYY");
+  const type = params.get("type") || "income";
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<string>(
-    currentUser?.selectedSort || budgetSortOptions[0].label,
+    currentClient?.selectedSort || budgetSortOptions[0].label,
   );
   const [selectedFilter, setSelectedFilter] = useState<string>(
-    currentUser?.selectedCategory || "None",
+    currentClient?.selectedCategory || "None",
   );
-  const filter = currentUser?.categories.filter(
-    (item) => item.label === currentUser.selectedCategory,
+  const filter = currentClient?.categories.filter(
+    (item) => item.label === currentClient.selectedCategory,
   )[0];
   const [expenseFilter, setExpenseFilter] = useState<number | undefined>(
     filter?.id || 0,
   );
-  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
+  const isPro = getSubscriptionStatus("Pro", currentClient?.subscription_id);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   useEffect(() => {
@@ -83,10 +88,45 @@ const ClientDetails = () => {
     }
   }, [type]);
 
+  const getClientData = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      const response = await getClientInfo(accessToken, 1);
+
+      setCurrentClient(response);
+    } catch (err) {
+      trackError("PrivateRoute - getBudgetInfo:", { result: err });
+    }
+  };
+
+  const getClientBudget = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      const response = await getClientBudgetInfo(accessToken, 1);
+
+      setClientBudget(response.budget);
+    } catch (err) {
+      trackError("PrivateRoute - getBudgetInfo:", { result: err });
+    }
+  };
+
+  useEffect(() => {
+    getClientData();
+    getClientBudget();
+  }, []);
+
   if (
     !type ||
-    !month ||
-    !year ||
     !listOfBudgets.includes(type) ||
     !listOfMonths.includes(month) ||
     isNaN(Number(year))
@@ -96,8 +136,18 @@ const ClientDetails = () => {
 
   const theYear = Number(year);
 
-  const totalIncome = getMonthlyTotalAmount(budget, month, theYear, "income");
-  const totalExpense = getMonthlyTotalAmount(budget, month, theYear, "expense");
+  const totalIncome = getMonthlyTotalAmount(
+    clientBudget,
+    month,
+    theYear,
+    "income",
+  );
+  const totalExpense = getMonthlyTotalAmount(
+    clientBudget,
+    month,
+    theYear,
+    "expense",
+  );
   const budgetIndex = clonedBudget.findIndex(
     (item) => item.year === theYear && item.month === month,
   );
@@ -105,7 +155,7 @@ const ClientDetails = () => {
   const handleAddNewBudget = () => {
     const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
 
-    setBudget(updatedBudget);
+    setClientBudget(updatedBudget);
     setIsNewBudget(true);
   };
 
@@ -143,7 +193,7 @@ const ClientDetails = () => {
         const updatedBudgets = updateBasedOnCadence(
           item as BudgetData,
           updatedItem[0],
-          budget,
+          clientBudget,
           data,
           month,
           theYear,
@@ -151,7 +201,7 @@ const ClientDetails = () => {
         );
 
         if (updatedItem[0].cadence === "Future Months" && !!updatedBudgets) {
-          const tempBudget = [...budget];
+          const tempBudget = [...clientBudget];
 
           for (let i = budgetIndex; i <= 11; i++) {
             const count = i - budgetIndex;
@@ -159,11 +209,11 @@ const ClientDetails = () => {
             tempBudget[i][type] = updatedBudgets[count];
           }
 
-          setBudget(tempBudget);
+          setClientBudget(tempBudget);
         }
 
         if (updatedItem[0].cadence === "All Months" && !!updatedBudgets) {
-          const tempBudget = [...budget];
+          const tempBudget = [...clientBudget];
 
           if (updatedItem[0].frequency === "Quarterly") {
             for (let i = 0; i <= 11; i++) {
@@ -172,20 +222,20 @@ const ClientDetails = () => {
               }
             }
 
-            setBudget(tempBudget);
+            setClientBudget(tempBudget);
           } else {
             for (let i = 0; i <= 11; i++) {
               tempBudget[i][type] = updatedBudgets[i];
             }
 
-            setBudget(tempBudget);
+            setClientBudget(tempBudget);
           }
         }
 
         if (updatedItem[0].cadence === "Current Month") {
-          const tempBudget = [...budget];
+          const tempBudget = [...clientBudget];
           tempBudget[budgetIndex][type] = updatedBudgets;
-          setBudget(tempBudget);
+          setClientBudget(tempBudget);
         }
 
         await updateBudgetItem(accessToken, updatedItem[0]);
@@ -195,7 +245,7 @@ const ClientDetails = () => {
         insertBasedOnCadence(
           item as BudgetData,
           updatedItem[0],
-          budget,
+          clientBudget,
           month,
           theYear,
           type,
@@ -210,7 +260,7 @@ const ClientDetails = () => {
         const insertedBudgets = insertBudgetIds(
           item as BudgetData,
           updatedItem[0],
-          budget,
+          clientBudget,
           month,
           theYear,
           type,
@@ -218,7 +268,7 @@ const ClientDetails = () => {
         );
 
         if (updatedItem[0].cadence === "Future Months" && !!insertedBudgets) {
-          const tempBudget = [...budget];
+          const tempBudget = [...clientBudget];
 
           for (let i = budgetIndex; i <= 11; i++) {
             const count = i - budgetIndex;
@@ -226,11 +276,11 @@ const ClientDetails = () => {
             tempBudget[i][type] = insertedBudgets[count];
           }
 
-          setBudget(tempBudget);
+          setClientBudget(tempBudget);
         }
 
         if (updatedItem[0].cadence === "All Months" && !!insertedBudgets) {
-          const tempBudget = [...budget];
+          const tempBudget = [...clientBudget];
 
           if (updatedItem[0].frequency === "Quarterly") {
             for (let i = 0; i <= 11; i++) {
@@ -239,20 +289,20 @@ const ClientDetails = () => {
               }
             }
 
-            setBudget(tempBudget);
+            setClientBudget(tempBudget);
           } else {
             for (let i = 0; i <= 11; i++) {
               tempBudget[i][type] = insertedBudgets[i];
             }
 
-            setBudget(tempBudget);
+            setClientBudget(tempBudget);
           }
         }
 
         if (updatedItem[0].cadence === "Current Month") {
-          const tempBudget = [...budget];
+          const tempBudget = [...clientBudget];
           tempBudget[budgetIndex][type] = insertedBudgets;
-          setBudget(tempBudget);
+          setClientBudget(tempBudget);
         }
 
         trackEvent(`Add New ${type}`);
@@ -265,10 +315,10 @@ const ClientDetails = () => {
         i
       ) {
         const updatedItems = removeItemFromBudgetArray(item[type], i);
-        const tempBudget = [...budget];
+        const tempBudget = [...clientBudget];
         tempBudget[budgetIndex][type] = updatedItems;
 
-        setBudget(tempBudget);
+        setClientBudget(tempBudget);
       }
 
       setIsNewBudget(false);
@@ -297,9 +347,9 @@ const ClientDetails = () => {
       data.budget_id,
     );
 
-    const tempBudget = [...budget];
+    const tempBudget = [...clientBudget];
     tempBudget[budgetIndex][type] = updatedItems;
-    setBudget(tempBudget);
+    setClientBudget(tempBudget);
 
     try {
       const accessToken = await getAccessTokenSilently({
@@ -328,163 +378,175 @@ const ClientDetails = () => {
   };
 
   return (
-    <S.MonthlyWrapper>
-      <ClientDetailsNav
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-        incomeUrl={`/monthly/income/${month}/${theYear}`}
-        expenseUrl={`/monthly/expense/${month}/${theYear}`}
-      />
-      <S.ContentWrapper>
-        <S.Title>
-          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}
-        </S.Title>
-        {selectedOption === type && (
-          <>
-            <S.Selectors>
-              {getSubscriptionStatus(
-                "Starter",
-                currentUser?.subscription_id,
-              ) && (
-                <SelectComponent
-                  options={budgetSortOptions}
-                  placeHolder="Sort Items"
-                  defaultValue={currentUser?.selectedSort || selectedSort}
-                  setOption={(val) => {
-                    setSelectedSort(val);
+    <>
+      <div>Add client name</div>
+      <S.MonthlyWrapper>
+        <ClientDetailsNav
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+        <S.ContentWrapper>
+          <S.Title>
+            {selectedOption !== "goals" && `${month} ${theYear}`}{" "}
+            {selectedOption}
+          </S.Title>
+          {selectedOption === type && (
+            <>
+              <S.Selectors>
+                {getSubscriptionStatus(
+                  "Starter",
+                  currentClient?.subscription_id,
+                ) && (
+                  <SelectComponent
+                    options={budgetSortOptions}
+                    placeHolder="Sort Items"
+                    defaultValue={currentClient?.selectedSort || selectedSort}
+                    setOption={(val) => {
+                      setSelectedSort(val);
 
-                    currentUser &&
-                      setCurrentUser({
-                        ...currentUser,
-                        selectedSort: val,
-                      });
-                  }}
-                />
-              )}
-              {isPro && type === "expense" && (
-                <SelectComponent
-                  options={
-                    currentUser?.categories.concat({
-                      id: 0,
-                      label: "None",
-                    }) || []
-                  }
-                  placeHolder="Filter by Category"
-                  defaultValue={
-                    expenseFilter === 0
-                      ? "None"
-                      : currentUser?.selectedCategory || selectedFilter
-                  }
-                  setOption={(val) => {
-                    setSelectedFilter(val);
-
-                    const filter = currentUser?.categories.filter(
-                      (item) => item.label === val,
-                    )[0];
-
-                    setExpenseFilter(filter?.id || 0);
-
-                    currentUser &&
-                      setCurrentUser({
-                        ...currentUser,
-                        selectedCategory: val,
-                      });
-                  }}
-                />
-              )}
-            </S.Selectors>
-            <S.ItemWrapper>
-              <S.ItemContainer>
-                {!budget.length && <Loading />}
-                {!!budget.length &&
-                  budget[budgetIndex][type]
-                    .sort((a: BudgetDataItem, b: BudgetDataItem) =>
-                      sortBudget(a, b, selectedSort),
-                    )
-                    .filter((response: BudgetDataItem) =>
+                      currentClient &&
+                        setCurrentClient({
+                          ...currentClient,
+                          selectedSort: val,
+                        });
+                    }}
+                  />
+                )}
+                {isPro && type === "expense" && (
+                  <SelectComponent
+                    options={
+                      currentClient?.categories.concat({
+                        id: 0,
+                        label: "None",
+                      }) || []
+                    }
+                    placeHolder="Filter by Category"
+                    defaultValue={
                       expenseFilter === 0
-                        ? response
-                        : response.category_id === expenseFilter,
-                    )
-                    .map((data: BudgetDataItem, i: number) => {
-                      if (data.label === "" && !data.budget_id && !data.temp) {
-                        return {};
-                      }
+                        ? "None"
+                        : currentClient?.selectedCategory || selectedFilter
+                    }
+                    setOption={(val) => {
+                      setSelectedFilter(val);
 
-                      const currentItems: BudgetDataItem[] = [
-                        ...budget[budgetIndex][type],
-                      ];
+                      const filter = currentClient?.categories.filter(
+                        (item) => item.label === val,
+                      )[0];
 
-                      return (
-                        <BudgetItem
-                          key={i}
-                          theType={type as InputOption}
-                          item={data}
-                          labelPlaceHolder={`${type.toLowerCase()} name`}
-                          valuePlaceHolder={`${type.toLowerCase()} (USD)`}
-                          inputType="number"
-                          budgetItemData={budget[budgetIndex]}
-                          saveEvent={handleSaveEvent}
-                          deleteEvent={() =>
-                            handleDeleteEvent(currentItems, data)
-                          }
-                          hidePaidContent={type === "income"}
-                          openModal={isNewBudget}
-                          index={i}
-                        />
-                      );
-                    })}
-                <ModalComponent
-                  isOpen={isOpen}
-                  title={`Want to remove the last ${type}?`}
+                      setExpenseFilter(filter?.id || 0);
+
+                      currentClient &&
+                        setCurrentClient({
+                          ...currentClient,
+                          selectedCategory: val,
+                        });
+                    }}
+                  />
+                )}
+              </S.Selectors>
+              <S.ItemWrapper>
+                <S.ItemContainer>
+                  {!clientBudget.length && <Loading />}
+                  {!!clientBudget.length &&
+                    clientBudget[budgetIndex][type]
+                      .sort((a: BudgetDataItem, b: BudgetDataItem) =>
+                        sortBudget(a, b, selectedSort),
+                      )
+                      .filter((response: BudgetDataItem) =>
+                        expenseFilter === 0
+                          ? response
+                          : response.category_id === expenseFilter,
+                      )
+                      .map((data: BudgetDataItem, i: number) => {
+                        if (
+                          data.label === "" &&
+                          !data.budget_id &&
+                          !data.temp
+                        ) {
+                          return {};
+                        }
+
+                        const currentItems: BudgetDataItem[] = [
+                          ...clientBudget[budgetIndex][type],
+                        ];
+
+                        return (
+                          <BudgetItem
+                            key={i}
+                            theType={type as InputOption}
+                            item={data}
+                            labelPlaceHolder={`${type.toLowerCase()} name`}
+                            valuePlaceHolder={`${type.toLowerCase()} (USD)`}
+                            inputType="number"
+                            budgetItemData={clientBudget[budgetIndex]}
+                            saveEvent={handleSaveEvent}
+                            deleteEvent={() =>
+                              handleDeleteEvent(currentItems, data)
+                            }
+                            hidePaidContent={type === "income"}
+                            openModal={isNewBudget}
+                            index={i}
+                          />
+                        );
+                      })}
+                  <ModalComponent
+                    isOpen={isOpen}
+                    title={`Want to remove the last ${type}?`}
+                  >
+                    <S.ModalWrapper>
+                      <span>
+                        You can't delete this {type} because it is the only one
+                        you have left. Please edit it instead.
+                      </span>
+                      <Button
+                        buttonSize="small"
+                        handleClick={() => setIsOpen(false)}
+                        classType="exit"
+                      >
+                        Close
+                      </Button>
+                    </S.ModalWrapper>
+                  </ModalComponent>
+                </S.ItemContainer>
+              </S.ItemWrapper>
+              {expenseFilter === 0 && (
+                <Button
+                  buttonSize="large"
+                  handleClick={handleAddNewBudget}
+                  classType="register"
                 >
-                  <S.ModalWrapper>
-                    <span>
-                      You can't delete this {type} because it is the only one
-                      you have left. Please edit it instead.
-                    </span>
-                    <Button
-                      buttonSize="small"
-                      handleClick={() => setIsOpen(false)}
-                      classType="exit"
-                    >
-                      Close
-                    </Button>
-                  </S.ModalWrapper>
-                </ModalComponent>
-              </S.ItemContainer>
-            </S.ItemWrapper>
-            {expenseFilter === 0 && (
-              <Button
-                buttonSize="large"
-                handleClick={handleAddNewBudget}
-                classType="register"
-              >
-                <>
-                  {`Additional ${type}`} <AddIcon />
-                </>
-              </Button>
-            )}
-          </>
-        )}
-        {selectedOption === "details" && (
-          <>
-            <BudgetDetails
-              income={totalIncome}
-              expense={totalExpense}
-              month={month}
-              year={theYear}
-            />
-            {isPro && <DownloadCsv type="monthly" />}
-          </>
-        )}
-        {selectedOption === "goals" && <Predict />}
-      </S.ContentWrapper>
-      <SessionExpired
-        isOpen={isSessionExpired}
-        closeModal={setIsSessionExpired}
-      />
-    </S.MonthlyWrapper>
+                  <>
+                    {`Additional ${type}`} <AddIcon />
+                  </>
+                </Button>
+              )}
+            </>
+          )}
+          {selectedOption === "details" && (
+            <>
+              <BudgetDetails
+                income={totalIncome}
+                expense={totalExpense}
+                month={month}
+                year={theYear}
+              />
+              {isPro && (
+                <DownloadCsv
+                  type="monthly"
+                  clientBudget={clientBudget}
+                  currentClient={currentClient}
+                />
+              )}
+            </>
+          )}
+          {selectedOption === "goals" && <Predict />}
+        </S.ContentWrapper>
+        <SessionExpired
+          isOpen={isSessionExpired}
+          closeModal={setIsSessionExpired}
+        />
+      </S.MonthlyWrapper>
+    </>
   );
 };
 

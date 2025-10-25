@@ -2,23 +2,18 @@ import React from "react";
 import * as S from "./clientDetailsNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { trackEvent } from "../../functions/mixpanel.ts";
 
 interface ClientDetailsNavProps {
   setSelectedOption: (val: string) => void;
-  incomeUrl: string;
-  expenseUrl: string;
   selectedOption?: string;
 }
 
 const ClientDetailsNav = ({
   setSelectedOption,
-  incomeUrl,
-  expenseUrl,
   selectedOption,
 }: ClientDetailsNavProps) => {
   const navigate = useNavigate();
-  const params = useParams();
+  const params = new URLSearchParams(window.location.search);
 
   return (
     <S.NavWrapper>
@@ -27,11 +22,7 @@ const ClientDetailsNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("income");
-            trackEvent("Viewed Income", {
-              month: params.month,
-              year: params.year,
-            });
-            navigate(incomeUrl);
+            navigate("?type=income");
           }}
         >
           Income
@@ -42,11 +33,7 @@ const ClientDetailsNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("expense");
-            trackEvent("Viewed Expense", {
-              month: params.month,
-              year: params.year,
-            });
-            navigate(expenseUrl);
+            navigate("?type=expense");
           }}
         >
           Expense
@@ -57,10 +44,7 @@ const ClientDetailsNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("details");
-            trackEvent("Viewed Details", {
-              month: params.month,
-              year: params.year,
-            });
+            navigate(`?type=${params.get("type")}&nav=details`);
           }}
         >
           Details
@@ -71,10 +55,7 @@ const ClientDetailsNav = ({
           classType="text"
           handleClick={() => {
             setSelectedOption("goals");
-            trackEvent("Viewed Goals", {
-              month: params.month,
-              year: params.year,
-            });
+            navigate(`?type=${params.get("type")}&nav=goals`);
           }}
         >
           Goals

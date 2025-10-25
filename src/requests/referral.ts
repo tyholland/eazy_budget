@@ -19,3 +19,44 @@ export const updateReferralName = async (
     throw new Error(`Failed to update referral name`);
   }
 };
+
+export const getClientInfo = async (accessToken: string, client_id: number) => {
+  try {
+    const getClientResponse = await fetch(
+      `${api}/referral/client/${client_id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-type": "application/json",
+        },
+      },
+    );
+
+    return await getClientResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to get client info`);
+  }
+};
+
+export const getClientBudgetInfo = async (
+  accessToken: string,
+  client_id: number,
+) => {
+  try {
+    const getClientResponse = await fetch(
+      `${api}/referral/budget/${client_id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-type": "application/json",
+        },
+      },
+    );
+
+    return await getClientResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to get client info`);
+  }
+};

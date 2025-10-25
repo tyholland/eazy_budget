@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button.tsx";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { useNavigate } from "react-router-dom";
 
 interface AccountNavProps {
   setSelectedOption: (val: string) => void;
@@ -12,6 +13,7 @@ interface AccountNavProps {
 
 const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
   const currentUser = useAtomValue(userAtom);
+  const navigate = useNavigate();
   const subscribe = getSubscriptionStatus(
     "Starter",
     currentUser?.subscription_id,
@@ -30,6 +32,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           classType="text"
           handleClick={() => {
             setSelectedOption("settings");
+            navigate("?nav=settings");
           }}
         >
           Settings
@@ -43,6 +46,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
             classType="text"
             handleClick={() => {
               setSelectedOption("budget");
+              navigate("?nav=budget");
             }}
           >
             Budget
@@ -57,6 +61,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
             classType="text"
             handleClick={() => {
               setSelectedOption("admin");
+              navigate("?nav=admin");
             }}
           >
             Admin
@@ -69,7 +74,10 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
         >
           <Button
             classType="text"
-            handleClick={() => setSelectedOption("subscription")}
+            handleClick={() => {
+              setSelectedOption("subscription");
+              navigate("?nav=subscription");
+            }}
           >
             Subscription
           </Button>

@@ -37,9 +37,11 @@ import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 import { ClientReferrals } from "../../types.ts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import EditIcon from "../../svg/EditIcon.tsx";
+import { updateReferralName } from "../../requests/referral.ts";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
+  const params = new URLSearchParams(window.location.search);
   const [isLoading, setIsloading] = useState<boolean>(false);
   const setBudget = useSetAtom(budgetAtom);
   const setIncome = useSetAtom(incomeAtom);
@@ -52,9 +54,14 @@ const Account = () => {
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isClientNameOpen, setIsClientNameOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>("settings");
+  const [selectedOption, setSelectedOption] = useState<string>(
+    params.get("nav") || "settings",
+  );
   const [clientFirstName, setClientFirstName] = useState<string>("");
   const [clientLastName, setClientLastName] = useState<string>("");
+  const [currentClient, setCurrentClient] = useState<ClientReferrals | null>(
+    null,
+  );
   const [hasMessage, setHasMessage] = useState<boolean | undefined>(
     currentUser?.connected_message,
   );
@@ -83,8 +90,6 @@ const Account = () => {
   );
   const foreverFree = isOriginal || isTester;
   const isFree = !foreverFree && !isStarter && !isPro;
-
-  const params = new URLSearchParams(window.location.search);
   const plan = params.get("plan");
 
   plan && localStorage.setItem("plan", plan);
@@ -205,6 +210,45 @@ const Account = () => {
       trackEvent("Update User Currency");
     } catch (err) {
       trackError("Account - updateCurrency:", { result: err });
+
+      if (checkIsExpiredSession(err)) {
+        setIsSessionExpired(true);
+      }
+    }
+  };
+
+  const updateClientName = async (user_id: number | undefined) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          all_referrals: currentUser.all_referrals.map((item) => {
+            if (item.id === user_id) {
+              item.first_name = clientFirstName;
+              item.last_name = clientLastName;
+            }
+
+            return item;
+          }),
+        });
+
+      const data = {
+        first_name: clientFirstName,
+        last_name: clientLastName,
+        user_id,
+        referral_code: currentUser?.referral_code,
+      };
+
+      await updateReferralName(accessToken, data);
+      trackEvent("Update Client Name");
+    } catch (err) {
+      trackError("Account - updateClientName:", { result: err });
 
       if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
@@ -412,7 +456,10 @@ const Account = () => {
                             <span data-tooltip-id="client-detail">
                               <Button
                                 classType="text"
-                                handleClick={() => setIsClientNameOpen(true)}
+                                handleClick={() => {
+                                  setIsClientNameOpen(true);
+                                  setCurrentClient(item);
+                                }}
                               >
                                 <EditIcon />
                               </Button>
@@ -645,7 +692,11 @@ const Account = () => {
                   </Button>
                   <Button
                     buttonSize="small"
-                    handleClick={removeSharedAccess}
+                    handleClick={() => {
+                      updateClientName(currentClient?.id);
+                      setCurrentClient(null);
+                      setIsClientNameOpen(false);
+                    }}
                     disabled={
                       clientFirstName.length === 0 ||
                       clientLastName.length === 0

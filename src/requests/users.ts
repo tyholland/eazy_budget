@@ -134,26 +134,6 @@ export const cancelUserSub = async (
   }
 };
 
-export const startReferralPlan = async (
-  accessToken: string,
-  updatedSub: Object,
-) => {
-  try {
-    const startReferralResponse = await fetch(`${api}/referral/start`, {
-      method: "PUT",
-      body: JSON.stringify({ ...updatedSub }),
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-type": "application/json",
-      },
-    });
-
-    return await startReferralResponse.json();
-  } catch (err) {
-    throw new Error(`Failed to start referral plan`);
-  }
-};
-
 export const updateUserCurrency = async (
   accessToken: string,
   updatedSub: Object,

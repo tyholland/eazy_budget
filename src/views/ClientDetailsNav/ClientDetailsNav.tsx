@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "./clientDetailsNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ClientDetailsNavProps {
   setSelectedOption: (val: string) => void;

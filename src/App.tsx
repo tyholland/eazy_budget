@@ -78,7 +78,7 @@ const App = () => {
               element={<PrivateRoute component={Category} />}
             />
             <Route
-              path="/account/parnter/client/:client"
+              path="/account/partner/client/:client"
               element={<PrivateRoute component={ClientDetails} />}
             />
             <Route

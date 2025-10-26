@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, RUBIK, WHITE } from "../../index.style.ts";
+import { BLACK, GRAY, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Container = styled.div`
   border: 1px solid ${BLACK};
@@ -50,10 +50,28 @@ export const Title = styled.div`
 export const Price = styled.div`
   span {
     font-weight: 700;
+
+    &.strike {
+      font-weight: 300;
+      text-decoration: line-through;
+    }
+
+    &.discount {
+      font-style: italic;
+      color: ${GRAY};
+      font-weight: 300;
+      font-size: 12px;
+    }
   }
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 `;

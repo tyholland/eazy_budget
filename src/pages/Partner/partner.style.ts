@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
+  line-height: 22px;
 
   strong {
     font-weight: 600;
@@ -32,15 +33,15 @@ export const Wrapper = styled.div`
 export const Section = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   border-bottom: 1px dotted ${BLACK};
   padding-bottom: 20px;
 
   ul {
-    margin: 0;
+    margin: 5px 0 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
   }
 
   a.text {
@@ -57,5 +58,10 @@ export const Section = styled.div`
 
   &.last {
     border: 0;
+  }
+
+  .secondaryTitle {
+    margin-bottom: 5px;
+    font-size: 18px;
   }
 `;

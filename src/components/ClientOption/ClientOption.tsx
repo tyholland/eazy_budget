@@ -62,10 +62,12 @@ const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
         <div>
           <S.Title>Client - Pro Plan</S.Title>
           <S.Price>
-            <span>Price:</span> $10/month
+            <span>Price:</span> <span className="strike">$20/month</span>{" "}
+            $15/month
           </S.Price>
           <S.Price>
-            <span>Partner Discount:</span> 50%
+            <span>Partner Discount:</span> 25%{" "}
+            <span className="discount">(already included)</span>
           </S.Price>
         </div>
         <div>

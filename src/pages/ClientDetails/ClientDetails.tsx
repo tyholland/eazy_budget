@@ -83,7 +83,7 @@ const ClientDetails = () => {
         },
       });
 
-      const response = await getClientInfo(accessToken, 1);
+      const response = await getClientInfo(accessToken, Number(clientId));
 
       if (response.status === 404) {
         setNotAllowed(true);
@@ -108,7 +108,7 @@ const ClientDetails = () => {
         },
       });
 
-      const response = await getClientBudgetInfo(accessToken, 1);
+      const response = await getClientBudgetInfo(accessToken, Number(clientId));
 
       if (response.status === 404) {
         setNotAllowed(true);
@@ -390,6 +390,22 @@ const ClientDetails = () => {
           You don't have access to this client. Please contact us at{" "}
           <a href={`mailto:${emailAddress}`}>{emailAddress}</a> if you believe
           you should have access to this client.
+        </S.ErrorTitle>
+        <ErrorPage />
+      </S.Container>
+    );
+  }
+
+  if (!currentClient?.hasBudget) {
+    return (
+      <S.Container>
+        <S.ErrorTitle>
+          {!!clientData?.first_name
+            ? `${clientData.first_name} ${clientData.last_name}`
+            : clientData?.email}{" "}
+          has not yet uploaded their budget information. Please contact the
+          client and request that they add their budget details to enable
+          viewing.
         </S.ErrorTitle>
         <ErrorPage />
       </S.Container>

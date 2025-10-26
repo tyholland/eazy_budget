@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, RUBIK } from "../../index.style.ts";
+import { BLACK, RUBIK, WHITE } from "../../index.style.ts";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
@@ -15,6 +15,10 @@ export const Title = styled.h2`
   text-transform: capitalize;
   margin: 0;
   font-family: ${RUBIK};
+`;
+
+export const ErrorTitle = styled.h2`
+  font-size: 18px;
 `;
 
 export const ItemContainer = styled.div`
@@ -92,4 +96,26 @@ export const ClientName = styled.div`
   font-weight: 500;
   margin-top: 10px;
   font-family: ${RUBIK};
+`;
+
+export const Container = styled.div`
+  border: 1px solid ${BLACK};
+  border-radius: 10px;
+  padding: 15px 10px;
+  background: ${WHITE};
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  height: 100%;
+  margin: 0 auto;
+
+  @media only screen and (max-width: 800px) {
+    min-width: fit-content;
+    width: 94%;
+    padding: 4% 3%;
+    height: auto;
+  }
 `;

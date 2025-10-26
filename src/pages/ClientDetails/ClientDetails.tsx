@@ -9,6 +9,7 @@ import {
 import * as S from "./clientDetails.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import {
+  emailAddress,
   listOfBudgets,
   listOfMonths,
   listOfQuarterlyMonths,
@@ -69,6 +70,7 @@ const ClientDetails = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
+  const [notAllowed, setNotAllowed] = useState<boolean>(false);
   const clientData = currentUser?.all_referrals.filter(
     (item) => item.id === Number(clientId),
   )[0];
@@ -85,7 +87,12 @@ const ClientDetails = () => {
 
       setCurrentClient(response);
     } catch (err) {
-      trackError("PrivateRoute - getBudgetInfo:", { result: err });
+      trackError("ClientDetails - getClientData:", { result: err });
+      setNotAllowed(true);
+
+      if (checkIsExpiredSession(err)) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -101,7 +108,12 @@ const ClientDetails = () => {
 
       setClientBudget(response.budget);
     } catch (err) {
-      trackError("PrivateRoute - getBudgetInfo:", { result: err });
+      trackError("ClientDetails - getClientBudget:", { result: err });
+      setNotAllowed(true);
+
+      if (checkIsExpiredSession(err)) {
+        setIsSessionExpired(true);
+      }
     }
   };
 
@@ -362,6 +374,19 @@ const ClientDetails = () => {
     }
   };
 
+  if (notAllowed) {
+    return (
+      <S.Container>
+        <S.ErrorTitle>
+          You don't have access to this client. Please contact us at{" "}
+          <a href={`mailto:${emailAddress}`}>{emailAddress}</a> if you believe
+          you should have access to this client.
+        </S.ErrorTitle>
+        <ErrorPage />
+      </S.Container>
+    );
+  }
+
   return (
     <>
       <S.ClientName>
@@ -375,6 +400,7 @@ const ClientDetails = () => {
         <ClientDetailsNav
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
+          hasBudget={currentClient?.hasBudget}
         />
         <S.ContentWrapper>
           <S.Title>

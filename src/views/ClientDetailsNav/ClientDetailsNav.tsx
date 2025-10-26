@@ -6,17 +6,32 @@ import { useNavigate } from "react-router-dom";
 interface ClientDetailsNavProps {
   setSelectedOption: (val: string) => void;
   selectedOption?: string;
+  hasBudget?: boolean;
 }
 
 const ClientDetailsNav = ({
   setSelectedOption,
   selectedOption,
+  hasBudget = true,
 }: ClientDetailsNavProps) => {
   const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
 
   return (
     <S.NavWrapper>
+      {!hasBudget && (
+        <S.NavItem className={selectedOption === "setup" ? "open" : "close"}>
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("setup");
+              navigate("?nav=setup");
+            }}
+          >
+            Setup
+          </Button>
+        </S.NavItem>
+      )}
       <S.NavItem className={selectedOption === "income" ? "open" : "close"}>
         <Button
           classType="text"

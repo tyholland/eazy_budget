@@ -85,6 +85,10 @@ const ClientDetails = () => {
 
       const response = await getClientInfo(accessToken, 1);
 
+      if (response.status === 404) {
+        setNotAllowed(true);
+        return;
+      }
       setCurrentClient(response);
     } catch (err) {
       trackError("ClientDetails - getClientData:", { result: err });
@@ -105,6 +109,11 @@ const ClientDetails = () => {
       });
 
       const response = await getClientBudgetInfo(accessToken, 1);
+
+      if (response.status === 404) {
+        setNotAllowed(true);
+        return;
+      }
 
       setClientBudget(response.budget);
     } catch (err) {

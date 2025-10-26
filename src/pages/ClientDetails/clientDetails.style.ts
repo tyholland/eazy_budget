@@ -119,3 +119,11 @@ export const Container = styled.div`
     height: auto;
   }
 `;
+
+export const SubmitBudget = styled.div`
+  margin: 0 auto;
+
+  @media only screen and (max-width: 800px) {
+    width: 100%;
+  }
+`;

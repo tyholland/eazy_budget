@@ -400,7 +400,6 @@ const ClientDetails = () => {
         <ClientDetailsNav
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
-          hasBudget={currentClient?.hasBudget}
         />
         <S.ContentWrapper>
           <S.Title>

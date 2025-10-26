@@ -39,10 +39,10 @@ const Partner = () => {
           Empower Your Clients. Simplify Your Workflow. Grow Together.
         </S.SubTitle>
         <div>
-          Simple Budgeting’s <strong>Partner Program</strong> is designed for{" "}
+          Simple Budgeting's <strong>Partner Program</strong> is designed for{" "}
           <strong>financial advisors, coaches, and professionals</strong> who
           help clients take control of their finances. By partnering with us,
-          you’ll get the tools, access, and support you need to guide your
+          you'll get the tools, access, and support you need to guide your
           clients toward smarter financial decisions — all in one intuitive
           platform.
         </div>
@@ -70,11 +70,11 @@ const Partner = () => {
           <div>
             <strong>Dedicated Admin Dashboard</strong>
           </div>
-          As a partner, you’ll have access to a{" "}
+          As a partner, you'll have access to a{" "}
           <strong>special admin account</strong> that allows you to:
         </div>
         <ul>
-          <li>View your clients’ accounts in real time</li>
+          <li>View your clients' accounts in real time</li>
           <li>Monitor progress and budgeting behavior</li>
           <li>Offer targeted feedback and personalized guidance</li>
         </ul>
@@ -93,11 +93,7 @@ const Partner = () => {
       <S.Section>
         <S.SubTitle>Flexible Data Entry Options</S.SubTitle>
         <div>
-          Your clients — or you, as their advisor — can easily add budget data
-          in whichever way fits best:
-        </div>
-        <div>
-          <strong>For Clients:</strong>
+          Your clients can easily add budget data in whichever way fits best:
         </div>
         <ul>
           <li>
@@ -107,18 +103,6 @@ const Partner = () => {
           <li>
             Manually input income and expenses directly in the{" "}
             <strong>Simple Budgeting UI</strong>
-          </li>
-        </ul>
-        <div>
-          <strong>For Admins:</strong>
-        </div>
-        <ul>
-          <li>
-            Upload client budgets in bulk via <strong>CSV</strong>, or
-          </li>
-          <li>
-            Manually enter data on behalf of clients for a hands-on, guided
-            setup
           </li>
         </ul>
       </S.Section>

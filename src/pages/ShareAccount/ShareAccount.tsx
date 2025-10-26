@@ -2,7 +2,10 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import Input from "../../components/Input/Input.tsx";
 import * as S from "./shareAccount.style.ts";
 import Button from "../../components/Button/Button.tsx";
-import { getSubscriptionStatus } from "../../functions/helper.ts";
+import {
+  checkIsExpiredSession,
+  getSubscriptionStatus,
+} from "../../functions/helper.ts";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import { useNavigate } from "react-router-dom";
@@ -51,11 +54,7 @@ const ShareAccount = () => {
       setHasError(true);
       trackError("ShareAccount - submitEmail:", { result: err });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }

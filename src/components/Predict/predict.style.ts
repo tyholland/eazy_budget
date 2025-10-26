@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ERROR_RED, WHITE } from "../../index.style.ts";
 
 export const PredictWrapper = styled.div`
   display: flex;
@@ -50,6 +51,16 @@ export const Content = styled.div`
   gap: 12px;
   font-size: 18px;
   width: 100%;
+
+  &.noCash {
+    background: ${ERROR_RED};
+    color: ${WHITE};
+    border-radius: 10px;
+    padding: 10px 15px;
+    max-width: 500px;
+    width: 100%;
+    font-weight: 700;
+  }
 `;
 
 export const CurrencyValue = styled.div`

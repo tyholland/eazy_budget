@@ -12,7 +12,7 @@ export const Container = styled.div`
   width: 100%;
   min-width: 220px;
   position: relative;
-  height: 560px;
+  height: 630px;
 
   &.paypal {
     height: 700px;

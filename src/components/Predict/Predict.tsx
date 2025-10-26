@@ -6,10 +6,22 @@ import { getYearlyTotalAmount } from "../../functions/budget.ts";
 import Input from "../Input/Input.tsx";
 import { getDateInfo, getFormattedCurrency } from "../../functions/helper.ts";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { BudgetData, User } from "../../types.ts";
 
-const Predict = () => {
-  const budget = useAtomValue(budgetAtom);
-  const currentUser = useAtomValue(userAtom);
+interface PredictProps {
+  currentClient?: User;
+  clientBudget?: BudgetData[];
+}
+
+const Predict = ({ currentClient, clientBudget }: PredictProps) => {
+  let budget = useAtomValue(budgetAtom);
+  let currentUser = useAtomValue(userAtom);
+
+  if (!!currentClient && !!clientBudget) {
+    budget = clientBudget;
+    currentUser = currentClient;
+  }
+
   const { currentYear } = getDateInfo();
   const [monthlySavings, setMontlySavings] = useState<string>("");
   const [goalCurrency, setGoalCurrency] = useState<string>("");
@@ -24,10 +36,13 @@ const Predict = () => {
   const [currentSavings, setCurrentSavings] = useState<number>(0);
 
   const annualSavings = yearlyTotalIncome - yearlyTotalExpense;
+  const noSavings = annualSavings === 0 && currentSavings === 0;
   const remainingGoal = goalAmount - currentSavings;
-  const yearsToGoal = Math.ceil(remainingGoal / annualSavings);
-  const monthsRemaining = yearsToGoal * 12;
-  const amount = remainingGoal / monthsRemaining;
+  const yearsToGoal = noSavings
+    ? 0
+    : Math.ceil(remainingGoal / (annualSavings || currentSavings));
+  const monthsRemaining = noSavings ? 0 : yearsToGoal * 12;
+  const amount = noSavings ? 0 : remainingGoal / monthsRemaining;
 
   const savingsAmount = async () => {
     const { currencyValue, emptyValue } = await getFormattedCurrency(
@@ -91,6 +106,16 @@ const Predict = () => {
             </S.CurrencyValue>
           )}
         </S.PredictInputs>
+        {noSavings && (
+          <S.Content className="noCash">
+            <span>
+              Please enter your Current Savings amount. According to our
+              records, your net profit for the year is $0. Without your current
+              savings entered in the system, we're unable to accurately
+              calculate how long it will take to reach your financial goals.
+            </span>
+          </S.Content>
+        )}
       </S.HeaderWrapper>
       <S.PredictBudgets>
         <div>

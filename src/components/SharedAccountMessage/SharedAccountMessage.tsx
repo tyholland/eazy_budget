@@ -7,6 +7,7 @@ import { shareAccountDecision } from "../../requests/users.ts";
 import Button from "../Button/Button.tsx";
 import { trackError } from "../../functions/mixpanel.ts";
 import SessionExpired from "../SessionExpired/SessionExpired.tsx";
+import { checkIsExpiredSession } from "../../functions/helper.ts";
 
 interface SharedAccountMessageProps {
   setHasMessage: (val: boolean) => void;
@@ -46,11 +47,7 @@ const SharedAccountMessage = ({ setHasMessage }: SharedAccountMessageProps) => {
         result: err,
       });
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }

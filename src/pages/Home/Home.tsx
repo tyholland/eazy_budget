@@ -11,7 +11,11 @@ import {
   getMonthlyTotalAmount,
   getYearlyTotalAmount,
 } from "../../functions/budget.ts";
-import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
+import {
+  checkIsExpiredSession,
+  getDateInfo,
+  getSubscriptionStatus,
+} from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
 import SetupBudget from "../../views/SetupBudget/SetupBudget.tsx";
 import { createBudget } from "../../requests/budget.ts";
@@ -22,6 +26,7 @@ import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAc
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import ClientOption from "../../components/ClientOption/ClientOption.tsx";
 
 const Home = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -102,11 +107,7 @@ const Home = () => {
       setIsDisabled(false);
       setHasBudgetItems(false);
 
-      if (
-        err.error === "login_required" ||
-        err.error === "consent_required" ||
-        err.error === "invalid_grant"
-      ) {
+      if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
       }
     }
@@ -143,17 +144,17 @@ const Home = () => {
     "Tester",
     currentUser?.subscription_id,
   );
-  const isReferrals = getSubscriptionStatus(
-    "Referral",
-    currentUser?.subscription_id,
-  );
-  const foreverFree = isOriginal || isTester || isReferrals;
+  const foreverFree = isOriginal || isTester;
   const isPro =
     getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
   const isStarter =
     getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
     !foreverFree &&
     !isPro;
+  const isClientPlan = getSubscriptionStatus(
+    "Client",
+    currentUser?.subscription_id,
+  );
   const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
   const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;
   const isPayingSubscriber = !hasBudgetItems && !!subOwesPayment;
@@ -222,16 +223,21 @@ const Home = () => {
       )}
       {!budget.length && isPayingSubscriber && (
         <>
-          <div>
-            Kindly select and complete payment for your preferred subscription
-            plan. Alternatively, feel free to choose any option that best fits
-            your needs.
-          </div>
-          <PricingDetails
-            isPayPal
-            isSelectedPlan={plan || localStorage.getItem("plan")}
-            isHighlighted
-          />
+          {!!isClientPlan && <ClientOption isPayPal />}
+          {!isClientPlan && (
+            <>
+              <div>
+                Kindly select and complete payment for your preferred
+                subscription plan. Alternatively, feel free to choose any option
+                that best fits your needs.
+              </div>
+              <PricingDetails
+                isPayPal
+                isSelectedPlan={plan || localStorage.getItem("plan")}
+                isHighlighted
+              />
+            </>
+          )}
         </>
       )}
       <SessionExpired

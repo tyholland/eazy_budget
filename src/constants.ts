@@ -113,6 +113,8 @@ export const subscriptionPlan = [
   "Tester",
   "Starter Plan - 1 Year",
   "Pro Plan - 1 Year",
+  "Partner Plan",
+  "Client Plan",
 ];
 
 export const budgetQuotes = [
@@ -206,7 +208,7 @@ export const nonPrivatePages = [
   "/about",
   "/privacy",
   "/contact",
-  "/referral",
+  "/client",
   "/partner",
 ];
 

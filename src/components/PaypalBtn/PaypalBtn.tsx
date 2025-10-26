@@ -25,8 +25,9 @@ const PaypalBtn = ({ sub, addSub, planNum }: PaypalBtnProps) => {
   const styles: PayPalButtonsComponentProps["style"] = {
     color: "gold",
     label: "subscribe",
-    layout: "vertical",
-    shape: "rect",
+    layout: "horizontal",
+    shape: "pill",
+    height: 35,
   };
 
   const createSubscription = (data, actions) => {

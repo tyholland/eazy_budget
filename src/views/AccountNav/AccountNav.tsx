@@ -4,6 +4,7 @@ import Button from "../../components/Button/Button.tsx";
 import { getSubscriptionStatus } from "../../functions/helper.ts";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { useNavigate } from "react-router-dom";
 
 interface AccountNavProps {
   setSelectedOption: (val: string) => void;
@@ -12,11 +13,15 @@ interface AccountNavProps {
 
 const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
   const currentUser = useAtomValue(userAtom);
+  const navigate = useNavigate();
   const subscribe = getSubscriptionStatus(
     "Starter",
     currentUser?.subscription_id,
   );
-  const referralSub = currentUser && currentUser.subscription_id === 2;
+  const partnerAdmin = getSubscriptionStatus(
+    "Admin",
+    currentUser?.subscription_id,
+  );
 
   return (
     <S.NavWrapper>
@@ -27,6 +32,7 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           classType="text"
           handleClick={() => {
             setSelectedOption("settings");
+            navigate("?nav=settings");
           }}
         >
           Settings
@@ -40,39 +46,43 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
             classType="text"
             handleClick={() => {
               setSelectedOption("budget");
+              navigate("?nav=budget");
             }}
           >
             Budget
           </Button>
         </S.NavItem>
       )}
-      {currentUser?.hasBudget && referralSub && (
+      {partnerAdmin && (
         <S.NavItem
-          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "referrals" ? "open" : "close"}`}
+          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "admin" ? "open" : "close"}`}
         >
           <Button
             classType="text"
             handleClick={() => {
-              setSelectedOption("referrals");
+              setSelectedOption("admin");
+              navigate("?nav=admin");
             }}
           >
-            Referrals
+            Admin
           </Button>
         </S.NavItem>
       )}
-      {getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-        currentUser?.hasBudget && (
-          <S.NavItem
-            className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+      {subscribe && currentUser?.hasBudget && (
+        <S.NavItem
+          className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+        >
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("subscription");
+              navigate("?nav=subscription");
+            }}
           >
-            <Button
-              classType="text"
-              handleClick={() => setSelectedOption("subscription")}
-            >
-              Subscription
-            </Button>
-          </S.NavItem>
-        )}
+            Subscription
+          </Button>
+        </S.NavItem>
+      )}
     </S.NavWrapper>
   );
 };

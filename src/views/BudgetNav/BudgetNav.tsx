@@ -8,6 +8,7 @@ interface BudgetNavProps {
   setSelectedOption: (val: string) => void;
   incomeUrl: string;
   expenseUrl: string;
+  page: string;
   selectedOption?: string;
 }
 
@@ -15,6 +16,7 @@ const BudgetNav = ({
   setSelectedOption,
   incomeUrl,
   expenseUrl,
+  page,
   selectedOption,
 }: BudgetNavProps) => {
   const navigate = useNavigate();
@@ -94,6 +96,22 @@ const BudgetNav = ({
           Charts
         </Button>
       </S.NavItem>
+      {page === "monthly" && (
+        <S.NavItem className={selectedOption === "howto" ? "open" : "close"}>
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("howto");
+              trackEvent("Viewed How To's", {
+                month: params.month,
+                year: params.year,
+              });
+            }}
+          >
+            How To's
+          </Button>
+        </S.NavItem>
+      )}
     </S.NavWrapper>
   );
 };

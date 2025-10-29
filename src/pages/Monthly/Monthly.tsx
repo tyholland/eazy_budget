@@ -344,10 +344,17 @@ const Monthly = () => {
         setSelectedOption={setSelectedOption}
         incomeUrl={`/monthly/income/${month}/${theYear}`}
         expenseUrl={`/monthly/expense/${month}/${theYear}`}
+        page="monthly"
       />
       <S.ContentWrapper>
         <S.Title>
-          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}
+          {selectedOption === "howto" && "How To's"}
+          {selectedOption !== "howto" && (
+            <>
+              {selectedOption !== "goals" && `${month} ${theYear}`}{" "}
+              {selectedOption}
+            </>
+          )}
         </S.Title>
         {selectedOption === type && (
           <>
@@ -504,6 +511,7 @@ const Monthly = () => {
             page="monthly"
           />
         )}
+        {selectedOption === "howto" && <div>Nothing yet</div>}
       </S.ContentWrapper>
       <SessionExpired
         isOpen={isSessionExpired}

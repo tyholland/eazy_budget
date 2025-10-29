@@ -83,6 +83,19 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
           </Button>
         </S.NavItem>
       )}
+      <S.NavItem
+        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "howto" ? "open" : "close"}`}
+      >
+        <Button
+          classType="text"
+          handleClick={() => {
+            setSelectedOption("howto");
+            navigate("?nav=howto");
+          }}
+        >
+          How To's
+        </Button>
+      </S.NavItem>
     </S.NavWrapper>
   );
 };

@@ -79,11 +79,20 @@ const SetupBudget = ({
     <S.Wrapper>
       <S.ContentSection>
         <h2>Welcome to Simple Budgeting</h2>
-        <span>
-          Manually enter your income and expenses for one month to automatically
-          generate a comprehensive 12-month budget — or upload your income and
-          expense data via CSV to create it instantly.
-        </span>
+        {inputOption === "manual" && (
+          <span>
+            Manually enter your income and expenses for one month to
+            automatically generate a comprehensive 12-month budget — or upload
+            your income and expense data via CSV to create it instantly.
+          </span>
+        )}
+        {inputOption === "csv" && (
+          <span>
+            Please download the income and expenses CSV files and complete them
+            to the best of your ability. Once completed, upload each file using
+            the corresponding upload buttons provided below.
+          </span>
+        )}
       </S.ContentSection>
       {inputOption === "manual" && (
         <>
@@ -140,11 +149,6 @@ const SetupBudget = ({
       )}
       {inputOption === "csv" && (
         <>
-          <S.UploadContent>
-            Please download the income and expenses CSV files and complete them
-            to the best of your ability. Once completed, upload each file using
-            the corresponding upload buttons provided below.
-          </S.UploadContent>
           <S.UploadWrapper>
             <S.UploadSection>
               <Link

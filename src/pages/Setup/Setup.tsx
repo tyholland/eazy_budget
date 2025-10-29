@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./setup.style.ts";
 import { useAtom } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
@@ -8,8 +7,6 @@ import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import {
   createInitialBudget,
   formatBudgetData,
-  getMonthlyTotalAmount,
-  getYearlyTotalAmount,
 } from "../../functions/budget.ts";
 import {
   checkIsExpiredSession,
@@ -44,28 +41,6 @@ const Setup = () => {
     currentUser?.connected_message,
   );
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
-
-  const montlyTotalIncome = getMonthlyTotalAmount(
-    budget,
-    currentMonth,
-    currentYear,
-    "income",
-  );
-
-  const monthlyTotalExpense = getMonthlyTotalAmount(
-    budget,
-    currentMonth,
-    currentYear,
-    "expense",
-  );
-
-  const yearlyTotalIncome = getYearlyTotalAmount(budget, currentYear, "income");
-
-  const yearlyTotalExpense = getYearlyTotalAmount(
-    budget,
-    currentYear,
-    "expense",
-  );
 
   const params = new URLSearchParams(window.location.search);
   const plan = params.get("plan");

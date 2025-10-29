@@ -63,6 +63,12 @@ export const getDateInfo = () => {
   };
 };
 
+export const loggedInHomepage = () => {
+  const { currentMonth, currentYear } = getDateInfo();
+
+  return `/monthly/expense/${currentMonth}/${currentYear}`;
+};
+
 const capitalizePageTitle = (title: string) => {
   let pageTitle = title.replace("/", "");
   const firstLetter = pageTitle.charAt(0).toUpperCase();

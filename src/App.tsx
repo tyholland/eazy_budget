@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home.tsx";
 import Monthly from "./pages/Monthly/Monthly.tsx";
 import Yearly from "./pages/Yearly/Yearly.tsx";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
@@ -24,6 +23,7 @@ import Ad from "./components/Ad/Ad.tsx";
 import Partner from "./pages/Partner/Partner.tsx";
 import Client from "./pages/Client/Client.tsx";
 import ClientDetails from "./pages/ClientDetails/ClientDetails.tsx";
+import Setup from "./pages/Setup/Setup.tsx";
 
 const App = () => {
   return (
@@ -41,10 +41,7 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/partner" element={<Partner />} />
             <Route path="/client" element={<Client />} />
-            <Route
-              path="/overview"
-              element={<PrivateRoute component={Home} />}
-            />
+            <Route path="/setup" element={<PrivateRoute component={Setup} />} />
             <Route
               path="/monthly/:type/:month/:year"
               element={<PrivateRoute component={Monthly} />}

@@ -4,7 +4,11 @@ import * as S from "./pastMonths.style.ts";
 import { useAtomValue } from "jotai";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { getMonthlyTotalAmount } from "../../functions/budget.ts";
-import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
+import {
+  getDateInfo,
+  getSubscriptionStatus,
+  loggedInHomepage,
+} from "../../functions/helper.ts";
 import { BudgetData } from "../../types.ts";
 import SadIcon from "../../svg/SadIcon.tsx";
 import { listOfMonths } from "../../constants.ts";
@@ -31,7 +35,7 @@ const PastMonths = () => {
       currentUser &&
       !getSubscriptionStatus("Starter", currentUser?.subscription_id)
     ) {
-      navigate("/overview");
+      navigate(loggedInHomepage());
     }
   }, []);
 

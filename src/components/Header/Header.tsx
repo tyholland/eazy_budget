@@ -11,6 +11,7 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { addUser, getBudgetInfo } from "../../functions/user.ts";
 import { nonPrivatePages } from "../../constants.ts";
+import { loggedInHomepage } from "../../functions/helper.ts";
 
 const Header = () => {
   const auth = useAuth0();
@@ -39,7 +40,10 @@ const Header = () => {
   return (
     <S.HeaderWrapper>
       <S.Title>
-        <Link label="Simple Budgeting" url={user?.picture ? "/overview" : "/"}>
+        <Link
+          label="Simple Budgeting"
+          url={user?.picture ? loggedInHomepage() : "/"}
+        >
           Simple Budgeting
         </Link>
       </S.Title>

@@ -1,6 +1,7 @@
 import React, { JSX } from "react";
 import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
+import { loggedInHomepage } from "../../functions/helper";
 
 interface Auth0ProviderRedirectProps {
   children: JSX.Element;
@@ -20,7 +21,7 @@ const Auth0ProviderRedirect = ({ children }: Auth0ProviderRedirectProps) => {
       domain={process.env.REACT_APP_DOMAIN as string}
       clientId={process.env.REACT_APP_CLIENT_ID as string}
       authorizationParams={{
-        redirect_uri: `${window.location.origin}/overview`,
+        redirect_uri: `${window.location.origin}${loggedInHomepage()}`,
         audience: process.env.REACT_APP_AUDIENCE,
         scope: "openid profile email",
       }}

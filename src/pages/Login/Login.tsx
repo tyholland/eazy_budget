@@ -4,6 +4,7 @@ import * as S from "./login.style.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
 import Link from "../../components/Link/Link.tsx";
+import { loggedInHomepage } from "../../functions/helper.ts";
 
 const Login = () => {
   const { isLoading, user } = useAuth0();
@@ -14,7 +15,7 @@ const Login = () => {
   }
 
   if (user) {
-    navigate("/overview");
+    navigate(loggedInHomepage());
   }
 
   return (

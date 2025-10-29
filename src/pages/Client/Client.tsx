@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading.tsx";
 import * as S from "./client.style.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
+import { loggedInHomepage } from "../../functions/helper.ts";
 
 const Client = () => {
   const { isLoading, user } = useAuth0();
@@ -19,7 +20,7 @@ const Client = () => {
   }
 
   if (user) {
-    navigate("/overview");
+    navigate(loggedInHomepage());
   }
 
   if (!referral_code) {

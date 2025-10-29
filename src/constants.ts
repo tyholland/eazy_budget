@@ -212,7 +212,7 @@ export const nonPrivatePages = [
   "/partner",
 ];
 
-export const noBreadCrumbList = ["/", "/overview", ...nonPrivatePages];
+export const noBreadCrumbList = ["/", "/setup", ...nonPrivatePages];
 
 export const currencyList = [
   {

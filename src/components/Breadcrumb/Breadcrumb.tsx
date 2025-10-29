@@ -18,12 +18,6 @@ const Breadcrumb = () => {
 
   return (
     <S.Wrapper>
-      <S.GreyedOut>
-        <Link url="/overview" label="Overview">
-          Overview
-        </Link>
-      </S.GreyedOut>
-      <S.GreyedOut>&gt;</S.GreyedOut>
       {isMonthly && (
         <>
           <S.GreyedOut>

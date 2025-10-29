@@ -77,7 +77,7 @@ const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
                 handleClick={() =>
                   loginWithRedirect({
                     appState: {
-                      returnTo: `/overview?plan=9`,
+                      returnTo: `/setup?plan=9`,
                     },
                     authorizationParams: {
                       screen_hint: "signup",
@@ -149,7 +149,7 @@ const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
             handleClick={() =>
               loginWithRedirect({
                 appState: {
-                  returnTo: `/overview?plan=9`,
+                  returnTo: `/setup?plan=9`,
                 },
                 authorizationParams: {
                   screen_hint: "signup",

@@ -85,6 +85,10 @@ const Monthly = () => {
       setExpenseFilter(0);
       setSelectedFilter("None");
     }
+
+    type === "expense" &&
+      selectedOption !== "charts" &&
+      setSelectedOption(type);
   }, [type]);
 
   if (

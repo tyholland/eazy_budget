@@ -44,10 +44,4 @@ export const BudgetSection = styled.div`
       width: 100%;
     }
   }
-
-  img {
-    @media only screen and (max-width: 800px) {
-      display: none;
-    }
-  }
 `;

@@ -104,6 +104,7 @@ export interface UserResponse {
   referral_code: string;
   all_referrals: ClientReferrals[];
   currency: string;
+  total_medal_points: number;
   paypal_sub_id?: string | null;
   connected_id?: number;
   primary_request?: string;

@@ -4,6 +4,7 @@ import Link from "../Link/Link.tsx";
 import { useLocation } from "react-router-dom";
 import { getCurrentPageName } from "../../functions/helper.ts";
 import { noBreadCrumbList } from "../../constants.ts";
+import MedalProgress from "../MedalProgress/MedalProgress.tsx";
 
 const Breadcrumb = () => {
   const { pathname } = useLocation();
@@ -17,29 +18,32 @@ const Breadcrumb = () => {
   }
 
   return (
-    <S.Wrapper>
-      {isMonthly && (
-        <>
-          <S.GreyedOut>
-            <Link url={`/yearly/${page[2]}/${page[4]}`} label={page2Name}>
-              {page2Name}
-            </Link>
-          </S.GreyedOut>
-          <S.GreyedOut>&gt;</S.GreyedOut>
-        </>
-      )}
-      {isAccount && (
-        <>
-          <S.GreyedOut>
-            <Link url={`/account`} label={page2Name}>
-              {page2Name}
-            </Link>
-          </S.GreyedOut>
-          <S.GreyedOut>&gt;</S.GreyedOut>
-        </>
-      )}
-      <div>{pageName}</div>
-    </S.Wrapper>
+    <>
+      <S.Wrapper>
+        {isMonthly && (
+          <>
+            <S.GreyedOut>
+              <Link url={`/yearly/${page[2]}/${page[4]}`} label={page2Name}>
+                {page2Name}
+              </Link>
+            </S.GreyedOut>
+            <S.GreyedOut>&gt;</S.GreyedOut>
+          </>
+        )}
+        {isAccount && (
+          <>
+            <S.GreyedOut>
+              <Link url={`/account`} label={page2Name}>
+                {page2Name}
+              </Link>
+            </S.GreyedOut>
+            <S.GreyedOut>&gt;</S.GreyedOut>
+          </>
+        )}
+        <div>{pageName}</div>
+      </S.Wrapper>
+      <MedalProgress />
+    </>
   );
 };
 

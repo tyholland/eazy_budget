@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, GREEN } from "../../index.style.ts";
+import { BLACK, GREEN, RUBIK } from "../../index.style.ts";
 
 export const ProgressBar = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ export const Meter = styled.div`
 `;
 
 export const Block = styled.div`
-  width: 15px;
+  width: 25px;
 
   &.active {
     background: ${GREEN};
@@ -28,4 +28,15 @@ export const Block = styled.div`
   &:last-child {
     border-radius: 0 5px 5px 0;
   }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`;
+
+export const Title = styled.div`
+  font-family: ${RUBIK};
+  font-weight: 400;
 `;

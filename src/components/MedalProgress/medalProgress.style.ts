@@ -34,6 +34,11 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    gap: 8px;
+  }
 `;
 
 export const Title = styled.div`

@@ -92,6 +92,19 @@ export interface ClientReferrals {
   last_name?: string;
 }
 
+export interface MedalGame {
+  total_medal_points: number;
+  shared_account: boolean;
+  expenses_in_category_1: boolean;
+  expenses_in_category_2: boolean;
+  expenses_in_category_3: boolean;
+  edit_expense_in_month: boolean;
+  add_expense_in_month: boolean;
+  edit_income_in_month: boolean;
+  add_income_in_month: boolean;
+  add_category_in_month: boolean;
+}
+
 export interface UserResponse {
   action: string;
   hasBudget: boolean;
@@ -104,7 +117,7 @@ export interface UserResponse {
   referral_code: string;
   all_referrals: ClientReferrals[];
   currency: string;
-  total_medal_points: number;
+  medal_game: MedalGame;
   paypal_sub_id?: string | null;
   connected_id?: number;
   primary_request?: string;

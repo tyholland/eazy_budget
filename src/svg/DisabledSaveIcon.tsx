@@ -10,7 +10,7 @@ const DisabledSaveIcon = () => {
     >
       <defs>
         <linearGradient
-          id="d"
+          id="disabled-d"
           x1="314.57"
           x2="332.02"
           y1="369.98"
@@ -21,7 +21,7 @@ const DisabledSaveIcon = () => {
           <stop stopColor="#ddd" offset="1" />
         </linearGradient>
         <linearGradient
-          id="e"
+          id="disabled-e"
           x1="210.25"
           x2="182.17"
           y1="229.4"
@@ -32,7 +32,7 @@ const DisabledSaveIcon = () => {
           <stop stopColor="#fff" offset="1" />
         </linearGradient>
         <linearGradient
-          id="f"
+          id="disabled-f"
           x1="302.74"
           x2="311.27"
           y1="377.95"
@@ -53,17 +53,17 @@ const DisabledSaveIcon = () => {
         <path
           transform="matrix(1.7312 0 0 1.7312 -372.54 -426.19)"
           d="m339.54 378.06a13.967 13.967 0 1 1 -27.933 0 13.967 13.967 0 1 1 27.933 0z"
-          fill="url(#d)"
+          fill="url(#disabled-d)"
           stroke="#fff"
           strokeWidth=".32492"
         />
         <path
           d="m173.97809,230.81101c-.22285.22282-.18093.57323.04188.79604l13.52774,14.18788 22.5326-25.48658c.22285-.22283.22281-.53132 0-.75414l-5.02769-5.02769c-.22284-.22284-.58637-.27716-.79604-.04191l-16.82943,18.88214-7.58343-7.58343c-.22282-.22285-.61512-.22285-.83794,0l-5.02769,5.02769z"
-          fill="url(#e)"
+          fill="url(#disabled-e)"
         />
         <path
           d="m191.07 204.13c-13.347 0-24.175 10.828-24.175 24.175 0 6.4126 2.6169 12.143 6.6955 16.472 2.1188-17.5 16.89-31.107 34.959-31.107 0.48721 0 0.93961 0.09896 1.422 0.1185-4.4214-5.7507-11.092-9.6581-18.901-9.6581z"
-          fill="url(#f)"
+          fill="url(#disabled-f)"
         />
       </g>
     </svg>

@@ -9,11 +9,12 @@ import MedalThree from "../../svg/MedalThree.tsx";
 import SadIcon from "../../svg/SadIcon.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import Link from "../Link/Link.tsx";
 
 const MedalProgress = () => {
   const currentUser = useAtomValue(userAtom);
 
-  const totalPoints = currentUser?.total_medal_points || 31;
+  const totalPoints = currentUser?.medal_game.total_medal_points || 0;
 
   return (
     <S.Wrapper>
@@ -260,6 +261,9 @@ const MedalProgress = () => {
           <MedalSix />
         </S.ProgressBar>
       )}
+      <Link url="/account" label="Learn more">
+        Learn more
+      </Link>
     </S.Wrapper>
   );
 };

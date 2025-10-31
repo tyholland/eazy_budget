@@ -10,7 +10,9 @@ export const Item = styled.div`
 export const Title = styled.div`
   font-family: ${RUBIK};
   font-weight: 600;
+  text-transform: capitalize;
 `;
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

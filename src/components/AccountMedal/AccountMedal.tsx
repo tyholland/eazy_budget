@@ -9,7 +9,7 @@ import MedalThree from "../../svg/MedalThree.tsx";
 import SadIcon from "../../svg/SadIcon.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
-import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import Button from "../Button/Button.tsx";
@@ -34,7 +34,7 @@ const AccountMedal = () => {
     add_income_in_month,
     add_category_in_month,
   } = currentUser.medal_game;
-
+  const { currentMonth } = getDateInfo();
   const isPro = getSubscriptionStatus("Pro", currentUser.subscription_id);
   const isStarter = getSubscriptionStatus(
     "Starter",
@@ -96,8 +96,9 @@ const AccountMedal = () => {
       </S.Item>
       <S.Item>
         <S.Title>Current Points:</S.Title>
-        <div>{totalPoints}</div>
+        <div>{totalPoints} / 180</div>
       </S.Item>
+      <Button>See Points per Task</Button>
       {isFree && (
         <>
           <div>
@@ -129,21 +130,14 @@ const AccountMedal = () => {
           <div>Ready to play, save, and win? Let's go!</div>
         </>
       )}
-      <S.Item>
-        <S.Title>Goal Points:</S.Title>
-        <div>180</div>
-      </S.Item>
-
-      <div>View task points</div>
-
       <S.Title>One time tasks</S.Title>
       <div>
         <S.Item>
-          <div>Has Pro plan</div> {isPro ? <SaveIcon /> : <DisabledSaveIcon />}
+          <div>Is Pro plan</div> {isPro ? <SaveIcon /> : <DisabledSaveIcon />}
         </S.Item>
         <S.Item>
-          <div>Has Starter plan</div>{" "}
-          {isStarter ? <SaveIcon /> : <DisabledSaveIcon />}
+          <div>Is Starter plan</div>{" "}
+          {isStarter && !isPro ? <SaveIcon /> : <DisabledSaveIcon />}
         </S.Item>
         <S.Item>
           <div>Shared account</div>{" "}
@@ -170,7 +164,7 @@ const AccountMedal = () => {
         </S.Item>
       </div>
 
-      <S.Title>Monthly tasks</S.Title>
+      <S.Title>{currentMonth} tasks</S.Title>
       <div>
         <S.Item>
           <div>Adding at least one new expense per month</div>

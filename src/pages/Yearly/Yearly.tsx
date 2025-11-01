@@ -54,7 +54,6 @@ const Yearly = () => {
         setSelectedOption={setSelectedOption}
         incomeUrl={`/yearly/income/${theYear}`}
         expenseUrl={`/yearly/expense/${theYear}`}
-        page="yearly"
       />
       <S.ContentWrapper>
         <S.Title>

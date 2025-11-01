@@ -99,9 +99,7 @@ export interface MedalGame {
   expenses_in_category_2: boolean;
   expenses_in_category_3: boolean;
   edit_expense_in_month: boolean;
-  add_expense_in_month: boolean;
   edit_income_in_month: boolean;
-  add_income_in_month: boolean;
   add_category_in_month: boolean;
 }
 

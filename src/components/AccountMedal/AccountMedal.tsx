@@ -29,9 +29,7 @@ const AccountMedal = () => {
     expenses_in_category_2,
     expenses_in_category_3,
     edit_expense_in_month,
-    add_expense_in_month,
     edit_income_in_month,
-    add_income_in_month,
     add_category_in_month,
   } = currentUser.medal_game;
   const { currentMonth } = getDateInfo();
@@ -167,16 +165,8 @@ const AccountMedal = () => {
       <S.Title>{currentMonth} tasks</S.Title>
       <div>
         <S.Item>
-          <div>Adding at least one new expense per month</div>
-          {add_expense_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
-        </S.Item>
-        <S.Item>
           <div>Editing at least one expense per month</div>
           {edit_expense_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
-        </S.Item>
-        <S.Item>
-          <div>Adding at least one new income per month</div>
-          {add_income_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
         </S.Item>
         <S.Item>
           <div>Editing at least one income per month</div>

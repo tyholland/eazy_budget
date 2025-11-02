@@ -53,6 +53,7 @@ import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import Link from "../../components/Link/Link.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -383,7 +384,10 @@ const Monthly = () => {
       />
       <S.ContentWrapper>
         <S.Title>
-          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}
+          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}{" "}
+          <Link url={`/yearly/${type}/${theYear}`} label="change month">
+            (change month)
+          </Link>
         </S.Title>
         {selectedOption === type && (
           <>

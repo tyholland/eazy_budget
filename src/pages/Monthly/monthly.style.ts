@@ -15,6 +15,9 @@ export const Title = styled.h2`
   text-transform: capitalize;
   margin: 0;
   font-family: ${RUBIK};
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const ItemContainer = styled.div`

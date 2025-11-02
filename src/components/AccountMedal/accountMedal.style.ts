@@ -75,4 +75,6 @@ export const Descript = styled.div`
   gap: 10px;
   font-weight: 500;
   margin: 0 0 15px 0;
+  max-width: 550px;
+  width: 100%;
 `;

@@ -99,10 +99,12 @@ const AccountMedal = () => {
         <S.Item>
           <S.Title>Current Points:</S.Title>
           <div>{totalPoints} / 180</div>
+          <Button handleClick={() => setIsOpen(true)}>
+            See Points per Task
+          </Button>
         </S.Item>
-        <Button handleClick={() => setIsOpen(true)}>See Points per Task</Button>
         {isFree && (
-          <>
+          <S.Descript>
             <div>
               Take part in the Medal Game and earn a free 1-month trial of the
               Pro Plan, applied to your account once you claim your prize.
@@ -115,10 +117,10 @@ const AccountMedal = () => {
               Ready to level up your budgeting skills and claim your reward?
               Let's play smart and win big!
             </div>
-          </>
+          </S.Descript>
         )}
         {isPaid && (
-          <>
+          <S.Descript>
             <div>
               Join the Medal Challenge and unlock a free 1-month discount —
               automatically applied to your account within 24 hours of claiming
@@ -130,57 +132,62 @@ const AccountMedal = () => {
               Medal status.
             </div>
             <div>Ready to play, save, and win? Let's go!</div>
-          </>
+          </S.Descript>
         )}
-        <S.Title>One time tasks</S.Title>
-        <div>
-          <S.Item>
-            <div>Is Pro plan</div> {isPro ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Is Starter plan</div>{" "}
-            {isStarter && !isPro ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Shared account</div>{" "}
-            {shared_account ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Added budget</div>{" "}
-            {currentUser.hasBudget ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Created an account</div> <SaveIcon />
-          </S.Item>
-          <S.Item>
-            <div>Add expense to “Non-Discretionary” category</div>{" "}
-            {expenses_in_category_1 ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Add expense to “Savings” category</div>{" "}
-            {expenses_in_category_2 ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Add expense to “Fun Money” category</div>{" "}
-            {expenses_in_category_3 ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-        </div>
+        <S.TaskContainer>
+          <S.TaskSection>
+            <S.Title>One time tasks</S.Title>
+            <S.Item className="task">
+              <div>Is Pro plan</div>{" "}
+              {isPro ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Is Starter plan</div>{" "}
+              {isStarter && !isPro ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Shared account</div>{" "}
+              {shared_account ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Added budget</div>{" "}
+              {currentUser.hasBudget ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Created an account</div> <SaveIcon />
+            </S.Item>
+            <S.Item className="task">
+              <div>Add expense to “Non-Discretionary” category</div>{" "}
+              {expenses_in_category_1 ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Add expense to “Savings” category</div>{" "}
+              {expenses_in_category_2 ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Add expense to “Fun Money” category</div>{" "}
+              {expenses_in_category_3 ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+          </S.TaskSection>
+        </S.TaskContainer>
 
-        <S.Title>{currentMonth} tasks</S.Title>
-        <div>
-          <S.Item>
-            <div>Edit one expense per month</div>
-            {edit_expense_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Edit one income per month</div>
-            {edit_income_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-          <S.Item>
-            <div>Add one new category per month</div>
-            {add_category_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
-          </S.Item>
-        </div>
+        <S.TaskContainer>
+          <S.TaskSection>
+            <S.Title>{currentMonth} tasks</S.Title>
+            <S.Item className="task">
+              <div>Edit one expense per month</div>
+              {edit_expense_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Edit one income per month</div>
+              {edit_income_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+            <S.Item className="task">
+              <div>Add one new category per month</div>
+              {add_category_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+            </S.Item>
+          </S.TaskSection>
+        </S.TaskContainer>
 
         {isPaid && totalPoints >= 180 && (
           <Button>Claim free 1-month discount</Button>

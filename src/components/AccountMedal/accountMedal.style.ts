@@ -60,3 +60,11 @@ export const TaskContainer = styled.div`
   flex-direction: column;
   gap: 20px;
 `;
+
+export const Descript = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 500;
+  margin: 0 0 15px 0;
+`;

@@ -345,6 +345,26 @@ const Account = () => {
             )}
             {selectedOption === "budget" && (
               <>
+                <S.Section>
+                  <Link
+                    url={`/monthly/income/${currentMonth}/${currentYear}`}
+                    label={`${currentMonth} Overview`}
+                  >
+                    <span>
+                      {currentMonth} Overview <ViewIcon />
+                    </span>
+                  </Link>
+                </S.Section>
+                <S.Section>
+                  <Link
+                    url={`/yearly/income/${currentYear}`}
+                    label={`${currentYear} Overview`}
+                  >
+                    <span>
+                      {currentYear} Overview <ViewIcon />
+                    </span>
+                  </Link>
+                </S.Section>
                 {isPro && (
                   <S.Section>
                     <Link
@@ -366,26 +386,6 @@ const Account = () => {
                     </Button>
                   </S.Section>
                 )}
-                <S.Section>
-                  <Link
-                    url={`/yearly/income/${currentYear}`}
-                    label={`${currentYear} Overview`}
-                  >
-                    <span>
-                      {currentYear} Overview <ViewIcon />
-                    </span>
-                  </Link>
-                </S.Section>
-                <S.Section>
-                  <Link
-                    url={`/monthly/income/${currentMonth}/${currentYear}`}
-                    label={`${currentMonth} Overview`}
-                  >
-                    <span>
-                      {currentMonth} Overview <ViewIcon />
-                    </span>
-                  </Link>
-                </S.Section>
                 <S.Section>
                   <Link url="/account/history" label="Overall Budget History">
                     <span>

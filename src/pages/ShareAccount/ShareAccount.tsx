@@ -66,7 +66,7 @@ const ShareAccount = () => {
       currentUser &&
       !getSubscriptionStatus("Pro", currentUser?.subscription_id)
     ) {
-      navigate(loggedInHomepage());
+      navigate(loggedInHomepage(currentUser));
     }
   }, []);
 

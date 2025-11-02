@@ -18,7 +18,7 @@ const Subscription = () => {
       currentUser &&
       !getSubscriptionStatus("Starter", currentUser?.subscription_id)
     ) {
-      navigate(loggedInHomepage());
+      navigate(loggedInHomepage(currentUser));
     }
   }, []);
 

@@ -63,10 +63,12 @@ export const getDateInfo = () => {
   };
 };
 
-export const loggedInHomepage = () => {
+export const loggedInHomepage = (user: User | undefined) => {
   const { currentMonth, currentYear } = getDateInfo();
 
-  return `/monthly/expense/${currentMonth}/${currentYear}`;
+  return user && user.hasBudget
+    ? `/monthly/expense/${currentMonth}/${currentYear}`
+    : "/setup";
 };
 
 const capitalizePageTitle = (title: string) => {

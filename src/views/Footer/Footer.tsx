@@ -34,7 +34,7 @@ const Footer = () => {
       <hr />
       <S.Links>
         <Link
-          url={currentUser ? loggedInHomepage() : "/"}
+          url={currentUser ? loggedInHomepage(currentUser) : "/"}
           label="Home"
           linkSize="medium"
           callBack={() => window.scrollTo(0, 0)}

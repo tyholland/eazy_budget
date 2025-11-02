@@ -16,7 +16,7 @@ const ErrorPage = () => {
         <span>The page you're looking for may not exist.</span>
         <span>Please return to the homepage</span>
         <Link
-          url={currentUser ? loggedInHomepage() : "/"}
+          url={currentUser ? loggedInHomepage(currentUser) : "/"}
           label="Return Home"
           classType="button"
           linkSize="medium"

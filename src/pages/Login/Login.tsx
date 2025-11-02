@@ -15,7 +15,7 @@ const Login = () => {
   }
 
   if (user) {
-    navigate(loggedInHomepage());
+    navigate(loggedInHomepage(undefined));
   }
 
   return (

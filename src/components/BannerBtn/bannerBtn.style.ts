@@ -23,12 +23,12 @@ export const Section = styled.div`
   &.link {
     justify-content: center;
     padding: 0;
+    margin: 10px 0 15px;
 
     a {
       width: 90%;
-      height: 60px;
-      font-size: 28px;
-      border-radius: 15px;
+      font-size: 18px;
+      border-radius: 10px;
       background: ${LIGHT_GREEN};
       box-shadow: 0 0 10px ${BLACK};
 

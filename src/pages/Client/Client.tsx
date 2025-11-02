@@ -20,7 +20,7 @@ const Client = () => {
   }
 
   if (user) {
-    navigate(loggedInHomepage());
+    navigate(loggedInHomepage(undefined));
   }
 
   if (!referral_code) {

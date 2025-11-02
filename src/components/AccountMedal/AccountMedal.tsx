@@ -7,7 +7,7 @@ import MedalFive from "../../svg/MedalFive.tsx";
 import MedalFour from "../../svg/MedalFour.tsx";
 import MedalThree from "../../svg/MedalThree.tsx";
 import SadIcon from "../../svg/SadIcon.tsx";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
 import {
   checkIsExpiredSession,
@@ -76,6 +76,10 @@ const AccountMedal = () => {
           ...currentUser,
           subscription_id: 10,
           subscribed_at: new Date(Date.now()).toISOString(),
+          medal_game: {
+            ...currentUser.medal_game,
+            is_claimed: true,
+          },
         });
 
       setOpenTrialModal(false);
@@ -249,7 +253,17 @@ const AccountMedal = () => {
           <S.ClaimBtn>
             <Button
               buttonSize="large"
-              handleClick={() => setOpenTrialModal(true)}
+              handleClick={() => {
+                currentUser &&
+                  setCurrentUser({
+                    ...currentUser,
+                    medal_game: {
+                      ...currentUser.medal_game,
+                      is_claimed: true,
+                    },
+                  });
+                setOpenTrialModal(true);
+              }}
             >
               Claim free 1-month trial of the Pro Plan
             </Button>

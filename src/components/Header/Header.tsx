@@ -42,7 +42,7 @@ const Header = () => {
       <S.Title>
         <Link
           label="Simple Budgeting"
-          url={user?.picture ? loggedInHomepage() : "/"}
+          url={user?.picture ? loggedInHomepage(currentUser) : "/"}
         >
           Simple Budgeting
         </Link>

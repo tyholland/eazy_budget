@@ -91,7 +91,7 @@ const Create = () => {
       const updatedIncome = updateBudgetItems(data, income);
       setIncome(updatedIncome);
       localStorage.setItem("budgetIncome", JSON.stringify(updatedIncome));
-      navigate(loggedInHomepage());
+      navigate(loggedInHomepage(undefined));
       return;
     }
 
@@ -99,7 +99,7 @@ const Create = () => {
       const updatedExpense = updateBudgetItems(data, expense);
       setExpense(updatedExpense);
       localStorage.setItem("budgetExpense", JSON.stringify(updatedExpense));
-      navigate(loggedInHomepage());
+      navigate(loggedInHomepage(undefined));
       return;
     }
 
@@ -111,7 +111,7 @@ const Create = () => {
       setExpense(budgetEntries);
       localStorage.setItem("budgetExpense", JSON.stringify(budgetEntries));
     }
-    navigate(loggedInHomepage());
+    navigate(loggedInHomepage(undefined));
   };
 
   const handleSaveEvent = (item: Object) => {

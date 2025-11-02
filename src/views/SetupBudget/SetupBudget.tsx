@@ -28,7 +28,7 @@ const SetupBudget = ({
   const [budgetIncome, setBudgetIncome] = useAtom(incomeAtom);
   const [budgetExpense, setBudgetExpense] = useAtom(expenseAtom);
   const currentUser = useAtomValue(userAtom);
-  const [inputOption, setInputOption] = useState<string>("manual");
+  const [inputOption, setInputOption] = useState<string>("csv");
 
   const handleFileUpload = (
     event: ChangeEvent<HTMLInputElement>,

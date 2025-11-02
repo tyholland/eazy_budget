@@ -5,8 +5,12 @@ import { useLocation } from "react-router-dom";
 import { getCurrentPageName } from "../../functions/helper.ts";
 import { noBreadCrumbList } from "../../constants.ts";
 import MedalProgress from "../MedalProgress/MedalProgress.tsx";
+import BannerBtn from "../BannerBtn/BannerBtn.tsx";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const Breadcrumb = () => {
+  const currentUser = useAtomValue(userAtom);
   const { pathname } = useLocation();
   const page = pathname.split("/");
   const { pageName, page2Name } = getCurrentPageName(pathname);
@@ -42,6 +46,9 @@ const Breadcrumb = () => {
         )}
         <div>{pageName}</div>
       </S.Wrapper>
+      {!currentUser?.hasBudget && (
+        <BannerBtn url="/setup" label="Add your Budget info!!!" />
+      )}
       <MedalProgress />
     </>
   );

@@ -35,7 +35,7 @@ const PastMonths = () => {
       currentUser &&
       !getSubscriptionStatus("Starter", currentUser?.subscription_id)
     ) {
-      navigate(loggedInHomepage());
+      navigate(loggedInHomepage(currentUser));
     }
   }, []);
 

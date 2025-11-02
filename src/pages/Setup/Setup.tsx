@@ -76,7 +76,6 @@ const Setup = () => {
       trackEvent("Submitted Initial Budget");
       localStorage.removeItem("budgetIncome");
       localStorage.removeItem("budgetExpense");
-      setIsLoading(false);
     } catch (err) {
       trackError("Home - handleBudgetSubmission:", { result: err });
       setSubmitIsDisabled(false);
@@ -137,7 +136,7 @@ const Setup = () => {
   const isNormalUser = !hasBudgetItems && subIsAllSet;
 
   if (!!budget.length) {
-    window.location.href = loggedInHomepage();
+    window.location.href = loggedInHomepage(currentUser);
   }
 
   return (

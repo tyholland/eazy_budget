@@ -5,6 +5,10 @@ export const Item = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  .points {
+    font-weight: 500;
+  }
 `;
 
 export const Title = styled.div`

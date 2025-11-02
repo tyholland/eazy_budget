@@ -98,7 +98,7 @@ const AccountMedal = () => {
         </S.Item>
         <S.Item>
           <S.Title>Current Points:</S.Title>
-          <div>{totalPoints} / 180</div>
+          <div className="points">{totalPoints} / 180</div>
           <Button handleClick={() => setIsOpen(true)}>
             See Points per Task
           </Button>

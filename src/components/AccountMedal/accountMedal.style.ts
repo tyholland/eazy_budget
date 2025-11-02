@@ -11,6 +11,10 @@ export const Title = styled.div`
   font-family: ${RUBIK};
   font-weight: 600;
   text-transform: capitalize;
+
+  &.medalName {
+    font-size: 30px;
+  }
 `;
 
 export const Wrapper = styled.div`

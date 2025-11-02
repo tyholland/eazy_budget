@@ -1,13 +1,17 @@
 import React from "react";
 
-const MedalFour = () => {
+interface MedalFourProps {
+  size?: number;
+}
+
+const MedalFour = ({ size = 30 }: MedalFourProps) => {
   return (
     <svg
       xmlnsXlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 282.83 366.74"
-      width={30}
-      height={30}
+      width={size}
+      height={size}
     >
       <defs>
         <linearGradient id="a">

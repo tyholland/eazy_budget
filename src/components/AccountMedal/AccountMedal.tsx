@@ -55,44 +55,44 @@ const AccountMedal = () => {
         <S.Item>
           {totalPoints >= 0 && totalPoints < 30 && (
             <>
-              <SadIcon />
-              <S.Title>No Medal</S.Title>
+              <SadIcon size={40} />
+              <S.Title className="medalName">No Medal</S.Title>
             </>
           )}
           {totalPoints >= 30 && totalPoints < 60 && (
             <>
-              <MedalOne />
-              <S.Title>Bronze</S.Title>
+              <MedalOne size={80} />
+              <S.Title className="medalName">Bronze Medal</S.Title>
             </>
           )}
           {totalPoints >= 60 && totalPoints < 90 && (
             <>
-              <MedalTwo />
-              <S.Title>Bronze Elite</S.Title>
+              <MedalTwo size={40} />
+              <S.Title className="medalName">Bronze Elite Medal</S.Title>
             </>
           )}
           {totalPoints >= 90 && totalPoints < 120 && (
             <>
-              <MedalThree />
-              <S.Title>Silver</S.Title>
+              <MedalThree size={40} />
+              <S.Title className="medalName">Silver Medal</S.Title>
             </>
           )}
           {totalPoints >= 120 && totalPoints < 150 && (
             <>
-              <MedalFour />
-              <S.Title>Silver Elite</S.Title>
+              <MedalFour size={40} />
+              <S.Title className="medalName">Silver Elite Medal</S.Title>
             </>
           )}
           {totalPoints >= 150 && totalPoints < 180 && (
             <>
-              <MedalFive />
-              <S.Title>Gold</S.Title>
+              <MedalFive size={40} />
+              <S.Title className="medalName">Gold Medal</S.Title>
             </>
           )}
           {totalPoints >= 180 && (
             <>
-              <MedalSix />
-              <S.Title>Gold Elite</S.Title>
+              <MedalSix size={40} />
+              <S.Title className="medalName">Gold Elite Medal</S.Title>
             </>
           )}
         </S.Item>

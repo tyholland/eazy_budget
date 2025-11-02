@@ -1,12 +1,16 @@
 import React from "react";
 
-const MedalOne = () => {
+interface MedalOneProps {
+  size?: number;
+}
+
+const MedalOne = ({ size = 30 }: MedalOneProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 282.83 366.74"
-      width={30}
-      height={30}
+      width={size}
+      height={size}
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <defs>

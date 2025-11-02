@@ -204,6 +204,32 @@ const Monthly = () => {
 
         await updateBudgetItem(accessToken, updatedItem[0]);
 
+        if (type === "income") {
+          !!currentUser &&
+            setCurrentUser({
+              ...currentUser,
+              medal_game: {
+                ...currentUser.medal_game,
+                edit_income_in_month: true,
+                total_medal_points:
+                  currentUser.medal_game.total_medal_points + 5,
+              },
+            });
+        }
+
+        if (type === "expense") {
+          !!currentUser &&
+            setCurrentUser({
+              ...currentUser,
+              medal_game: {
+                ...currentUser.medal_game,
+                edit_expense_in_month: true,
+                total_medal_points:
+                  currentUser.medal_game.total_medal_points + 5,
+              },
+            });
+        }
+
         trackEvent(`Edit ${type}`);
       } else {
         insertBasedOnCadence(

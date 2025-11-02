@@ -215,7 +215,7 @@ const MedalProgress = () => {
           <MedalFive />
         </S.ProgressBar>
       )}
-      {totalPoints > 150 && totalPoints <= 180 && (
+      {totalPoints > 150 && (
         <S.ProgressBar>
           <MedalFive />
           <S.Meter>
@@ -254,7 +254,7 @@ const MedalProgress = () => {
             >
               &nbsp;
             </S.Block>
-            <S.Block className={totalPoints === 180 ? "active" : ""}>
+            <S.Block className={totalPoints >= 180 ? "active" : ""}>
               &nbsp;
             </S.Block>
           </S.Meter>

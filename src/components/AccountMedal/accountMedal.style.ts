@@ -78,3 +78,11 @@ export const Descript = styled.div`
   max-width: 550px;
   width: 100%;
 `;
+
+export const ClaimBtn = styled.div`
+  margin-top: 10px;
+
+  button {
+    padding: 10px 40px;
+  }
+`;

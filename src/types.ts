@@ -94,6 +94,7 @@ export interface ClientReferrals {
 
 export interface MedalGame {
   total_medal_points: number;
+  is_claimed: boolean;
   shared_account: boolean;
   expenses_in_category_1: boolean;
   expenses_in_category_2: boolean;

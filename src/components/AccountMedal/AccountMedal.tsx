@@ -7,18 +7,30 @@ import MedalFive from "../../svg/MedalFive.tsx";
 import MedalFour from "../../svg/MedalFour.tsx";
 import MedalThree from "../../svg/MedalThree.tsx";
 import SadIcon from "../../svg/SadIcon.tsx";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
-import { getDateInfo, getSubscriptionStatus } from "../../functions/helper.ts";
+import {
+  checkIsExpiredSession,
+  getDateInfo,
+  getSubscriptionStatus,
+} from "../../functions/helper.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import Button from "../Button/Button.tsx";
 import Loading from "../Loading/Loading.tsx";
 import ModalComponent from "../Modal/Modal.tsx";
+import SessionExpired from "../SessionExpired/SessionExpired.tsx";
+import { useAuth0 } from "@auth0/auth0-react";
+import { startTrialPlan } from "../../requests/referral.ts";
+import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 const AccountMedal = () => {
-  const currentUser = useAtomValue(userAtom);
+  const { getAccessTokenSilently } = useAuth0();
+  const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [openDiscountModal, setOpenDiscountModal] = useState<boolean>(false);
+  const [openTrialModal, setOpenTrialModal] = useState<boolean>(false);
+  const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   if (!currentUser) {
     return <Loading />;
@@ -26,6 +38,7 @@ const AccountMedal = () => {
 
   const {
     total_medal_points,
+    is_claimed,
     shared_account,
     expenses_in_category_1,
     expenses_in_category_2,
@@ -43,11 +56,40 @@ const AccountMedal = () => {
   );
   const isOriginal = getSubscriptionStatus("OG", currentUser.subscription_id);
   const isTester = getSubscriptionStatus("Tester", currentUser.subscription_id);
+  const isTrial = getSubscriptionStatus("Trial", currentUser.subscription_id);
   const foreverFree = isOriginal || isTester;
-  const isFree = !foreverFree && !isStarter && !isPro;
+  const isFree = !foreverFree && !isStarter && !isPro && isTrial;
   const isPaid = !foreverFree && (isStarter || isPro);
 
   const totalPoints = total_medal_points || 0;
+
+  const setupTrialPlan = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          subscription_id: 10,
+          subscribed_at: new Date(Date.now()).toISOString(),
+        });
+
+      setOpenTrialModal(false);
+
+      await startTrialPlan(accessToken, { plan: 10 });
+      trackEvent("Start Medal Game Trial Pro Plan");
+    } catch (err) {
+      trackError("AccountMedal - setupTrialPlan:", { result: err });
+
+      if (checkIsExpiredSession(err)) {
+        setIsSessionExpired(true);
+      }
+    }
+  };
 
   return (
     <>
@@ -139,11 +181,15 @@ const AccountMedal = () => {
             <S.Title>One time tasks</S.Title>
             <S.Item className="task">
               <div>Is Pro plan</div>{" "}
-              {isPro ? <SaveIcon /> : <DisabledSaveIcon />}
+              {isPro && !isTrial ? <SaveIcon /> : <DisabledSaveIcon />}
             </S.Item>
             <S.Item className="task">
               <div>Is Starter plan</div>{" "}
-              {isStarter && !isPro ? <SaveIcon /> : <DisabledSaveIcon />}
+              {isStarter && !isPro && !isTrial ? (
+                <SaveIcon />
+              ) : (
+                <DisabledSaveIcon />
+              )}
             </S.Item>
             <S.Item className="task">
               <div>Shared account</div>{" "}
@@ -189,13 +235,25 @@ const AccountMedal = () => {
           </S.TaskSection>
         </S.TaskContainer>
 
-        {isPaid && totalPoints >= 180 && (
-          <Button buttonSize="large">Claim free 1-month discount</Button>
+        {isPaid && totalPoints >= 180 && !is_claimed && (
+          <S.ClaimBtn>
+            <Button
+              buttonSize="large"
+              handleClick={() => setOpenDiscountModal(true)}
+            >
+              Claim free 1-month discount
+            </Button>
+          </S.ClaimBtn>
         )}
-        {isFree && totalPoints >= 180 && (
-          <Button buttonSize="large">
-            Claim free 1-month trial of the Pro Plan
-          </Button>
+        {isFree && totalPoints >= 180 && !is_claimed && (
+          <S.ClaimBtn>
+            <Button
+              buttonSize="large"
+              handleClick={() => setOpenTrialModal(true)}
+            >
+              Claim free 1-month trial of the Pro Plan
+            </Button>
+          </S.ClaimBtn>
         )}
       </S.Wrapper>
       <ModalComponent isOpen={isOpen} title={`Points Per Task`} size="medium">
@@ -246,6 +304,39 @@ const AccountMedal = () => {
           </S.ModalBtn>
         </S.ModalWrapper>
       </ModalComponent>
+      <ModalComponent
+        isOpen={openDiscountModal}
+        title={`Free 1-month discount`}
+      >
+        <S.ModalWrapper>
+          <span>Discount will be applied within 24 hours</span>
+          <S.ModalBtn>
+            <Button
+              buttonSize="small"
+              handleClick={() => setOpenDiscountModal(false)}
+            >
+              Close
+            </Button>
+          </S.ModalBtn>
+        </S.ModalWrapper>
+      </ModalComponent>
+      <ModalComponent
+        isOpen={openTrialModal}
+        title={`Free 1-month trial of Pro Plan`}
+      >
+        <S.ModalWrapper>
+          <span>Claim your Pro Plan - 1 Month Trial</span>
+          <S.ModalBtn>
+            <Button buttonSize="small" handleClick={setupTrialPlan}>
+              Claim
+            </Button>
+          </S.ModalBtn>
+        </S.ModalWrapper>
+      </ModalComponent>
+      <SessionExpired
+        isOpen={isSessionExpired}
+        closeModal={setIsSessionExpired}
+      />
     </>
   );
 };

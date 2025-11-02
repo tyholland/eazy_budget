@@ -21,7 +21,7 @@ import Loading from "../Loading/Loading.tsx";
 import ModalComponent from "../Modal/Modal.tsx";
 import SessionExpired from "../SessionExpired/SessionExpired.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
-import { startTrialPlan } from "../../requests/referral.ts";
+import { startTrialPlan, updateMedalGame } from "../../requests/referral.ts";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 
 const AccountMedal = () => {
@@ -88,6 +88,35 @@ const AccountMedal = () => {
       trackEvent("Start Medal Game Trial Pro Plan");
     } catch (err) {
       trackError("AccountMedal - setupTrialPlan:", { result: err });
+
+      if (checkIsExpiredSession(err)) {
+        setIsSessionExpired(true);
+      }
+    }
+  };
+
+  const discountAccount = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: process.env.REACT_APP_AUDIENCE,
+        },
+      });
+
+      currentUser &&
+        setCurrentUser({
+          ...currentUser,
+          medal_game: {
+            ...currentUser.medal_game,
+            is_claimed: true,
+          },
+        });
+      setOpenTrialModal(true);
+
+      await updateMedalGame(accessToken, { is_claimed: true });
+      trackEvent("Discount Paid Account");
+    } catch (err) {
+      trackError("AccountMedal - discountAccount:", { result: err });
 
       if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
@@ -251,20 +280,7 @@ const AccountMedal = () => {
         )}
         {isFree && totalPoints >= 180 && !is_claimed && (
           <S.ClaimBtn>
-            <Button
-              buttonSize="large"
-              handleClick={() => {
-                currentUser &&
-                  setCurrentUser({
-                    ...currentUser,
-                    medal_game: {
-                      ...currentUser.medal_game,
-                      is_claimed: true,
-                    },
-                  });
-                setOpenTrialModal(true);
-              }}
-            >
+            <Button buttonSize="large" handleClick={discountAccount}>
               Claim free 1-month trial of the Pro Plan
             </Button>
           </S.ClaimBtn>

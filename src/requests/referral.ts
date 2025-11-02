@@ -80,3 +80,23 @@ export const startTrialPlan = async (
     throw new Error(`Failed to start referral plan`);
   }
 };
+
+export const updateMedalGame = async (
+  accessToken: string,
+  updatedSub: Object,
+) => {
+  try {
+    const startTrialResponse = await fetch(`${api}/referral/medal`, {
+      method: "PUT",
+      body: JSON.stringify({ ...updatedSub }),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await startTrialResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to update medal plan`);
+  }
+};

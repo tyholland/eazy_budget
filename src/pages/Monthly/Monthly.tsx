@@ -204,7 +204,10 @@ const Monthly = () => {
 
         await updateBudgetItem(accessToken, updatedItem[0]);
 
-        if (type === "income") {
+        if (
+          type === "income" &&
+          !currentUser?.medal_game.edit_income_in_month
+        ) {
           !!currentUser &&
             setCurrentUser({
               ...currentUser,
@@ -217,7 +220,10 @@ const Monthly = () => {
             });
         }
 
-        if (type === "expense") {
+        if (
+          type === "expense" &&
+          !currentUser?.medal_game.edit_expense_in_month
+        ) {
           !!currentUser &&
             setCurrentUser({
               ...currentUser,

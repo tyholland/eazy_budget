@@ -190,10 +190,12 @@ const AccountMedal = () => {
         </S.TaskContainer>
 
         {isPaid && totalPoints >= 180 && (
-          <Button>Claim free 1-month discount</Button>
+          <Button buttonSize="large">Claim free 1-month discount</Button>
         )}
         {isFree && totalPoints >= 180 && (
-          <Button>Claim free 1-month trial of the Pro Plan</Button>
+          <Button buttonSize="large">
+            Claim free 1-month trial of the Pro Plan
+          </Button>
         )}
       </S.Wrapper>
       <ModalComponent isOpen={isOpen} title={`Points Per Task`} size="medium">

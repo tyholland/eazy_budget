@@ -186,6 +186,7 @@ export const getSubscriptionStatus = (
   const testerPlan = subscription_id === 5;
   const partnerPlan = subscription_id === 8;
   const clientPlan = subscription_id === 9;
+  const trialPlan = subscription_id === 10;
 
   // Referral plans
   const starterYearPlan = subscription_id === 6;
@@ -200,7 +201,8 @@ export const getSubscriptionStatus = (
       proYearPlan ||
       testerPlan ||
       partnerPlan ||
-      clientPlan
+      clientPlan ||
+      trialPlan
     );
   }
 
@@ -211,7 +213,8 @@ export const getSubscriptionStatus = (
       testerPlan ||
       proYearPlan ||
       partnerPlan ||
-      clientPlan
+      clientPlan ||
+      trialPlan
     );
   }
 
@@ -233,6 +236,10 @@ export const getSubscriptionStatus = (
 
   if ("Client" === expectedPlan) {
     return clientPlan;
+  }
+
+  if ("Trial" === expectedPlan) {
+    return trialPlan;
   }
 
   if ("OG" === expectedPlan) {

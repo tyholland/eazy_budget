@@ -57,9 +57,10 @@ const AccountMedal = () => {
   const isOriginal = getSubscriptionStatus("OG", currentUser.subscription_id);
   const isTester = getSubscriptionStatus("Tester", currentUser.subscription_id);
   const isTrial = getSubscriptionStatus("Trial", currentUser.subscription_id);
+  const isClient = getSubscriptionStatus("Client", currentUser.subscription_id);
   const foreverFree = isOriginal || isTester;
   const isFree = !foreverFree && !isStarter && !isPro && isTrial;
-  const isPaid = !foreverFree && (isStarter || isPro);
+  const isPaid = !foreverFree && (isStarter || isPro || isClient);
 
   const totalPoints = total_medal_points || 0;
 
@@ -214,7 +215,11 @@ const AccountMedal = () => {
             <S.Title>One time tasks</S.Title>
             <S.Item className="task">
               <div>Is Pro plan</div>{" "}
-              {isPro && !isTrial ? <SaveIcon /> : <DisabledSaveIcon />}
+              {(isPro || isClient) && !isTrial ? (
+                <SaveIcon />
+              ) : (
+                <DisabledSaveIcon />
+              )}
             </S.Item>
             <S.Item className="task">
               <div>Is Starter plan</div>{" "}

@@ -5,5 +5,5 @@ export const Title = styled.div`
   font-size: 30px;
   font-weight: 700;
   font-family: ${RUBIK};
-  margin-bottom: 30px;
+  margin: 20px 0 30px;
 `;

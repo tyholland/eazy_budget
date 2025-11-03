@@ -14,7 +14,7 @@ const SadIcon = ({ size = 200 }: SadIconProps) => {
     >
       <defs>
         <radialGradient
-          id="b"
+          id="sad-b"
           cx="29.288"
           cy="15.721"
           r="8.9021"
@@ -27,7 +27,7 @@ const SadIcon = ({ size = 200 }: SadIconProps) => {
           <stop stopColor="#ffb738" offset="1" />
         </radialGradient>
         <radialGradient
-          id="c"
+          id="sad-c"
           cx="25.053"
           cy="39.593"
           r="15.757"
@@ -38,7 +38,7 @@ const SadIcon = ({ size = 200 }: SadIconProps) => {
           <stop offset="1" />
         </radialGradient>
         <radialGradient
-          id="a"
+          id="sad-a"
           cx="24.714"
           cy="38.571"
           r="19.714"
@@ -51,14 +51,14 @@ const SadIcon = ({ size = 200 }: SadIconProps) => {
       </defs>
       <path
         d="m44.429 38.571a19.714 6.5714 0 1 1 -39.429 0 19.714 6.5714 0 1 1 39.429 0z"
-        fill="url(#a)"
+        fill="url(#sad-a)"
         fillRule="evenodd"
         opacity=".53165"
       />
       <path
         transform="matrix(2.0831 0 0 2.0831 -40.547 -16.492)"
         d="m39.775 19.009a8.6621 8.6621 0 1 1 -17.324 0 8.6621 8.6621 0 1 1 17.324 0z"
-        fill="url(#b)"
+        fill="url(#sad-b)"
         fillRule="evenodd"
         stroke="#9c8c0a"
         strokeLinecap="round"
@@ -82,7 +82,7 @@ const SadIcon = ({ size = 200 }: SadIconProps) => {
       />
       <path
         d="m34.014 31.33c-3.7236-4.164-5.5624-5.6313-9.5518-5.6313-3.9012 0-6.4997 1.688-9.375 5.9848 3.4333-2.3488 5.3096-3.6495 9.1098-3.6495 3.7118 0 5.7511 1.0507 9.8169 3.2959z"
-        fill="url(#c)"
+        fill="url(#sad-c)"
       />
       <g transform="translate(.35355 2.3927)">
         <path

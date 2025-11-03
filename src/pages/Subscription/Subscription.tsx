@@ -24,7 +24,7 @@ const Subscription = () => {
 
   return (
     <>
-      <S.Title>Subscription Details</S.Title>
+      <S.Title>Plan Details</S.Title>
       <PricingDetails isHighlighted />
     </>
   );

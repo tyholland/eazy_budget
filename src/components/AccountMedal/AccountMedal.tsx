@@ -112,7 +112,8 @@ const AccountMedal = () => {
             is_claimed: true,
           },
         });
-      setOpenTrialModal(true);
+
+      setOpenDiscountModal(false);
 
       await updateMedalGame(accessToken, { is_claimed: true });
       trackEvent("Discount Paid Account");
@@ -285,7 +286,10 @@ const AccountMedal = () => {
         )}
         {isFree && totalPoints >= 180 && !is_claimed && (
           <S.ClaimBtn>
-            <Button buttonSize="large" handleClick={discountAccount}>
+            <Button
+              buttonSize="large"
+              handleClick={() => setOpenTrialModal(true)}
+            >
               Claim free 1-month trial of the Pro Plan
             </Button>
           </S.ClaimBtn>
@@ -346,10 +350,7 @@ const AccountMedal = () => {
         <S.ModalWrapper>
           <span>Discount will be applied within 24 hours</span>
           <S.ModalBtn>
-            <Button
-              buttonSize="small"
-              handleClick={() => setOpenDiscountModal(false)}
-            >
+            <Button buttonSize="small" handleClick={discountAccount}>
               Close
             </Button>
           </S.ModalBtn>

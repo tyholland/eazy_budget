@@ -216,7 +216,7 @@ const Monthly = () => {
                 ...currentUser.medal_game,
                 edit_income_in_month: true,
                 total_medal_points:
-                  currentUser.medal_game.total_medal_points + 5,
+                  currentUser.medal_game.total_medal_points + 6,
               },
             });
         }
@@ -232,7 +232,7 @@ const Monthly = () => {
                 ...currentUser.medal_game,
                 edit_expense_in_month: true,
                 total_medal_points:
-                  currentUser.medal_game.total_medal_points + 5,
+                  currentUser.medal_game.total_medal_points + 7,
               },
             });
         }

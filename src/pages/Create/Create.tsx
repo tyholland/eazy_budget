@@ -16,7 +16,10 @@ import {
   formatBudgetItem,
 } from "../../functions/budget.ts";
 import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
-import { removeItemFromNumberArray } from "../../functions/helper.ts";
+import {
+  loggedInHomepage,
+  removeItemFromNumberArray,
+} from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import { trackEvent } from "../../functions/mixpanel.ts";
 
@@ -88,7 +91,7 @@ const Create = () => {
       const updatedIncome = updateBudgetItems(data, income);
       setIncome(updatedIncome);
       localStorage.setItem("budgetIncome", JSON.stringify(updatedIncome));
-      navigate("/overview");
+      navigate(loggedInHomepage(undefined));
       return;
     }
 
@@ -96,7 +99,7 @@ const Create = () => {
       const updatedExpense = updateBudgetItems(data, expense);
       setExpense(updatedExpense);
       localStorage.setItem("budgetExpense", JSON.stringify(updatedExpense));
-      navigate("/overview");
+      navigate(loggedInHomepage(undefined));
       return;
     }
 
@@ -108,7 +111,7 @@ const Create = () => {
       setExpense(budgetEntries);
       localStorage.setItem("budgetExpense", JSON.stringify(budgetEntries));
     }
-    navigate("/overview");
+    navigate(loggedInHomepage(undefined));
   };
 
   const handleSaveEvent = (item: Object) => {

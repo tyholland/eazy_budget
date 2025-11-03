@@ -1,5 +1,11 @@
 import styled from "styled-components";
-import { DARKER_GRAY, ERROR_RED, SKY_BLUE, WHITE } from "../../index.style.ts";
+import {
+  DARKER_GRAY,
+  ERROR_RED,
+  LIGHTER_GRAY,
+  SKY_BLUE,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -52,11 +58,9 @@ export const Section = styled.div`
     }
 
     input {
-      width: 100%;
-
-      @media only screen and (max-width: 800px) {
-        width: 50%;
-      }
+      width: 94%;
+      padding: 3%;
+      background: ${LIGHTER_GRAY};
     }
   }
 
@@ -104,8 +108,6 @@ export const ModalBtn = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  min-width: 400px;
-  max-width: 400px;
   width: 100%;
   display: flex;
   gap: 20px;

@@ -63,7 +63,7 @@ const PricingDetails = ({
   const getSubscription = (sub: number) => {
     loginWithRedirect({
       appState: {
-        returnTo: `/overview?plan=${sub}`,
+        returnTo: `/setup?plan=${sub}`,
       },
       authorizationParams: {
         screen_hint: "signup",

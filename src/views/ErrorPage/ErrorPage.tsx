@@ -4,6 +4,7 @@ import StopIcon from "../../svg/StopIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import { loggedInHomepage } from "../../functions/helper.ts";
 
 const ErrorPage = () => {
   const currentUser = useAtomValue(userAtom);
@@ -15,7 +16,7 @@ const ErrorPage = () => {
         <span>The page you're looking for may not exist.</span>
         <span>Please return to the homepage</span>
         <Link
-          url={currentUser ? "/overview" : "/"}
+          url={currentUser ? loggedInHomepage(currentUser) : "/"}
           label="Return Home"
           classType="button"
           linkSize="medium"

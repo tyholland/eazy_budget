@@ -5,6 +5,7 @@ import Button from "../../components/Button/Button.tsx";
 import {
   checkIsExpiredSession,
   getSubscriptionStatus,
+  loggedInHomepage,
 } from "../../functions/helper.ts";
 import { useAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
@@ -109,7 +110,7 @@ const Category = () => {
       currentUser &&
       !getSubscriptionStatus("Pro", currentUser?.subscription_id)
     ) {
-      navigate("/overview");
+      navigate(loggedInHomepage(currentUser));
     }
   }, []);
 

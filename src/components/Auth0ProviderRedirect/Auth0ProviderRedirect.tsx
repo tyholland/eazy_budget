@@ -20,7 +20,7 @@ const Auth0ProviderRedirect = ({ children }: Auth0ProviderRedirectProps) => {
       domain={process.env.REACT_APP_DOMAIN as string}
       clientId={process.env.REACT_APP_CLIENT_ID as string}
       authorizationParams={{
-        redirect_uri: `${window.location.origin}/overview`,
+        redirect_uri: `${window.location.origin}/setup`,
         audience: process.env.REACT_APP_AUDIENCE,
         scope: "openid profile email",
       }}

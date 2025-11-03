@@ -53,6 +53,7 @@ import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import Link from "../../components/Link/Link.tsx";
 
 const Monthly = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -85,6 +86,10 @@ const Monthly = () => {
       setExpenseFilter(0);
       setSelectedFilter("None");
     }
+
+    type === "expense" &&
+      selectedOption !== "charts" &&
+      setSelectedOption(type);
   }, [type]);
 
   if (
@@ -199,6 +204,38 @@ const Monthly = () => {
         }
 
         await updateBudgetItem(accessToken, updatedItem[0]);
+
+        if (
+          type === "income" &&
+          !currentUser?.medal_game.edit_income_in_month
+        ) {
+          !!currentUser &&
+            setCurrentUser({
+              ...currentUser,
+              medal_game: {
+                ...currentUser.medal_game,
+                edit_income_in_month: true,
+                total_medal_points:
+                  currentUser.medal_game.total_medal_points + 5,
+              },
+            });
+        }
+
+        if (
+          type === "expense" &&
+          !currentUser?.medal_game.edit_expense_in_month
+        ) {
+          !!currentUser &&
+            setCurrentUser({
+              ...currentUser,
+              medal_game: {
+                ...currentUser.medal_game,
+                edit_expense_in_month: true,
+                total_medal_points:
+                  currentUser.medal_game.total_medal_points + 5,
+              },
+            });
+        }
 
         trackEvent(`Edit ${type}`);
       } else {
@@ -347,7 +384,10 @@ const Monthly = () => {
       />
       <S.ContentWrapper>
         <S.Title>
-          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}
+          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}{" "}
+          <Link url={`/yearly/${type}/${theYear}`} label="change month">
+            (change month)
+          </Link>
         </S.Title>
         {selectedOption === type && (
           <>

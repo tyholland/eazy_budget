@@ -161,8 +161,8 @@ const DownloadCsv = ({
           <span className="month">
             {type === "monthly" ? currentMonth : currentYear}
           </span>{" "}
-          financial summary does not reflect a <strong>60/20/20</strong>
-          budget distribution, based on your recorded income and expenses.
+          financial summary does not reflect a <strong>60/20/20</strong> budget
+          distribution, based on your recorded income and expenses.
         </S.BudgetRuleContent>
       )}
       {!hasValidMonthBudget && (

@@ -26,16 +26,16 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
   return (
     <S.NavWrapper>
       <S.NavItem
-        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "settings" ? "open" : "close"}`}
+        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "medal" ? "open" : "close"}`}
       >
         <Button
           classType="text"
           handleClick={() => {
-            setSelectedOption("settings");
-            navigate("?nav=settings");
+            setSelectedOption("medal");
+            navigate("?nav=medal");
           }}
         >
-          Settings
+          Medal
         </Button>
       </S.NavItem>
       {currentUser?.hasBudget && (
@@ -70,19 +70,32 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
       )}
       {subscribe && currentUser?.hasBudget && (
         <S.NavItem
-          className={`subscribe ${selectedOption === "subscription" ? "open" : "close"}`}
+          className={`subscribe ${selectedOption === "plan" ? "open" : "close"}`}
         >
           <Button
             classType="text"
             handleClick={() => {
-              setSelectedOption("subscription");
-              navigate("?nav=subscription");
+              setSelectedOption("plan");
+              navigate("?nav=plan");
             }}
           >
-            Subscription
+            Plan
           </Button>
         </S.NavItem>
       )}
+      <S.NavItem
+        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "settings" ? "open" : "close"}`}
+      >
+        <Button
+          classType="text"
+          handleClick={() => {
+            setSelectedOption("settings");
+            navigate("?nav=settings");
+          }}
+        >
+          Settings
+        </Button>
+      </S.NavItem>
     </S.NavWrapper>
   );
 };

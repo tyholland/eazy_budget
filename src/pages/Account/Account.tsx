@@ -38,6 +38,7 @@ import { ClientReferrals } from "../../types.ts";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import EditIcon from "../../svg/EditIcon.tsx";
 import { updateReferralName } from "../../requests/referral.ts";
+import AccountMedal from "../../components/AccountMedal/AccountMedal.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -55,7 +56,7 @@ const Account = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isClientNameOpen, setIsClientNameOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>(
-    params.get("nav") || "settings",
+    params.get("nav") || "medal",
   );
   const [clientFirstName, setClientFirstName] = useState<string>("");
   const [clientLastName, setClientLastName] = useState<string>("");
@@ -270,6 +271,11 @@ const Account = () => {
         />
         <S.ContentWrapper>
           <>
+            {selectedOption === "medal" && (
+              <div>
+                <AccountMedal />
+              </div>
+            )}
             {selectedOption === "settings" && (
               <>
                 <S.Section>
@@ -339,6 +345,26 @@ const Account = () => {
             )}
             {selectedOption === "budget" && (
               <>
+                <S.Section>
+                  <Link
+                    url={`/monthly/income/${currentMonth}/${currentYear}`}
+                    label={`${currentMonth} Overview`}
+                  >
+                    <span>
+                      {currentMonth} Overview <ViewIcon />
+                    </span>
+                  </Link>
+                </S.Section>
+                <S.Section>
+                  <Link
+                    url={`/yearly/income/${currentYear}`}
+                    label={`${currentYear} Overview`}
+                  >
+                    <span>
+                      {currentYear} Overview <ViewIcon />
+                    </span>
+                  </Link>
+                </S.Section>
                 {isPro && (
                   <S.Section>
                     <Link
@@ -360,26 +386,6 @@ const Account = () => {
                     </Button>
                   </S.Section>
                 )}
-                <S.Section>
-                  <Link
-                    url={`/yearly/income/${currentYear}`}
-                    label={`${currentYear} Overview`}
-                  >
-                    <span>
-                      {currentYear} Overview <ViewIcon />
-                    </span>
-                  </Link>
-                </S.Section>
-                <S.Section>
-                  <Link
-                    url={`/monthly/income/${currentMonth}/${currentYear}`}
-                    label={`${currentMonth} Overview`}
-                  >
-                    <span>
-                      {currentMonth} Overview <ViewIcon />
-                    </span>
-                  </Link>
-                </S.Section>
                 <S.Section>
                   <Link url="/account/history" label="Overall Budget History">
                     <span>
@@ -471,7 +477,7 @@ const Account = () => {
                 )}
               </>
             )}
-            {selectedOption === "subscription" && (
+            {selectedOption === "plan" && (
               <>
                 <S.Section>
                   <Input
@@ -500,11 +506,8 @@ const Account = () => {
                   />
                 </S.Section>
                 <S.Section>
-                  <Link
-                    url="/account/subscription"
-                    label="Subscription Details"
-                  >
-                    Subscription Details
+                  <Link url="/account/subscription" label="Plan Details">
+                    Plan Details
                   </Link>
                 </S.Section>
                 {!isOriginal && !isTester && (
@@ -515,7 +518,7 @@ const Account = () => {
                       classType="text"
                     >
                       <span>
-                        Cancel Subscription <RemoveAccountIcon />
+                        Cancel Plan <RemoveAccountIcon />
                       </span>
                     </Button>
                   </S.Section>
@@ -596,12 +599,9 @@ const Account = () => {
                 </S.ModalBtn>
               </S.ModalWrapper>
             </ModalComponent>
-            <ModalComponent
-              isOpen={isCancelOpen}
-              title={`Confirm Cancel Subscription`}
-            >
+            <ModalComponent isOpen={isCancelOpen} title={`Confirm Cancel Plan`}>
               <S.ModalWrapper>
-                <span>Are you sure you want to cancel your subscription?</span>
+                <span>Are you sure you want to cancel your plan?</span>
                 <S.ModalBtn>
                   <Button
                     buttonSize="small"
@@ -650,15 +650,15 @@ const Account = () => {
                   setOption={(val) => setUserCurrency(val)}
                 />
                 <S.ModalBtn>
-                  <Button buttonSize="small" handleClick={updateCurrency}>
-                    Submit
-                  </Button>
                   <Button
                     buttonSize="small"
                     handleClick={() => setCurrencyModal(false)}
                     classType="register"
                   >
                     Cancel
+                  </Button>
+                  <Button buttonSize="small" handleClick={updateCurrency}>
+                    Submit
                   </Button>
                 </S.ModalBtn>
               </S.ModalWrapper>
@@ -723,12 +723,6 @@ const Account = () => {
             />
           </>
         </S.ContentWrapper>
-        <img
-          src="/images/account.jpg"
-          width="250px"
-          height="auto"
-          alt="account settings and details"
-        />
         <SessionExpired
           isOpen={isSessionExpired}
           closeModal={setIsSessionExpired}

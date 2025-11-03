@@ -8,6 +8,7 @@ import InstagramIcon from "../../svg/InstagramIcon.tsx";
 import LinkedInIcon from "../../svg/LinkedInIcon.tsx";
 import PWAInstall from "@khmyznikov/pwa-install/react-legacy";
 import { PWAInstallElement } from "@khmyznikov/pwa-install";
+import { loggedInHomepage } from "../../functions/helper.ts";
 
 const Footer = () => {
   const date = new Date();
@@ -33,7 +34,7 @@ const Footer = () => {
       <hr />
       <S.Links>
         <Link
-          url={currentUser ? "/overview" : "/"}
+          url={currentUser ? loggedInHomepage(currentUser) : "/"}
           label="Home"
           linkSize="medium"
           callBack={() => window.scrollTo(0, 0)}

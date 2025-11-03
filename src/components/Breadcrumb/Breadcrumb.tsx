@@ -4,8 +4,13 @@ import Link from "../Link/Link.tsx";
 import { useLocation } from "react-router-dom";
 import { getCurrentPageName } from "../../functions/helper.ts";
 import { noBreadCrumbList } from "../../constants.ts";
+import MedalProgress from "../MedalProgress/MedalProgress.tsx";
+import BannerBtn from "../BannerBtn/BannerBtn.tsx";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 const Breadcrumb = () => {
+  const currentUser = useAtomValue(userAtom);
   const { pathname } = useLocation();
   const page = pathname.split("/");
   const { pageName, page2Name } = getCurrentPageName(pathname);
@@ -17,35 +22,35 @@ const Breadcrumb = () => {
   }
 
   return (
-    <S.Wrapper>
-      <S.GreyedOut>
-        <Link url="/overview" label="Overview">
-          Overview
-        </Link>
-      </S.GreyedOut>
-      <S.GreyedOut>&gt;</S.GreyedOut>
-      {isMonthly && (
-        <>
-          <S.GreyedOut>
-            <Link url={`/yearly/${page[2]}/${page[4]}`} label={page2Name}>
-              {page2Name}
-            </Link>
-          </S.GreyedOut>
-          <S.GreyedOut>&gt;</S.GreyedOut>
-        </>
+    <>
+      <S.Wrapper>
+        {isMonthly && (
+          <>
+            <S.GreyedOut>
+              <Link url={`/yearly/${page[2]}/${page[4]}`} label={page2Name}>
+                {page2Name}
+              </Link>
+            </S.GreyedOut>
+            <S.GreyedOut>&gt;</S.GreyedOut>
+          </>
+        )}
+        {isAccount && (
+          <>
+            <S.GreyedOut>
+              <Link url={`/account`} label={page2Name}>
+                {page2Name}
+              </Link>
+            </S.GreyedOut>
+            <S.GreyedOut>&gt;</S.GreyedOut>
+          </>
+        )}
+        <div>{pageName}</div>
+      </S.Wrapper>
+      {currentUser && !currentUser.hasBudget && (
+        <BannerBtn url="/setup" label="Add your Budget info!!!" />
       )}
-      {isAccount && (
-        <>
-          <S.GreyedOut>
-            <Link url={`/account`} label={page2Name}>
-              {page2Name}
-            </Link>
-          </S.GreyedOut>
-          <S.GreyedOut>&gt;</S.GreyedOut>
-        </>
-      )}
-      <div>{pageName}</div>
-    </S.Wrapper>
+      <MedalProgress />
+    </>
   );
 };
 

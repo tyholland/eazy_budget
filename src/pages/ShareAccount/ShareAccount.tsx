@@ -5,6 +5,7 @@ import Button from "../../components/Button/Button.tsx";
 import {
   checkIsExpiredSession,
   getSubscriptionStatus,
+  loggedInHomepage,
 } from "../../functions/helper.ts";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
@@ -65,7 +66,7 @@ const ShareAccount = () => {
       currentUser &&
       !getSubscriptionStatus("Pro", currentUser?.subscription_id)
     ) {
-      navigate("/overview");
+      navigate(loggedInHomepage(currentUser));
     }
   }, []);
 

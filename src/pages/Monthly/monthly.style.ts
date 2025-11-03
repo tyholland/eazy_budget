@@ -18,6 +18,11 @@ export const Title = styled.h2`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 export const ItemContainer = styled.div`

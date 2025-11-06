@@ -77,10 +77,11 @@ const Setup = () => {
       localStorage.removeItem("budgetIncome");
       localStorage.removeItem("budgetExpense");
     } catch (err) {
-      trackError("Home - handleBudgetSubmission:", { result: err });
+      trackError("Setup - handleBudgetSubmission:", { result: err });
       setSubmitIsDisabled(false);
       setIsDisabled(false);
       setHasBudgetItems(false);
+      setIsLoading(false);
 
       if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);

@@ -8,6 +8,11 @@ const Loading = () => {
 
   return (
     <S.Wrapper>
+      <S.Content>
+        We're currently loading your budget data — this may take a few moments.
+        In the meantime, enjoy a quote about budgeting.
+      </S.Content>
+      <S.Quote>{budgetQuotes[randomNum]}</S.Quote>
       <img
         src="https://www.sbudgeting.com/images/loading.gif"
         width="500px"
@@ -15,7 +20,6 @@ const Loading = () => {
         alt="loading piggy bank"
       />
       <S.Content>Loading...</S.Content>
-      <S.Quote>{budgetQuotes[randomNum]}</S.Quote>
     </S.Wrapper>
   );
 };

@@ -17,6 +17,9 @@ export const Wrapper = styled.div`
 export const Content = styled.div`
   font-weight: 500;
   font-size: 18px;
+  max-width: 550px;
+  width: 100%;
+  text-align: center;
 `;
 
 export const Quote = styled.div`

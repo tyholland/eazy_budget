@@ -16,24 +16,22 @@ const History = () => {
     return item.year < currentYear;
   });
 
+  const allYears = [...new Set(previousYears.map((item) => item.year))];
+
   return (
     <S.Wrapper>
-      {previousYears.map((item: BudgetData) => {
-        const yearlyTotalIncome = getYearlyTotalAmount(
-          [item],
-          item.year,
-          "income",
-        );
+      {allYears.map((item: number) => {
+        const yearlyTotalIncome = getYearlyTotalAmount(budget, item, "income");
         const yearlyTotalExpense = getYearlyTotalAmount(
-          [item],
-          item.year,
+          budget,
+          item,
           "expense",
         );
 
         return (
           <Overview
-            key={`${item.month}-${item.year}`}
-            label={`${item.year} Budget`}
+            key={item}
+            label={`${item} Budget`}
             incomeValue={yearlyTotalIncome}
             expenseValue={yearlyTotalExpense}
             hideViewIcon

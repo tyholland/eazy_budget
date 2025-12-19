@@ -19,24 +19,24 @@ const Ad = () => {
     document.head.appendChild(adScript);
   };
 
-  const addPageScript = () => {
-    const adScript = document.createElement("script");
+  /**
+   * Bring this back when the site becomes more popular
+   */
+  // const addPageScript = () => {
+  //   const adScript = document.createElement("script");
 
-    adScript.setAttribute("id", "page-ads");
-    adScript.append(
-      `(s=>{s.dataset.zone=9806162,s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
-    );
+  //   adScript.setAttribute("id", "page-ads");
+  //   adScript.append(
+  //     `(s=>{s.dataset.zone=9806162,s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
+  //   );
 
-    document.head.appendChild(adScript);
-  };
+  //   document.head.appendChild(adScript);
+  // };
 
   useEffect(() => {
     if (!isLoading && process.env.NODE_ENV !== "development") {
-      if (currentUser && currentUser.subscription_id === 2) {
+      if ((currentUser && currentUser.subscription_id === 2) || !user) {
         addBannerScript();
-      }
-      if (!user) {
-        addPageScript();
       }
     }
   }, [isLoading, currentUser]);

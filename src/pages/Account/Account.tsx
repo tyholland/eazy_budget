@@ -39,6 +39,9 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import EditIcon from "../../svg/EditIcon.tsx";
 import { updateReferralName } from "../../requests/referral.ts";
 import AccountMedal from "../../components/AccountMedal/AccountMedal.tsx";
+import AddIcon from "../../svg/AddIcon.tsx";
+import ArrowIcon from "../../svg/ArrowIcon.tsx";
+import CurrencyIcon from "../../svg/CurrencyIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -350,9 +353,18 @@ const Account = () => {
                     url={`/monthly/income/${currentMonth}/${currentYear}`}
                     label={`${currentMonth} Overview`}
                   >
-                    <span>
-                      {currentMonth} Overview <ViewIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <ViewIcon />
+                        <span className="textContainer">
+                          <span>{currentMonth} Budget</span>
+                          <span className="subText">
+                            Reveiw the current month's budget
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 <S.Section>
@@ -360,9 +372,19 @@ const Account = () => {
                     url={`/yearly/income/${currentYear}`}
                     label={`${currentYear} Overview`}
                   >
-                    <span>
-                      {currentYear} Overview <ViewIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <ViewIcon />
+                        <span className="textContainer">
+                          <span>{currentYear} Budget</span>
+                          <span className="subText">
+                            Get an annual summary of your full {currentYear}{" "}
+                            budget
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 {isPro && (
@@ -371,7 +393,19 @@ const Account = () => {
                       url="/account/categories"
                       label={`Add Expense Categories`}
                     >
-                      <span>Add Expense Categories</span>
+                      <div className="linkWrapper">
+                        <span>
+                          <AddIcon />
+                          <span className="textContainer">
+                            <span>Add Expense Categories</span>
+                            <span className="subText">
+                              Personalize you budget by adding and customizing
+                              categories
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Link>
                   </S.Section>
                 )}
@@ -382,15 +416,36 @@ const Account = () => {
                       buttonSize="medium"
                       classType="text"
                     >
-                      <span>Change Currency</span>
+                      <div className="linkWrapper">
+                        <span>
+                          <CurrencyIcon />
+                          <span className="textContainer">
+                            <span>Change Currency</span>
+                            <span className="subText">
+                              Select your preferred currency for your budget
+                              tracking
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Button>
                   </S.Section>
                 )}
                 <S.Section>
                   <Link url="/account/history" label="Overall Budget History">
-                    <span>
-                      Overall Budget History <HistoryIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <HistoryIcon />
+                        <span className="textContainer">
+                          <span>Overall Budget History</span>
+                          <span className="subText">
+                            See a timeline of your budget performance
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 {isStarter && (
@@ -399,9 +454,19 @@ const Account = () => {
                       url="/account/past-months"
                       label={`Review ${currentYear} Past Months`}
                     >
-                      <span>
-                        Review {currentYear} Past Months <HistoryIcon />
-                      </span>
+                      <div className="linkWrapper">
+                        <span>
+                          <HistoryIcon />
+                          <span className="textContainer">
+                            <span>Review {currentYear} Past Months</span>
+                            <span className="subText">
+                              Look back at your budget for specific past months
+                              in {currentYear}
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Link>
                   </S.Section>
                 )}

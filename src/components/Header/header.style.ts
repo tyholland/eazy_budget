@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, COSMIC, DARKER_GRAY, OFF_WHITE } from "../../index.style.ts";
+import { BLACK, COSMIC, DARKER_GRAY, OFF_GRAY } from "../../index.style.ts";
 
 export const HeaderWrapper = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ export const HeaderWrapper = styled.div`
   border-bottom: 1px solid ${DARKER_GRAY};
   justify-content: space-between;
   align-items: flex-end;
-  background: ${OFF_WHITE};
+  background: ${OFF_GRAY};
 
   img {
     width: 25px;

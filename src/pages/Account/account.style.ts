@@ -12,11 +12,8 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   gap: 30px;
   margin: 30px auto;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-    flex-direction: column;
-  }
+  width: 100%;
+  flex-direction: column;
 
   img {
     min-width: 100px;

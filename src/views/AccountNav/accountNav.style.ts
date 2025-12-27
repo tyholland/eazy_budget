@@ -1,34 +1,18 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_SKY_BLUE } from "../../index.style.ts";
+import { BLACK, GRAY, LIGHT_GRAY, SKY_BLUE, WHITE } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
-  min-width: 161px;
-  max-width: 161px;
   width: 100%;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-    min-width: unset;
-    max-width: unset;
-    display: flex;
-  }
-
-  div:last-child {
-    border-bottom: 2px solid ${BLACK};
-
-    @media only screen and (max-width: 800px) {
-      border-right: 2px solid ${BLACK};
-      border-bottom: 0;
-    }
-  }
+  display: flex;
+  border-radius: 10px;
+  box-shadow: 0 0 30px ${LIGHT_GRAY};
+  background: ${WHITE};
 `;
 
 export const NavItem = styled.div`
-  background: ${LIGHT_SKY_BLUE};
-
-  @media only screen and (max-width: 800px) {
-    width: 50%;
-  }
+  background: ${WHITE};
+  width: 50%;
+  border-radius: 10px;
 
   &.subscribe {
     @media only screen and (max-width: 800px) {
@@ -43,18 +27,14 @@ export const NavItem = styled.div`
   }
 
   button {
-    border: 2px solid ${BLACK};
-    border-bottom: 0;
-    justify-content: flex-start;
     padding: 10px 0 10px 10px !important;
     width: 100% !important;
     font-size: 18px !important;
+    background: ${WHITE} !important;
+    border-radius: 10px !important;
 
     @media only screen and (max-width: 800px) {
       padding: 10px 0 !important;
-      justify-content: center;
-      border-bottom: 2px solid ${BLACK};
-      border-right: 0;
     }
   }
 
@@ -65,24 +45,22 @@ export const NavItem = styled.div`
       &:hover {
         color: ${BLACK};
         text-decoration: underline;
-
-        @media only screen and (max-width: 800px) {
-          color: ${BLACK};
-          text-decoration: none;
-        }
       }
     }
   }
 
   &.open {
     background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     button {
-      border-right: 0;
-
-      @media only screen and (max-width: 800px) {
-        border-bottom: 0;
-      }
+      color: ${SKY_BLUE};
+      box-shadow: 0 0 10px ${GRAY};
+      width: 90% !important;
+      padding: 6px !important;
+      height: 30px;
     }
   }
 `;

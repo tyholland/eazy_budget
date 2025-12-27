@@ -48,28 +48,39 @@ const Header = () => {
         </Link>
       </S.Title>
       <S.HeaderLinks>
-        <Link url={"/partner"} label={"Partner with Us"} classType="partner">
-          Partner with Us
-        </Link>
         {user?.picture ? (
-          <Link url={"/account"} label={"Account"}>
-            <>
-              <img
-                src={user?.picture}
-                alt="logged in user"
-                title="Logged in user"
-                aria-label="Logged in user"
-              />
-              Account
-            </>
-          </Link>
+          <>
+            <Button classType="text" handleClick={() => {}}>
+              Budget Progress
+            </Button>
+            <Link url={"/account"} label={"Account"}>
+              <>
+                <img
+                  src={user?.picture}
+                  alt="logged in user"
+                  title="Logged in user"
+                  aria-label="Logged in user"
+                />
+                Account
+              </>
+            </Link>
+          </>
         ) : (
-          <Button classType="text" handleClick={loginWithRedirect}>
-            <>
-              <UserIcon />
-              Sign In
-            </>
-          </Button>
+          <>
+            <Link
+              url={"/partner"}
+              label={"Partner with Us"}
+              classType="partner"
+            >
+              Partner with Us
+            </Link>
+            <Button classType="text" handleClick={loginWithRedirect}>
+              <>
+                <UserIcon />
+                Sign In
+              </>
+            </Button>
+          </>
         )}
       </S.HeaderLinks>
     </S.HeaderWrapper>

@@ -20,6 +20,7 @@ export const HeaderWrapper = styled.div`
   button.text,
   a.partner {
     color: ${BLACK};
+    font-weight: 700;
   }
 `;
 

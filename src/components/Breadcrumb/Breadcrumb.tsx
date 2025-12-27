@@ -4,7 +4,6 @@ import Link from "../Link/Link.tsx";
 import { useLocation } from "react-router-dom";
 import { getCurrentPageName } from "../../functions/helper.ts";
 import { noBreadCrumbList } from "../../constants.ts";
-import MedalProgress from "../MedalProgress/MedalProgress.tsx";
 import BannerBtn from "../BannerBtn/BannerBtn.tsx";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";

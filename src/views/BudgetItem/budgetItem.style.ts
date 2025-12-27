@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_GRAY, RED, WHITE } from "../../index.style.ts";
+import { GRAY, LIGHT_GRAY, RED, WHITE } from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;
@@ -109,12 +109,13 @@ export const ItemRightSide = styled.div`
 
   .show {
     display: block;
-    border: 1px solid ${BLACK};
     background: ${WHITE};
     display: flex;
     flex-direction: column;
     padding: 10px;
     gap: 8px;
     border-radius: 10px;
+    align-items: flex-start;
+    box-shadow: -5px 5px 15px ${GRAY};
   }
 `;

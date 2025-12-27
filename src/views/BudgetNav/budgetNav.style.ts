@@ -1,12 +1,5 @@
 import styled from "styled-components";
-import {
-  BLACK,
-  GRAY,
-  LIGHT_GRAY,
-  LIGHTER_GRAY,
-  SKY_BLUE,
-  WHITE,
-} from "../../index.style.ts";
+import { BLACK, GRAY, LIGHT_GRAY, SKY_BLUE, WHITE } from "../../index.style.ts";
 
 export const NavWrapper = styled.div`
   width: 100%;

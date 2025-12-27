@@ -245,3 +245,54 @@ export const currencyList = [
     label: "CAD",
   },
 ];
+
+export const monthSelect = [
+  {
+    id: 0,
+    label: "january",
+  },
+  {
+    id: 1,
+    label: "february",
+  },
+  {
+    id: 2,
+    label: "march",
+  },
+  {
+    id: 3,
+    label: "april",
+  },
+  {
+    id: 4,
+    label: "may",
+  },
+  {
+    id: 5,
+    label: "june",
+  },
+  {
+    id: 6,
+    label: "july",
+  },
+  {
+    id: 7,
+    label: "august",
+  },
+  {
+    id: 8,
+    label: "september",
+  },
+  {
+    id: 9,
+    label: "october",
+  },
+  {
+    id: 10,
+    label: "november",
+  },
+  {
+    id: 11,
+    label: "december",
+  },
+];

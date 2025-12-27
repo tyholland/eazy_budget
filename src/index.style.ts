@@ -101,4 +101,8 @@ export const GlobalStyles = createGlobalStyle`
       }
     }
   }
+
+  .MuiSelect-root {
+    width: 100%;
+  }
 `;

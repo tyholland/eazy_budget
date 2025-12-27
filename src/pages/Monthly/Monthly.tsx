@@ -5,7 +5,7 @@ import {
   InputOption,
   NewBudgetIds,
 } from "../../types.ts";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
 import * as S from "./monthly.style.ts";
@@ -17,6 +17,7 @@ import {
   listOfBudgets,
   listOfMonths,
   listOfQuarterlyMonths,
+  monthSelect,
 } from "../../constants.ts";
 import {
   addNewBudgetItem,
@@ -56,6 +57,7 @@ import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
 import Link from "../../components/Link/Link.tsx";
 
 const Monthly = () => {
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const [budget, setBudget] = useAtom(budgetAtom);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
@@ -383,15 +385,17 @@ const Monthly = () => {
         expenseUrl={`/monthly/expense/${month}/${theYear}`}
       />
       <S.ContentWrapper>
-        <S.Title>
-          {selectedOption !== "goals" && `${month} ${theYear}`} {selectedOption}{" "}
-          <Link url={`/yearly/${type}/${theYear}`} label="change month">
-            (change month)
-          </Link>
-        </S.Title>
         {selectedOption === type && (
           <>
             <S.Selectors>
+              <SelectComponent
+                options={monthSelect}
+                placeHolder="Change Month"
+                defaultValue={month}
+                setOption={(val) => {
+                  navigate(`/monthly/expense/${val}/${theYear}`);
+                }}
+              />
               {getSubscriptionStatus(
                 "Starter",
                 currentUser?.subscription_id,

@@ -63,7 +63,7 @@ export const ContentWrapper = styled.div`
 
 export const Selectors = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 25px;
 
   .tooltip {
     width: 150px;

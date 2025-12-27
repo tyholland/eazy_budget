@@ -49,7 +49,6 @@ const Breadcrumb = () => {
       {currentUser && !currentUser.hasBudget && (
         <BannerBtn url="/setup" label="Add your Budget info!!!" />
       )}
-      <MedalProgress />
     </>
   );
 };

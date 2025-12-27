@@ -1,6 +1,5 @@
 import React, { useEffect, useState, JSX } from "react";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
-import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import CancelIcon from "../../svg/CancelIcon.tsx";
 import DeleteIcon from "../../svg/DeleteIcon.tsx";
@@ -16,7 +15,6 @@ import * as S from "./budgetItem.style.ts";
 import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import {
   cadenceOptions,
   frequencyOptions,

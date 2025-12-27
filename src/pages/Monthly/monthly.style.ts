@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { BLACK, RUBIK } from "../../index.style.ts";
-import Button from "../../components/Button/Button.tsx";
 
 export const MonthlyWrapper = styled.div`
   display: flex;

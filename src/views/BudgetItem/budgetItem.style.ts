@@ -1,11 +1,5 @@
 import styled from "styled-components";
-import {
-  BLACK,
-  DARKER_GRAY,
-  LIGHT_GRAY,
-  RED,
-  WHITE,
-} from "../../index.style.ts";
+import { BLACK, LIGHT_GRAY, RED, WHITE } from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;

@@ -83,6 +83,10 @@ export const Total = styled.div`
 `;
 
 export const ItemRightSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
   span {
     display: flex;
     justify-content: flex-end;

@@ -54,6 +54,8 @@ import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import FilterIcon from "../../svg/FilterIcon.tsx";
+import ViewIcon from "../../svg/ViewIcon.tsx";
 
 const Monthly = () => {
   const navigate = useNavigate();
@@ -66,6 +68,8 @@ const Monthly = () => {
     type,
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOverviewOpen, setIsOverviewOpen] = useState<boolean>(false);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [isNewBudget, setIsNewBudget] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<string>(
     currentUser?.selectedSort || budgetSortOptions[0].label,
@@ -89,7 +93,7 @@ const Monthly = () => {
     }
 
     type === "expense" &&
-      selectedOption !== "charts" &&
+      selectedOption !== "insights" &&
       setSelectedOption(type);
   }, [type]);
 
@@ -377,6 +381,7 @@ const Monthly = () => {
 
   return (
     <S.MonthlyWrapper>
+      <S.Title>{`${month} ${theYear}`}</S.Title>
       <BudgetNav
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
@@ -386,66 +391,26 @@ const Monthly = () => {
       <S.ContentWrapper>
         {selectedOption === type && (
           <>
-            <S.Selectors>
-              <SelectComponent
-                options={monthSelect}
-                placeHolder="Change Month"
-                defaultValue={month}
-                setOption={(val) => {
-                  navigate(`/monthly/expense/${val}/${theYear}`);
-                }}
-              />
-              {getSubscriptionStatus(
-                "Starter",
-                currentUser?.subscription_id,
-              ) && (
-                <SelectComponent
-                  options={budgetSortOptions}
-                  placeHolder="Sort Items"
-                  defaultValue={currentUser?.selectedSort || selectedSort}
-                  setOption={(val) => {
-                    setSelectedSort(val);
-
-                    currentUser &&
-                      setCurrentUser({
-                        ...currentUser,
-                        selectedSort: val,
-                      });
-                  }}
-                />
-              )}
-              {isPro && type === "expense" && (
-                <SelectComponent
-                  options={
-                    currentUser?.categories.concat({
-                      id: 0,
-                      label: "None",
-                    }) || []
-                  }
-                  placeHolder="Filter by Category"
-                  defaultValue={
-                    expenseFilter === 0
-                      ? "None"
-                      : currentUser?.selectedCategory || selectedFilter
-                  }
-                  setOption={(val) => {
-                    setSelectedFilter(val);
-
-                    const filter = currentUser?.categories.filter(
-                      (item) => item.label === val,
-                    )[0];
-
-                    setExpenseFilter(filter?.id || 0);
-
-                    currentUser &&
-                      setCurrentUser({
-                        ...currentUser,
-                        selectedCategory: val,
-                      });
-                  }}
-                />
-              )}
-            </S.Selectors>
+            <S.BudgetOptions>
+              <Button
+                buttonSize="small"
+                classType="text"
+                handleClick={() => setIsFilterOpen(true)}
+              >
+                <>
+                  <FilterIcon /> Filter
+                </>
+              </Button>
+              <Button
+                buttonSize="small"
+                classType="text"
+                handleClick={() => setIsOverviewOpen(true)}
+              >
+                <>
+                  <ViewIcon /> Overview
+                </>
+              </Button>
+            </S.BudgetOptions>
             <S.ItemWrapper>
               <S.ItemContainer>
                 {!budget.length && <Loading />}
@@ -518,19 +483,9 @@ const Monthly = () => {
             )}
           </>
         )}
-        {selectedOption === "details" && (
-          <>
-            <BudgetDetails
-              income={totalIncome}
-              expense={totalExpense}
-              month={month}
-              year={theYear}
-            />
-            {isPro && <DownloadCsv type="monthly" />}
-          </>
-        )}
+        {selectedOption === "details" && <DownloadCsv type="monthly" />}
         {selectedOption === "goals" && <Predict />}
-        {selectedOption === "charts" && (
+        {selectedOption === "insights" && (
           <Graph
             dataset={[
               {
@@ -550,6 +505,91 @@ const Monthly = () => {
         isOpen={isSessionExpired}
         closeModal={setIsSessionExpired}
       />
+      <ModalComponent
+        isOpen={isOverviewOpen}
+        title="Budget Overview"
+        size="medium"
+      >
+        <S.ModalWrapper>
+          <BudgetDetails
+            income={totalIncome}
+            expense={totalExpense}
+            month={month}
+            year={theYear}
+          />
+          <S.ModalBtn>
+            <Button
+              buttonSize="small"
+              handleClick={() => setIsOverviewOpen(false)}
+              classType="exit"
+            >
+              Close
+            </Button>
+          </S.ModalBtn>
+        </S.ModalWrapper>
+      </ModalComponent>
+      <ModalComponent isOpen={isFilterOpen} title="Filter Budget" size="medium">
+        <S.ModalWrapper>
+          <S.Selectors>
+            <SelectComponent
+              options={monthSelect}
+              placeHolder="Change Month"
+              defaultValue={month}
+              setOption={(val) => {
+                navigate(`/monthly/expense/${val}/${theYear}`);
+                setIsFilterOpen(false);
+              }}
+            />
+            {getSubscriptionStatus("Starter", currentUser?.subscription_id) && (
+              <SelectComponent
+                options={budgetSortOptions}
+                placeHolder="Sort Items"
+                defaultValue={currentUser?.selectedSort || selectedSort}
+                setOption={(val) => {
+                  setSelectedSort(val);
+
+                  currentUser &&
+                    setCurrentUser({
+                      ...currentUser,
+                      selectedSort: val,
+                    });
+                }}
+              />
+            )}
+            {isPro && type === "expense" && (
+              <SelectComponent
+                options={
+                  currentUser?.categories.concat({
+                    id: 0,
+                    label: "None",
+                  }) || []
+                }
+                placeHolder="Filter by Category"
+                defaultValue={
+                  expenseFilter === 0
+                    ? "None"
+                    : currentUser?.selectedCategory || selectedFilter
+                }
+                setOption={(val) => {
+                  setSelectedFilter(val);
+
+                  const filter = currentUser?.categories.filter(
+                    (item) => item.label === val,
+                  )[0];
+
+                  setExpenseFilter(filter?.id || 0);
+
+                  currentUser &&
+                    setCurrentUser({
+                      ...currentUser,
+                      selectedCategory: val,
+                    });
+                }}
+              />
+            )}
+          </S.Selectors>
+        </S.ModalWrapper>
+      </ModalComponent>
     </S.MonthlyWrapper>
   );
 };

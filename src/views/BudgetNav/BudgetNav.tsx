@@ -3,6 +3,9 @@ import * as S from "./budgetNav.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { trackEvent } from "../../functions/mixpanel.ts";
+import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { useAtomValue } from "jotai";
+import { userAtom } from "../../hook/UserAtom.ts";
 
 interface BudgetNavProps {
   setSelectedOption: (val: string) => void;
@@ -19,6 +22,8 @@ const BudgetNav = ({
 }: BudgetNavProps) => {
   const navigate = useNavigate();
   const params = useParams();
+  const currentUser = useAtomValue(userAtom);
+  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
 
   return (
     <S.NavWrapper>
@@ -52,20 +57,22 @@ const BudgetNav = ({
           Expense
         </Button>
       </S.NavItem>
-      <S.NavItem className={selectedOption === "details" ? "open" : "close"}>
-        <Button
-          classType="text"
-          handleClick={() => {
-            setSelectedOption("details");
-            trackEvent("Viewed Details", {
-              month: params.month,
-              year: params.year,
-            });
-          }}
-        >
-          Details
-        </Button>
-      </S.NavItem>
+      {isPro && (
+        <S.NavItem className={selectedOption === "details" ? "open" : "close"}>
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("details");
+              trackEvent("Viewed Details", {
+                month: params.month,
+                year: params.year,
+              });
+            }}
+          >
+            Details
+          </Button>
+        </S.NavItem>
+      )}
       <S.NavItem className={selectedOption === "goals" ? "open" : "close"}>
         <Button
           classType="text"
@@ -80,11 +87,11 @@ const BudgetNav = ({
           Goals
         </Button>
       </S.NavItem>
-      <S.NavItem className={selectedOption === "charts" ? "open" : "close"}>
+      <S.NavItem className={selectedOption === "insights" ? "open" : "close"}>
         <Button
           classType="text"
           handleClick={() => {
-            setSelectedOption("charts");
+            setSelectedOption("insights");
             trackEvent("Viewed Charts", {
               month: params.month,
               year: params.year,

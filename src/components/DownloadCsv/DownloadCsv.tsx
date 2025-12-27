@@ -135,10 +135,7 @@ const DownloadCsv = ({
 
   return (
     <>
-      <S.Title>
-        {type === "monthly" ? currentMonth : currentYear} Profit & Loss
-        Simplified
-      </S.Title>
+      <S.Title>Profit & Loss Simplified</S.Title>
       {hasValidMonthBudget ? (
         <S.BudgetRuleContent>
           Your{" "}

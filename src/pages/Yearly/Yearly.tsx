@@ -95,7 +95,7 @@ const Yearly = () => {
           </>
         )}
         {selectedOption === "goals" && <Predict />}
-        {selectedOption === "charts" && (
+        {selectedOption === "insights" && (
           <Graph
             dataset={[
               {

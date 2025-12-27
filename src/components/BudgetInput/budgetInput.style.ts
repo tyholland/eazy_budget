@@ -5,8 +5,8 @@ import {
   GREEN,
   LIGHT_GREEN,
   LIGHT_RED,
+  LIGHTER_GRAY,
   RED,
-  WHITE,
 } from "../../index.style.ts";
 
 export const Input = styled.input`
@@ -20,7 +20,7 @@ export const Input = styled.input`
   &.default {
     &:disabled {
       border: 1px solid ${BLACK};
-      background: ${WHITE};
+      background: ${LIGHTER_GRAY};
       color: ${DARKER_GRAY};
     }
   }
@@ -82,9 +82,9 @@ export const Input = styled.input`
 
 export const InputWrapper = styled.div`
   display: flex;
-  gap: 8px;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const Label = styled.label`

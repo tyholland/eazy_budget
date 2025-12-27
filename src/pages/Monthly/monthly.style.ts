@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, RUBIK } from "../../index.style.ts";
+import { BLACK, GRAY, RUBIK, WHITE } from "../../index.style.ts";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
@@ -35,6 +35,7 @@ export const ItemContainer = styled.div`
     .inputWrapper {
       flex-direction: column;
       align-items: flex-start;
+      gap: 8px;
     }
   }
 
@@ -90,5 +91,31 @@ export const AddBtn = styled.div`
     text-transform: capitalize;
     font-size: 18px !important;
     width: 180px !important;
+  }
+`;
+
+export const ModalBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  &.referral button {
+    height: auto;
+    flex-direction: column;
+    font-size: 24px;
+  }
+`;
+
+export const BudgetOptions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  button {
+    box-shadow: -5px 5px 5px ${GRAY};
+    background: ${WHITE} !important;
+    border-radius: 10px !important;
+    padding: 5px 10px 5px 5px !important;
   }
 `;

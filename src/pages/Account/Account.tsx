@@ -42,6 +42,7 @@ import AccountMedal from "../../components/AccountMedal/AccountMedal.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ArrowIcon from "../../svg/ArrowIcon.tsx";
 import CurrencyIcon from "../../svg/CurrencyIcon.tsx";
+import CancelIcon from "../../svg/CancelIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -298,9 +299,19 @@ const Account = () => {
                   !currentUser?.is_connected && (
                     <S.Section>
                       <Link url="/account/share" label="Share Account">
-                        <span>
-                          Share Account <ShareAccountIcon />
-                        </span>
+                        <div className="linkWrapper">
+                          <span>
+                            <ShareAccountIcon />
+                            <span className="textContainer">
+                              <span>Share Account</span>
+                              <span className="subText">
+                                Invite someone you trust to view or help manage
+                                your budget
+                              </span>
+                            </span>
+                          </span>
+                          <ArrowIcon />
+                        </div>
                       </Link>
                     </S.Section>
                   )}
@@ -311,16 +322,37 @@ const Account = () => {
                       buttonSize="medium"
                       classType="text"
                     >
-                      <span>
-                        Remove Shared Account <RemoveAccountIcon />
-                      </span>
+                      <div className="linkWrapper">
+                        <span>
+                          <RemoveAccountIcon />
+                          <span className="textContainer">
+                            <span>Remove Shared Account</span>
+                            <span className="subText">
+                              Revoke access and remove this person from your
+                              shared budget
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Button>
                   </S.Section>
                 )}
                 {isFree && (
                   <S.Section>
                     <Link url="/pricing" label="Upgrade to Subscription">
-                      Upgrade to Subscription
+                      <div className="linkWrapper">
+                        <span>
+                          <EditIcon />
+                          <span className="textContainer">
+                            <span>Upgrade to Subscription</span>
+                            <span className="subText">
+                              Upgrade to access premium budgeting features
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Link>
                   </S.Section>
                 )}
@@ -334,14 +366,34 @@ const Account = () => {
                     buttonSize="medium"
                     classType="text"
                   >
-                    <span>
-                      Delete Account <RemoveAccountIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <RemoveAccountIcon />
+                        <span className="textContainer">
+                          <span>Delete Account</span>
+                          <span className="subText">
+                            Permanently delete your account
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Button>
                 </S.Section>
                 <S.Section>
                   <Button classType="text" handleClick={logOutAccount}>
-                    Logout
+                    <div className="linkWrapper">
+                      <span>
+                        <CancelIcon />
+                        <span className="textContainer">
+                          <span>Logout</span>
+                          <span className="subText">
+                            Log out securely from your account
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Button>
                 </S.Section>
               </>
@@ -572,7 +624,18 @@ const Account = () => {
                 </S.Section>
                 <S.Section>
                   <Link url="/account/subscription" label="Plan Details">
-                    Plan Details
+                    <div className="linkWrapper">
+                      <span>
+                        <ViewIcon />
+                        <span className="textContainer">
+                          <span>Plan Details</span>
+                          <span className="subText">
+                            See your subscription plan information
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 {!isOriginal && !isTester && (
@@ -582,9 +645,18 @@ const Account = () => {
                       buttonSize="medium"
                       classType="text"
                     >
-                      <span>
-                        Cancel Plan <RemoveAccountIcon />
-                      </span>
+                      <div className="linkWrapper">
+                        <span>
+                          <RemoveAccountIcon />
+                          <span className="textContainer">
+                            <span>Cancel Plan</span>
+                            <span className="subText">
+                              End your current subscription plan
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Button>
                   </S.Section>
                 )}

@@ -54,7 +54,6 @@ import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
 import Predict from "../../components/Predict/Predict.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
-import Link from "../../components/Link/Link.tsx";
 
 const Monthly = () => {
   const navigate = useNavigate();

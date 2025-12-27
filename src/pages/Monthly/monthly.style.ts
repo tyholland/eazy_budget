@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BLACK, RUBIK } from "../../index.style.ts";
+import Button from "../../components/Button/Button.tsx";
 
 export const MonthlyWrapper = styled.div`
   display: flex;
@@ -35,12 +36,6 @@ export const ItemContainer = styled.div`
   }
 
   .itemWrapper {
-    width: 190px;
-
-    @media only screen and (max-width: 800px) {
-      width: 290px;
-    }
-
     .inputWrapper {
       flex-direction: column;
       align-items: flex-start;
@@ -92,5 +87,13 @@ export const FilterLink = styled.div`
     align-items: flex-start;
     font-weight: 600;
     height: 25px;
+  }
+`;
+
+export const AddBtn = styled.div`
+  button {
+    text-transform: capitalize;
+    font-size: 18px !important;
+    width: 180px !important;
   }
 `;

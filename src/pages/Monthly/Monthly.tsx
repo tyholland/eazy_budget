@@ -505,15 +505,13 @@ const Monthly = () => {
               </S.ItemContainer>
             </S.ItemWrapper>
             {expenseFilter === 0 && (
-              <Button
-                buttonSize="large"
-                handleClick={handleAddNewBudget}
-                classType="register"
-              >
-                <>
-                  {`Additional ${type}`} <AddIcon />
-                </>
-              </Button>
+              <S.AddBtn>
+                <Button buttonSize="medium" handleClick={handleAddNewBudget}>
+                  <>
+                    <AddIcon /> {`Add ${type}`}
+                  </>
+                </Button>
+              </S.AddBtn>
             )}
           </>
         )}

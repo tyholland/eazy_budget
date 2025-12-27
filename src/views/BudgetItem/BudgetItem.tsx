@@ -202,31 +202,75 @@ const BudgetItem = ({
     getTotalAmount();
   }, [changeInputVal, selectedFrequency, modalValue, inputValue]);
 
+  window.onclick = (event: PointerEvent) => {
+    const target = event.target;
+
+    if (target instanceof Element && !target?.matches(".text")) {
+      const dropdowns = document.getElementsByClassName("dropdownContent");
+
+      for (let i = 0; i < dropdowns.length; i++) {
+        const openDropdown = dropdowns[i];
+
+        if (openDropdown.classList.contains("show")) {
+          openDropdown.classList.remove("show");
+        }
+      }
+    }
+  };
+
   return (
     <S.ItemWrapper className="itemWrapper">
       <S.Item>
         <S.ItemTopRow>
+          <BudgetInput
+            inputLabel={updatedLabel}
+            inputOption={theType}
+            defaultValue={inputValue}
+            labelPlaceHolder={labelPlaceHolder}
+            valuePlaceHolder={valuePlaceHolder}
+            type={inputType}
+            inputSize="medium"
+            frequencyContent={frequencyContent}
+          />
           {!hideBtn && (
-            <>
-              <span data-tooltip-id="edit-tooltip">
+            <S.ItemRightSide>
+              <span>
                 <Button
                   classType="text"
                   handleClick={() => {
-                    setIsOpen(true);
-                    setSelectedCadence(cadenceOptions[0].label);
-                    setInputValue(item?.value || inputValue || 0);
+                    document
+                      .querySelector(`#myDropdownContent-${index}`)
+                      ?.classList.toggle("show");
                   }}
                 >
-                  <EditIcon />
+                  ...
                 </Button>
+                <div
+                  className="dropdownContent"
+                  id={`myDropdownContent-${index}`}
+                >
+                  <button
+                    onClick={() => {
+                      setIsOpen(true);
+                      setSelectedCadence(cadenceOptions[0].label);
+                      setInputValue(item?.value || inputValue || 0);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button onClick={() => {}}>Delete</button>
+                </div>
               </span>
-              <ReactTooltip
-                id="edit-tooltip"
-                place="top"
-                variant="info"
-                content={`Edit ${theType} item`}
-                className="tooltip"
-              />
+              {!hidePaidContent && (
+                <>
+                  <CheckboxComponent
+                    label="Mark as paid"
+                    isDisabled
+                    setCheckedVal={setCheckedVal}
+                    isChecked={checkedVal}
+                  />
+                </>
+              )}
               <ModalComponent
                 isOpen={isOpen}
                 title={`Edit ${theType} item`}
@@ -419,29 +463,9 @@ const BudgetItem = ({
                   </S.BtnWrapper>
                 </S.ModalItem>
               </ModalComponent>
-            </>
+            </S.ItemRightSide>
           )}
-          <BudgetInput
-            inputLabel={updatedLabel}
-            inputOption={theType}
-            defaultValue={inputValue}
-            labelPlaceHolder={labelPlaceHolder}
-            valuePlaceHolder={valuePlaceHolder}
-            type={inputType}
-            inputSize="medium"
-          />
         </S.ItemTopRow>
-        {!hidePaidContent && (
-          <>
-            <div>{frequencyContent}</div>
-            <CheckboxComponent
-              label="Paid"
-              isDisabled
-              setCheckedVal={setCheckedVal}
-              isChecked={checkedVal}
-            />
-          </>
-        )}
       </S.Item>
       {children}
     </S.ItemWrapper>

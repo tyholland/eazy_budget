@@ -1,15 +1,21 @@
 import styled from "styled-components";
-import { DARKER_GRAY, RED, WHITE } from "../../index.style.ts";
+import {
+  BLACK,
+  DARKER_GRAY,
+  LIGHT_GRAY,
+  RED,
+  WHITE,
+} from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;
   gap: 16px;
   align-items: flex-start;
   flex-direction: column;
-  border: 1px solid ${DARKER_GRAY};
+  box-shadow: -10px 10px 10px ${LIGHT_GRAY};
   border-radius: 10px;
   padding: 15px;
-  width: 290px;
+  width: 100%;
   background: ${WHITE};
 
   .tooltip {
@@ -22,10 +28,7 @@ export const Item = styled.div`
   display: flex;
   gap: 16px;
   flex-direction: column;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
+  width: 100%;
 `;
 
 export const BtnWrapper = styled.div`
@@ -36,11 +39,7 @@ export const BtnWrapper = styled.div`
 
 export const ItemTopRow = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-
-  @media only screen and (max-width: 800px) {
-    justify-content: space-between;
-  }
+  justify-content: space-between;
 `;
 
 export const TimingSelects = styled.div`
@@ -86,5 +85,42 @@ export const Disclaimer = styled.div`
 export const Total = styled.div`
   span {
     font-weight: 600;
+  }
+`;
+
+export const ItemRightSide = styled.div`
+  span {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  label {
+    margin-right: 0px;
+  }
+
+  .dropdownContent {
+    display: none;
+    position: absolute;
+
+    button {
+      border: none;
+      background: ${WHITE};
+      font-size: 16px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .show {
+    display: block;
+    border: 1px solid ${BLACK};
+    background: ${WHITE};
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 8px;
+    border-radius: 10px;
   }
 `;

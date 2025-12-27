@@ -83,6 +83,9 @@ export const FilterLink = styled.div`
 `;
 
 export const AddBtn = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
   button {
     text-transform: capitalize;
     font-size: 18px !important;

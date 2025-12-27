@@ -91,7 +91,7 @@ const BudgetNav = ({
             });
           }}
         >
-          Charts
+          Insights
         </Button>
       </S.NavItem>
     </S.NavWrapper>

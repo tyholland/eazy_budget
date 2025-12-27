@@ -5,10 +5,7 @@ export const MonthlyWrapper = styled.div`
   display: flex;
   gap: 20px;
   margin: 30px 0;
-
-  @media only screen and (max-width: 800px) {
-    flex-direction: column;
-  }
+  flex-direction: column;
 `;
 
 export const Title = styled.h2`
@@ -58,14 +55,10 @@ export const ModalWrapper = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 85%;
+  width: 100%;
   display: flex;
   gap: 20px;
   flex-direction: column;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
 `;
 
 export const Selectors = styled.div`

@@ -1,5 +1,14 @@
 import styled from "styled-components";
-import { GRAY, LIGHT_GRAY, RED, WHITE } from "../../index.style.ts";
+import {
+  EARTH_GREEN,
+  GRAY,
+  GREEN,
+  LIGHT_GRAY,
+  LIGHT_GREEN,
+  LIGHTER_GRAY,
+  RED,
+  WHITE,
+} from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;
@@ -28,6 +37,7 @@ export const Item = styled.div`
 export const BtnWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
 `;
 
@@ -52,7 +62,8 @@ export const ModalItem = styled.div`
   flex-direction: column;
 
   .inputWrapper {
-    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
   }
 
   @media only screen and (max-width: 800px) {
@@ -85,7 +96,7 @@ export const Total = styled.div`
 export const ItemRightSide = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 15px;
 
   span {
     display: flex;
@@ -107,6 +118,7 @@ export const ItemRightSide = styled.div`
 
       &:hover {
         cursor: pointer;
+        text-decoration: underline;
       }
     }
   }
@@ -121,5 +133,21 @@ export const ItemRightSide = styled.div`
     border-radius: 10px;
     align-items: flex-start;
     box-shadow: -5px 5px 15px ${GRAY};
+  }
+`;
+
+export const PaidSection = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: -5px 5px 5px ${GRAY};
+  background: ${LIGHTER_GRAY};
+  gap: 10px;
+  padding: 5px 10px;
+  font-weight: 700;
+  color: ${WHITE};
+
+  &.green {
+    background: linear-gradient(${LIGHT_GREEN}, ${EARTH_GREEN});
   }
 `;

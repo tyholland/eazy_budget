@@ -193,13 +193,23 @@ export const MediumModalStyle = {
   width: 500,
 };
 
-export const frequencyShortHandMap = {
-  Daily: "business day",
-  Weekly: "week",
-  "Semi-Monthly": "two times a month",
-  Monthly: "month",
-  Quarterly: "quarter (March, June, Sept, Dec)",
-  Yearly: "year",
+export const frequencyShortHandMap = (freq: string) => {
+  switch (freq) {
+    case "Daily":
+      return "business day";
+    case "Weekly":
+      return "week";
+    case "Semi-Monthly":
+      return "two times a month";
+    case "Monthly":
+      return "month";
+    case "Quarterly":
+      return "quarter (March, June, Sept, Dec)";
+    case "Yearly":
+      return "year";
+    default:
+      return "month";
+  }
 };
 
 export const emailAddress = "info.simplebudget@gmail.com";

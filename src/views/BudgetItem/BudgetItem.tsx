@@ -31,6 +31,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -256,18 +257,22 @@ const BudgetItem = ({
                   >
                     Edit
                   </button>
-                  <button onClick={() => {}}>Delete</button>
+                  <button
+                    onClick={() => {
+                      deleteEvent && deleteEvent();
+                      document
+                        .querySelector(`#myDropdownContent-${index}`)
+                        ?.classList.remove("show");
+                    }}
+                  >
+                    Delete
+                  </button>
                 </div>
               </span>
               {!hidePaidContent && (
-                <>
-                  <CheckboxComponent
-                    label="Mark as paid"
-                    isDisabled
-                    setCheckedVal={setCheckedVal}
-                    isChecked={checkedVal}
-                  />
-                </>
+                <S.PaidSection className={checkedVal ? "green" : ""}>
+                  {checkedVal ? <SaveIcon /> : <DisabledSaveIcon />} Paid
+                </S.PaidSection>
               )}
               <ModalComponent
                 isOpen={isOpen}
@@ -448,16 +453,6 @@ const BudgetItem = ({
                         </>
                       </Button>
                     )}
-                    <Button
-                      handleClick={() => {
-                        deleteEvent && deleteEvent();
-                        closeModal();
-                      }}
-                    >
-                      <>
-                        Delete <DeleteIcon />
-                      </>
-                    </Button>
                   </S.BtnWrapper>
                 </S.ModalItem>
               </ModalComponent>

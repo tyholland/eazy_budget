@@ -33,6 +33,7 @@ import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import {
+  capitalizePageTitle,
   checkIsExpiredSession,
   getSubscriptionStatus,
   removeItemFromBudgetArray,
@@ -507,7 +508,7 @@ const Monthly = () => {
       />
       <ModalComponent
         isOpen={isOverviewOpen}
-        title="Budget Overview"
+        title={`${capitalizePageTitle(month)} Overview`}
         size="medium"
       >
         <S.ModalWrapper>
@@ -588,6 +589,15 @@ const Monthly = () => {
               />
             )}
           </S.Selectors>
+          <S.ModalBtn>
+            <Button
+              buttonSize="small"
+              handleClick={() => setIsFilterOpen(false)}
+              classType="exit"
+            >
+              Close
+            </Button>
+          </S.ModalBtn>
         </S.ModalWrapper>
       </ModalComponent>
     </S.MonthlyWrapper>

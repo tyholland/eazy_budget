@@ -11,8 +11,22 @@ export const NavWrapper = styled.div`
 
 export const NavItem = styled.div`
   background: ${WHITE};
-  width: 25%;
+  width: 100%;
   border-radius: 10px;
+
+  &.hideOnMobile {
+    @media only screen and (max-width: 800px) {
+      display: none;
+    }
+  }
+
+  &.hideOnDesktop {
+    display: none;
+
+    @media only screen and (max-width: 800px) {
+      display: block;
+    }
+  }
 
   button {
     padding: 10px 0 10px 10px !important;
@@ -50,5 +64,36 @@ export const NavItem = styled.div`
       padding: 6px !important;
       height: 30px;
     }
+  }
+
+  .dropdownContent {
+    display: none;
+    position: absolute;
+
+    button {
+      border: none;
+      background: ${WHITE};
+      font-size: 16px;
+      text-align: left;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .show {
+    display: block;
+    background: ${WHITE};
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 8px;
+    border-radius: 10px;
+    align-items: flex-start;
+    box-shadow: -5px 5px 15px ${GRAY};
+    width: 100px;
+    z-index: 1;
   }
 `;

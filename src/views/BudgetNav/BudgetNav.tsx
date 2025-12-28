@@ -25,6 +25,22 @@ const BudgetNav = ({
   const currentUser = useAtomValue(userAtom);
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
 
+  window.onclick = (event: PointerEvent) => {
+    const target = event.target;
+
+    if (target instanceof Element && !target?.matches(".text")) {
+      const dropdowns = document.getElementsByClassName("dropdownContent");
+
+      for (let i = 0; i < dropdowns.length; i++) {
+        const openDropdown = dropdowns[i];
+
+        if (openDropdown.classList.contains("show")) {
+          openDropdown.classList.remove("show");
+        }
+      }
+    }
+  };
+
   return (
     <S.NavWrapper>
       <S.NavItem className={selectedOption === "income" ? "open" : "close"}>
@@ -58,7 +74,9 @@ const BudgetNav = ({
         </Button>
       </S.NavItem>
       {isPro && (
-        <S.NavItem className={selectedOption === "details" ? "open" : "close"}>
+        <S.NavItem
+          className={`hideOnMobile ${selectedOption === "details" ? "open" : "close"}`}
+        >
           <Button
             classType="text"
             handleClick={() => {
@@ -73,7 +91,9 @@ const BudgetNav = ({
           </Button>
         </S.NavItem>
       )}
-      <S.NavItem className={selectedOption === "goals" ? "open" : "close"}>
+      <S.NavItem
+        className={`hideOnMobile ${selectedOption === "goals" ? "open" : "close"}`}
+      >
         <Button
           classType="text"
           handleClick={() => {
@@ -87,7 +107,9 @@ const BudgetNav = ({
           Goals
         </Button>
       </S.NavItem>
-      <S.NavItem className={selectedOption === "insights" ? "open" : "close"}>
+      <S.NavItem
+        className={`hideOnMobile ${selectedOption === "insights" ? "open" : "close"}`}
+      >
         <Button
           classType="text"
           handleClick={() => {
@@ -100,6 +122,55 @@ const BudgetNav = ({
         >
           Insights
         </Button>
+      </S.NavItem>
+      <S.NavItem className="hideOnDesktop">
+        <Button
+          classType="text"
+          handleClick={() => {
+            document
+              .querySelector(`#myDropdownContent`)
+              ?.classList.toggle("show");
+          }}
+        >
+          ...
+        </Button>
+        <div className="dropdownContent" id="myDropdownContent">
+          {isPro && (
+            <button
+              onClick={() => {
+                setSelectedOption("details");
+                trackEvent("Viewed Details", {
+                  month: params.month,
+                  year: params.year,
+                });
+              }}
+            >
+              Details
+            </button>
+          )}
+          <button
+            onClick={() => {
+              setSelectedOption("goals");
+              trackEvent("Viewed Goals", {
+                month: params.month,
+                year: params.year,
+              });
+            }}
+          >
+            Goals
+          </button>
+          <button
+            onClick={() => {
+              setSelectedOption("insights");
+              trackEvent("Viewed Charts", {
+                month: params.month,
+                year: params.year,
+              });
+            }}
+          >
+            Insights
+          </button>
+        </div>
       </S.NavItem>
     </S.NavWrapper>
   );

@@ -24,12 +24,6 @@ export const ItemWrapper = styled.div`
   justify-content: space-between;
   flex-direction: column;
 
-  @media only screen and (max-width: 800px) {
-    width: auto;
-    gap: 20px;
-    margin: 0 auto;
-  }
-
   .itemWrapper {
     box-shadow: none;
 

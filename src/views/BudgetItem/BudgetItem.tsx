@@ -2,7 +2,6 @@ import React, { useEffect, useState, JSX } from "react";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import CancelIcon from "../../svg/CancelIcon.tsx";
-import DeleteIcon from "../../svg/DeleteIcon.tsx";
 import {
   BudgetData,
   BudgetDataItem,

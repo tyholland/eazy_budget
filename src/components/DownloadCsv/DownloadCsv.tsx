@@ -218,14 +218,16 @@ const DownloadCsv = ({
                 );
               })}
             </S.BudgetBreakdown>
-            <S.CsvBtn
-              data={monthlyCsv}
-              headers={["Item", "Amount", "% of Income"]}
-              filename={`${currentMonth}_p_and_l`}
-              className="profitLossBtn"
-            >
-              Download {currentMonth} Profit & Loss Simplified CSV
-            </S.CsvBtn>
+            <S.BtnWrapper>
+              <S.CsvBtn
+                data={monthlyCsv}
+                headers={["Item", "Amount", "% of Income"]}
+                filename={`${currentMonth}_p_and_l`}
+                className="profitLossBtn"
+              >
+                Download {currentMonth} Profit & Loss Simplified CSV
+              </S.CsvBtn>
+            </S.BtnWrapper>
           </>
         )}
       </S.ContentWrapper>

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {
   EARTH_GREEN,
   GRAY,
-  GREEN,
   LIGHT_GRAY,
   LIGHT_GREEN,
   LIGHTER_GRAY,

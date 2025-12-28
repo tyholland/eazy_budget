@@ -57,7 +57,7 @@ export const NavItem = styled.div`
 
     button {
       color: ${SKY_BLUE};
-      box-shadow: 0 0 10px ${GRAY};
+      box-shadow: -5px 5px 5px ${GRAY};
       width: 90% !important;
       padding: 6px !important;
       height: 30px;

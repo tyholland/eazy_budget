@@ -228,7 +228,7 @@ const BudgetItem = ({
             valuePlaceHolder={valuePlaceHolder}
             type={inputType}
             inputSize="medium"
-            frequencyContent={frequencyContent}
+            frequencyContent={hideBtn ? "" : frequencyContent}
           />
           {!hideBtn && (
             <S.ItemRightSide>

@@ -3,7 +3,6 @@ import {
   BLACK,
   LIGHT_GRAY,
   LIGHT_SKY_BLUE,
-  LIGHT_YELLOW,
   RUBIK,
   SKY_BLUE,
   WHITE,

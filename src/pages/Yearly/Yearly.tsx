@@ -16,22 +16,23 @@ import ViewIcon from "../../svg/ViewIcon.tsx";
 import Link from "../../components/Link/Link.tsx";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import BudgetNav from "../../views/BudgetNav/BudgetNav.tsx";
-import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 import Loading from "../../components/Loading/Loading.tsx";
 import { DARKER_GRAY } from "../../index.style.ts";
 import DownloadCsv from "../../components/DownloadCsv/DownloadCsv.tsx";
-import { userAtom } from "../../hook/UserAtom.ts";
-import { getSubscriptionStatus } from "../../functions/helper.ts";
+import { capitalizePageTitle } from "../../functions/helper.ts";
 import Predict from "../../components/Predict/Predict.tsx";
+import ArrowIcon from "../../svg/ArrowIcon.tsx";
+import Button from "../../components/Button/Button.tsx";
+import ModalComponent from "../../components/Modal/Modal.tsx";
+import BudgetDetails from "../../views/BudgetDetails/BudgetDetails.tsx";
 
 const Yearly = () => {
   const budget = useAtomValue(budgetAtom);
-  const currentUser = useAtomValue(userAtom);
   const { type, year } = useParams();
   const [selectedOption, setSelectedOption] = useState<string | undefined>(
     type,
   );
-  const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
+  const [isOverviewOpen, setIsOverviewOpen] = useState<boolean>(false);
 
   if (!type || !year || !listOfBudgets.includes(type) || isNaN(Number(year))) {
     return <ErrorPage />;
@@ -49,6 +50,7 @@ const Yearly = () => {
 
   return (
     <S.YearlylyWrapper>
+      <S.Title>{theYear}</S.Title>
       <BudgetNav
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
@@ -56,44 +58,49 @@ const Yearly = () => {
         expenseUrl={`/yearly/expense/${theYear}`}
       />
       <S.ContentWrapper>
-        <S.Title>
-          {selectedOption !== "goals" && theYear} {selectedOption}
-        </S.Title>
         {selectedOption === type && (
-          <S.ItemWrapper>
-            {!newBudget.length && <Loading />}
-            {newBudget.map((data: BudgetDataItem, i: number) => {
-              return (
-                <BudgetItem
-                  key={i}
-                  theType={type as InputOption}
-                  item={data}
-                  hideBtn
-                  hidePaidContent
-                >
-                  <span data-tooltip-id={`monthly-${type}-tooltip`}>
-                    <Link
-                      url={`/monthly/${type}/${data.label}/${theYear}`}
-                      label={`view breakdown of ${data.label} ${type}`}
-                    >
-                      <ViewIcon />
-                    </Link>
-                  </span>
-                </BudgetItem>
-              );
-            })}
-          </S.ItemWrapper>
-        )}
-        {selectedOption === "details" && (
           <>
-            <BudgetDetails
-              income={yearlyTotalIncome}
-              expense={yearlyTotalExpense}
-              hideExpensesPaid
-            />
-            {isPro && <DownloadCsv type="yearly" />}
+            <S.BudgetOptions>
+              <Button
+                buttonSize="small"
+                classType="text"
+                handleClick={() => setIsOverviewOpen(true)}
+              >
+                <>
+                  <ViewIcon /> Overview
+                </>
+              </Button>
+            </S.BudgetOptions>
+            <S.ItemWrapper>
+              {!newBudget.length && <Loading />}
+              {newBudget.map((data: BudgetDataItem, i: number) => {
+                return (
+                  <Link
+                    url={`/monthly/${type}/${data.label}/${theYear}`}
+                    label={`view breakdown of ${data.label} ${type}`}
+                  >
+                    <>
+                      <BudgetItem
+                        key={i}
+                        theType={type as InputOption}
+                        item={data}
+                        hideBtn
+                        hidePaidContent
+                      >
+                        <span className="subText">
+                          View a detailed breakdown of this{" "}
+                          {capitalizePageTitle(data.label)}'s {type}
+                        </span>
+                      </BudgetItem>
+                      <ArrowIcon />
+                    </>
+                  </Link>
+                );
+              })}
+            </S.ItemWrapper>
           </>
         )}
+        {selectedOption === "details" && <DownloadCsv type="yearly" />}
         {selectedOption === "goals" && <Predict />}
         {selectedOption === "insights" && (
           <Graph
@@ -118,6 +125,28 @@ const Yearly = () => {
           className="tooltip"
         />
       </S.ContentWrapper>
+      <ModalComponent
+        isOpen={isOverviewOpen}
+        title={`${theYear} Overview`}
+        size="medium"
+      >
+        <S.ModalWrapper>
+          <BudgetDetails
+            income={yearlyTotalIncome}
+            expense={yearlyTotalExpense}
+            year={theYear}
+          />
+          <S.ModalBtn>
+            <Button
+              buttonSize="small"
+              handleClick={() => setIsOverviewOpen(false)}
+              classType="exit"
+            >
+              Close
+            </Button>
+          </S.ModalBtn>
+        </S.ModalWrapper>
+      </ModalComponent>
     </S.YearlylyWrapper>
   );
 };

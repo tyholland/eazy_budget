@@ -267,7 +267,7 @@ describe("getFrequencyContent", () => {
       undefined,
     );
 
-    expect(content).toBe("Repeats monthly");
+    expect(content).toBe("every month");
   });
 
   test("should return label default message for no month", async () => {
@@ -279,7 +279,7 @@ describe("getFrequencyContent", () => {
       undefined,
     );
 
-    expect(content).toBe("Repeats monthly");
+    expect(content).toBe("every month");
   });
 
   test("should return label default message for no year", async () => {
@@ -291,7 +291,7 @@ describe("getFrequencyContent", () => {
       undefined,
     );
 
-    expect(content).toBe("Repeats monthly");
+    expect(content).toBe("every month");
   });
 
   test("should return content for Daily", async () => {

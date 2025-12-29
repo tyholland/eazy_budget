@@ -16,7 +16,7 @@ const Client = () => {
   referral_code && localStorage.setItem("referral_code", referral_code);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   if (user) {

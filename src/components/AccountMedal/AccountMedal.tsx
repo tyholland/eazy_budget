@@ -33,7 +33,7 @@ const AccountMedal = () => {
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
 
   if (!currentUser) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   const {

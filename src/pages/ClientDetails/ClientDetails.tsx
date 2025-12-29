@@ -435,7 +435,7 @@ const ClientDetails = () => {
             <>
               <S.ItemWrapper>
                 <S.ItemContainer>
-                  {!clientBudget.length && <Loading />}
+                  {!clientBudget.length && <Loading isText />}
                   {!!clientBudget.length &&
                     clientBudget[budgetIndex][type].map(
                       (data: BudgetDataItem, i: number) => {

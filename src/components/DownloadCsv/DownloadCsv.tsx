@@ -75,7 +75,7 @@ const DownloadCsv = ({
     currentMonthProfitLoss.length === 0 ||
     currentYearProfitLoss.length === 0
   ) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   const profitLossBtn = document.querySelector(".profitLossBtn");

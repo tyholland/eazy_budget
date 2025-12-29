@@ -8,7 +8,7 @@ const Partner = () => {
   const { isLoading, user, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   return (

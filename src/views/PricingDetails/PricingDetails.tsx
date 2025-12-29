@@ -109,7 +109,7 @@ const PricingDetails = ({
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   return (

@@ -262,7 +262,7 @@ const Account = () => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   return (

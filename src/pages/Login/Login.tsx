@@ -11,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   if (user) {

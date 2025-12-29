@@ -72,7 +72,7 @@ const Yearly = () => {
               </Button>
             </S.BudgetOptions>
             <S.ItemWrapper>
-              {!newBudget.length && <Loading />}
+              {!newBudget.length && <Loading isText />}
               {newBudget.map((data: BudgetDataItem, i: number) => {
                 return (
                   <Link

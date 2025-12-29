@@ -414,7 +414,7 @@ const Monthly = () => {
             </S.BudgetOptions>
             <S.ItemWrapper>
               <S.ItemContainer>
-                {!budget.length && <Loading />}
+                {!budget.length && <Loading isText />}
                 {!!budget.length &&
                   budget[budgetIndex][type]
                     .sort((a: BudgetDataItem, b: BudgetDataItem) =>

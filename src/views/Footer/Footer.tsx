@@ -1,19 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import * as S from "./footer.style.ts";
 import Link from "../../components/Link/Link.tsx";
-import { useAtomValue } from "jotai";
-import { userAtom } from "../../hook/UserAtom.ts";
 import FacebookIcon from "../../svg/FacebookIcon.tsx";
 import InstagramIcon from "../../svg/InstagramIcon.tsx";
 import LinkedInIcon from "../../svg/LinkedInIcon.tsx";
 import PWAInstall from "@khmyznikov/pwa-install/react-legacy";
 import { PWAInstallElement } from "@khmyznikov/pwa-install";
-import { loggedInHomepage } from "../../functions/helper.ts";
 
 const Footer = () => {
   const date = new Date();
   const year = date.getFullYear();
-  const currentUser = useAtomValue(userAtom);
   const pwaInstallRef = useRef<PWAInstallElement>(null);
 
   const handlePwa = async () => {

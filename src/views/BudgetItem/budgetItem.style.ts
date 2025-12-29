@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  DARKER_GRAY,
   EARTH_GREEN,
   GRAY,
   LIGHT_GRAY,
@@ -145,8 +146,10 @@ export const PaidSection = styled.div`
   padding: 5px 10px;
   font-weight: 700;
   color: ${WHITE};
+  text-shadow: 0 2px 2px ${DARKER_GRAY};
 
   &.green {
     background: linear-gradient(${LIGHT_GREEN}, ${EARTH_GREEN});
+    text-shadow: none;
   }
 `;

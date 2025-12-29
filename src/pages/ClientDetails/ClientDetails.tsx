@@ -17,8 +17,6 @@ import {
 import {
   addNewBudgetItem,
   getMonthlyTotalAmount,
-  insertBasedOnCadence,
-  insertBudgetIds,
   reformatBudgetItem,
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
@@ -203,68 +201,10 @@ const ClientDetails = () => {
 
         trackEvent(`Edit ${type}`);
       } else {
-        insertBasedOnCadence(
-          item as BudgetData,
-          updatedItem[0],
-          clientBudget,
-          month,
-          theYear,
-          type,
-        );
-
         updatedItem[0].type = type;
-        const updatedBudgetItem: NewBudgetIds = await addBudgetItem(
-          accessToken,
-          updatedItem[0],
-        );
+        const addedBudget = await addBudgetItem(accessToken, updatedItem[0]);
 
-        const insertedBudgets = insertBudgetIds(
-          item as BudgetData,
-          updatedItem[0],
-          clientBudget,
-          month,
-          theYear,
-          type,
-          updatedBudgetItem,
-        );
-
-        if (updatedItem[0].cadence === "Future Months" && !!insertedBudgets) {
-          const tempBudget = [...clientBudget];
-
-          for (let i = budgetIndex; i <= 11; i++) {
-            const count = i - budgetIndex;
-
-            tempBudget[i][type] = insertedBudgets[count];
-          }
-
-          setClientBudget(tempBudget);
-        }
-
-        if (updatedItem[0].cadence === "All Months" && !!insertedBudgets) {
-          const tempBudget = [...clientBudget];
-
-          if (updatedItem[0].frequency === "Quarterly") {
-            for (let i = 0; i <= 11; i++) {
-              if (i === 2 || i === 5 || i === 8 || i === 11) {
-                tempBudget[i][type] = insertedBudgets[i];
-              }
-            }
-
-            setClientBudget(tempBudget);
-          } else {
-            for (let i = 0; i <= 11; i++) {
-              tempBudget[i][type] = insertedBudgets[i];
-            }
-
-            setClientBudget(tempBudget);
-          }
-        }
-
-        if (updatedItem[0].cadence === "Current Month") {
-          const tempBudget = [...clientBudget];
-          tempBudget[budgetIndex][type] = insertedBudgets;
-          setClientBudget(tempBudget);
-        }
+        setClientBudget(addedBudget);
 
         trackEvent(`Add New ${type}`);
       }

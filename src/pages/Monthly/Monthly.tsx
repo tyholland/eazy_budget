@@ -195,15 +195,6 @@ const Monthly = () => {
         trackEvent(`Edit ${type}`);
         setIsLoadingData(false);
       } else {
-        insertBasedOnCadence(
-          item as BudgetData,
-          updatedItem[0],
-          budget,
-          month,
-          theYear,
-          type,
-        );
-
         updatedItem[0].type = type;
         const addedBudget = await addBudgetItem(accessToken, updatedItem[0]);
 

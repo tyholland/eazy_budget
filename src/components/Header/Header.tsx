@@ -4,7 +4,7 @@ import UserIcon from "../../svg/UserIcon.tsx";
 import Link from "../Link/Link.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../Button/Button.tsx";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { trackPage } from "../../functions/mixpanel.ts";
 import { useAtom, useSetAtom } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
@@ -19,6 +19,7 @@ const Header = () => {
   const auth = useAuth0();
   const { user, loginWithRedirect } = auth;
   const location = useLocation();
+  const navigate = useNavigate();
   const setBudget = useSetAtom(budgetAtom);
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [hasBudget, setHasBudget] = useState<boolean>(false);
@@ -92,6 +93,15 @@ const Header = () => {
         <S.ModalWrapper>
           <MedalProgress />
           <S.ModalBtn>
+            <Button
+              buttonSize="small"
+              handleClick={() => {
+                setIsOpen(false);
+                navigate("/account");
+              }}
+            >
+              Learn more
+            </Button>
             <Button
               buttonSize="small"
               handleClick={() => setIsOpen(false)}

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
-  gap: 60px;
-  flex-wrap: wrap;
+  gap: 20px;
+  flex-direction: column;
   margin: 30px 0;
 
   @media only screen and (max-width: 800px) {

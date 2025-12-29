@@ -150,6 +150,7 @@ const Category = () => {
                   <Button
                     handleClick={() => removeCategory(item.id)}
                     classType="register"
+                    buttonSize="medium"
                   >
                     <>
                       <div>{item.label}</div>

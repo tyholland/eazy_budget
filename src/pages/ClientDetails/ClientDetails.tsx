@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BudgetData,
-  BudgetDataItem,
-  InputOption,
-  NewBudgetIds,
-  User,
-} from "../../types.ts";
+import { BudgetData, BudgetDataItem, InputOption, User } from "../../types.ts";
 import * as S from "./clientDetails.style.ts";
 import BudgetItem from "../../views/BudgetItem/BudgetItem.tsx";
 import {

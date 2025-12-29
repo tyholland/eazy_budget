@@ -12,7 +12,6 @@ import {
   formatBudgetData,
   sortBudget,
   getMonthlyPaidExpenses,
-  insertBasedOnCadence,
 } from "../functions/budget";
 import {
   mockBudget,
@@ -56,7 +55,6 @@ let budgetItemArray3: BudgetDataItem[];
 let budgetItemArray4: BudgetDataItem[];
 let budgetItemArray5: BudgetDataItem[];
 let budgetTwo: BudgetData[];
-let budgetFullInserted: BudgetData[];
 
 beforeEach(() => {
   budget = JSON.parse(JSON.stringify(mockBudget));
@@ -75,7 +73,6 @@ beforeEach(() => {
   budgetItemArray4 = JSON.parse(JSON.stringify(mockBudgetItemArray4));
   budgetItemArray5 = JSON.parse(JSON.stringify(mockBudgetItemArray5));
   budgetTwo = JSON.parse(JSON.stringify(mockBudgetTwo));
-  budgetFullInserted = JSON.parse(JSON.stringify(mockBudgetFullInserted));
 });
 
 describe("getMonthlyTotalAmount", () => {

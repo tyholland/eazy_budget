@@ -19,8 +19,6 @@ const Auth0ProviderRedirect = ({ children }: Auth0ProviderRedirectProps) => {
       onRedirectCallback={onRedirectCallback}
       domain={process.env.REACT_APP_DOMAIN as string}
       clientId={process.env.REACT_APP_CLIENT_ID as string}
-      useRefreshTokens={true}
-      cacheLocation="localstorage"
       authorizationParams={{
         redirect_uri: `${window.location.origin}/setup`,
         audience: process.env.REACT_APP_AUDIENCE,

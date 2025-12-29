@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BudgetData,
-  BudgetDataItem,
-  InputOption,
-  NewBudgetIds,
-} from "../../types.ts";
+import { BudgetData, BudgetDataItem, InputOption } from "../../types.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { budgetAtom } from "../../hook/BudgetAtom.ts";
 import { useAtom } from "jotai";
@@ -16,7 +11,6 @@ import {
   graphColors,
   listOfBudgets,
   listOfMonths,
-  listOfQuarterlyMonths,
   monthSelect,
 } from "../../constants.ts";
 import {
@@ -24,10 +18,8 @@ import {
   getMonthlyBudgetBreakdown,
   getMonthlyTotalAmount,
   insertBasedOnCadence,
-  insertBudgetIds,
   reformatBudgetItem,
   sortBudget,
-  updateBasedOnCadence,
 } from "../../functions/budget.ts";
 import Button from "../../components/Button/Button.tsx";
 import AddIcon from "../../svg/AddIcon.tsx";
@@ -36,7 +28,6 @@ import {
   capitalizePageTitle,
   checkIsExpiredSession,
   getSubscriptionStatus,
-  removeItemFromBudgetArray,
 } from "../../functions/helper.ts";
 import ErrorPage from "../../views/ErrorPage/ErrorPage.tsx";
 import {
@@ -86,6 +77,7 @@ const Monthly = () => {
   );
   const isPro = getSubscriptionStatus("Pro", currentUser?.subscription_id);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
 
   useEffect(() => {
     if (type === "income") {
@@ -140,6 +132,7 @@ const Monthly = () => {
     item?: BudgetData,
     i?: number,
   ) => {
+    setIsLoadingData(true);
     const updatedItem = reformatBudgetItem(
       obj,
       data?.budget_id || null,
@@ -156,60 +149,16 @@ const Monthly = () => {
       const accessToken = await getAccessTokenSilently({
         authorizationParams: {
           audience: process.env.REACT_APP_AUDIENCE,
-          scope: "read:user",
         },
       });
 
       if (!!data?.budget_id) {
-        const updatedBudgets = updateBasedOnCadence(
-          item as BudgetData,
+        const updatedBudget = await updateBudgetItem(
+          accessToken,
           updatedItem[0],
-          budget,
-          data,
-          month,
-          theYear,
-          type,
         );
 
-        if (updatedItem[0].cadence === "Future Months" && !!updatedBudgets) {
-          const tempBudget = [...budget];
-
-          for (let i = budgetIndex; i <= 11; i++) {
-            const count = i - budgetIndex;
-
-            tempBudget[i][type] = updatedBudgets[count];
-          }
-
-          setBudget(tempBudget);
-        }
-
-        if (updatedItem[0].cadence === "All Months" && !!updatedBudgets) {
-          const tempBudget = [...budget];
-
-          if (updatedItem[0].frequency === "Quarterly") {
-            for (let i = 0; i <= 11; i++) {
-              if (i === 2 || i === 5 || i === 8 || i === 11) {
-                tempBudget[i][type] = updatedBudgets[i];
-              }
-            }
-
-            setBudget(tempBudget);
-          } else {
-            for (let i = 0; i <= 11; i++) {
-              tempBudget[i][type] = updatedBudgets[i];
-            }
-
-            setBudget(tempBudget);
-          }
-        }
-
-        if (updatedItem[0].cadence === "Current Month") {
-          const tempBudget = [...budget];
-          tempBudget[budgetIndex][type] = updatedBudgets;
-          setBudget(tempBudget);
-        }
-
-        await updateBudgetItem(accessToken, updatedItem[0]);
+        setBudget(updatedBudget.budget);
 
         if (
           type === "income" &&
@@ -244,6 +193,7 @@ const Monthly = () => {
         }
 
         trackEvent(`Edit ${type}`);
+        setIsLoadingData(false);
       } else {
         insertBasedOnCadence(
           item as BudgetData,
@@ -255,77 +205,17 @@ const Monthly = () => {
         );
 
         updatedItem[0].type = type;
-        const updatedBudgetItem: NewBudgetIds = await addBudgetItem(
-          accessToken,
-          updatedItem[0],
-        );
+        const addedBudget = await addBudgetItem(accessToken, updatedItem[0]);
 
-        const insertedBudgets = insertBudgetIds(
-          item as BudgetData,
-          updatedItem[0],
-          budget,
-          month,
-          theYear,
-          type,
-          updatedBudgetItem,
-        );
-
-        if (updatedItem[0].cadence === "Future Months" && !!insertedBudgets) {
-          const tempBudget = [...budget];
-
-          for (let i = budgetIndex; i <= 11; i++) {
-            const count = i - budgetIndex;
-
-            tempBudget[i][type] = insertedBudgets[count];
-          }
-
-          setBudget(tempBudget);
-        }
-
-        if (updatedItem[0].cadence === "All Months" && !!insertedBudgets) {
-          const tempBudget = [...budget];
-
-          if (updatedItem[0].frequency === "Quarterly") {
-            for (let i = 0; i <= 11; i++) {
-              if (i === 2 || i === 5 || i === 8 || i === 11) {
-                tempBudget[i][type] = insertedBudgets[i];
-              }
-            }
-
-            setBudget(tempBudget);
-          } else {
-            for (let i = 0; i <= 11; i++) {
-              tempBudget[i][type] = insertedBudgets[i];
-            }
-
-            setBudget(tempBudget);
-          }
-        }
-
-        if (updatedItem[0].cadence === "Current Month") {
-          const tempBudget = [...budget];
-          tempBudget[budgetIndex][type] = insertedBudgets;
-          setBudget(tempBudget);
-        }
+        setBudget(addedBudget);
 
         trackEvent(`Add New ${type}`);
-      }
-
-      if (
-        updatedItem[0].frequency === "Quarterly" &&
-        !listOfQuarterlyMonths.includes(month) &&
-        item &&
-        i
-      ) {
-        const updatedItems = removeItemFromBudgetArray(item[type], i);
-        const tempBudget = [...budget];
-        tempBudget[budgetIndex][type] = updatedItems;
-
-        setBudget(tempBudget);
+        setIsLoadingData(false);
       }
 
       setIsNewBudget(false);
     } catch (err) {
+      setIsLoadingData(false);
       trackError("Monthly - handleSaveEvent:", {
         result: err,
       });
@@ -344,15 +234,7 @@ const Monthly = () => {
       setIsOpen(true);
       return;
     }
-
-    const updatedItems = removeItemFromBudgetArray(
-      currentItems,
-      data.budget_id,
-    );
-
-    const tempBudget = [...budget];
-    tempBudget[budgetIndex][type] = updatedItems;
-    setBudget(tempBudget);
+    setIsLoadingData(true);
 
     try {
       const accessToken = await getAccessTokenSilently({
@@ -363,13 +245,19 @@ const Monthly = () => {
       });
 
       if (!!data.budget_id) {
-        await deleteBudgetItem(accessToken, data.budget_id);
+        const deletedBudget = await deleteBudgetItem(
+          accessToken,
+          data.budget_id,
+        );
+        setBudget(deletedBudget);
 
         trackEvent(`Delete ${type}`);
       }
 
       setIsNewBudget(false);
+      setIsLoadingData(false);
     } catch (err) {
+      setIsLoadingData(false);
       trackError("Monthly - handleDeleteEvent:", {
         result: err,
       });
@@ -598,6 +486,11 @@ const Monthly = () => {
               Close
             </Button>
           </S.ModalBtn>
+        </S.ModalWrapper>
+      </ModalComponent>
+      <ModalComponent isOpen={isLoadingData} title="Loading..." size="medium">
+        <S.ModalWrapper>
+          Your budget is being updated. Please wait for a moment.
         </S.ModalWrapper>
       </ModalComponent>
     </S.MonthlyWrapper>

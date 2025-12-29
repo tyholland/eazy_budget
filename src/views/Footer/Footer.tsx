@@ -34,14 +34,6 @@ const Footer = () => {
       <hr />
       <S.Links>
         <Link
-          url={currentUser ? loggedInHomepage(currentUser) : "/"}
-          label="Home"
-          linkSize="medium"
-          callBack={() => window.scrollTo(0, 0)}
-        >
-          Home
-        </Link>
-        <Link
           url="/about"
           label="About"
           linkSize="medium"
@@ -49,6 +41,7 @@ const Footer = () => {
         >
           About
         </Link>
+        &#9679;
         <Link
           url="/pricing"
           label="Pricing"
@@ -57,14 +50,7 @@ const Footer = () => {
         >
           Pricing
         </Link>
-        <Link
-          url="/partner"
-          label="Partner with Us"
-          linkSize="medium"
-          callBack={() => window.scrollTo(0, 0)}
-        >
-          Partner with Us
-        </Link>
+        &#9679;
         <Link
           url="#"
           label="Download App"
@@ -73,6 +59,7 @@ const Footer = () => {
         >
           Download App
         </Link>
+        &#9679;
         <Link
           url="/privacy"
           label="Privacy Policy"
@@ -81,6 +68,7 @@ const Footer = () => {
         >
           Privacy Policy
         </Link>
+        &#9679;
         <Link
           url="/contact"
           label="Contact Us"
@@ -90,6 +78,7 @@ const Footer = () => {
           Contact Us
         </Link>
       </S.Links>
+      <S.Copyright>&copy; {year} Simple Budgeting</S.Copyright>
       <S.Links>
         <Link
           url="https://www.facebook.com/people/Simple-Budgeting/61579168717987/"
@@ -116,9 +105,6 @@ const Footer = () => {
           <LinkedInIcon />
         </Link>
       </S.Links>
-      <S.Copyright>
-        &copy; {year} Simple Budgeting. All rights reserved.
-      </S.Copyright>
       <PWAInstall
         ref={pwaInstallRef}
         name="Simple Budgeting"

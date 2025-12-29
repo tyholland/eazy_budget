@@ -26,7 +26,6 @@ import {
   mockBudgetInsertIds,
   mockBudgetItemArray,
   mockBudgetTwo,
-  mockBudgetFullInserted,
   mockBudgetItemArray2,
   mockBudgetItemArray3,
   mockBudgetItemArray4,

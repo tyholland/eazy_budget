@@ -43,6 +43,10 @@ export const Wrapper = styled.div`
   font-size: 16px;
   align-items: center;
   padding: 25px 0;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 export const Title = styled.div`

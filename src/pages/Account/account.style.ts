@@ -90,6 +90,7 @@ export const Section = styled.div`
         text-transform: none;
         font-size: 14px;
         color: ${GRAY};
+        text-align: left;
       }
     }
   }

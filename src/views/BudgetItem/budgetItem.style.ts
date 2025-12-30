@@ -5,7 +5,6 @@ import {
   GRAY,
   LIGHT_GRAY,
   LIGHT_GREEN,
-  LIGHTER_GRAY,
   RED,
   WHITE,
 } from "../../index.style.ts";

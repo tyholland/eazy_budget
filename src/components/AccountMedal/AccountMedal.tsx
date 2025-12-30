@@ -216,6 +216,11 @@ const AccountMedal = () => {
               <S.Title>Next Medal:</S.Title>
               <div className="points">{activeLevel?.next}</div>
             </div>
+            <div className="pointWrapper unlock">
+              <div className="points">
+                Unlocks at {activeLevel?.endTotal} points
+              </div>
+            </div>
           </div>
           <Button handleClick={() => setIsOpen(true)}>
             <>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import * as S from "./pricingDetails.style.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button from "../../components/Button/Button.tsx";
@@ -13,6 +13,7 @@ import { trackError } from "../../functions/mixpanel.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
+import { Switch } from "@mui/material";
 
 interface PricingDetailsProps {
   isSignUp?: boolean;
@@ -32,6 +33,7 @@ const PricingDetails = ({
   const { loginWithRedirect, getAccessTokenSilently, isLoading } = useAuth0();
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
+  const [isMonthly, setIsMonthly] = useState<boolean>(false);
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
   const isTester = getSubscriptionStatus(
     "Tester",
@@ -108,214 +110,247 @@ const PricingDetails = ({
     }
   };
 
+  const handleToggle = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsMonthly(e.target.checked);
+  };
+
   if (isLoading) {
     return <Loading isText />;
   }
 
   return (
-    <S.Wrapper>
-      <S.Container
-        className={`${
-          isFree && isHighlighted
-            ? "highlight"
-            : isSelected === 2
+    <>
+      <Switch onChange={handleToggle} defaultChecked={isMonthly} />{" "}
+      {!isMonthly ? "Monthly" : "Yearly"} Pricing
+      <S.Wrapper>
+        <S.Container
+          className={`${
+            isFree && isHighlighted
               ? "highlight"
-              : ""
-        } ${(isPayPal || isUpgrade) && "paypal"}`}
-      >
-        <S.Title>Free Plan</S.Title>
-        <S.Price>
-          <span>Price:</span> $0/month
-        </S.Price>
-        <div>Perfect for getting started with basic budgeting.</div>
-        {isPayPal && (
-          <S.SubscribeBtn className="paypal">
-            <Button
-              handleClick={() => updateSubscription(2, false)}
-              buttonSize="medium"
-            >
-              Switch to Free
-            </Button>
-          </S.SubscribeBtn>
-        )}
-        {isUpgrade && (
-          <S.SubscribeBtn className="paypal">
-            <Button buttonSize="medium" disabled={isSelected === 2}>
-              Current Plan
-            </Button>
-          </S.SubscribeBtn>
-        )}
-        <ul>
-          <li>
-            Create a full-year budget by manually entering income and expenses
-          </li>
-          <li>
-            Import your income and expenses by uploading a CSV file to create a
-            full-year budget
-          </li>
-          <li>Edit existing income and expense entries at any time</li>
-          <li>Add additional income and expenses as needed</li>
-          <li>
-            Visualize your financial data with bar, doughnut, and pie charts
-          </li>
-          <li>
-            Calculate how long it will take to reach your financial goal and how
-            much you need to save each month
-          </li>
-        </ul>
-        {isSignUp && (
-          <S.SubscribeBtn>
-            <Button
-              handleClick={() =>
-                loginWithRedirect({
-                  authorizationParams: {
-                    screen_hint: "signup",
-                  },
-                })
-              }
-              buttonSize="medium"
-            >
-              Sign Up
-            </Button>
-          </S.SubscribeBtn>
-        )}
-      </S.Container>
-      <S.Container
-        className={`${
-          isStarter && isHighlighted
-            ? "highlight"
-            : isSelectedStarter
-              ? "highlight"
-              : ""
-        } ${(isPayPal || isUpgrade) && "paypal"}`}
-      >
-        <S.Title>Starter Plan</S.Title>
-        <S.Price>
-          <span>Price:</span> $9.99/month
-        </S.Price>
-        <div>
-          For users who want enhanced control and a more streamlined experience.
-        </div>
-        {isPayPal && (
-          <S.SubscribeBtn className="paypal">
-            {isSelectedStarter && !notComplete ? (
-              <Button buttonSize="medium" disabled={isSelectedStarter}>
+              : isSelected === 2
+                ? "highlight"
+                : ""
+          } ${(isPayPal || isUpgrade) && "paypal"}`}
+        >
+          <S.Title>Free Plan</S.Title>
+          <S.Price>
+            <span>Price:</span> $0/month
+          </S.Price>
+          <div>Perfect for getting started with basic budgeting.</div>
+          {isPayPal && (
+            <S.SubscribeBtn className="paypal">
+              <Button
+                handleClick={() => updateSubscription(2, false)}
+                buttonSize="medium"
+              >
+                Switch to Free
+              </Button>
+            </S.SubscribeBtn>
+          )}
+          {isUpgrade && (
+            <S.SubscribeBtn className="paypal">
+              <Button buttonSize="medium" disabled={isSelected === 2}>
                 Current Plan
               </Button>
-            ) : (
+            </S.SubscribeBtn>
+          )}
+          <ul>
+            <li>
+              Create a full-year budget by manually entering income and expenses
+            </li>
+            <li>
+              Import your income and expenses by uploading a CSV file to create
+              a full-year budget
+            </li>
+            <li>Edit existing income and expense entries at any time</li>
+            <li>Add additional income and expenses as needed</li>
+            <li>
+              Visualize your financial data with bar, doughnut, and pie charts
+            </li>
+            <li>
+              Calculate how long it will take to reach your financial goal and
+              how much you need to save each month
+            </li>
+          </ul>
+          {isSignUp && (
+            <S.SubscribeBtn>
+              <Button
+                handleClick={() =>
+                  loginWithRedirect({
+                    authorizationParams: {
+                      screen_hint: "signup",
+                    },
+                  })
+                }
+                buttonSize="medium"
+              >
+                Sign Up
+              </Button>
+            </S.SubscribeBtn>
+          )}
+        </S.Container>
+        <S.Container
+          className={`${
+            isStarter && isHighlighted
+              ? "highlight"
+              : isSelectedStarter
+                ? "highlight"
+                : ""
+          } ${(isPayPal || isUpgrade) && "paypal"}`}
+        >
+          <S.Title>Starter Plan</S.Title>
+          <S.Price>
+            <span>Price:</span>{" "}
+            {!isMonthly ? "$9.99/month" : "$99/year ($8.25/month)"}
+          </S.Price>
+          <div>
+            For users who want enhanced control and a more streamlined
+            experience.
+          </div>
+          {isPayPal && (
+            <S.SubscribeBtn className="paypal">
+              {isSelectedStarter && !notComplete ? (
+                <Button buttonSize="medium" disabled={isSelectedStarter}>
+                  Current Plan
+                </Button>
+              ) : (
+                <PaypalBtn
+                  sub={
+                    !isMonthly
+                      ? "P-4UE89663UT051505WNCZW36A"
+                      : "P-4UE89663UT051505WNCZW36A"
+                  }
+                  addSub={updateSubscription}
+                  planNum={3}
+                />
+              )}
+            </S.SubscribeBtn>
+          )}
+          {isUpgrade && (
+            <S.SubscribeBtn className="paypal">
               <PaypalBtn
-                sub="P-4UE89663UT051505WNCZW36A"
+                sub={
+                  !isMonthly
+                    ? "P-4UE89663UT051505WNCZW36A"
+                    : "P-4UE89663UT051505WNCZW36A"
+                }
                 addSub={updateSubscription}
                 planNum={3}
               />
-            )}
-          </S.SubscribeBtn>
-        )}
-        {isUpgrade && (
-          <S.SubscribeBtn className="paypal">
-            <PaypalBtn
-              sub="P-4UE89663UT051505WNCZW36A"
-              addSub={updateSubscription}
-              planNum={3}
-            />
-          </S.SubscribeBtn>
-        )}
-        <ul>
-          <li>Everything included in the Free Plan</li>
-          <li>
-            <span>Ad-free experience</span>
-          </li>
-          <li>Sort and organize income and expenses for easier tracking</li>
-          <li>
-            View real-time monthly income adjustments as expenses are paid
-          </li>
-          <li>
-            Get a quick snapshot of previous months within the current year
-          </li>
-        </ul>
-        {isSignUp && (
-          <S.SubscribeBtn>
-            <Button handleClick={() => getSubscription(3)} buttonSize="medium">
-              Sign Up
-            </Button>
-          </S.SubscribeBtn>
-        )}
-      </S.Container>
-      <S.Container
-        className={`${
-          (isPro || isOriginal) && isHighlighted
-            ? "highlight"
-            : isSelectedPro
-              ? "highlight"
-              : ""
-        } ${(isPayPal || isUpgrade) && "paypal"}`}
-      >
-        <S.Title>Pro Plan</S.Title>
-        <S.Price>
-          <span>Price:</span> $19.99/month
-        </S.Price>
-        <div>
-          For advanced users who need more customization, flexibility, and
-          sharing options.
-        </div>
-        {isPayPal && (
-          <S.SubscribeBtn className="paypal">
-            {isSelectedPro && !notComplete ? (
-              <Button buttonSize="medium" disabled={isSelectedPro}>
-                Current Plan
+            </S.SubscribeBtn>
+          )}
+          <ul>
+            <li>Everything included in the Free Plan</li>
+            <li>
+              <span>Ad-free experience</span>
+            </li>
+            <li>Sort and organize income and expenses for easier tracking</li>
+            <li>
+              View real-time monthly income adjustments as expenses are paid
+            </li>
+            <li>
+              Get a quick snapshot of previous months within the current year
+            </li>
+          </ul>
+          {isSignUp && (
+            <S.SubscribeBtn>
+              <Button
+                handleClick={() => getSubscription(3)}
+                buttonSize="medium"
+              >
+                Sign Up
               </Button>
-            ) : (
+            </S.SubscribeBtn>
+          )}
+        </S.Container>
+        <S.Container
+          className={`${
+            (isPro || isOriginal) && isHighlighted
+              ? "highlight"
+              : isSelectedPro
+                ? "highlight"
+                : ""
+          } ${(isPayPal || isUpgrade) && "paypal"}`}
+        >
+          <S.Title>Pro Plan</S.Title>
+          <S.Price>
+            <span>Price:</span>{" "}
+            {!isMonthly ? "$19.99/month" : "$199/year ($16.58/month)"}
+          </S.Price>
+          <div>
+            For advanced users who need more customization, flexibility, and
+            sharing options.
+          </div>
+          {isPayPal && (
+            <S.SubscribeBtn className="paypal">
+              {isSelectedPro && !notComplete ? (
+                <Button buttonSize="medium" disabled={isSelectedPro}>
+                  Current Plan
+                </Button>
+              ) : (
+                <PaypalBtn
+                  sub={
+                    !isMonthly
+                      ? "P-0U075029M3838631HNCZ3PQI"
+                      : "P-0U075029M3838631HNCZ3PQI"
+                  }
+                  addSub={updateSubscription}
+                  planNum={4}
+                />
+              )}
+            </S.SubscribeBtn>
+          )}
+          {isUpgrade && (
+            <S.SubscribeBtn className="paypal">
               <PaypalBtn
-                sub="P-0U075029M3838631HNCZ3PQI"
+                sub={
+                  !isMonthly
+                    ? "P-0U075029M3838631HNCZ3PQI"
+                    : "P-0U075029M3838631HNCZ3PQI"
+                }
                 addSub={updateSubscription}
                 planNum={4}
               />
-            )}
-          </S.SubscribeBtn>
-        )}
-        {isUpgrade && (
-          <S.SubscribeBtn className="paypal">
-            <PaypalBtn
-              sub="P-0U075029M3838631HNCZ3PQI"
-              addSub={updateSubscription}
-              planNum={4}
-            />
-          </S.SubscribeBtn>
-        )}
-        <ul>
-          <li>Everything included in the Starter Plan</li>
-          <li>
-            Download your full budget as an Excel spreadsheet for external use
-            or backup
-          </li>
-          <li>Set custom cadences when entering income or expenses</li>
-          <li>
-            Create and filter expenses by personalized categories for clearer
-            financial insights and smarter budgeting
-          </li>
-          <li>
-            Additional frequency options: <span>Quarterly</span> and{" "}
-            <span>Yearly</span>
-          </li>
-          <li>Share account access with one additional user</li>
-          <li>
-            Easily switch between up to seven different currencies for flexible
-            financial tracking
-          </li>
-        </ul>
-        {isSignUp && (
-          <S.SubscribeBtn>
-            <Button handleClick={() => getSubscription(4)} buttonSize="medium">
-              Sign Up
-            </Button>
-          </S.SubscribeBtn>
-        )}
-      </S.Container>
-      <SessionExpired
-        isOpen={isSessionExpired}
-        closeModal={setIsSessionExpired}
-      />
-    </S.Wrapper>
+            </S.SubscribeBtn>
+          )}
+          <ul>
+            <li>Everything included in the Starter Plan</li>
+            <li>
+              Download your full budget as an Excel spreadsheet for external use
+              or backup
+            </li>
+            <li>Set custom cadences when entering income or expenses</li>
+            <li>
+              Create and filter expenses by personalized categories for clearer
+              financial insights and smarter budgeting
+            </li>
+            <li>
+              Additional frequency options: <span>Quarterly</span> and{" "}
+              <span>Yearly</span>
+            </li>
+            <li>Share account access with one additional user</li>
+            <li>
+              Easily switch between up to seven different currencies for
+              flexible financial tracking
+            </li>
+          </ul>
+          {isSignUp && (
+            <S.SubscribeBtn>
+              <Button
+                handleClick={() => getSubscription(4)}
+                buttonSize="medium"
+              >
+                Sign Up
+              </Button>
+            </S.SubscribeBtn>
+          )}
+        </S.Container>
+        <SessionExpired
+          isOpen={isSessionExpired}
+          closeModal={setIsSessionExpired}
+        />
+      </S.Wrapper>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EARTH_GREEN, OFF_WHITE, RUBIK, WHITE } from "../../index.style.ts";
+import { EARTH_GREEN, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;

@@ -45,7 +45,7 @@ const Breadcrumb = () => {
         )}
         <div>{pageName}</div>
       </S.Wrapper>
-      {currentUser && !currentUser.hasBudget && (
+      {currentUser && !currentUser.hasBudget && isAccount && (
         <BannerBtn url="/setup" label="Add your Budget info!!!" />
       )}
     </>

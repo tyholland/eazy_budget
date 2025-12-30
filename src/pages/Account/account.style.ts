@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   DARKER_GRAY,
   ERROR_RED,
+  GRAY,
   LIGHTER_GRAY,
   SKY_BLUE,
   WHITE,
@@ -12,11 +13,8 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   gap: 30px;
   margin: 30px auto;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-    flex-direction: column;
-  }
+  width: 100%;
+  flex-direction: column;
 
   img {
     min-width: 100px;
@@ -30,12 +28,8 @@ export const Wrapper = styled.div`
 `;
 
 export const Section = styled.div`
-  width: 370px;
+  width: 100%;
   display: flex;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
 
   &.date {
     input {
@@ -70,9 +64,11 @@ export const Section = styled.div`
     font-weight: 700 !important;
     font-size: 16px !important;
     width: 100% !important;
-    padding: 0 0 10px 0 !important;
+    padding: 10px !important;
     justify-content: flex-start;
-    border-bottom: 1px solid ${DARKER_GRAY};
+    box-shadow: -5px 5px 5px ${GRAY};
+    border-radius: 10px !important;
+    background: ${WHITE} !important;
 
     &:hover {
       color: ${SKY_BLUE} !important;
@@ -83,8 +79,27 @@ export const Section = styled.div`
   span {
     text-transform: capitalize;
     display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    &.textContainer {
+      flex-direction: column;
+      gap: 4px;
+
+      .subText {
+        text-transform: none;
+        font-size: 14px;
+        color: ${GRAY};
+        text-align: left;
+      }
+    }
+  }
+
+  .linkWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     align-items: center;
-    gap: 8px;
   }
 `;
 

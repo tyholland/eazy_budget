@@ -1,5 +1,12 @@
 import styled from "styled-components";
-import { BLACK, GREEN, RUBIK } from "../../index.style.ts";
+import {
+  BLACK,
+  GRAY,
+  GREEN,
+  LIGHT_GREEN,
+  RUBIK,
+  WHITE,
+} from "../../index.style.ts";
 
 export const ProgressBar = styled.div`
   display: flex;
@@ -15,7 +22,7 @@ export const Meter = styled.div`
 `;
 
 export const Block = styled.div`
-  width: 25px;
+  width: 9px;
 
   &.active {
     background: ${GREEN};
@@ -32,16 +39,81 @@ export const Block = styled.div`
 
 export const Wrapper = styled.div`
   display: flex;
+  gap: 25px;
+  font-size: 16px;
   align-items: center;
-  gap: 15px;
+  padding: 25px 0;
 
   @media only screen and (max-width: 800px) {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: column-reverse;
   }
 `;
 
 export const Title = styled.div`
   font-family: ${RUBIK};
-  font-weight: 400;
+  font-weight: 700;
+  font-size: 22px;
+`;
+
+export const BudgetContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .points {
+    font-size: 14px;
+  }
+`;
+
+export const Section = styled.div`
+  display: flex;
+  gap: 10px;
+
+  .name {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+`;
+
+export const PercentWrapper = styled.div`
+  background: linear-gradient(to right, ${LIGHT_GREEN} 35%, ${GREEN} 95%);
+  height: 140px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+
+  .percent {
+    background: ${WHITE};
+    border-radius: 100px;
+    padding: 10px;
+    height: 120px;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+  }
+`;
+
+export const Next = styled.div`
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+
+  span {
+    font-weight: 400;
+  }
+
+  .unlock {
+    font-weight: 400;
+    font-style: italic;
+    color: ${GRAY};
+  }
 `;

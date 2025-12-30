@@ -71,7 +71,7 @@ export const loggedInHomepage = (user: User | undefined) => {
     : "/setup";
 };
 
-const capitalizePageTitle = (title: string) => {
+export const capitalizePageTitle = (title: string) => {
   let pageTitle = title.replace("/", "");
   const firstLetter = pageTitle.charAt(0).toUpperCase();
   pageTitle = pageTitle.slice(1);
@@ -313,11 +313,13 @@ export const getFrequencyContent = async (
     return "every month";
   }
 
-  const freq = frequencyShortHandMap[frequency];
+  const freq = frequencyShortHandMap(frequency);
   const val = revertAmountToOriginal(amount || 0, month, year, frequency);
   const { currencyValue } = await getFormattedCurrency(val, currentUser);
 
-  return freq === "month" ? `every ${freq}` : `${currencyValue} every ${freq}`;
+  return freq === "month"
+    ? `Repeats monthly`
+    : `${currencyValue} every ${freq}`;
 };
 
 export const revertAmountToOriginal = (

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BLACK, COSMIC, DARKER_GRAY, OFF_WHITE } from "../../index.style.ts";
+import { BLACK, COSMIC, DARKER_GRAY, OFF_GRAY } from "../../index.style.ts";
 
 export const HeaderWrapper = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ export const HeaderWrapper = styled.div`
   border-bottom: 1px solid ${DARKER_GRAY};
   justify-content: space-between;
   align-items: flex-end;
-  background: ${OFF_WHITE};
+  background: ${OFF_GRAY};
 
   img {
     width: 25px;
@@ -20,6 +20,7 @@ export const HeaderWrapper = styled.div`
   button.text,
   a.partner {
     color: ${BLACK};
+    font-weight: 700;
   }
 `;
 
@@ -44,4 +45,23 @@ export const HeaderLinks = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+`;
+
+export const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const ModalBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  &.referral button {
+    height: auto;
+    flex-direction: column;
+    font-size: 24px;
+  }
 `;

@@ -193,13 +193,23 @@ export const MediumModalStyle = {
   width: 500,
 };
 
-export const frequencyShortHandMap = {
-  Daily: "business day",
-  Weekly: "week",
-  "Semi-Monthly": "two times a month",
-  Monthly: "month",
-  Quarterly: "quarter (March, June, Sept, Dec)",
-  Yearly: "year",
+export const frequencyShortHandMap = (freq: string) => {
+  switch (freq) {
+    case "Daily":
+      return "business day";
+    case "Weekly":
+      return "week";
+    case "Semi-Monthly":
+      return "two times a month";
+    case "Monthly":
+      return "month";
+    case "Quarterly":
+      return "quarter (March, June, Sept, Dec)";
+    case "Yearly":
+      return "year";
+    default:
+      return "month";
+  }
 };
 
 export const emailAddress = "info.simplebudget@gmail.com";
@@ -243,5 +253,56 @@ export const currencyList = [
   {
     id: 6,
     label: "CAD",
+  },
+];
+
+export const monthSelect = [
+  {
+    id: 0,
+    label: "january",
+  },
+  {
+    id: 1,
+    label: "february",
+  },
+  {
+    id: 2,
+    label: "march",
+  },
+  {
+    id: 3,
+    label: "april",
+  },
+  {
+    id: 4,
+    label: "may",
+  },
+  {
+    id: 5,
+    label: "june",
+  },
+  {
+    id: 6,
+    label: "july",
+  },
+  {
+    id: 7,
+    label: "august",
+  },
+  {
+    id: 8,
+    label: "september",
+  },
+  {
+    id: 9,
+    label: "october",
+  },
+  {
+    id: 10,
+    label: "november",
+  },
+  {
+    id: 11,
+    label: "december",
   },
 ];

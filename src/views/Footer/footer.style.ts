@@ -4,12 +4,12 @@ import { BLACK } from "../../index.style.ts";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   margin-top: 20px;
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 120px;
+  height: 146px;
 
   @media only screen and (max-width: 800px) {
     margin-bottom: 10px;

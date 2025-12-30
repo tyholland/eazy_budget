@@ -1,10 +1,14 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_GRAY, RUBIK, WHITE } from "../../index.style.ts";
+import { BLACK, GRAY, LIGHT_GRAY, RUBIK, WHITE } from "../../index.style.ts";
 
 export const OverviewWrapper = styled.div`
   display: flex;
   gap: 12px;
   flex-direction: column;
+  background: ${WHITE};
+  border-radius: 10px;
+  padding: 0 20px 20px;
+  box-shadow: -5px 5px 5px ${GRAY};
 
   @media only screen and (max-width: 800px) {
     gap: 25px;

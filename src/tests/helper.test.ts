@@ -339,7 +339,7 @@ describe("getFrequencyContent", () => {
       undefined,
     );
 
-    expect(content).toBe("every month");
+    expect(content).toBe("Repeats monthly");
   });
 });
 

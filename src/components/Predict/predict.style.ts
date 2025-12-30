@@ -60,6 +60,10 @@ export const Content = styled.div`
     max-width: 500px;
     width: 100%;
     font-weight: 700;
+
+    @media only screen and (max-width: 800px) {
+      width: 90%;
+    }
   }
 `;
 

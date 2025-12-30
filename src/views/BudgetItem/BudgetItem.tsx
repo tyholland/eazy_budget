@@ -1,9 +1,7 @@
 import React, { useEffect, useState, JSX } from "react";
 import BudgetInput from "../../components/BudgetInput/BudgetInput.tsx";
-import EditIcon from "../../svg/EditIcon.tsx";
 import SaveIcon from "../../svg/SaveIcon.tsx";
 import CancelIcon from "../../svg/CancelIcon.tsx";
-import DeleteIcon from "../../svg/DeleteIcon.tsx";
 import {
   BudgetData,
   BudgetDataItem,
@@ -16,7 +14,6 @@ import * as S from "./budgetItem.style.ts";
 import { FieldValues, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import CheckboxComponent from "../../components/Checkbox/Checkbox.tsx";
 import SelectComponent from "../../components/Select/Select.tsx";
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import {
   cadenceOptions,
   frequencyOptions,
@@ -33,6 +30,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useAtomValue } from "jotai";
 import { userAtom } from "../../hook/UserAtom.ts";
+import DisabledSaveIcon from "../../svg/DisabledSaveIcon.tsx";
 
 interface BudgetItemProps {
   theType: InputOption;
@@ -202,31 +200,79 @@ const BudgetItem = ({
     getTotalAmount();
   }, [changeInputVal, selectedFrequency, modalValue, inputValue]);
 
+  window.onclick = (event: PointerEvent) => {
+    const target = event.target;
+
+    if (target instanceof Element && !target?.matches(".text")) {
+      const dropdowns = document.getElementsByClassName("dropdownContent");
+
+      for (let i = 0; i < dropdowns.length; i++) {
+        const openDropdown = dropdowns[i];
+
+        if (openDropdown.classList.contains("show")) {
+          openDropdown.classList.remove("show");
+        }
+      }
+    }
+  };
+
   return (
     <S.ItemWrapper className="itemWrapper">
       <S.Item>
         <S.ItemTopRow>
+          <BudgetInput
+            inputLabel={updatedLabel}
+            inputOption={theType}
+            defaultValue={inputValue}
+            labelPlaceHolder={labelPlaceHolder}
+            valuePlaceHolder={valuePlaceHolder}
+            type={inputType}
+            inputSize="medium"
+            frequencyContent={hideBtn ? "" : frequencyContent}
+          />
           {!hideBtn && (
-            <>
-              <span data-tooltip-id="edit-tooltip">
+            <S.ItemRightSide>
+              <span>
                 <Button
                   classType="text"
                   handleClick={() => {
-                    setIsOpen(true);
-                    setSelectedCadence(cadenceOptions[0].label);
-                    setInputValue(item?.value || inputValue || 0);
+                    document
+                      .querySelector(`#myDropdownContent-${index}`)
+                      ?.classList.toggle("show");
                   }}
                 >
-                  <EditIcon />
+                  ...
                 </Button>
+                <div
+                  className="dropdownContent"
+                  id={`myDropdownContent-${index}`}
+                >
+                  <button
+                    onClick={() => {
+                      setIsOpen(true);
+                      setSelectedCadence(cadenceOptions[0].label);
+                      setInputValue(item?.value || inputValue || 0);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      deleteEvent && deleteEvent();
+                      document
+                        .querySelector(`#myDropdownContent-${index}`)
+                        ?.classList.remove("show");
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </span>
-              <ReactTooltip
-                id="edit-tooltip"
-                place="top"
-                variant="info"
-                content={`Edit ${theType} item`}
-                className="tooltip"
-              />
+              {!hidePaidContent && (
+                <S.PaidSection className={checkedVal ? "green" : ""}>
+                  {checkedVal ? <SaveIcon /> : <DisabledSaveIcon />} Paid
+                </S.PaidSection>
+              )}
               <ModalComponent
                 isOpen={isOpen}
                 title={`Edit ${theType} item`}
@@ -406,42 +452,12 @@ const BudgetItem = ({
                         </>
                       </Button>
                     )}
-                    <Button
-                      handleClick={() => {
-                        deleteEvent && deleteEvent();
-                        closeModal();
-                      }}
-                    >
-                      <>
-                        Delete <DeleteIcon />
-                      </>
-                    </Button>
                   </S.BtnWrapper>
                 </S.ModalItem>
               </ModalComponent>
-            </>
+            </S.ItemRightSide>
           )}
-          <BudgetInput
-            inputLabel={updatedLabel}
-            inputOption={theType}
-            defaultValue={inputValue}
-            labelPlaceHolder={labelPlaceHolder}
-            valuePlaceHolder={valuePlaceHolder}
-            type={inputType}
-            inputSize="medium"
-          />
         </S.ItemTopRow>
-        {!hidePaidContent && (
-          <>
-            <div>{frequencyContent}</div>
-            <CheckboxComponent
-              label="Paid"
-              isDisabled
-              setCheckedVal={setCheckedVal}
-              isChecked={checkedVal}
-            />
-          </>
-        )}
       </S.Item>
       {children}
     </S.ItemWrapper>

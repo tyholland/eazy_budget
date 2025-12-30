@@ -75,7 +75,7 @@ const DownloadCsv = ({
     currentMonthProfitLoss.length === 0 ||
     currentYearProfitLoss.length === 0
   ) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   const profitLossBtn = document.querySelector(".profitLossBtn");
@@ -135,10 +135,7 @@ const DownloadCsv = ({
 
   return (
     <>
-      <S.Title>
-        {type === "monthly" ? currentMonth : currentYear} Profit & Loss
-        Simplified
-      </S.Title>
+      <S.Title>Profit & Loss Simplified</S.Title>
       {hasValidMonthBudget ? (
         <S.BudgetRuleContent>
           Your{" "}
@@ -221,14 +218,16 @@ const DownloadCsv = ({
                 );
               })}
             </S.BudgetBreakdown>
-            <S.CsvBtn
-              data={monthlyCsv}
-              headers={["Item", "Amount", "% of Income"]}
-              filename={`${currentMonth}_p_and_l`}
-              className="profitLossBtn"
-            >
-              Download {currentMonth} Profit & Loss Simplified CSV
-            </S.CsvBtn>
+            <S.BtnWrapper>
+              <S.CsvBtn
+                data={monthlyCsv}
+                headers={["Item", "Amount", "% of Income"]}
+                filename={`${currentMonth}_p_and_l`}
+                className="profitLossBtn"
+              >
+                Download {currentMonth} Profit & Loss Simplified CSV
+              </S.CsvBtn>
+            </S.BtnWrapper>
           </>
         )}
       </S.ContentWrapper>

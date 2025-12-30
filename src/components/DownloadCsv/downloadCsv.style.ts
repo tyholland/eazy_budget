@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import {
   BLACK,
+  LIGHT_GRAY,
   LIGHT_SKY_BLUE,
-  LIGHT_YELLOW,
   RUBIK,
   SKY_BLUE,
   WHITE,
@@ -13,7 +13,6 @@ export const ContentWrapper = styled.div`
   display: flex;
   gap: 40px;
   flex-direction: column;
-  max-width: 650px;
   width: 100%;
 `;
 
@@ -40,19 +39,29 @@ export const CsvBtn = styled(CsvDownloadButton)`
   }
 `;
 
+export const BtnWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 export const BudgetBreakdown = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid ${BLACK};
-  padding: 10px;
+  padding: 20px;
   background: ${WHITE};
+  border-radius: 10px;
+  box-shadow: -10px 10px 10px ${LIGHT_GRAY};
+
+  @media only screen and (max-width: 800px) {
+    padding: 10px;
+  }
 `;
 
 export const BudgetLineItem = styled.div`
   display: flex;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
   padding: 0 10px;
 
   @media only screen and (max-width: 800px) {
@@ -62,10 +71,13 @@ export const BudgetLineItem = styled.div`
 
   &.header {
     font-weight: 700;
-    font-size: 18px;
-    border: 1px solid ${BLACK};
-    background: ${LIGHT_YELLOW};
+    font-size: 20px;
+    border-bottom: 1px solid ${BLACK};
     padding: 5px 10px;
+
+    @media only screen and (max-width: 800px) {
+      font-size: 18px;
+    }
   }
 
   &.endCategory,
@@ -82,7 +94,7 @@ export const BudgetLineItem = styled.div`
 
   &.section {
     font-weight: 600;
-    font-size: 16px;
+    font-size: 18px;
     border-bottom: 1px solid ${BLACK};
   }
 
@@ -94,15 +106,11 @@ export const BudgetLineItem = styled.div`
 
   &.net {
     font-weight: 600;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   div {
-    width: 200px;
-
-    @media only screen and (max-width: 800px) {
-      width: 100%;
-    }
+    width: 100%;
 
     &.capital {
       text-transform: capitalize;

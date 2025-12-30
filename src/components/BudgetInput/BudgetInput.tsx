@@ -23,6 +23,7 @@ interface BudgetInputProps {
   labelPlaceHolder?: string;
   percent?: boolean;
   frequency?: string;
+  frequencyContent?: string;
 }
 
 const BudgetInput = ({
@@ -39,6 +40,7 @@ const BudgetInput = ({
   setChangeInputVal = () => {},
   percent = false,
   frequency = "Monthly",
+  frequencyContent,
 }: BudgetInputProps) => {
   const { month, year } = useParams();
   const currentUser = useAtomValue(userAtom);
@@ -99,6 +101,7 @@ const BudgetInput = ({
           <S.Label aria-label={inputLabel} htmlFor={inputLabel}>
             {inputLabel}
           </S.Label>
+          {frequencyContent}
           <S.Input
             type={"text"}
             id={inputLabel}

@@ -1,15 +1,23 @@
 import styled from "styled-components";
-import { DARKER_GRAY, RED, WHITE } from "../../index.style.ts";
+import {
+  DARKER_GRAY,
+  EARTH_GREEN,
+  GRAY,
+  LIGHT_GRAY,
+  LIGHT_GREEN,
+  RED,
+  WHITE,
+} from "../../index.style.ts";
 
 export const ItemWrapper = styled.div`
   display: flex;
   gap: 16px;
   align-items: flex-start;
   flex-direction: column;
-  border: 1px solid ${DARKER_GRAY};
+  box-shadow: -10px 10px 10px ${LIGHT_GRAY};
   border-radius: 10px;
   padding: 15px;
-  width: 290px;
+  width: 100%;
   background: ${WHITE};
 
   .tooltip {
@@ -22,25 +30,19 @@ export const Item = styled.div`
   display: flex;
   gap: 16px;
   flex-direction: column;
-
-  @media only screen and (max-width: 800px) {
-    width: 100%;
-  }
+  width: 100%;
 `;
 
 export const BtnWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
 `;
 
 export const ItemTopRow = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-
-  @media only screen and (max-width: 800px) {
-    justify-content: space-between;
-  }
+  justify-content: space-between;
 `;
 
 export const TimingSelects = styled.div`
@@ -59,7 +61,8 @@ export const ModalItem = styled.div`
   flex-direction: column;
 
   .inputWrapper {
-    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
   }
 
   @media only screen and (max-width: 800px) {
@@ -86,5 +89,76 @@ export const Disclaimer = styled.div`
 export const Total = styled.div`
   span {
     font-weight: 600;
+  }
+`;
+
+export const ItemRightSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  span {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  label {
+    margin-right: 0px;
+  }
+
+  .dropdownContent {
+    display: none;
+    position: absolute;
+
+    button {
+      border: none;
+      background: ${WHITE};
+      font-size: 16px;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .show {
+    display: block;
+    background: ${WHITE};
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 8px;
+    border-radius: 10px;
+    align-items: flex-start;
+    box-shadow: -5px 5px 15px ${GRAY};
+  }
+`;
+
+export const PaidSection = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: -5px 5px 5px ${GRAY};
+  background: ${LIGHT_GRAY};
+  gap: 10px;
+  padding: 5px 10px;
+  font-weight: 700;
+  color: ${WHITE};
+  text-shadow: 0 2px 2px ${DARKER_GRAY};
+
+  svg {
+    box-shadow: 0 2px 2px ${DARKER_GRAY};
+    border-radius: 100px;
+  }
+
+  &.green {
+    background: linear-gradient(${LIGHT_GREEN}, ${EARTH_GREEN});
+    text-shadow: none;
+
+    svg {
+      box-shadow: none;
+      border-radius: none;
+    }
   }
 `;

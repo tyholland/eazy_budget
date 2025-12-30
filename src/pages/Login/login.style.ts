@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { EARTH_GREEN, OFF_WHITE, RUBIK, WHITE } from "../../index.style.ts";
+import { EARTH_GREEN, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: ${OFF_WHITE};
   gap: 50px;
+  margin-bottom: 50px;
 
   @media only screen and (max-width: 800px) {
     width: 100%;
@@ -18,7 +18,6 @@ export const Section = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-  background: ${OFF_WHITE};
   padding-bottom: 20px;
   width: 100%;
 

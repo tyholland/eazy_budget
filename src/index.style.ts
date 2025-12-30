@@ -23,6 +23,7 @@ export const LIGHT_SKY_BLUE = "#90d5ff";
 export const LIGHT_YELLOW = "#fcfade";
 export const EARTH_GREEN = "#5a8b5d";
 export const ERROR_RED = "#ef5350";
+export const OFF_GRAY = "#faf6f5";
 
 // Globals
 export const GlobalStyles = createGlobalStyle`
@@ -32,9 +33,9 @@ export const GlobalStyles = createGlobalStyle`
     min-width: 800px;
     width: 92%;
     font-family: ${BARLOW};
-    background: ${EARTH_GREEN};
+    background: ${WHITE};
     font-weight: 300;
-    box-shadow: 0 0 10px ${OFF_WHITE};
+    box-shadow: 0 0 30px ${LIGHT_GRAY};
     min-height: 100vh;
     max-height: fit-content;
     height: auto;
@@ -43,7 +44,7 @@ export const GlobalStyles = createGlobalStyle`
       padding: 0 2%;
       min-width: unset;
       max-width: unset;
-      background: ${OFF_WHITE};
+      background: ${OFF_GRAY};
       box-shadow: none;
       width: 96%;
     }
@@ -53,7 +54,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     #root {
-      background: ${OFF_WHITE};
+      background: ${OFF_GRAY};
       padding: 0 2% 3%;
 
       @media only screen and (max-width: 800px) {
@@ -99,5 +100,9 @@ export const GlobalStyles = createGlobalStyle`
         }
       }
     }
+  }
+
+  .MuiSelect-root {
+    width: 100%;
   }
 `;

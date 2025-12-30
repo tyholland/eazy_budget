@@ -39,6 +39,10 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import EditIcon from "../../svg/EditIcon.tsx";
 import { updateReferralName } from "../../requests/referral.ts";
 import AccountMedal from "../../components/AccountMedal/AccountMedal.tsx";
+import AddIcon from "../../svg/AddIcon.tsx";
+import ArrowIcon from "../../svg/ArrowIcon.tsx";
+import CurrencyIcon from "../../svg/CurrencyIcon.tsx";
+import CancelIcon from "../../svg/CancelIcon.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -258,7 +262,7 @@ const Account = () => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading isText />;
   }
 
   return (
@@ -295,9 +299,19 @@ const Account = () => {
                   !currentUser?.is_connected && (
                     <S.Section>
                       <Link url="/account/share" label="Share Account">
-                        <span>
-                          Share Account <ShareAccountIcon />
-                        </span>
+                        <div className="linkWrapper">
+                          <span>
+                            <ShareAccountIcon />
+                            <span className="textContainer">
+                              <span>Share Account</span>
+                              <span className="subText">
+                                Invite someone you trust to view or help manage
+                                your budget
+                              </span>
+                            </span>
+                          </span>
+                          <ArrowIcon />
+                        </div>
                       </Link>
                     </S.Section>
                   )}
@@ -308,16 +322,37 @@ const Account = () => {
                       buttonSize="medium"
                       classType="text"
                     >
-                      <span>
-                        Remove Shared Account <RemoveAccountIcon />
-                      </span>
+                      <div className="linkWrapper">
+                        <span>
+                          <RemoveAccountIcon />
+                          <span className="textContainer">
+                            <span>Remove Shared Account</span>
+                            <span className="subText">
+                              Revoke access and remove this person from your
+                              shared budget
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Button>
                   </S.Section>
                 )}
                 {isFree && (
                   <S.Section>
                     <Link url="/pricing" label="Upgrade to Subscription">
-                      Upgrade to Subscription
+                      <div className="linkWrapper">
+                        <span>
+                          <EditIcon />
+                          <span className="textContainer">
+                            <span>Upgrade to Subscription</span>
+                            <span className="subText">
+                              Upgrade to access premium budgeting features
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Link>
                   </S.Section>
                 )}
@@ -331,14 +366,34 @@ const Account = () => {
                     buttonSize="medium"
                     classType="text"
                   >
-                    <span>
-                      Delete Account <RemoveAccountIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <RemoveAccountIcon />
+                        <span className="textContainer">
+                          <span>Delete Account</span>
+                          <span className="subText">
+                            Permanently delete your account
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Button>
                 </S.Section>
                 <S.Section>
                   <Button classType="text" handleClick={logOutAccount}>
-                    Logout
+                    <div className="linkWrapper">
+                      <span>
+                        <CancelIcon />
+                        <span className="textContainer">
+                          <span>Logout</span>
+                          <span className="subText">
+                            Log out securely from your account
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Button>
                 </S.Section>
               </>
@@ -350,9 +405,18 @@ const Account = () => {
                     url={`/monthly/income/${currentMonth}/${currentYear}`}
                     label={`${currentMonth} Overview`}
                   >
-                    <span>
-                      {currentMonth} Overview <ViewIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <ViewIcon />
+                        <span className="textContainer">
+                          <span>{currentMonth} Budget</span>
+                          <span className="subText">
+                            Reveiw the current month's budget
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 <S.Section>
@@ -360,9 +424,19 @@ const Account = () => {
                     url={`/yearly/income/${currentYear}`}
                     label={`${currentYear} Overview`}
                   >
-                    <span>
-                      {currentYear} Overview <ViewIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <ViewIcon />
+                        <span className="textContainer">
+                          <span>{currentYear} Budget</span>
+                          <span className="subText">
+                            Get an annual summary of your full {currentYear}{" "}
+                            budget
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 {isPro && (
@@ -371,7 +445,19 @@ const Account = () => {
                       url="/account/categories"
                       label={`Add Expense Categories`}
                     >
-                      <span>Add Expense Categories</span>
+                      <div className="linkWrapper">
+                        <span>
+                          <AddIcon />
+                          <span className="textContainer">
+                            <span>Add Expense Categories</span>
+                            <span className="subText">
+                              Personalize you budget by adding and customizing
+                              categories
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Link>
                   </S.Section>
                 )}
@@ -382,15 +468,36 @@ const Account = () => {
                       buttonSize="medium"
                       classType="text"
                     >
-                      <span>Change Currency</span>
+                      <div className="linkWrapper">
+                        <span>
+                          <CurrencyIcon />
+                          <span className="textContainer">
+                            <span>Change Currency</span>
+                            <span className="subText">
+                              Select your preferred currency for your budget
+                              tracking
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Button>
                   </S.Section>
                 )}
                 <S.Section>
                   <Link url="/account/history" label="Overall Budget History">
-                    <span>
-                      Overall Budget History <HistoryIcon />
-                    </span>
+                    <div className="linkWrapper">
+                      <span>
+                        <HistoryIcon />
+                        <span className="textContainer">
+                          <span>Overall Budget History</span>
+                          <span className="subText">
+                            See a timeline of your budget performance
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 {isStarter && (
@@ -399,9 +506,19 @@ const Account = () => {
                       url="/account/past-months"
                       label={`Review ${currentYear} Past Months`}
                     >
-                      <span>
-                        Review {currentYear} Past Months <HistoryIcon />
-                      </span>
+                      <div className="linkWrapper">
+                        <span>
+                          <HistoryIcon />
+                          <span className="textContainer">
+                            <span>Review {currentYear} Past Months</span>
+                            <span className="subText">
+                              Look back at your budget for specific past months
+                              in {currentYear}
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Link>
                   </S.Section>
                 )}
@@ -507,7 +624,18 @@ const Account = () => {
                 </S.Section>
                 <S.Section>
                   <Link url="/account/subscription" label="Plan Details">
-                    Plan Details
+                    <div className="linkWrapper">
+                      <span>
+                        <ViewIcon />
+                        <span className="textContainer">
+                          <span>Plan Details</span>
+                          <span className="subText">
+                            See your subscription plan information
+                          </span>
+                        </span>
+                      </span>
+                      <ArrowIcon />
+                    </div>
                   </Link>
                 </S.Section>
                 {!isOriginal && !isTester && (
@@ -517,9 +645,18 @@ const Account = () => {
                       buttonSize="medium"
                       classType="text"
                     >
-                      <span>
-                        Cancel Plan <RemoveAccountIcon />
-                      </span>
+                      <div className="linkWrapper">
+                        <span>
+                          <RemoveAccountIcon />
+                          <span className="textContainer">
+                            <span>Cancel Plan</span>
+                            <span className="subText">
+                              End your current subscription plan
+                            </span>
+                          </span>
+                        </span>
+                        <ArrowIcon />
+                      </div>
                     </Button>
                   </S.Section>
                 )}

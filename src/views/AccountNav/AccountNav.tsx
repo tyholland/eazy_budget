@@ -25,19 +25,21 @@ const AccountNav = ({ setSelectedOption, selectedOption }: AccountNavProps) => {
 
   return (
     <S.NavWrapper>
-      <S.NavItem
-        className={`${subscribe ? "subscribe" : ""} ${selectedOption === "medal" ? "open" : "close"}`}
-      >
-        <Button
-          classType="text"
-          handleClick={() => {
-            setSelectedOption("medal");
-            navigate("?nav=medal");
-          }}
+      {currentUser?.medal_game && (
+        <S.NavItem
+          className={`${subscribe ? "subscribe" : ""} ${selectedOption === "medal" ? "open" : "close"}`}
         >
-          Medal
-        </Button>
-      </S.NavItem>
+          <Button
+            classType="text"
+            handleClick={() => {
+              setSelectedOption("medal");
+              navigate("?nav=medal");
+            }}
+          >
+            Medal
+          </Button>
+        </S.NavItem>
+      )}
       {currentUser?.hasBudget && (
         <S.NavItem
           className={`${subscribe ? "subscribe" : ""} ${selectedOption === "budget" ? "open" : "close"}`}

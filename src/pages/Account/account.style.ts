@@ -91,6 +91,7 @@ export const Section = styled.div`
         font-size: 14px;
         color: ${GRAY};
         text-align: left;
+        font-weight: 400;
       }
     }
   }

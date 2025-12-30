@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Monthly from "./pages/Monthly/Monthly.tsx";
 import Yearly from "./pages/Yearly/Yearly.tsx";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb.tsx";
-import Create from "./pages/Create/Create.tsx";
 import History from "./pages/History/History.tsx";
 import Header from "./components/Header/Header.tsx";
 import Auth0ProviderRedirect from "./components/Auth0ProviderRedirect/Auth0ProviderRedirect.tsx";
@@ -49,10 +48,6 @@ const App = () => {
             <Route
               path="/yearly/:type/:year"
               element={<PrivateRoute component={Yearly} />}
-            />
-            <Route
-              path="/add/:type/:month/:year"
-              element={<PrivateRoute component={Create} />}
             />
             <Route
               path="/account/history"

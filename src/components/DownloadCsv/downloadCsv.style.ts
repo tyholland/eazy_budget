@@ -48,10 +48,14 @@ export const BudgetBreakdown = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
+  padding: 20px;
   background: ${WHITE};
   border-radius: 10px;
   box-shadow: -10px 10px 10px ${LIGHT_GRAY};
+
+  @media only screen and (max-width: 800px) {
+    padding: 10px;
+  }
 `;
 
 export const BudgetLineItem = styled.div`
@@ -70,6 +74,10 @@ export const BudgetLineItem = styled.div`
     font-size: 20px;
     border-bottom: 1px solid ${BLACK};
     padding: 5px 10px;
+
+    @media only screen and (max-width: 800px) {
+      font-size: 18px;
+    }
   }
 
   &.endCategory,

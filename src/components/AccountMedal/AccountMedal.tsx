@@ -187,6 +187,19 @@ const AccountMedal = () => {
   ];
 
   const activeLevel = levels.find((level) => level.isActive);
+  let oneCount: number = 2;
+  let monthCount: number = 0;
+
+  oneCount = edit_expense_in_month ? oneCount + 1 : oneCount;
+  oneCount = is_claimed ? oneCount + 1 : oneCount;
+  oneCount = shared_account ? oneCount + 1 : oneCount;
+  oneCount = expenses_in_category_1 ? oneCount + 1 : oneCount;
+  oneCount = expenses_in_category_2 ? oneCount + 1 : oneCount;
+  oneCount = expenses_in_category_3 ? oneCount + 1 : oneCount;
+
+  monthCount = edit_expense_in_month ? monthCount + 1 : monthCount;
+  monthCount = edit_income_in_month ? monthCount + 1 : monthCount;
+  monthCount = add_category_in_month ? monthCount + 1 : monthCount;
 
   return (
     <>
@@ -198,6 +211,10 @@ const AccountMedal = () => {
             <div className="pointWrapper">
               <S.Title>Current Points:</S.Title>
               <div className="points">{totalPoints} / 180</div>
+            </div>
+            <div className="pointWrapper">
+              <S.Title>Next Medal:</S.Title>
+              <div className="points">{activeLevel?.next}</div>
             </div>
           </div>
           <Button handleClick={() => setIsOpen(true)}>
@@ -211,7 +228,7 @@ const AccountMedal = () => {
           <S.TaskSection>
             <S.Title>
               <div>One time tasks</div>
-              <div className="complete">1 of 1 complete</div>
+              <div className="complete">{oneCount} of 8 complete</div>
             </S.Title>
             <S.Item>
               <div className="task">
@@ -291,7 +308,7 @@ const AccountMedal = () => {
           <S.TaskSection>
             <S.Title>
               <div>Monthly tasks - {currentMonth}</div>
-              <div className="complete">1 of 1 complete</div>
+              <div className="complete">{monthCount} of 3 complete</div>
             </S.Title>
             <S.Item>
               <div className="task">

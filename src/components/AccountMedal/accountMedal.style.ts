@@ -131,8 +131,6 @@ export const Descript = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-weight: 500;
-  margin: 0 0 15px 0;
   max-width: 550px;
   width: 100%;
 `;

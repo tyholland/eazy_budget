@@ -48,6 +48,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   display: flex;
   gap: 20px;
+  margin-bottom: 30px;
 
   @media only screen and (max-width: 800px) {
     flex-direction: column;

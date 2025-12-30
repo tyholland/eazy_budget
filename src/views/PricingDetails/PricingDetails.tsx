@@ -191,7 +191,7 @@ const PricingDetails = ({
       >
         <S.Title>Starter Plan</S.Title>
         <S.Price>
-          <span>Price:</span> $10/month
+          <span>Price:</span> $9.99/month
         </S.Price>
         <div>
           For users who want enhanced control and a more streamlined experience.
@@ -252,7 +252,7 @@ const PricingDetails = ({
       >
         <S.Title>Pro Plan</S.Title>
         <S.Price>
-          <span>Price:</span> $20/month
+          <span>Price:</span> $19.99/month
         </S.Price>
         <div>
           For advanced users who need more customization, flexibility, and

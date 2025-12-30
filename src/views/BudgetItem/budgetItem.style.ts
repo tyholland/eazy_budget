@@ -141,15 +141,25 @@ export const PaidSection = styled.div`
   align-items: center;
   border-radius: 10px;
   box-shadow: -5px 5px 5px ${GRAY};
-  background: ${LIGHTER_GRAY};
+  background: ${LIGHT_GRAY};
   gap: 10px;
   padding: 5px 10px;
   font-weight: 700;
   color: ${WHITE};
   text-shadow: 0 2px 2px ${DARKER_GRAY};
 
+  svg {
+    box-shadow: 0 2px 2px ${DARKER_GRAY};
+    border-radius: 100px;
+  }
+
   &.green {
     background: linear-gradient(${LIGHT_GREEN}, ${EARTH_GREEN});
     text-shadow: none;
+
+    svg {
+      box-shadow: none;
+      border-radius: none;
+    }
   }
 `;

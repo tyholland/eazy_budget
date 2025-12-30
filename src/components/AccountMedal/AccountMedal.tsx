@@ -23,6 +23,7 @@ import SessionExpired from "../SessionExpired/SessionExpired.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { startTrialPlan, updateMedalGame } from "../../requests/referral.ts";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
+import ViewIcon from "../../svg/ViewIcon.tsx";
 
 const AccountMedal = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -126,150 +127,194 @@ const AccountMedal = () => {
     }
   };
 
+  const levels = [
+    {
+      isActive: totalPoints <= 30,
+      endTotal: 30,
+      icon: <SadIcon size={100} />,
+      name: "No Medal",
+      next: "Bronze Medal",
+      phrase: "Every great budget starts with one step.",
+    },
+    {
+      isActive: totalPoints > 30 && totalPoints <= 60,
+      endTotal: 60,
+      icon: <MedalOne size={100} />,
+      name: "Bronze Medal",
+      next: "Bronze Elite Medal",
+      phrase: "You're building momentum — keep going.",
+    },
+    {
+      isActive: totalPoints > 60 && totalPoints <= 90,
+      endTotal: 90,
+      icon: <MedalTwo size={100} />,
+      name: "Bronze Elite Medal",
+      next: "Silver Medal",
+      phrase: "Progress looks good on you.",
+    },
+    {
+      isActive: totalPoints > 90 && totalPoints <= 120,
+      endTotal: 120,
+      icon: <MedalThree size={100} />,
+      name: "Silver Medal",
+      next: "Silver Elite Medal",
+      phrase: "You're turning habits into confidence.",
+    },
+    {
+      isActive: totalPoints > 120 && totalPoints <= 150,
+      endTotal: 150,
+      icon: <MedalFour size={100} />,
+      name: "Silver Elite Medal",
+      next: "Gold Medal",
+      phrase: "This is consistency paying off.",
+    },
+    {
+      isActive: totalPoints > 150,
+      endTotal: 180,
+      icon: <MedalFive size={100} />,
+      name: "Gold Medal",
+      next: "Gold Elite Medal",
+      phrase: "You're in control now — finish strong.",
+    },
+    {
+      isActive: totalPoints >= 180,
+      endTotal: 180,
+      icon: <MedalSix size={100} />,
+      name: "Gold Elite Medal",
+      next: null,
+      phrase: "Budget complete. Confidence unlocked.",
+    },
+  ];
+
+  const activeLevel = levels.find((level) => level.isActive);
+
   return (
     <>
       <S.Wrapper>
-        <S.Item>
-          {totalPoints >= 0 && totalPoints < 30 && (
-            <>
-              <SadIcon size={40} />
-              <S.Title className="medalName">No Medal</S.Title>
-            </>
-          )}
-          {totalPoints >= 30 && totalPoints < 60 && (
-            <>
-              <MedalOne size={80} />
-              <S.Title className="medalName">Bronze Medal</S.Title>
-            </>
-          )}
-          {totalPoints >= 60 && totalPoints < 90 && (
-            <>
-              <MedalTwo size={40} />
-              <S.Title className="medalName">Bronze Elite Medal</S.Title>
-            </>
-          )}
-          {totalPoints >= 90 && totalPoints < 120 && (
-            <>
-              <MedalThree size={40} />
-              <S.Title className="medalName">Silver Medal</S.Title>
-            </>
-          )}
-          {totalPoints >= 120 && totalPoints < 150 && (
-            <>
-              <MedalFour size={40} />
-              <S.Title className="medalName">Silver Elite Medal</S.Title>
-            </>
-          )}
-          {totalPoints >= 150 && totalPoints < 180 && (
-            <>
-              <MedalFive size={40} />
-              <S.Title className="medalName">Gold Medal</S.Title>
-            </>
-          )}
-          {totalPoints >= 180 && (
-            <>
-              <MedalSix size={40} />
-              <S.Title className="medalName">Gold Elite Medal</S.Title>
-            </>
-          )}
-        </S.Item>
-        <S.Item>
-          <S.Title>Current Points:</S.Title>
-          <div className="points">{totalPoints} / 180</div>
+        <S.Item className="header">
+          {activeLevel?.icon}
+          <div className="wrapper">
+            <S.Title className="medalName">{activeLevel?.name}</S.Title>
+            <div className="pointWrapper">
+              <S.Title>Current Points:</S.Title>
+              <div className="points">{totalPoints} / 180</div>
+            </div>
+          </div>
           <Button handleClick={() => setIsOpen(true)}>
-            See Points per Task
+            <>
+              <ViewIcon /> Game Details
+            </>
           </Button>
         </S.Item>
-        {isFree && (
-          <S.Descript>
-            <div>
-              Take part in the Medal Game and earn a free 1-month trial of the
-              Pro Plan, applied to your account once you claim your prize.
-            </div>
-            <div>
-              Complete the tasks below, rack up points, and aim for 180 points
-              to achieve the ultimate Gold Elite Medal.
-            </div>
-            <div>
-              Ready to level up your budgeting skills and claim your reward?
-              Let's play smart and win big!
-            </div>
-          </S.Descript>
-        )}
-        {isPaid && (
-          <S.Descript>
-            <div>
-              Join the Medal Challenge and unlock a free 1-month discount —
-              automatically applied to your account within 24 hours of claiming
-              your prize.
-            </div>
-            <div>
-              Here's how it works: complete the tasks below, earn points, and
-              climb your way to 180 points to achieve the ultimate Gold Elite
-              Medal status.
-            </div>
-            <div>Ready to play, save, and win? Let's go!</div>
-          </S.Descript>
-        )}
+
         <S.TaskContainer>
           <S.TaskSection>
-            <S.Title>One time tasks</S.Title>
-            <S.Item className="task">
-              <div>Is Pro plan</div>{" "}
-              {(isPro || isClient) && !isTrial ? (
-                <SaveIcon />
-              ) : (
-                <DisabledSaveIcon />
-              )}
+            <S.Title>
+              <div>One time tasks</div>
+              <div className="complete">1 of 1 complete</div>
+            </S.Title>
+            <S.Item>
+              <div className="task">
+                {(isPro || isClient) && !isTrial ? (
+                  <SaveIcon />
+                ) : (
+                  <DisabledSaveIcon />
+                )}
+                <div>Is Pro plan</div>
+              </div>
+              <div className="points">+25 points</div>
             </S.Item>
-            <S.Item className="task">
-              <div>Is Starter plan</div>{" "}
-              {isStarter && !isPro && !isTrial ? (
-                <SaveIcon />
-              ) : (
-                <DisabledSaveIcon />
-              )}
+            <S.Item>
+              <div className="task">
+                {isStarter && !isPro && !isTrial ? (
+                  <SaveIcon />
+                ) : (
+                  <DisabledSaveIcon />
+                )}
+                <div>Is Starter plan</div>
+              </div>
+              <div className="points">+20 points</div>
             </S.Item>
-            <S.Item className="task">
-              <div>Shared account</div>{" "}
-              {shared_account ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {shared_account ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Shared account</div>
+              </div>
+              <div className="points">
+                +15 points<span>(Pro plan only)</span>
+              </div>
             </S.Item>
-            <S.Item className="task">
-              <div>Added budget</div>{" "}
-              {currentUser.hasBudget ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {currentUser.hasBudget ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Added budget</div>
+              </div>
+              <div className="points">+14 points</div>
             </S.Item>
-            <S.Item className="task">
-              <div>Created an account</div> <SaveIcon />
+            <S.Item>
+              <div className="task">
+                <SaveIcon /> <div>Created an account</div>
+              </div>
+              <div className="points">+10 points</div>
             </S.Item>
-            <S.Item className="task">
-              <div>Add expense to “Non-Discretionary” category</div>{" "}
-              {expenses_in_category_1 ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {expenses_in_category_1 ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Add expense to “Non-Discretionary” category</div>
+              </div>
+              <div className="points">
+                +4 points<span>(Pro plan only)</span>
+              </div>
             </S.Item>
-            <S.Item className="task">
-              <div>Add expense to “Savings” category</div>{" "}
-              {expenses_in_category_2 ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {expenses_in_category_2 ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Add expense to “Savings” category</div>
+              </div>
+              <div className="points">
+                +4 points<span>(Pro plan only)</span>
+              </div>
             </S.Item>
-            <S.Item className="task">
-              <div>Add expense to “Fun Money” category</div>{" "}
-              {expenses_in_category_3 ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {expenses_in_category_3 ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Add expense to “Fun Money” category</div>
+              </div>
+              <div className="points">
+                +4 points<span>(Pro plan only)</span>
+              </div>
             </S.Item>
           </S.TaskSection>
         </S.TaskContainer>
 
         <S.TaskContainer>
           <S.TaskSection>
-            <S.Title>{currentMonth} tasks</S.Title>
-            <S.Item className="task">
-              <div>Edit one expense per month</div>
-              {edit_expense_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Title>
+              <div>Monthly tasks - {currentMonth}</div>
+              <div className="complete">1 of 1 complete</div>
+            </S.Title>
+            <S.Item>
+              <div className="task">
+                {edit_expense_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Edit one expense per month</div>
+              </div>
+              <div className="points">+7 points</div>
             </S.Item>
-            <S.Item className="task">
-              <div>Edit one income per month</div>
-              {edit_income_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {edit_income_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Edit one income per month</div>
+              </div>
+              <div className="points">+6 points</div>
             </S.Item>
-            <S.Item className="task">
-              <div>Add one new category per month</div>
-              {add_category_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+            <S.Item>
+              <div className="task">
+                {add_category_in_month ? <SaveIcon /> : <DisabledSaveIcon />}
+                <div>Add one new category per month</div>
+              </div>
+              <div className="points">
+                +3 points<span>(Pro plan only)</span>
+              </div>
             </S.Item>
           </S.TaskSection>
         </S.TaskContainer>
@@ -295,42 +340,39 @@ const AccountMedal = () => {
           </S.ClaimBtn>
         )}
       </S.Wrapper>
-      <ModalComponent isOpen={isOpen} title={`Points Per Task`} size="medium">
+      <ModalComponent isOpen={isOpen} title={`Game Details`} size="medium">
         <S.ModalWrapper>
-          <S.TaskContainer>
-            <S.TaskSection>
-              <S.Title>One time tasks</S.Title>
-              <div className="task">Is Pro plan - 25 pts</div>
-              <div className="task">Is Starter plan - 20 pts</div>
-              <div className="task">
-                Shared account - 15 pts <span>(Pro plan only)</span>
+          {isFree && (
+            <S.Descript>
+              <div>
+                Take part in the Medal Game and earn a free 1-month trial of the
+                Pro Plan, applied to your account once you claim your prize.
               </div>
-              <div className="task">Added budget - 14 pts</div>
-              <div className="task">Created an account - 10 pts</div>
-              <div className="task">
-                Add expense to “Non-Discretionary” category - 4 pts{" "}
-                <span>(Pro plan only)</span>
+              <div>
+                Complete the tasks below, rack up points, and aim for 180 points
+                to achieve the ultimate Gold Elite Medal.
               </div>
-              <div className="task">
-                Add expense to “Savings” category - 4 pts{" "}
-                <span>(Pro plan only)</span>
+              <div>
+                Ready to level up your budgeting skills and claim your reward?
+                Let's play smart and win big!
               </div>
-              <div className="task">
-                Add expense to “Fun Money” category - 4 pts{" "}
-                <span>(Pro plan only)</span>
+            </S.Descript>
+          )}
+          {isPaid && (
+            <S.Descript>
+              <div>
+                Join the Medal Challenge and unlock a free 1-month discount —
+                automatically applied to your account within 24 hours of
+                claiming your prize.
               </div>
-            </S.TaskSection>
-
-            <S.TaskSection>
-              <S.Title>{currentMonth} tasks</S.Title>
-              <div className="task">Edit one expense per month - 7 pts</div>
-              <div className="task">Edit one income per month - 6 pts</div>
-              <div className="task">
-                Add one new category per month - 3 pts{" "}
-                <span>(Pro plan only)</span>
+              <div>
+                Here's how it works: complete the tasks below, earn points, and
+                climb your way to 180 points to achieve the ultimate Gold Elite
+                Medal status.
               </div>
-            </S.TaskSection>
-          </S.TaskContainer>
+              <div>Ready to play, save, and win? Let's go!</div>
+            </S.Descript>
+          )}
           <S.ModalBtn>
             <Button
               buttonSize="small"

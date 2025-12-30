@@ -197,7 +197,7 @@ const Monthly = () => {
         updatedItem[0].type = type;
         const addedBudget = await addBudgetItem(accessToken, updatedItem[0]);
 
-        setBudget(addedBudget);
+        setBudget(addedBudget.budget);
 
         trackEvent(`Add New ${type}`);
         setIsLoadingData(false);
@@ -239,7 +239,7 @@ const Monthly = () => {
           accessToken,
           data.budget_id,
         );
-        setBudget(deletedBudget);
+        setBudget(deletedBudget.budget);
 
         trackEvent(`Delete ${type}`);
       }

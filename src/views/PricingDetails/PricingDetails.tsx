@@ -120,8 +120,12 @@ const PricingDetails = ({
 
   return (
     <>
-      <Switch onChange={handleToggle} defaultChecked={isMonthly} />{" "}
-      {!isMonthly ? "Monthly" : "Yearly"} Pricing
+      <S.ToggleWrapper>
+        <div className="toggle">
+          <Switch onChange={handleToggle} defaultChecked={isMonthly} />{" "}
+          {!isMonthly ? "Monthly" : "Yearly"} Pricing
+        </div>
+      </S.ToggleWrapper>
       <S.Wrapper>
         <S.Container
           className={`${
@@ -201,7 +205,13 @@ const PricingDetails = ({
           <S.Title>Starter Plan</S.Title>
           <S.Price>
             <span>Price:</span>{" "}
-            {!isMonthly ? "$9.99/month" : "$99/year ($8.25/month)"}
+            {!isMonthly ? (
+              "$9.99/month"
+            ) : (
+              <div className="planPricing">
+                $99/year <span>($8.25/month)</span>
+              </div>
+            )}
           </S.Price>
           <div>
             For users who want enhanced control and a more streamlined
@@ -218,7 +228,7 @@ const PricingDetails = ({
                   sub={
                     !isMonthly
                       ? "P-4UE89663UT051505WNCZW36A"
-                      : "P-4UE89663UT051505WNCZW36A"
+                      : "P-40A41688VU775500DNFKKXFY"
                   }
                   addSub={updateSubscription}
                   planNum={3}
@@ -232,7 +242,7 @@ const PricingDetails = ({
                 sub={
                   !isMonthly
                     ? "P-4UE89663UT051505WNCZW36A"
-                    : "P-4UE89663UT051505WNCZW36A"
+                    : "P-40A41688VU775500DNFKKXFY"
                 }
                 addSub={updateSubscription}
                 planNum={3}
@@ -275,7 +285,13 @@ const PricingDetails = ({
           <S.Title>Pro Plan</S.Title>
           <S.Price>
             <span>Price:</span>{" "}
-            {!isMonthly ? "$19.99/month" : "$199/year ($16.58/month)"}
+            {!isMonthly ? (
+              "$19.99/month"
+            ) : (
+              <div className="planPricing">
+                $199/year <span>($16.58/month)</span>
+              </div>
+            )}
           </S.Price>
           <div>
             For advanced users who need more customization, flexibility, and
@@ -292,7 +308,7 @@ const PricingDetails = ({
                   sub={
                     !isMonthly
                       ? "P-0U075029M3838631HNCZ3PQI"
-                      : "P-0U075029M3838631HNCZ3PQI"
+                      : "P-8K174548YG297892YNFKKV7Y"
                   }
                   addSub={updateSubscription}
                   planNum={4}
@@ -306,7 +322,7 @@ const PricingDetails = ({
                 sub={
                   !isMonthly
                     ? "P-0U075029M3838631HNCZ3PQI"
-                    : "P-0U075029M3838631HNCZ3PQI"
+                    : "P-8K174548YG297892YNFKKV7Y"
                 }
                 addSub={updateSubscription}
                 planNum={4}

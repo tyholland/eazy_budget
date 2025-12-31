@@ -1,12 +1,5 @@
 import styled from "styled-components";
-import {
-  BLACK,
-  GRAY,
-  LIGHT_GREEN,
-  LIGHT_SKY_BLUE,
-  RUBIK,
-  WHITE,
-} from "../../index.style.ts";
+import { GRAY, LIGHT_GREEN, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Container = styled.div`
   box-shadow: -5px 5px 5px ${GRAY};

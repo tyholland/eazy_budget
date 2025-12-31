@@ -187,9 +187,10 @@ const AccountMedal = () => {
   ];
 
   const activeLevel = levels.find((level) => level.isActive);
-  let oneCount: number = 2;
+  let oneCount: number = 1;
   let monthCount: number = 0;
 
+  oneCount = isPro || isStarter ? oneCount + 1 : oneCount;
   oneCount = edit_expense_in_month ? oneCount + 1 : oneCount;
   oneCount = is_claimed ? oneCount + 1 : oneCount;
   oneCount = shared_account ? oneCount + 1 : oneCount;

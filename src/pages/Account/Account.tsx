@@ -43,6 +43,7 @@ import AddIcon from "../../svg/AddIcon.tsx";
 import ArrowIcon from "../../svg/ArrowIcon.tsx";
 import CurrencyIcon from "../../svg/CurrencyIcon.tsx";
 import CancelIcon from "../../svg/CancelIcon.tsx";
+import BannerBtn from "../../components/BannerBtn/BannerBtn.tsx";
 
 const Account = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -268,6 +269,9 @@ const Account = () => {
   return (
     <>
       {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
+      {currentUser && !currentUser.hasBudget && (
+        <BannerBtn url="/setup" label="Add your Budget info!!!" />
+      )}
       <S.Wrapper>
         <AccountNav
           setSelectedOption={setSelectedOption}

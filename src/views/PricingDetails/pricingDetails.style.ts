@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { BLACK, LIGHT_SKY_BLUE, RUBIK, WHITE } from "../../index.style.ts";
+import { GRAY, LIGHT_GREEN, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Container = styled.div`
-  border: 1px solid ${BLACK};
+  box-shadow: -5px 5px 5px ${GRAY};
   border-radius: 10px;
   padding: 15px 10px;
   background: ${WHITE};
@@ -41,13 +41,14 @@ export const Container = styled.div`
   }
 
   &.highlight {
-    background: ${LIGHT_SKY_BLUE};
+    background: ${LIGHT_GREEN};
   }
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   gap: 20px;
+  margin-bottom: 30px;
 
   @media only screen and (max-width: 800px) {
     flex-direction: column;
@@ -61,8 +62,18 @@ export const Title = styled.div`
 `;
 
 export const Price = styled.div`
+  display: flex;
+  gap: 4px;
   span {
     font-weight: 700;
+  }
+
+  .planPricing {
+    span {
+      color: ${GRAY};
+      font-size: 13px;
+      font-weight: 400;
+    }
   }
 `;
 
@@ -90,5 +101,20 @@ export const SubscribeBtn = styled.div`
     position: relative;
     bottom: auto;
     left: auto;
+  }
+`;
+
+export const ToggleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+
+  .toggle {
+    box-shadow: -5px 5px 5px ${GRAY};
+    background: ${WHITE};
+    border-radius: 10px;
+    padding: 10px 10px 10px 5px;
+    width: 180px;
   }
 `;

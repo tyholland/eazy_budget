@@ -118,3 +118,8 @@ export const ToggleWrapper = styled.div`
     width: 180px;
   }
 `;
+
+export const TagLine = styled.div`
+  font-weight: 500;
+  margin-top: 10px;
+`;

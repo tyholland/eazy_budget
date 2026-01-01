@@ -23,7 +23,6 @@ import Partner from "./pages/Partner/Partner.tsx";
 import Client from "./pages/Client/Client.tsx";
 import ClientDetails from "./pages/ClientDetails/ClientDetails.tsx";
 import Setup from "./pages/Setup/Setup.tsx";
-import TriggerNewYear from "./pages/TriggerNewYear/TriggerNewYear.tsx";
 
 const App = () => {
   return (
@@ -42,10 +41,6 @@ const App = () => {
             <Route path="/partner" element={<Partner />} />
             <Route path="/client" element={<Client />} />
             <Route path="/setup" element={<PrivateRoute component={Setup} />} />
-            <Route
-              path="/trigger-new-year"
-              element={<PrivateRoute component={TriggerNewYear} />}
-            />
             <Route
               path="/monthly/:type/:month/:year"
               element={<PrivateRoute component={Monthly} />}

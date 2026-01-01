@@ -110,3 +110,19 @@ export const convertCurrency = async (from: string, to: string) => {
     throw new Error("Failed to get currency rates");
   }
 };
+
+export const getTriggerNewYear = async (accessToken: string) => {
+  try {
+    const budgetResponse = await fetch(`${api}/budget/trigger`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-type": "application/json",
+      },
+    });
+
+    return await budgetResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to trigger budget new year`);
+  }
+};

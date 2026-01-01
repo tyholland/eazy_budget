@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
-import Overview from "../../views/Overview/Overview.tsx";
 import * as S from "./triggerNewYear.style.ts";
-import { useAtomValue } from "jotai";
-import { budgetAtom } from "../../hook/BudgetAtom.ts";
-import { getYearlyTotalAmount } from "../../functions/budget.ts";
 import { getDateInfo } from "../../functions/helper.ts";
-import { BudgetData } from "../../types.ts";
-import SadIcon from "../../svg/SadIcon.tsx";
-import moment from "moment-business-days";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getTriggerNewYear } from "../../requests/budget.ts";
 import { trackError } from "../../functions/mixpanel.ts";

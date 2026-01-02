@@ -112,7 +112,7 @@ const Setup = () => {
   }, []);
 
   if ((!budget.length && hasBudgetItems) || isLoading) {
-    return <Loading isText />;
+    return <Loading />;
   }
 
   const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);

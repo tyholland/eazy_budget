@@ -117,6 +117,7 @@ const Monthly = () => {
   const handleAddNewBudget = () => {
     const updatedBudget = addNewBudgetItem(clonedBudget, month, theYear, type);
 
+    console.error("updatedBudget:", updatedBudget);
     setBudget(updatedBudget);
     setIsNewBudget(true);
   };

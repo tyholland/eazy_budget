@@ -45,7 +45,7 @@ const DownloadCsv = ({
   const currentMonth = params.month || theMonth;
   const currentYear = Number(params.year) || theYear;
   const currentBudget = budget.filter(
-    (bud: BudgetData) => bud.month === currentMonth,
+    (bud: BudgetData) => bud.month === currentMonth && bud.year === currentYear,
   )[0];
   const { currentExpense, currentIncome } = getMonthlyCSV(currentBudget);
   const { yearlyIncome, yearlyExpense } = getYearlyCSV(budget, currentYear);

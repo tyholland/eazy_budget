@@ -5,9 +5,10 @@ import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
 import Link from "../../components/Link/Link.tsx";
 import { loggedInHomepage } from "../../functions/helper.ts";
+import Button from "../../components/Button/Button.tsx";
 
 const Login = () => {
-  const { isLoading, user } = useAuth0();
+  const { loginWithRedirect, isLoading, user } = useAuth0();
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -21,26 +22,30 @@ const Login = () => {
   return (
     <S.Wrapper>
       <S.Section>
+        <S.Catchphrase>
+          <h1>Budgeting that actually fits your life.</h1>
+          <div>
+            Understand your money, build better habits, reach your goals
+          </div>
+          <Button
+            handleClick={() =>
+              loginWithRedirect({
+                authorizationParams: {
+                  screen_hint: "signup",
+                },
+              })
+            }
+            buttonSize="medium"
+          >
+            Get Started Free
+          </Button>
+        </S.Catchphrase>
         <img
-          src="/images/login.jpg"
+          src="/images/homepage/header.png"
           width="500px"
-          height="auto"
+          height="300px"
           alt="account settings and details"
         />
-        <S.Catchphrase>
-          <h1>
-            Tired of using pen and paper to track your monthly expenses every
-            single month?
-          </h1>
-          <Link
-            url="/pricing"
-            classType="button"
-            label="Get Started"
-            linkSize="large"
-          >
-            Get Started
-          </Link>
-        </S.Catchphrase>
       </S.Section>
       <S.Section className="title">
         <h2>

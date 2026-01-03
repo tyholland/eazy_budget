@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { EARTH_GREEN, RUBIK, WHITE } from "../../index.style.ts";
+import { EARTH_GREEN, GRAY, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -18,8 +18,10 @@ export const Section = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-  padding-bottom: 20px;
-  width: 100%;
+  width: 94%;
+  border-radius: 10px;
+  box-shadow: -5px 5px 5px ${GRAY};
+  padding: 10px 3%;
 
   @media only screen and (max-width: 800px) {
     flex-direction: column-reverse;
@@ -46,15 +48,8 @@ export const Section = styled.div`
   }
 
   img {
-    min-width: 300px;
-    max-width: 720px;
-    width: 100%;
-    border-radius: 15px;
-
-    @media only screen and (max-width: 800px) {
-      min-width: unset;
-      max-width: unset;
-    }
+    width: 500px;
+    margin: 0 auto;
   }
 
   &.title {
@@ -73,7 +68,7 @@ export const Section = styled.div`
 `;
 
 export const Catchphrase = styled.div`
-  max-width: 450px;
+  max-width: 430px;
   min-width: 330px;
   width: 100%;
 

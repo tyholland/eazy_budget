@@ -1,12 +1,5 @@
 import styled from "styled-components";
-import {
-  GRAY,
-  GREEN,
-  LIGHT_GREEN,
-  LIGHT_SKY_BLUE,
-  RUBIK,
-  WHITE,
-} from "../../index.style.ts";
+import { GRAY, LIGHT_SKY_BLUE, RUBIK, WHITE } from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -18,6 +11,11 @@ export const Wrapper = styled.div`
   @media only screen and (max-width: 800px) {
     width: 100%;
     gap: 40px;
+  }
+
+  .money {
+    border-radius: 10px;
+    box-shadow: 0 5px 10px ${GRAY};
   }
 `;
 
@@ -71,6 +69,10 @@ export const Section = styled.div`
     strong {
       font-weight: 700;
     }
+
+    .ending {
+      font-size: 18px;
+    }
   }
 
   &.steps {
@@ -118,11 +120,16 @@ export const PainPoint = styled.div`
   .solution {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
+    box-shadow: 0 5px 10px ${GRAY};
+    border-radius: 10px;
+    padding: 10px 20px;
+    height: 200px;
+    width: 430px;
 
     img {
-      box-shadow: 0 5px 10px ${GRAY};
       border-radius: 10px;
+      box-shadow: -5px 5px 5px ${GRAY};
     }
   }
 
@@ -172,4 +179,23 @@ export const Steps = styled.div`
       padding: 5px 12px;
     }
   }
+`;
+
+export const Upgrade = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  img {
+    border-radius: 10px;
+    box-shadow: -5px 5px 5px ${GRAY};
+  }
+`;
+
+export const SplitSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
 `;

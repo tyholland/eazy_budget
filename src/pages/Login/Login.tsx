@@ -56,16 +56,16 @@ const Login = () => {
         <S.PainPoint>
           <img
             src="/images/homepage/spreadsheets.png"
-            width="580px"
-            height="200px"
+            width="600px"
+            height="220px"
             alt="pain points"
             className="spreadsheet"
           />
           <div className="solution">
             <img
-              src="/images/homepage/charts.png"
-              width="315px"
-              height="196px"
+              src="/images/homepage/control.png"
+              width="250px"
+              height="180px"
               alt="solutions"
             />
             <S.BulletSection>
@@ -81,7 +81,7 @@ const Login = () => {
             </S.BulletSection>
           </div>
         </S.PainPoint>
-        <div>
+        <div className="ending">
           <strong>Simple Budgeting</strong> was built to change that
         </div>
       </S.Section>
@@ -92,10 +92,10 @@ const Login = () => {
         <S.Steps>
           <div className="section">
             <img
-              src="/images/homepage/charts.png"
-              width="315px"
-              height="196px"
-              alt="solutions"
+              src="/images/homepage/create.png"
+              width="350px"
+              height="230px"
+              alt="Add your income & expenses"
             />
             <div className="stepSection">
               <div className="number">1</div>
@@ -105,9 +105,9 @@ const Login = () => {
           <div className="section">
             <img
               src="/images/homepage/financial-picture.png"
-              width="300px"
-              height="200px"
-              alt="solutions"
+              width="350px"
+              height="230px"
+              alt="See your full financial picture"
             />
             <div className="stepSection">
               <div className="number">2</div>
@@ -117,9 +117,9 @@ const Login = () => {
           <div className="section">
             <img
               src="/images/homepage/progress.png"
-              width="315px"
-              height="196px"
-              alt="solutions"
+              width="350px"
+              height="230px"
+              alt="Track your progress"
             />
             <div className="stepSection">
               <div className="number">3</div>
@@ -140,6 +140,54 @@ const Login = () => {
           Start Your Free Budget
         </Button>
       </S.Section>
+      <S.SplitSection>
+        <img
+          src="/images/homepage/when-you-know.png"
+          width="600px"
+          height="390px"
+          alt="when you know where your money goes"
+          className="money"
+        />
+        <S.Section className="steps">
+          <h2>
+            <span className="bold">Start free. Upgrade</span> anytime.
+          </h2>
+          <S.Upgrade>
+            <S.BulletSection>
+              <div className="bullet">
+                <SaveIcon /> Expense Tracking
+              </div>
+              <div className="bullet">
+                <SaveIcon /> Goal Setting
+              </div>
+              <div className="bullet">
+                <SaveIcon /> Multi-Currency
+              </div>
+              <div className="bullet">
+                <SaveIcon /> No Credit Card Needed
+              </div>
+            </S.BulletSection>
+            <img
+              src="/images/homepage/graph.png"
+              width="300px"
+              height="200px"
+              alt="bar graph"
+            />
+          </S.Upgrade>
+          <Button
+            handleClick={() =>
+              loginWithRedirect({
+                authorizationParams: {
+                  screen_hint: "signup",
+                },
+              })
+            }
+            buttonSize="medium"
+          >
+            Sign Up Free
+          </Button>
+        </S.Section>
+      </S.SplitSection>
     </S.Wrapper>
   );
 };

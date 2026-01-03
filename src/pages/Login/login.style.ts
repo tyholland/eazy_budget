@@ -16,6 +16,19 @@ export const Wrapper = styled.div`
   .money {
     border-radius: 10px;
     box-shadow: 0 5px 10px ${GRAY};
+
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  button {
+    @media only screen and (max-width: 800px) {
+      width: 100% !important;
+      height: 50px;
+      font-size: 20px !important;
+    }
   }
 `;
 
@@ -31,8 +44,7 @@ export const Section = styled.div`
 
   @media only screen and (max-width: 800px) {
     flex-direction: column-reverse;
-    gap: 0;
-    padding-bottom: 0;
+    gap: 40px;
   }
 
   h1 {
@@ -60,6 +72,11 @@ export const Section = styled.div`
   .device {
     width: 500px;
     margin: 0 auto;
+
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+      height: auto;
+    }
   }
 
   &.complicated {
@@ -128,6 +145,11 @@ export const PainPoint = styled.div`
   justify-content: space-between;
   width: 100%;
 
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .solution {
     display: flex;
     align-items: center;
@@ -138,14 +160,32 @@ export const PainPoint = styled.div`
     height: 200px;
     width: 430px;
 
+    @media only screen and (max-width: 800px) {
+      flex-direction: column-reverse;
+      width: 94%;
+      height: auto;
+      padding: 3%;
+      box-shadow: none;
+    }
+
     img {
       border-radius: 10px;
       box-shadow: -5px 5px 5px ${GRAY};
+
+      @media only screen and (max-width: 800px) {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 
   .spreadsheet {
     border-radius: 10px;
+
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+      height: auto;
+    }
   }
 `;
 
@@ -166,6 +206,11 @@ export const Steps = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+    gap: 50px;
+  }
 
   img {
     border-radius: 10px;
@@ -199,6 +244,10 @@ export const Upgrade = styled.div`
   width: 100%;
   justify-content: space-between;
 
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+
   img {
     border-radius: 10px;
     box-shadow: -5px 5px 5px ${GRAY};
@@ -211,4 +260,8 @@ export const SplitSection = styled.div`
   align-items: center;
   width: 100%;
   gap: 20px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;

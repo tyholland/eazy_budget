@@ -107,7 +107,7 @@ const Login = () => {
               src="/images/homepage/financial-picture.png"
               width="350px"
               height="230px"
-              alt="See your full financial picture"
+              alt="See your full financial breakdown"
             />
             <div className="stepSection">
               <div className="number">2</div>

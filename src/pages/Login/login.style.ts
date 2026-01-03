@@ -1,5 +1,12 @@
 import styled from "styled-components";
-import { EARTH_GREEN, GRAY, RUBIK, WHITE } from "../../index.style.ts";
+import {
+  GRAY,
+  GREEN,
+  LIGHT_GREEN,
+  LIGHT_SKY_BLUE,
+  RUBIK,
+  WHITE,
+} from "../../index.style.ts";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -58,16 +65,22 @@ export const Section = styled.div`
   }
 
   &.complicated {
-    display: flex;
     flex-direction: column;
-    gap: 15px;
+    padding-bottom: 30px;
 
     strong {
       font-weight: 700;
     }
+  }
 
-    .ending {
-      margin-bottom: 20px;
+  &.steps {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+
+    h2 {
+      text-align: center;
     }
   }
 `;
@@ -128,5 +141,35 @@ export const BulletSection = styled.div`
     align-items: center;
     gap: 4px;
     font-weight: 700;
+  }
+`;
+
+export const Steps = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  img {
+    border-radius: 10px;
+    box-shadow: -5px 5px 5px ${GRAY};
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stepSection {
+    display: flex;
+    gap: 8px;
+    font-weight: 700;
+    align-items: center;
+
+    .number {
+      border-radius: 100px;
+      border: 2px solid ${LIGHT_SKY_BLUE};
+      padding: 5px 12px;
+    }
   }
 `;

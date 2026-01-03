@@ -148,12 +148,12 @@ const Login = () => {
           alt="when you know where your money goes"
           className="money"
         />
-        <S.Section className="steps">
+        <S.Section className="upgrade">
           <h2>
             <span className="bold">Start free. Upgrade</span> anytime.
           </h2>
           <S.Upgrade>
-            <S.BulletSection>
+            <S.BulletSection className="upgrade">
               <div className="bullet">
                 <SaveIcon /> Expense Tracking
               </div>
@@ -169,7 +169,7 @@ const Login = () => {
             </S.BulletSection>
             <img
               src="/images/homepage/graph.png"
-              width="300px"
+              width="280px"
               height="200px"
               alt="bar graph"
             />

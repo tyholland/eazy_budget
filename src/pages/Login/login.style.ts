@@ -85,6 +85,17 @@ export const Section = styled.div`
       text-align: center;
     }
   }
+
+  &.upgrade {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px 30px;
+
+    h2 {
+      text-align: center;
+    }
+  }
 `;
 
 export const Catchphrase = styled.div`
@@ -185,6 +196,8 @@ export const Upgrade = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+  width: 100%;
+  justify-content: space-between;
 
   img {
     border-radius: 10px;

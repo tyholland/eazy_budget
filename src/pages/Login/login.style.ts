@@ -20,8 +20,9 @@ export const Section = styled.div`
   gap: 30px;
   width: 94%;
   border-radius: 10px;
-  box-shadow: -5px 5px 5px ${GRAY};
+  box-shadow: 0 5px 10px ${GRAY};
   padding: 10px 3%;
+  background: ${WHITE};
 
   @media only screen and (max-width: 800px) {
     flex-direction: column-reverse;
@@ -38,31 +39,35 @@ export const Section = styled.div`
   }
 
   h2 {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
+    width: 100%;
+    margin-bottom: 0;
+    font-weight: 400;
+
+    .bold {
+      font-weight: 700;
+    }
 
     @media only screen and (max-width: 800px) {
       width: 100%;
     }
   }
 
-  img {
+  .device {
     width: 500px;
     margin: 0 auto;
   }
 
-  &.title {
-    padding: 20px 0;
-    width: 90%;
-    height: 130px;
-    background: ${EARTH_GREEN};
-    color: ${WHITE};
-    border-radius: 15px;
+  &.complicated {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 
-    @media only screen and (max-width: 800px) {
-      width: 100%;
-      height: auto;
+    strong {
+      font-weight: 700;
+    }
+
+    .ending {
+      margin-bottom: 20px;
     }
   }
 `;
@@ -71,6 +76,17 @@ export const Catchphrase = styled.div`
   max-width: 430px;
   min-width: 330px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .subText {
+    font-weight: 500;
+  }
+
+  h1 {
+    margin: 0;
+  }
 
   @media only screen and (max-width: 800px) {
     margin-bottom: 20px;
@@ -79,66 +95,38 @@ export const Catchphrase = styled.div`
   }
 `;
 
-export const Videos = styled.div`
+export const PainPoint = styled.div`
   display: flex;
-  gap: 40px;
   align-items: center;
-  line-height: 35px;
-  margin-top: 50px;
+  gap: 10px;
+  justify-content: space-between;
+  width: 100%;
 
-  @media only screen and (max-width: 800px) {
-    flex-direction: column;
-    width: 100%;
-    margin-top: 0px;
-    gap: 20px;
-  }
+  .solution {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-  &.reverse {
-    flex-direction: row-reverse;
-
-    @media only screen and (max-width: 800px) {
-      flex-direction: column;
-      width: 100%;
+    img {
+      box-shadow: 0 5px 10px ${GRAY};
+      border-radius: 10px;
     }
   }
 
-  h2 {
-    width: 50%;
-
-    @media only screen and (max-width: 800px) {
-      margin: 0;
-      width: 100%;
-    }
-  }
-
-  video {
-    box-shadow: 0 0 12px;
-    border-radius: 20px;
-    width: 50%;
-
-    @media only screen and (max-width: 800px) {
-      width: 100%;
-    }
+  .spreadsheet {
+    border-radius: 10px;
   }
 `;
 
-export const Pitch = styled.div`
+export const BulletSection = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 40%;
-  text-align: center;
-  background: ${EARTH_GREEN};
-  color: ${WHITE};
-  border-radius: 15px;
-  padding: 20px;
+  gap: 8px;
 
-  @media only screen and (max-width: 800px) {
-    width: 80%;
-    margin-bottom: 5%;
-  }
-
-  h2 {
-    margin-top: 0;
+  .bullet {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
   }
 `;

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Link from "../../components/Link/Link.tsx";
 import { loggedInHomepage } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
+import SaveIcon from "../../svg/SaveIcon.tsx";
 
 const Login = () => {
   const { loginWithRedirect, isLoading, user } = useAuth0();
@@ -24,7 +25,7 @@ const Login = () => {
       <S.Section>
         <S.Catchphrase>
           <h1>Budgeting that actually fits your life.</h1>
-          <div>
+          <div className="subText">
             Understand your money, build better habits, reach your goals
           </div>
           <Button
@@ -44,60 +45,47 @@ const Login = () => {
           src="/images/homepage/header.png"
           width="500px"
           height="300px"
-          alt="account settings and details"
+          alt="laptop and iphone of the monthly expense page"
+          className="device"
         />
       </S.Section>
-      <S.Section className="title">
+      <S.Section className="complicated">
         <h2>
-          Simple Budgeting makes budgeting effortless—just enter your expenses
-          once, and they'll be automatically applied to each month of the year.
+          <span className="bold">Most budget fail</span> because they're too
+          complicated
         </h2>
+        <S.PainPoint>
+          <img
+            src="/images/homepage/spreadsheets.png"
+            width="580px"
+            height="200px"
+            alt="pain points"
+            className="spreadsheet"
+          />
+          <div className="solution">
+            <img
+              src="/images/homepage/charts.png"
+              width="315px"
+              height="196px"
+              alt="solutions"
+            />
+            <S.BulletSection>
+              <div className="bullet">
+                <SaveIcon /> Simple Dashboard
+              </div>
+              <div className="bullet">
+                <SaveIcon /> Clear insights
+              </div>
+              <div className="bullet">
+                <SaveIcon /> In control
+              </div>
+            </S.BulletSection>
+          </div>
+        </S.PainPoint>
+        <div className="ending">
+          <strong>Simple Budgeting</strong> was built to change that
+        </div>
       </S.Section>
-      <S.Videos>
-        <h2>
-          Simply enter your income and expenses during setup, and let the system
-          automatically apply them across the entire year—saving you time and
-          ensuring consistent financial planning.
-        </h2>
-        <video width="650" height="auto" muted loop controls>
-          <source src="/videos/create-budget.mp4" type="video/mp4" />
-          <img
-            src="/images/homepage-create.png"
-            width="650px"
-            height="453px"
-            alt="create your entire budget strategy"
-          />
-        </video>
-      </S.Videos>
-      <S.Videos className="reverse">
-        <h2>
-          Easily customize your budget—edit existing items or add new expenses
-          to keep your financial plan accurate and up to date.
-        </h2>
-        <video width="650" height="auto" muted loop controls>
-          <source src="/videos/add-edit-budget.mp4" type="video/mp4" />
-          <img
-            src="/images/homepage-add-edit.png"
-            width="650px"
-            height="453px"
-            alt="add and/or edit specific budget item"
-          />
-        </video>
-      </S.Videos>
-      <S.Pitch>
-        <h2>
-          Ready to take control of your finances and build a smarter financial
-          future?
-        </h2>
-        <Link
-          url="/pricing"
-          classType="button"
-          label="Get Started Now"
-          linkSize="large"
-        >
-          Get Started Now
-        </Link>
-      </S.Pitch>
     </S.Wrapper>
   );
 };

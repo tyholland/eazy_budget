@@ -3,11 +3,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import * as S from "./login.style.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import { useNavigate } from "react-router-dom";
-import Link from "../../components/Link/Link.tsx";
 import { loggedInHomepage } from "../../functions/helper.ts";
+import Button from "../../components/Button/Button.tsx";
+import SaveIcon from "../../svg/SaveIcon.tsx";
 
 const Login = () => {
-  const { isLoading, user } = useAuth0();
+  const { loginWithRedirect, isLoading, user } = useAuth0();
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -21,78 +22,172 @@ const Login = () => {
   return (
     <S.Wrapper>
       <S.Section>
-        <img
-          src="/images/login.jpg"
-          width="500px"
-          height="auto"
-          alt="account settings and details"
-        />
         <S.Catchphrase>
-          <h1>
-            Tired of using pen and paper to track your monthly expenses every
-            single month?
-          </h1>
-          <Link
-            url="/pricing"
-            classType="button"
-            label="Get Started"
-            linkSize="large"
+          <h1>Budgeting that actually fits your life.</h1>
+          <div className="subText">
+            Understand your money, build better habits, reach your goals
+          </div>
+          <Button
+            handleClick={() =>
+              loginWithRedirect({
+                authorizationParams: {
+                  screen_hint: "signup",
+                },
+              })
+            }
+            buttonSize="medium"
           >
-            Get Started
-          </Link>
+            Get Started Free
+          </Button>
         </S.Catchphrase>
+        <img
+          src="/images/homepage/header.png"
+          width="500px"
+          height="300px"
+          alt="laptop and iphone of the monthly expense page"
+          className="device"
+        />
       </S.Section>
-      <S.Section className="title">
+      <S.Section className="complicated">
         <h2>
-          Simple Budgeting makes budgeting effortless—just enter your expenses
-          once, and they'll be automatically applied to each month of the year.
+          <span className="bold">Most budget fail</span> because they're too
+          complicated
         </h2>
+        <S.PainPoint>
+          <img
+            src="/images/homepage/spreadsheets.png"
+            width="600px"
+            height="220px"
+            alt="pain points"
+            className="spreadsheet"
+          />
+          <div className="solution">
+            <img
+              src="/images/homepage/control.png"
+              width="250px"
+              height="180px"
+              alt="solutions"
+            />
+            <S.BulletSection>
+              <div className="bullet">
+                <SaveIcon /> Simple Dashboard
+              </div>
+              <div className="bullet">
+                <SaveIcon /> Clear insights
+              </div>
+              <div className="bullet">
+                <SaveIcon /> In control
+              </div>
+            </S.BulletSection>
+          </div>
+        </S.PainPoint>
+        <div className="ending">
+          <strong>Simple Budgeting</strong> was built to change that
+        </div>
       </S.Section>
-      <S.Videos>
+      <S.Section className="steps">
         <h2>
-          Simply enter your income and expenses during setup, and let the system
-          automatically apply them across the entire year—saving you time and
-          ensuring consistent financial planning.
+          <span className="bold">Three steps. That's it</span>
         </h2>
-        <video width="650" height="auto" muted loop controls>
-          <source src="/videos/create-budget.mp4" type="video/mp4" />
-          <img
-            src="/images/homepage-create.png"
-            width="650px"
-            height="453px"
-            alt="create your entire budget strategy"
-          />
-        </video>
-      </S.Videos>
-      <S.Videos className="reverse">
-        <h2>
-          Easily customize your budget—edit existing items or add new expenses
-          to keep your financial plan accurate and up to date.
-        </h2>
-        <video width="650" height="auto" muted loop controls>
-          <source src="/videos/add-edit-budget.mp4" type="video/mp4" />
-          <img
-            src="/images/homepage-add-edit.png"
-            width="650px"
-            height="453px"
-            alt="add and/or edit specific budget item"
-          />
-        </video>
-      </S.Videos>
-      <S.Pitch>
-        <h2>
-          Ready to take control of your finances and build a smarter financial
-          future?
-        </h2>
-        <Link
-          url="/pricing"
-          classType="button"
-          label="Get Started Now"
-          linkSize="large"
+        <S.Steps>
+          <div className="section">
+            <img
+              src="/images/homepage/create.png"
+              width="350px"
+              height="230px"
+              alt="Add your income & expenses"
+            />
+            <div className="stepSection">
+              <div className="number">1</div>
+              <div>Add your income & expenses</div>
+            </div>
+          </div>
+          <div className="section">
+            <img
+              src="/images/homepage/financial-picture.png"
+              width="350px"
+              height="230px"
+              alt="See your full financial breakdown"
+            />
+            <div className="stepSection">
+              <div className="number">2</div>
+              <div>See your full financial picture</div>
+            </div>
+          </div>
+          <div className="section">
+            <img
+              src="/images/homepage/progress.png"
+              width="350px"
+              height="230px"
+              alt="Track your progress"
+            />
+            <div className="stepSection">
+              <div className="number">3</div>
+              <div>Track your progress</div>
+            </div>
+          </div>
+        </S.Steps>
+        <Button
+          handleClick={() =>
+            loginWithRedirect({
+              authorizationParams: {
+                screen_hint: "signup",
+              },
+            })
+          }
+          buttonSize="medium"
         >
-          Get Started Now
-        </Link>
-      </S.Pitch>
+          Start Your Free Budget
+        </Button>
+      </S.Section>
+      <S.SplitSection>
+        <img
+          src="/images/homepage/when-you-know.png"
+          width="600px"
+          height="390px"
+          alt="when you know where your money goes"
+          className="money"
+        />
+        <S.Section className="upgrade">
+          <h2>
+            <span className="bold">Start free. Upgrade</span> anytime.
+          </h2>
+          <S.Upgrade>
+            <S.BulletSection className="upgrade">
+              <div className="bullet">
+                <SaveIcon /> Expense Tracking
+              </div>
+              <div className="bullet">
+                <SaveIcon /> Goal Setting
+              </div>
+              <div className="bullet">
+                <SaveIcon /> Multi-Currency
+              </div>
+              <div className="bullet">
+                <SaveIcon /> No Credit Card Needed
+              </div>
+            </S.BulletSection>
+            <img
+              src="/images/homepage/graph.png"
+              width="280px"
+              height="200px"
+              alt="bar graph"
+            />
+          </S.Upgrade>
+          <Button
+            handleClick={() =>
+              loginWithRedirect({
+                authorizationParams: {
+                  screen_hint: "signup",
+                },
+              })
+            }
+            buttonSize="medium"
+          >
+            Sign Up Free
+          </Button>
+        </S.Section>
+      </S.SplitSection>
     </S.Wrapper>
   );
 };

@@ -54,6 +54,7 @@ let budgetItemArray3: BudgetDataItem[];
 let budgetItemArray4: BudgetDataItem[];
 let budgetItemArray5: BudgetDataItem[];
 let budgetTwo: BudgetData[];
+const currentYear = new Date().getFullYear();
 
 beforeEach(() => {
   budget = JSON.parse(JSON.stringify(mockBudget));
@@ -76,13 +77,18 @@ beforeEach(() => {
 
 describe("getMonthlyTotalAmount", () => {
   test("should return 0", () => {
-    const amount = getMonthlyTotalAmount([], "january", 2025, "income");
+    const amount = getMonthlyTotalAmount([], "january", currentYear, "income");
 
     expect(amount).toBe(0);
   });
 
   test("should return total monthly amount", () => {
-    const amount = getMonthlyTotalAmount(budget, "january", 2025, "expense");
+    const amount = getMonthlyTotalAmount(
+      budget,
+      "january",
+      currentYear,
+      "expense",
+    );
 
     expect(amount).toBe(36);
   });
@@ -90,13 +96,13 @@ describe("getMonthlyTotalAmount", () => {
 
 describe("getYearlyTotalAmount", () => {
   test("should return 0", () => {
-    const amount = getYearlyTotalAmount([], 2025, "income");
+    const amount = getYearlyTotalAmount([], currentYear, "income");
 
     expect(amount).toBe(0);
   });
 
   test("should return total yearly amount", () => {
-    const amount = getYearlyTotalAmount(budget, 2025, "income");
+    const amount = getYearlyTotalAmount(budget, currentYear, "income");
 
     expect(amount).toBe(70000);
   });
@@ -104,7 +110,12 @@ describe("getYearlyTotalAmount", () => {
 
 describe("getMonthlyBudgetBreakdown", () => {
   test("should return empty arrays", () => {
-    const results = getMonthlyBudgetBreakdown([], "january", "expense", 2025);
+    const results = getMonthlyBudgetBreakdown(
+      [],
+      "january",
+      "expense",
+      currentYear,
+    );
     const expectedResults = JSON.stringify({
       data: [],
       labels: [],
@@ -118,7 +129,7 @@ describe("getMonthlyBudgetBreakdown", () => {
       budget,
       "january",
       "expense",
-      2025,
+      currentYear,
     );
     const expectedResults = JSON.stringify({
       data: [19, 17],
@@ -131,7 +142,7 @@ describe("getMonthlyBudgetBreakdown", () => {
 
 describe("getYearlyBudgetBreakdown", () => {
   test("should return empty arrays", () => {
-    const results = getYearlyBudgetBreakdown([], 2025, "expense");
+    const results = getYearlyBudgetBreakdown([], currentYear, "expense");
     const expectedResults = JSON.stringify({
       data: [],
       labels: [],
@@ -142,7 +153,7 @@ describe("getYearlyBudgetBreakdown", () => {
   });
 
   test("should return full results of yearly budget", () => {
-    const results = getYearlyBudgetBreakdown(budget, 2025, "expense");
+    const results = getYearlyBudgetBreakdown(budget, currentYear, "expense");
     const expectedResults = JSON.stringify({
       data: [36],
       labels: ["january"],
@@ -197,42 +208,42 @@ describe("addAdditionalBudget", () => {
 
 describe("formatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = formatBudgetItem({}, "january", 2025);
+    const results = formatBudgetItem({}, "january", currentYear);
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return monthly budget entries", () => {
-    const results = formatBudgetItem(budgetEntries, "january", 2025);
+    const results = formatBudgetItem(budgetEntries, "january", currentYear);
     const expectedResults = JSON.stringify(budgetItemArray);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return weekly budget entries", () => {
-    const results = formatBudgetItem(budgetEntries2, "january", 2025);
+    const results = formatBudgetItem(budgetEntries2, "january", currentYear);
     const expectedResults = JSON.stringify(budgetItemArray2);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return semi-monthly budget entries", () => {
-    const results = formatBudgetItem(budgetEntries3, "january", 2025);
+    const results = formatBudgetItem(budgetEntries3, "january", currentYear);
     const expectedResults = JSON.stringify(budgetItemArray3);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return daily budget entries", () => {
-    const results = formatBudgetItem(budgetEntries4, "january", 2025);
+    const results = formatBudgetItem(budgetEntries4, "january", currentYear);
     const expectedResults = JSON.stringify(budgetItemArray4);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
   });
 
   test("should return quarterly budget entries", () => {
-    const results = formatBudgetItem(budgetEntries5, "january", 2025);
+    const results = formatBudgetItem(budgetEntries5, "january", currentYear);
     const expectedResults = JSON.stringify(budgetItemArray5);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -241,7 +252,14 @@ describe("formatBudgetItem", () => {
 
 describe("reformatBudgetItem", () => {
   test("should return an empty array", () => {
-    const results = reformatBudgetItem({}, null, null, "april", 2025, true);
+    const results = reformatBudgetItem(
+      {},
+      null,
+      null,
+      "april",
+      currentYear,
+      true,
+    );
     const expectedResults = JSON.stringify([]);
 
     expect(JSON.stringify(results)).toBe(expectedResults);
@@ -253,7 +271,7 @@ describe("reformatBudgetItem", () => {
       null,
       null,
       "april",
-      2025,
+      currentYear,
       false,
       "Monthly",
       "Current Month",
@@ -266,7 +284,7 @@ describe("reformatBudgetItem", () => {
 
 describe("addNewBudgetItem", () => {
   test("should add a new budget item", () => {
-    const results = addNewBudgetItem(budget, "january", 2025, "income");
+    const results = addNewBudgetItem(budget, "january", currentYear, "income");
     const newBudget = [...budget];
     newBudget[0].income.push({
       label: "",
@@ -463,13 +481,13 @@ describe("sortBudget", () => {
 
 describe("getMonthlyPaidExpenses", () => {
   test("should return 0", () => {
-    const amount = getMonthlyPaidExpenses([], "january", 2025);
+    const amount = getMonthlyPaidExpenses([], "january", currentYear);
 
     expect(amount).toBe(0);
   });
 
   test("should return total monthly amount", () => {
-    const amount = getMonthlyPaidExpenses(budget, "january", 2025);
+    const amount = getMonthlyPaidExpenses(budget, "january", currentYear);
 
     expect(amount).toBe(19);
   });

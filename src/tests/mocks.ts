@@ -5,10 +5,12 @@ import {
   BudgetInsertIds,
 } from "../types";
 
+const currentYear = new Date().getFullYear();
+
 export const mockBudget: BudgetData[] = [
   {
     month: "january",
-    year: 2025,
+    year: currentYear,
     income: [
       {
         label: "husband",
@@ -270,7 +272,7 @@ export const mockBudgetItemArray3: BudgetDataItem[] = [
 export const mockBudgetItemArray4: BudgetDataItem[] = [
   {
     label: "netflix",
-    value: 459.77,
+    value: 439.78,
     paid: false,
     frequency: "Daily",
     cadence: "Current Month",
@@ -280,7 +282,7 @@ export const mockBudgetItemArray4: BudgetDataItem[] = [
   },
   {
     label: "hulu",
-    value: 482.77,
+    value: 461.78,
     paid: false,
     frequency: "Daily",
     cadence: "Current Month",
@@ -290,7 +292,7 @@ export const mockBudgetItemArray4: BudgetDataItem[] = [
   },
   {
     label: "internet",
-    value: 1626.1,
+    value: 1555.4,
     paid: false,
     frequency: "Daily",
     cadence: "Current Month",
@@ -335,7 +337,7 @@ export const mockBudgetItemArray5: BudgetDataItem[] = [
 
 export const mockBudgetTwo: BudgetData[] = [
   {
-    year: 2025,
+    year: currentYear,
     month: "january",
     income: [
       {
@@ -364,7 +366,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "january",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -372,7 +374,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "january",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -380,7 +382,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "february",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -388,7 +390,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "february",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -396,7 +398,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "march",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -404,7 +406,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "march",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -412,7 +414,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "april",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -420,7 +422,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "april",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -428,7 +430,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "may",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -436,7 +438,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "may",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -444,7 +446,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "june",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -452,7 +454,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "june",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -460,7 +462,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "july",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -468,7 +470,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "july",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -476,7 +478,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "august",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -484,7 +486,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "august",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -492,7 +494,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "september",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -500,7 +502,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "september",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -508,7 +510,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "october",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -516,7 +518,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "october",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -524,7 +526,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "november",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -532,7 +534,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "november",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "husband",
@@ -540,7 +542,7 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 40000,
     paid: undefined,
     month: "december",
-    year: 2025,
+    year: currentYear,
   },
   {
     label: "Netflix",
@@ -548,13 +550,13 @@ export const mockBudgetBody: BudgetBodyInfo[] = [
     amount: 19.99,
     paid: false,
     month: "december",
-    year: 2025,
+    year: currentYear,
   },
 ];
 
 export const mockBudgetFull: BudgetData[] = [
   {
-    year: 2025,
+    year: currentYear,
     month: "january",
     income: [
       {
@@ -575,7 +577,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "february",
     income: [
       {
@@ -596,7 +598,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "march",
     income: [
       {
@@ -617,7 +619,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "april",
     income: [
       {
@@ -638,7 +640,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "may",
     income: [
       {
@@ -659,7 +661,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "june",
     income: [
       {
@@ -680,7 +682,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "july",
     income: [
       {
@@ -701,7 +703,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "august",
     income: [
       {
@@ -722,7 +724,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "september",
     income: [
       {
@@ -743,7 +745,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "october",
     income: [
       {
@@ -764,7 +766,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "november",
     income: [
       {
@@ -785,7 +787,7 @@ export const mockBudgetFull: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "december",
     income: [
       {
@@ -908,7 +910,7 @@ export const mockBudgetInsertIds: BudgetInsertIds[] = [
 
 export const mockBudgetFullUpdated: BudgetData[] = [
   {
-    year: 2025,
+    year: currentYear,
     month: "january",
     income: [
       {
@@ -932,7 +934,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "february",
     income: [
       {
@@ -957,7 +959,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "march",
     income: [
       {
@@ -980,7 +982,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "april",
     income: [
       {
@@ -1001,7 +1003,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "may",
     income: [
       {
@@ -1022,7 +1024,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "june",
     income: [
       {
@@ -1043,7 +1045,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "july",
     income: [
       {
@@ -1064,7 +1066,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "august",
     income: [
       {
@@ -1085,7 +1087,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "september",
     income: [
       {
@@ -1106,7 +1108,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "october",
     income: [
       {
@@ -1127,7 +1129,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "november",
     income: [
       {
@@ -1148,7 +1150,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "december",
     income: [
       {
@@ -1172,7 +1174,7 @@ export const mockBudgetFullUpdated: BudgetData[] = [
 
 export const mockBudgetFullInserted: BudgetData[] = [
   {
-    year: 2025,
+    year: currentYear,
     month: "january",
     income: [
       {
@@ -1212,7 +1214,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "february",
     income: [
       {
@@ -1254,7 +1256,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "march",
     income: [
       {
@@ -1294,7 +1296,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "april",
     income: [
       {
@@ -1332,7 +1334,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "may",
     income: [
       {
@@ -1370,7 +1372,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "june",
     income: [
       {
@@ -1408,7 +1410,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "july",
     income: [
       {
@@ -1446,7 +1448,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "august",
     income: [
       {
@@ -1484,7 +1486,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "september",
     income: [
       {
@@ -1522,7 +1524,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "october",
     income: [
       {
@@ -1560,7 +1562,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "november",
     income: [
       {
@@ -1598,7 +1600,7 @@ export const mockBudgetFullInserted: BudgetData[] = [
     ],
   },
   {
-    year: 2025,
+    year: currentYear,
     month: "december",
     income: [
       {

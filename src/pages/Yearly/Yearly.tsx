@@ -85,7 +85,6 @@ const Yearly = () => {
                         theType={type as InputOption}
                         item={data}
                         hideBtn
-                        hidePaidContent
                       >
                         <span className="subText">
                           View a detailed breakdown of this{" "}

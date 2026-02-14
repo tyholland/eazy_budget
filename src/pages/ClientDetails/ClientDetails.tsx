@@ -353,7 +353,7 @@ const ClientDetails = () => {
                             deleteEvent={() =>
                               handleDeleteEvent(currentItems, data)
                             }
-                            hidePaidContent={type === "income"}
+                            showPaidContent
                             openModal={isNewBudget}
                             index={i}
                           />

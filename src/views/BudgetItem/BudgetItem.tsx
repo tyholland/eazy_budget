@@ -42,7 +42,7 @@ interface BudgetItemProps {
   valuePlaceHolder?: string;
   inputType?: InputType;
   hideBtn?: boolean;
-  hidePaidContent?: boolean;
+  showPaidContent?: boolean;
   saveEvent?: (
     val: Object,
     data?: BudgetDataItem,
@@ -69,7 +69,7 @@ const BudgetItem = ({
   labelPlaceHolder = "",
   inputType = "text",
   hideBtn = false,
-  hidePaidContent = false,
+  showPaidContent = false,
   register,
   saveEvent,
   index,
@@ -268,7 +268,7 @@ const BudgetItem = ({
                   </button>
                 </div>
               </span>
-              {!hidePaidContent && (
+              {showPaidContent && (
                 <S.PaidSection className={checkedVal ? "green" : ""}>
                   {checkedVal ? <SaveIcon /> : <DisabledSaveIcon />} Paid
                 </S.PaidSection>
@@ -347,7 +347,7 @@ const BudgetItem = ({
                   <S.Total>
                     <span>Total {theType} amount:</span> {totalAmount}
                   </S.Total>
-                  {!hidePaidContent && (
+                  {showPaidContent && (
                     <CheckboxComponent
                       label="Paid"
                       isDisabled={false}

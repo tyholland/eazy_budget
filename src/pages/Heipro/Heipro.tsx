@@ -64,6 +64,7 @@ const Heipro = () => {
             <th>Phone</th>
             <th>Score</th>
             <th>Issues</th>
+            <th>Services</th>
           </tr>
         </thead>
         <tbody>
@@ -80,6 +81,7 @@ const Heipro = () => {
                 <td>{lead.phone}</td>
                 <td>{lead.score}</td>
                 <td>{lead.issues}</td>
+                <td>{lead.services}</td>
               </tr>
             ))}
         </tbody>

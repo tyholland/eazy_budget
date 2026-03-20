@@ -51,7 +51,9 @@ const Heipro = () => {
         placeholder="Enter city"
         onChange={(e) => setInputField("city", e)}
       />
-      <button onClick={fetchLeads}>Find Weak Marketing Leads</button>
+      <button onClick={fetchLeads} disabled={!industry || !city}>
+        Find Weak Marketing Leads
+      </button>
 
       {loading && <p>Loading...</p>}
 

@@ -23,6 +23,7 @@ import Partner from "./pages/Partner/Partner.tsx";
 import Client from "./pages/Client/Client.tsx";
 import ClientDetails from "./pages/ClientDetails/ClientDetails.tsx";
 import Setup from "./pages/Setup/Setup.tsx";
+import Heipro from "./pages/Heipro/Heipro.tsx";
 
 const App = () => {
   return (
@@ -76,6 +77,10 @@ const App = () => {
             <Route
               path="/account"
               element={<PrivateRoute component={Account} />}
+            />
+            <Route
+              path="/heipro"
+              element={<PrivateRoute component={Heipro} />}
             />
           </Routes>
           <Footer />

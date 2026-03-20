@@ -55,7 +55,7 @@ const Heipro = () => {
 
       {loading && <p>Loading...</p>}
 
-      <table cellPadding="10" style={{ marginTop: "20px" }}>
+      <table cellPadding="10" style={{ marginTop: "20px", textAlign: "left" }}>
         <thead>
           <tr>
             <th>Name</th>

@@ -11,8 +11,6 @@ import Login from "./pages/Login/Login.tsx";
 import Account from "./pages/Account/Account.tsx";
 import PastMonths from "./pages/PastMonths/PastMonths.tsx";
 import ShareAccount from "./pages/ShareAccount/ShareAccount.tsx";
-import Pricing from "./pages/Pricing/Pricing.tsx";
-import Subscription from "./pages/Subscription/Subscription.tsx";
 import Footer from "./views/Footer/Footer.tsx";
 import About from "./pages/About/About.tsx";
 import Contact from "./pages/Contact/Contact.tsx";
@@ -34,7 +32,6 @@ const App = () => {
           <Ad />
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/pricing" element={<Pricing />} />
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
@@ -59,10 +56,6 @@ const App = () => {
             <Route
               path="/account/share"
               element={<PrivateRoute component={ShareAccount} />}
-            />
-            <Route
-              path="/account/subscription"
-              element={<PrivateRoute component={Subscription} />}
             />
             <Route
               path="/account/categories"

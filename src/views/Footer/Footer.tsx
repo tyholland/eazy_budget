@@ -39,15 +39,6 @@ const Footer = () => {
         </Link>
         &#9679;
         <Link
-          url="/pricing"
-          label="Pricing"
-          linkSize="medium"
-          callBack={() => window.scrollTo(0, 0)}
-        >
-          Pricing
-        </Link>
-        &#9679;
-        <Link
           url="#"
           label="Download App"
           linkSize="medium"

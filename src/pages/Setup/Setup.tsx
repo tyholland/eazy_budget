@@ -11,7 +11,6 @@ import {
 import {
   checkIsExpiredSession,
   getDateInfo,
-  getSubscriptionStatus,
   loggedInHomepage,
 } from "../../functions/helper.ts";
 import Button from "../../components/Button/Button.tsx";
@@ -22,9 +21,7 @@ import { userAtom } from "../../hook/UserAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import SharedAccountMessage from "../../components/SharedAccountMessage/SharedAccountMessage.tsx";
 import { trackError, trackEvent } from "../../functions/mixpanel.ts";
-import PricingDetails from "../../views/PricingDetails/PricingDetails.tsx";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
-import ClientOption from "../../components/ClientOption/ClientOption.tsx";
 
 const Setup = () => {
   const [budget, setBudget] = useAtom(budgetAtom);
@@ -115,27 +112,6 @@ const Setup = () => {
     return <Loading />;
   }
 
-  const isOriginal = getSubscriptionStatus("OG", currentUser?.subscription_id);
-  const isTester = getSubscriptionStatus(
-    "Tester",
-    currentUser?.subscription_id,
-  );
-  const foreverFree = isOriginal || isTester;
-  const isPro =
-    getSubscriptionStatus("Pro", currentUser?.subscription_id) && !foreverFree;
-  const isStarter =
-    getSubscriptionStatus("Starter", currentUser?.subscription_id) &&
-    !foreverFree &&
-    !isPro;
-  const isClientPlan = getSubscriptionStatus(
-    "Client",
-    currentUser?.subscription_id,
-  );
-  const subOwesPayment = (isStarter || isPro) && !currentUser?.paid_sub;
-  const subIsAllSet = (!isStarter && !isPro) || !subOwesPayment;
-  const isPayingSubscriber = !hasBudgetItems && !!subOwesPayment;
-  const isNormalUser = !hasBudgetItems && subIsAllSet;
-
   if (!!budget.length) {
     window.location.href = loggedInHomepage(currentUser);
   }
@@ -143,7 +119,7 @@ const Setup = () => {
   return (
     <S.HomeWrapper>
       {hasMessage && <SharedAccountMessage setHasMessage={setHasMessage} />}
-      {!budget.length && isNormalUser && (
+      {!budget.length && (
         <SetupBudget
           month={currentMonth}
           year={currentYear}
@@ -159,25 +135,6 @@ const Setup = () => {
             </Button>
           </S.SubmitBudget>
         </SetupBudget>
-      )}
-      {!budget.length && isPayingSubscriber && (
-        <>
-          {!!isClientPlan && <ClientOption isPayPal />}
-          {!isClientPlan && (
-            <>
-              <div>
-                Kindly select and complete payment for your preferred
-                subscription plan. Alternatively, feel free to choose any option
-                that best fits your needs.
-              </div>
-              <PricingDetails
-                isPayPal
-                isSelectedPlan={plan || localStorage.getItem("plan")}
-                isHighlighted
-              />
-            </>
-          )}
-        </>
       )}
       <SessionExpired
         isOpen={isSessionExpired}

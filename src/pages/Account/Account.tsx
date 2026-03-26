@@ -11,7 +11,6 @@ import { incomeAtom } from "../../hook/IncomeAtom.ts";
 import { expenseAtom } from "../../hook/ExpenseAtom.ts";
 import Loading from "../../components/Loading/Loading.tsx";
 import {
-  cancelUserSub,
   deleteUser,
   removeSharedAccount,
   updateUserCurrency,
@@ -55,7 +54,6 @@ const Account = () => {
   const [currentUser, setCurrentUser] = useAtom(userAtom);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isSharedOpen, setIsSharedOpen] = useState<boolean>(false);
-  const [isCancelOpen, setIsCancelOpen] = useState<boolean>(false);
   const [isSubActive, setIsSubActive] = useState<boolean>(false);
   const [deleteError, setDeleteError] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -128,36 +126,6 @@ const Account = () => {
       }
     } catch (err) {
       trackError("Account - deleteAccount:", { result: err });
-
-      if (checkIsExpiredSession(err)) {
-        setIsSessionExpired(true);
-      }
-    }
-  };
-
-  const cancelSubscription = async () => {
-    try {
-      const accessToken = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: process.env.REACT_APP_AUDIENCE,
-        },
-      });
-
-      currentUser &&
-        setCurrentUser({
-          ...currentUser,
-          paid_sub: false,
-          subscription_id: 2,
-          paypal_sub_id: null,
-        });
-
-      await cancelUserSub(accessToken, {
-        paypal_sub: currentUser?.paypal_sub_id,
-      });
-      trackEvent("Cancel Subscription");
-      setIsCancelOpen(false);
-    } catch (err) {
-      trackError("Account - cancelSubscription:", { result: err });
 
       if (checkIsExpiredSession(err)) {
         setIsSessionExpired(true);
@@ -626,44 +594,6 @@ const Account = () => {
                     inputType="text"
                   />
                 </S.Section>
-                <S.Section>
-                  <Link url="/account/subscription" label="Plan Details">
-                    <div className="linkWrapper">
-                      <span>
-                        <ViewIcon />
-                        <span className="textContainer">
-                          <span>Plan Details</span>
-                          <span className="subText">
-                            See your subscription plan information
-                          </span>
-                        </span>
-                      </span>
-                      <ArrowIcon />
-                    </div>
-                  </Link>
-                </S.Section>
-                {!isOriginal && !isTester && (
-                  <S.Section>
-                    <Button
-                      handleClick={() => setIsCancelOpen(true)}
-                      buttonSize="medium"
-                      classType="text"
-                    >
-                      <div className="linkWrapper">
-                        <span>
-                          <RemoveAccountIcon />
-                          <span className="textContainer">
-                            <span>Cancel Plan</span>
-                            <span className="subText">
-                              End your current subscription plan
-                            </span>
-                          </span>
-                        </span>
-                        <ArrowIcon />
-                      </div>
-                    </Button>
-                  </S.Section>
-                )}
               </>
             )}
             <ModalComponent isOpen={isOpen} title={`Confirm Account Deletion`}>
@@ -734,26 +664,6 @@ const Account = () => {
                   <Button
                     buttonSize="small"
                     handleClick={() => setIsSharedOpen(false)}
-                  >
-                    No
-                  </Button>
-                </S.ModalBtn>
-              </S.ModalWrapper>
-            </ModalComponent>
-            <ModalComponent isOpen={isCancelOpen} title={`Confirm Cancel Plan`}>
-              <S.ModalWrapper>
-                <span>Are you sure you want to cancel your plan?</span>
-                <S.ModalBtn>
-                  <Button
-                    buttonSize="small"
-                    handleClick={cancelSubscription}
-                    classType="register"
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    buttonSize="small"
-                    handleClick={() => setIsCancelOpen(false)}
                   >
                     No
                   </Button>

@@ -42,8 +42,8 @@ const Login = () => {
         </S.Catchphrase>
         <img
           src="/images/homepage/header.png"
-          width="500px"
-          height="300px"
+          width="auto"
+          height="auto"
           alt="laptop and iphone of the monthly expense page"
           className="device"
         />
@@ -54,13 +54,15 @@ const Login = () => {
           complicated
         </h2>
         <S.PainPoint>
-          <img
-            src="/images/homepage/spreadsheets.png"
-            width="600px"
-            height="220px"
-            alt="pain points"
-            className="spreadsheet"
-          />
+          <div className="image">
+            <img
+              src="/images/homepage/spreadsheets.png"
+              width="auto"
+              height="auto"
+              alt="pain points"
+              className="spreadsheet"
+            />
+          </div>
           <div className="solution">
             <img
               src="/images/homepage/control.png"
@@ -93,8 +95,8 @@ const Login = () => {
           <div className="section">
             <img
               src="/images/homepage/create.png"
-              width="350px"
-              height="230px"
+              width="auto"
+              height="auto"
               alt="Add your income & expenses"
             />
             <div className="stepSection">
@@ -105,8 +107,8 @@ const Login = () => {
           <div className="section">
             <img
               src="/images/homepage/financial-picture.png"
-              width="350px"
-              height="230px"
+              width="auto"
+              height="auto"
               alt="See your full financial breakdown"
             />
             <div className="stepSection">
@@ -117,8 +119,8 @@ const Login = () => {
           <div className="section">
             <img
               src="/images/homepage/progress.png"
-              width="350px"
-              height="230px"
+              width="auto"
+              height="auto"
               alt="Track your progress"
             />
             <div className="stepSection">
@@ -143,8 +145,8 @@ const Login = () => {
       <S.SplitSection>
         <img
           src="/images/homepage/when-you-know.png"
-          width="600px"
-          height="390px"
+          width="auto"
+          height="auto"
           alt="when you know where your money goes"
           className="money"
         />

@@ -25,6 +25,9 @@ export const HeaderWrapper = styled.div`
 `;
 
 export const Title = styled.div`
+  font-family: ${COSMIC};
+  font-weight: 700;
+
   a.text {
     font-family: ${COSMIC};
     font-style: italic;

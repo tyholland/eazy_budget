@@ -70,7 +70,8 @@ export const Section = styled.div`
   }
 
   .device {
-    width: 500px;
+    width: 50%;
+    max-width: 500px;
     margin: 0 auto;
 
     @media only screen and (max-width: 800px) {
@@ -107,7 +108,7 @@ export const Section = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px 30px;
+    padding: 1% 1% 3%;
 
     h2 {
       text-align: center;
@@ -156,9 +157,9 @@ export const PainPoint = styled.div`
     gap: 20px;
     box-shadow: 0 5px 10px ${GRAY};
     border-radius: 10px;
-    padding: 10px 20px;
-    height: 200px;
-    width: 430px;
+    padding: 12px 20px;
+    height: auto;
+    width: 50%;
 
     @media only screen and (max-width: 800px) {
       flex-direction: column-reverse;
@@ -173,18 +174,24 @@ export const PainPoint = styled.div`
       box-shadow: -5px 5px 5px ${GRAY};
 
       @media only screen and (max-width: 800px) {
-        width: 100%;
+        width: 75%;
         height: auto;
       }
     }
   }
 
-  .spreadsheet {
-    border-radius: 10px;
+  .image {
+    width: 100%;
+    max-width: 630px;
 
-    @media only screen and (max-width: 800px) {
+    .spreadsheet {
       width: 100%;
-      height: auto;
+      border-radius: 10px;
+
+      @media only screen and (max-width: 800px) {
+        width: 100%;
+        height: auto;
+      }
     }
   }
 `;
@@ -213,6 +220,8 @@ export const Steps = styled.div`
   }
 
   img {
+    width: 100%;
+    max-width: 350px;
     border-radius: 10px;
     box-shadow: -5px 5px 5px ${GRAY};
   }
@@ -256,10 +265,30 @@ export const Upgrade = styled.div`
 
 export const SplitSection = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   gap: 20px;
+
+  .money {
+    width: 50%;
+    max-width: 600px;
+
+    @media only screen and (max-width: 800px) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .upgrade {
+    width: 45%;
+    max-width: 515px;
+
+    @media only screen and (max-width: 800px) {
+      width: 98%;
+      max-width: none;
+    }
+  }
 
   @media only screen and (max-width: 800px) {
     flex-direction: column;

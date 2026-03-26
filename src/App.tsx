@@ -19,7 +19,6 @@ import Contact from "./pages/Contact/Contact.tsx";
 import Privacy from "./pages/Privacy/Privacy.tsx";
 import Category from "./pages/Category/Category.tsx";
 import Ad from "./components/Ad/Ad.tsx";
-import Partner from "./pages/Partner/Partner.tsx";
 import Client from "./pages/Client/Client.tsx";
 import ClientDetails from "./pages/ClientDetails/ClientDetails.tsx";
 import Setup from "./pages/Setup/Setup.tsx";
@@ -39,7 +38,6 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/partner" element={<Partner />} />
             <Route path="/client" element={<Client />} />
             <Route path="/setup" element={<PrivateRoute component={Setup} />} />
             <Route

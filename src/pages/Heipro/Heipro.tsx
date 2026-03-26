@@ -151,9 +151,19 @@ const Heipro = () => {
   const isIndustryActive = !!industry.length && !!city && !!state.length;
   const isBusinessActive = !!business && !!city && !!state.length;
 
+  let count: number = 0;
+
+  if (isIndustryActive) {
+    count += 3;
+  }
+
+  if (isBusinessActive) {
+    count += 3;
+  }
+
   return (
     <div>
-      <h1>HeiPro Lead Engine</h1>
+      <h1>Lead Generation Tool</h1>
 
       <div>
         <S.SearchWrapper>
@@ -163,6 +173,7 @@ const Heipro = () => {
               <option value={item}>{item}</option>
             ))}
           </S.Select>
+          <div>or</div>
           <S.Input
             type="text"
             placeholder="Enter Business Name"
@@ -184,10 +195,7 @@ const Heipro = () => {
           </S.Select>
         </S.SearchWrapper>
         <div></div>
-        <S.Button
-          onClick={fetchLeads}
-          disabled={!isIndustryActive && !isBusinessActive}
-        >
+        <S.Button onClick={fetchLeads} disabled={count < 3}>
           Find Weak Marketing Leads
         </S.Button>
       </div>

@@ -44,6 +44,7 @@ export const SearchWrapper = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+  align-items: center;
 `;
 
 export const Button = styled.button`

@@ -216,6 +216,9 @@ const Heipro = () => {
                 </a>
               </div>
               <div>
+                <strong>Tech Stack:</strong> {lead.tech}
+              </div>
+              <div>
                 <strong>Email:</strong> {lead.email}
               </div>
               <div>

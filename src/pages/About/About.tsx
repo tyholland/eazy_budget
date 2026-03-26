@@ -5,7 +5,7 @@ const About = () => {
   return (
     <S.Wrapper>
       <div>
-        At <strong>Simple Budgeting</strong>, we believe managing your money
+        At <strong>HeiPro Digital</strong>, we believe managing your money
         shouldn't be overwhelming. That's why we built a platform that makes
         budgeting <strong>simple, visual, and stress-free</strong> — so you can
         focus on what matters most in your life.
@@ -32,8 +32,8 @@ const About = () => {
         </ul>
         <div>
           Whether you're a student, freelancer, parent, or just tired of
-          budgeting with pen and paper every month — Simple Budgeting is built
-          for <strong>you</strong>.
+          budgeting with pen and paper every month — HeiPro Digital is built for{" "}
+          <strong>you</strong>.
         </div>
       </S.Section>
 
@@ -56,7 +56,7 @@ const About = () => {
       </S.Section>
 
       <S.Section>
-        <S.Title>What Makes Simple Budgeting Different?</S.Title>
+        <S.Title>What Makes HeiPro Digital Different?</S.Title>
         <ul>
           <li>No confusing dashboards</li>
           <li>No forced budgeting "systems"</li>

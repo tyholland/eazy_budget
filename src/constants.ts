@@ -212,7 +212,7 @@ export const frequencyShortHandMap = (freq: string) => {
   }
 };
 
-export const emailAddress = "info.simplebudget@gmail.com";
+export const emailAddress = "partnerships@heiprodigital.com";
 
 export const nonPrivatePages = [
   "/pricing",
@@ -220,7 +220,7 @@ export const nonPrivatePages = [
   "/privacy",
   "/contact",
   "/client",
-  "/partner",
+  "/heipro",
 ];
 
 export const noBreadCrumbList = ["/", "/setup", ...nonPrivatePages];

@@ -7,7 +7,7 @@ export const CardWrapper = styled.div`
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
-  margin-top: 20px;
+  margin: 30px 0;
 `;
 
 export const Card = styled.div`

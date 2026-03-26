@@ -10,7 +10,7 @@ const Privacy = () => {
           <strong>Effective Date</strong>: July 7, 2025
         </div>
         <div>
-          At <strong>Simple Budgeting</strong>, your privacy is important to us.
+          At <strong>HeiPro Digital</strong>, your privacy is important to us.
           This Privacy Policy explains how we collect, use, protect, and share
           your information when you visit or use our website.
         </div>

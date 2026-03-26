@@ -51,6 +51,7 @@ const Header = () => {
           >
             Simple Budgeting
           </Link>
+          <div>HeiPro Digital</div>
         </S.Title>
         <S.HeaderLinks>
           {user?.picture ? (
@@ -71,21 +72,12 @@ const Header = () => {
               </Link>
             </>
           ) : (
-            <>
-              <Link
-                url={"/partner"}
-                label={"Partner with Us"}
-                classType="partner"
-              >
-                Partner with Us
-              </Link>
-              <Button classType="text" handleClick={loginWithRedirect}>
-                <>
-                  <UserIcon />
-                  Sign In
-                </>
-              </Button>
-            </>
+            <Button classType="text" handleClick={loginWithRedirect}>
+              <>
+                <UserIcon />
+                Sign In
+              </>
+            </Button>
           )}
         </S.HeaderLinks>
       </S.HeaderWrapper>

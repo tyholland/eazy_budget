@@ -39,15 +39,6 @@ const Footer = () => {
         </Link>
         &#9679;
         <Link
-          url="/pricing"
-          label="Pricing"
-          linkSize="medium"
-          callBack={() => window.scrollTo(0, 0)}
-        >
-          Pricing
-        </Link>
-        &#9679;
-        <Link
           url="#"
           label="Download App"
           linkSize="medium"
@@ -74,7 +65,7 @@ const Footer = () => {
           Contact Us
         </Link>
       </S.Links>
-      <S.Copyright>&copy; {year} Simple Budgeting</S.Copyright>
+      <S.Copyright>&copy; {year} HeiPro Digital</S.Copyright>
       <S.Links>
         <Link
           url="https://www.facebook.com/people/Simple-Budgeting/61579168717987/"

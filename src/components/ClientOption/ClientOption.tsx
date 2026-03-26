@@ -2,59 +2,11 @@ import React, { useState } from "react";
 import * as S from "./clientOption.style.ts";
 import Button from "../../components/Button/Button.tsx";
 import { useAuth0 } from "@auth0/auth0-react";
-import PaypalBtn from "../../components/PaypalBtn/PaypalBtn.tsx";
-import { trackError } from "../../functions/mixpanel.ts";
-import { updateUserSub } from "../../requests/users.ts";
-import { useAtom } from "jotai";
-import { userAtom } from "../../hook/UserAtom.ts";
 import SessionExpired from "../../components/SessionExpired/SessionExpired.tsx";
-import { checkIsExpiredSession } from "../../functions/helper.ts";
 
-interface ClientOptionProps {
-  isPayPal?: boolean;
-}
-
-const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
-  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
+const ClientOption = () => {
+  const { loginWithRedirect } = useAuth0();
   const [isSessionExpired, setIsSessionExpired] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useAtom(userAtom);
-
-  const updateSubscription = async (
-    plan: number,
-    paid: boolean,
-    sub_id?: string | null,
-  ) => {
-    try {
-      const accessToken = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: process.env.REACT_APP_AUDIENCE,
-        },
-      });
-
-      currentUser &&
-        setCurrentUser({
-          ...currentUser,
-          paid_sub: paid,
-          subscription_id: plan,
-          paypal_sub_id: sub_id,
-          subscribed_at: new Date(Date.now()).toISOString(),
-        });
-
-      localStorage.removeItem("plan");
-      localStorage.removeItem("referral_code");
-      await updateUserSub(accessToken, {
-        plan,
-        paid,
-        paypal_sub: sub_id,
-      });
-    } catch (err) {
-      trackError("Client - updateSubscription:", { result: err });
-
-      if (checkIsExpiredSession(err)) {
-        setIsSessionExpired(true);
-      }
-    }
-  };
 
   return (
     <S.Container>
@@ -71,34 +23,23 @@ const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
           </S.Price>
         </div>
         <div>
-          {!isPayPal && (
-            <S.SubscribeBtn>
-              <Button
-                handleClick={() =>
-                  loginWithRedirect({
-                    appState: {
-                      returnTo: `/setup?plan=9`,
-                    },
-                    authorizationParams: {
-                      screen_hint: "signup",
-                    },
-                  })
-                }
-                buttonSize="medium"
-              >
-                Sign Up
-              </Button>
-            </S.SubscribeBtn>
-          )}
-          {isPayPal && (
-            <S.SubscribeBtn className="paypal">
-              <PaypalBtn
-                sub="P-28018484HA158741AND42KHQ"
-                addSub={updateSubscription}
-                planNum={9}
-              />
-            </S.SubscribeBtn>
-          )}
+          <S.SubscribeBtn>
+            <Button
+              handleClick={() =>
+                loginWithRedirect({
+                  appState: {
+                    returnTo: `/setup?plan=9`,
+                  },
+                  authorizationParams: {
+                    screen_hint: "signup",
+                  },
+                })
+              }
+              buttonSize="medium"
+            >
+              Sign Up
+            </Button>
+          </S.SubscribeBtn>
         </div>
       </S.Wrapper>
       <ul>
@@ -143,34 +84,23 @@ const ClientOption = ({ isPayPal = false }: ClientOptionProps) => {
           financial tracking
         </li>
       </ul>
-      {!isPayPal && (
-        <S.SubscribeBtn>
-          <Button
-            handleClick={() =>
-              loginWithRedirect({
-                appState: {
-                  returnTo: `/setup?plan=9`,
-                },
-                authorizationParams: {
-                  screen_hint: "signup",
-                },
-              })
-            }
-            buttonSize="medium"
-          >
-            Sign Up
-          </Button>
-        </S.SubscribeBtn>
-      )}
-      {isPayPal && (
-        <S.SubscribeBtn className="paypal">
-          <PaypalBtn
-            sub="P-28018484HA158741AND42KHQ"
-            addSub={updateSubscription}
-            planNum={9}
-          />
-        </S.SubscribeBtn>
-      )}
+      <S.SubscribeBtn>
+        <Button
+          handleClick={() =>
+            loginWithRedirect({
+              appState: {
+                returnTo: `/setup?plan=9`,
+              },
+              authorizationParams: {
+                screen_hint: "signup",
+              },
+            })
+          }
+          buttonSize="medium"
+        >
+          Sign Up
+        </Button>
+      </S.SubscribeBtn>
       <SessionExpired
         isOpen={isSessionExpired}
         closeModal={setIsSessionExpired}

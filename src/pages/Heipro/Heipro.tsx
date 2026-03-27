@@ -28,12 +28,8 @@ const Heipro = () => {
 
       const res = await getClientDetails(
         accessToken,
-        hasBoth
-          ? `${industry} + ${business}`
-          : hasIndustry
-            ? industry
-            : business,
-        `${city} + ${state}`,
+        hasBoth ? `${industry} ${business}` : hasIndustry ? industry : business,
+        `${city} ${state}`,
       );
 
       setLeads(res);

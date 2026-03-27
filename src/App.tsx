@@ -36,6 +36,7 @@ const App = () => {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/client" element={<Client />} />
+            <Route path="/heipro" element={<Heipro />} />
             <Route path="/setup" element={<PrivateRoute component={Setup} />} />
             <Route
               path="/monthly/:type/:month/:year"
@@ -68,10 +69,6 @@ const App = () => {
             <Route
               path="/account"
               element={<PrivateRoute component={Account} />}
-            />
-            <Route
-              path="/heipro"
-              element={<PrivateRoute component={Heipro} />}
             />
           </Routes>
           <Footer />

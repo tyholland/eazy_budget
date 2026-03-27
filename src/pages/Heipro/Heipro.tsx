@@ -1,33 +1,40 @@
 import React, { ChangeEvent, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getClientDetails } from "../../requests/heipro.ts";
+import {
+  getClientDetails,
+  getSpecificLeadDetails,
+} from "../../requests/heipro.ts";
 import { trackError } from "../../functions/mixpanel.ts";
 import * as S from "./heipro.style.ts";
+import ModalComponent from "../../components/Modal/Modal.tsx";
+import Button from "../../components/Button/Button.tsx";
+
+type Lead = {
+  email: string;
+  score: number;
+  issues: string;
+  services: string;
+  tech: string;
+};
 
 const Heipro = () => {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [modalLoading, setModalLoading] = useState<boolean>(false);
   const [industry, setIndustry] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [business, setBusiness] = useState<string>("");
-  const { getAccessTokenSilently } = useAuth0();
+  const [leadClient, setLeadClient] = useState<boolean>(false);
+  const [leadData, setLeadData] = useState<Lead | undefined>(undefined);
 
   const fetchLeads = async () => {
     setLoading(true);
     try {
-      const accessToken = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: process.env.REACT_APP_AUDIENCE,
-        },
-      });
-
       const hasIndustry = !!industry.length;
       const hasBusiness = !!business;
       const hasBoth = hasIndustry && hasBusiness;
 
       const res = await getClientDetails(
-        accessToken,
         hasBoth ? `${industry} ${business}` : hasIndustry ? industry : business,
         `${city} ${state}`,
       );
@@ -54,6 +61,16 @@ const Heipro = () => {
     } else {
       setState(e.target.value);
     }
+  };
+
+  const getLeadDetails = async (url: string) => {
+    setModalLoading(true);
+    setLeadClient(true);
+
+    const res = await getSpecificLeadDetails(url);
+
+    setLeadData(res);
+    setModalLoading(false);
   };
 
   const industries = [
@@ -166,7 +183,9 @@ const Heipro = () => {
           <S.Select onChange={(e) => setSelectField("industry", e)}>
             <option value="">Select Industry</option>
             {industries.map((item) => (
-              <option value={item}>{item}</option>
+              <option value={item} key={item}>
+                {item}
+              </option>
             ))}
           </S.Select>
           <div>or</div>
@@ -186,11 +205,12 @@ const Heipro = () => {
           <S.Select onChange={(e) => setSelectField("state", e)}>
             <option value="">Select State</option>
             {states.map((item) => (
-              <option value={item}>{item}</option>
+              <option value={item} key={item}>
+                {item}
+              </option>
             ))}
           </S.Select>
         </S.SearchWrapper>
-        <div></div>
         <S.Button onClick={fetchLeads} disabled={count < 3}>
           Find Weak Marketing Leads
         </S.Button>
@@ -213,28 +233,52 @@ const Heipro = () => {
                   </a>
                 </div>
                 <div>
-                  <strong>Tech Stack:</strong> {lead.tech}
-                </div>
-                <div>
-                  <strong>Email:</strong> {lead.email}
-                </div>
-                <div>
                   <strong>Phone:</strong> {lead.phone}
                 </div>
-                <div>
-                  <strong>Score:</strong> {lead.score} / 100
-                </div>
-                <div>
-                  <strong>Homepage Issues:</strong> {lead.issues}
-                </div>
-                <div>
-                  <strong>Services to Recommend:</strong> {lead.services}
-                </div>
+                <S.Button onClick={() => getLeadDetails(lead.website)}>
+                  View Details
+                </S.Button>
               </S.Card>
             ))}
           {!leads.length && <div>No Leads</div>}
         </S.CardWrapper>
       )}
+
+      <ModalComponent isOpen={leadClient} title="Lead Details" size="medium">
+        <>
+          {modalLoading && <div>Still loading details...</div>}
+          {!modalLoading && (
+            <>
+              <S.ModalWrapper>
+                <div>
+                  <strong>Tech Stack:</strong> {leadData?.tech}
+                </div>
+                <div>
+                  <strong>Email:</strong> {leadData?.email}
+                </div>
+                <div>
+                  <strong>Score:</strong> {leadData?.score} / 100
+                </div>
+                <div>
+                  <strong>Homepage Issues:</strong> {leadData?.issues}
+                </div>
+                <div>
+                  <strong>Services to Recommend:</strong> {leadData?.services}
+                </div>
+              </S.ModalWrapper>
+              <S.ModalBtn>
+                <Button
+                  buttonSize="small"
+                  handleClick={() => setLeadClient(false)}
+                  classType="exit"
+                >
+                  Close
+                </Button>
+              </S.ModalBtn>
+            </>
+          )}
+        </>
+      </ModalComponent>
     </div>
   );
 };

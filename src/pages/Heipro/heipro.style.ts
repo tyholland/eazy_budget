@@ -52,3 +52,20 @@ export const Button = styled.button`
   border-radius: 5px;
   border: 1px solid ${BLACK};
 `;
+
+export const ModalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  strong {
+    font-weight: 700;
+  }
+`;
+
+export const ModalBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+`;

@@ -248,35 +248,33 @@ const Heipro = () => {
         <>
           {modalLoading && <div>Still loading details...</div>}
           {!modalLoading && (
-            <>
-              <S.ModalWrapper>
-                <div>
-                  <strong>Tech Stack:</strong> {leadData?.tech}
-                </div>
-                <div>
-                  <strong>Email:</strong> {leadData?.email}
-                </div>
-                <div>
-                  <strong>Score:</strong> {leadData?.score} / 100
-                </div>
-                <div>
-                  <strong>Homepage Issues:</strong> {leadData?.issues}
-                </div>
-                <div>
-                  <strong>Services to Recommend:</strong> {leadData?.services}
-                </div>
-              </S.ModalWrapper>
-              <S.ModalBtn>
-                <Button
-                  buttonSize="small"
-                  handleClick={() => setLeadClient(false)}
-                  classType="exit"
-                >
-                  Close
-                </Button>
-              </S.ModalBtn>
-            </>
+            <S.ModalWrapper>
+              <div>
+                <strong>Tech Stack:</strong> {leadData?.tech}
+              </div>
+              <div>
+                <strong>Email:</strong> {leadData?.email}
+              </div>
+              <div>
+                <strong>Score:</strong> {leadData?.score} / 100
+              </div>
+              <div>
+                <strong>Homepage Issues:</strong> {leadData?.issues}
+              </div>
+              <div>
+                <strong>Services to Recommend:</strong> {leadData?.services}
+              </div>
+            </S.ModalWrapper>
           )}
+          <S.ModalBtn>
+            <Button
+              buttonSize="small"
+              handleClick={() => setLeadClient(false)}
+              classType="exit"
+            >
+              Close
+            </Button>
+          </S.ModalBtn>
         </>
       </ModalComponent>
     </div>

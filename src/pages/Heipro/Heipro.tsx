@@ -202,40 +202,43 @@ const Heipro = () => {
 
       {loading && <p>Loading...</p>}
 
-      <S.CardWrapper>
-        {leads &&
-          leads.map((lead, index) => (
-            <S.Card key={index}>
-              <div>
-                <strong>Name:</strong> {lead.name}
-              </div>
-              <div>
-                <strong>Website:</strong>&nbsp;
-                <a href={lead.website} target="_blank" rel="noreferrer">
-                  Visit
-                </a>
-              </div>
-              <div>
-                <strong>Tech Stack:</strong> {lead.tech}
-              </div>
-              <div>
-                <strong>Email:</strong> {lead.email}
-              </div>
-              <div>
-                <strong>Phone:</strong> {lead.phone}
-              </div>
-              <div>
-                <strong>Score:</strong> {lead.score} / 100
-              </div>
-              <div>
-                <strong>Homepage Issues:</strong> {lead.issues}
-              </div>
-              <div>
-                <strong>Services to Recommend:</strong> {lead.services}
-              </div>
-            </S.Card>
-          ))}
-      </S.CardWrapper>
+      {!loading && (
+        <S.CardWrapper>
+          {leads &&
+            leads.map((lead, index) => (
+              <S.Card key={index}>
+                <div>
+                  <strong>Name:</strong> {lead.name}
+                </div>
+                <div>
+                  <strong>Website:</strong>&nbsp;
+                  <a href={lead.website} target="_blank" rel="noreferrer">
+                    Visit
+                  </a>
+                </div>
+                <div>
+                  <strong>Tech Stack:</strong> {lead.tech}
+                </div>
+                <div>
+                  <strong>Email:</strong> {lead.email}
+                </div>
+                <div>
+                  <strong>Phone:</strong> {lead.phone}
+                </div>
+                <div>
+                  <strong>Score:</strong> {lead.score} / 100
+                </div>
+                <div>
+                  <strong>Homepage Issues:</strong> {lead.issues}
+                </div>
+                <div>
+                  <strong>Services to Recommend:</strong> {lead.services}
+                </div>
+              </S.Card>
+            ))}
+          {!leads.length && <div>No Leads</div>}
+        </S.CardWrapper>
+      )}
     </div>
   );
 };

@@ -1,12 +1,14 @@
 import React, { ChangeEvent, useState } from "react";
 import {
   getClientDetails,
+  getMultiLeadDetails,
   getSpecificLeadDetails,
 } from "../../requests/heipro.ts";
 import { trackError } from "../../functions/mixpanel.ts";
 import * as S from "./heipro.style.ts";
 import ModalComponent from "../../components/Modal/Modal.tsx";
 import Button from "../../components/Button/Button.tsx";
+import CsvDownloadButton from "react-json-to-csv";
 
 type Lead = {
   email: string;
@@ -14,6 +16,7 @@ type Lead = {
   issues: string;
   services: string;
   tech: string;
+  url?: string;
 };
 
 const Heipro = () => {
@@ -26,9 +29,14 @@ const Heipro = () => {
   const [business, setBusiness] = useState<string>("");
   const [leadClient, setLeadClient] = useState<boolean>(false);
   const [leadData, setLeadData] = useState<Lead | undefined>(undefined);
+  const [triggerLoad, setTriggerLoad] = useState<boolean>(false);
+  const [allClientData, setAllClientData] = useState<Lead[] | undefined>(
+    undefined,
+  );
 
   const fetchLeads = async () => {
     setLoading(true);
+    setAllClientData(undefined);
     try {
       const hasIndustry = !!industry.length;
       const hasBusiness = !!business;
@@ -71,6 +79,25 @@ const Heipro = () => {
 
     setLeadData(res);
     setModalLoading(false);
+  };
+
+  const getMultiLeads = async () => {
+    try {
+      setTriggerLoad(true);
+      const allLeads: string[] = [];
+
+      leads &&
+        leads.forEach((item) => {
+          allLeads.push(item.website);
+        });
+
+      const res = await getMultiLeadDetails(allLeads);
+
+      setAllClientData(res);
+      setTriggerLoad(false);
+    } catch {
+      setTriggerLoad(false);
+    }
   };
 
   const industries = [
@@ -195,7 +222,6 @@ const Heipro = () => {
             onChange={(e) => setInputField("business", e)}
           />
         </S.SearchWrapper>
-
         <S.SearchWrapper>
           <S.Input
             type="text"
@@ -211,9 +237,35 @@ const Heipro = () => {
             ))}
           </S.Select>
         </S.SearchWrapper>
-        <S.Button onClick={fetchLeads} disabled={count < 3}>
-          Find Weak Marketing Leads
-        </S.Button>
+        <S.SearchWrapper>
+          <S.Button onClick={fetchLeads} disabled={count < 3}>
+            Find Weak Marketing Leads
+          </S.Button>
+          {!allClientData && (
+            <S.Button
+              onClick={getMultiLeads}
+              disabled={!leads.length || triggerLoad}
+            >
+              Get Data for CSV
+            </S.Button>
+          )}
+          {allClientData && (
+            <CsvDownloadButton
+              data={allClientData}
+              headers={[
+                "Email",
+                "Score",
+                "Issues",
+                "Services",
+                "Tech Stack",
+                "URL",
+              ]}
+              filename="clientData"
+            >
+              Download CSV
+            </CsvDownloadButton>
+          )}
+        </S.SearchWrapper>
       </div>
 
       {loading && <p>Loading...</p>}

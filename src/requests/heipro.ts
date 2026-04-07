@@ -26,3 +26,19 @@ export const getSpecificLeadDetails = async (url: string) => {
     throw new Error(`Failed to get lead details`);
   }
 };
+
+export const getMultiLeadDetails = async (urlArr: string[]) => {
+  try {
+    const multiResponse = await fetch(`${api}/heipro/multi`, {
+      method: "POST",
+      body: JSON.stringify({ urlArr }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    return await multiResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to get multi client details`);
+  }
+};

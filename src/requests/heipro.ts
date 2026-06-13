@@ -1,3 +1,5 @@
+import { EmailBlock } from "../types";
+
 const api = process.env.REACT_APP_API;
 
 export const getClientDetails = async (industry: string, city: string) => {
@@ -40,5 +42,21 @@ export const getMultiLeadDetails = async (urlArr: string[]) => {
     return await multiResponse.json();
   } catch (err) {
     throw new Error(`Failed to get multi client details`);
+  }
+};
+
+export const sendEmail = async (msg: EmailBlock) => {
+  try {
+    const emailResponse = await fetch(`${api}/heipro/send-email`, {
+      method: "POST",
+      body: JSON.stringify({ msg }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    return await emailResponse.json();
+  } catch (err) {
+    throw new Error(`Failed to send email`);
   }
 };

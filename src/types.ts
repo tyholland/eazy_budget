@@ -159,3 +159,9 @@ export interface ProfitLoss {
   percent: string;
   type: string;
 }
+
+export interface EmailBlock {
+  to: string;
+  subject: string;
+  body: string;
+}

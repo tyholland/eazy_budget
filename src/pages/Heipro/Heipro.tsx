@@ -1,38 +1,14 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  getClientDetails,
-  getMultiLeadDetails,
-  getSpecificLeadDetails,
-} from "../../requests/heipro.ts";
+import React, { ChangeEvent, useState } from "react";
 import { trackError } from "../../functions/mixpanel.ts";
 import * as S from "./heipro.style.ts";
-import ModalComponent from "../../components/Modal/Modal.tsx";
-import Button from "../../components/Button/Button.tsx";
-import CsvDownloadButton from "react-json-to-csv";
-
-type Lead = {
-  email: string;
-  score: number;
-  issues: string;
-  services: string;
-  tech: string;
-  url?: string;
-};
 
 const Heipro = () => {
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [modalLoading, setModalLoading] = useState<boolean>(false);
   const [industry, setIndustry] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [business, setBusiness] = useState<string>("");
-  const [leadClient, setLeadClient] = useState<boolean>(false);
-  const [leadData, setLeadData] = useState<Lead | undefined>(undefined);
-  const [triggerLoad, setTriggerLoad] = useState<boolean>(false);
-  const [allClientData, setAllClientData] = useState<Lead[] | undefined>(
-    undefined,
-  );
 
   const getCoordinates = async (city: string, state: string) => {
     const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
@@ -114,12 +90,7 @@ const Heipro = () => {
 
   const fetchLeads = async () => {
     setLoading(true);
-    setAllClientData(undefined);
     try {
-      const hasIndustry = !!industry.length;
-      const hasBusiness = !!business;
-      const hasBoth = hasIndustry && hasBusiness;
-
       const res = await searchBusinesses(
         city.toLowerCase(),
         state.toLocaleLowerCase(),
@@ -150,35 +121,6 @@ const Heipro = () => {
       setIndustry(e.target.value);
     } else {
       setState(e.target.value);
-    }
-  };
-
-  const getLeadDetails = async (url: string) => {
-    setModalLoading(true);
-    setLeadClient(true);
-
-    const res = await getSpecificLeadDetails(url);
-
-    setLeadData(res);
-    setModalLoading(false);
-  };
-
-  const getMultiLeads = async () => {
-    try {
-      setTriggerLoad(true);
-      const allLeads: string[] = [];
-
-      leads &&
-        leads.forEach((item) => {
-          allLeads.push(item.website);
-        });
-
-      const res = await getMultiLeadDetails(allLeads);
-
-      setAllClientData(res);
-      setTriggerLoad(false);
-    } catch {
-      setTriggerLoad(false);
     }
   };
 
@@ -264,12 +206,6 @@ const Heipro = () => {
               </option>
             ))}
           </S.Select>
-          {/* <div>or</div>
-          <S.Input
-            type="text"
-            placeholder="Enter Business Name"
-            onChange={(e) => setInputField("business", e)}
-          /> */}
         </S.SearchWrapper>
         <S.SearchWrapper>
           <S.Input
@@ -290,30 +226,6 @@ const Heipro = () => {
           <S.Button onClick={fetchLeads} disabled={count < 3}>
             Find Marketing Leads
           </S.Button>
-          {/* {!allClientData && (
-            <S.Button
-              onClick={getMultiLeads}
-              disabled={!leads.length || triggerLoad}
-            >
-              Get Data for CSV
-            </S.Button>
-          )}
-          {allClientData && (
-            <CsvDownloadButton
-              data={allClientData}
-              headers={[
-                "Email",
-                "Score",
-                "Issues",
-                "Services",
-                "Tech Stack",
-                "URL",
-              ]}
-              filename="clientData"
-            >
-              Download CSV
-            </CsvDownloadButton>
-          )} */}
         </S.SearchWrapper>
       </div>
 
@@ -342,48 +254,11 @@ const Heipro = () => {
                 <div>
                   <strong>Address:</strong> {lead.address}
                 </div>
-                {/* <S.Button onClick={() => getLeadDetails(lead.website)}>
-                  View Details
-                </S.Button> */}
               </S.Card>
             ))}
           {!leads.length && <div>No Leads</div>}
         </S.CardWrapper>
       )}
-
-      <ModalComponent isOpen={leadClient} title="Lead Details" size="medium">
-        <>
-          {modalLoading && <div>Still loading details...</div>}
-          {!modalLoading && (
-            <S.ModalWrapper>
-              <div>
-                <strong>Tech Stack:</strong> {leadData?.tech}
-              </div>
-              <div>
-                <strong>Email:</strong> {leadData?.email}
-              </div>
-              <div>
-                <strong>Score:</strong> {leadData?.score} / 100
-              </div>
-              <div>
-                <strong>Homepage Issues:</strong> {leadData?.issues}
-              </div>
-              <div>
-                <strong>Services to Recommend:</strong> {leadData?.services}
-              </div>
-            </S.ModalWrapper>
-          )}
-          <S.ModalBtn>
-            <Button
-              buttonSize="small"
-              handleClick={() => setLeadClient(false)}
-              classType="exit"
-            >
-              Close
-            </Button>
-          </S.ModalBtn>
-        </>
-      </ModalComponent>
     </div>
   );
 };

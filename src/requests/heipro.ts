@@ -1,24 +1,5 @@
 const api = process.env.REACT_APP_API;
 
-export const getClientDetails = async (
-  tagValue: string,
-  city: string,
-  state: string,
-) => {
-  try {
-    const clientResponse = await fetch(
-      `${api}/heipro?tagValue=${tagValue}&city=${city}&state=${state}`,
-      {
-        method: "GET",
-      },
-    );
-
-    return await clientResponse.json();
-  } catch (err) {
-    throw new Error(`Failed to get client data`);
-  }
-};
-
 export const getSpecificLeadDetails = async (url: string) => {
   try {
     const leadResponse = await fetch(`${api}/heipro/details?url=${url}`, {

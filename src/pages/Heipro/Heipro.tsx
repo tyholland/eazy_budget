@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   getClientDetails,
   getMultiLeadDetails,
@@ -34,6 +34,84 @@ const Heipro = () => {
     undefined,
   );
 
+  const getCoordinates = async (city: string, state: string) => {
+    const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
+      city,
+    )}&state=${encodeURIComponent(state)}&format=jsonv2&limit=1`;
+
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent": "MyApp/1.0 (your@email.com)",
+      },
+    });
+
+    const results = await response.json();
+
+    if (!results.length) return null;
+
+    return {
+      lat: results[0].lat,
+      lon: results[0].lon,
+    };
+  };
+
+  const searchBusinesses = async (
+    city: string,
+    state: string,
+    tagValue: string,
+  ) => {
+    const coord = await getCoordinates(city, state);
+    const radius = 10000;
+
+    if (!coord) return null;
+
+    const query = `
+      [out:json][timeout:60];
+
+      (
+        node["${tagValue}"](around:${radius},${coord.lat},${coord.lon});
+        way["${tagValue}"](around:${radius},${coord.lat},${coord.lon});
+        relation["${tagValue}"](around:${radius},${coord.lat},${coord.lon});
+      );
+
+      out center tags;
+    `;
+
+    const response = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      body: query,
+    });
+
+    const data = await response.json();
+    const companies: any = [];
+
+    data.elements.forEach((business: any) => {
+      if (
+        business.tags?.website &&
+        (business.tags?.phone || business.tags?.email)
+      ) {
+        companies.push({
+          id: business.id,
+          name: business.tags?.name || "N/A",
+          website: business.tags?.website || "N/A",
+          phone: business.tags?.phone || "N/A",
+          email: business.tags?.email || "N/A",
+          address: [
+            business.tags?.["addr:housenumber"],
+            business.tags?.["addr:street"],
+            business.tags?.["addr:city"],
+            business.tags?.["addr:state"],
+            business.tags?.["addr:postcode"],
+          ]
+            .filter(Boolean)
+            .join(" "),
+        });
+      }
+    });
+
+    return companies;
+  };
+
   const fetchLeads = async () => {
     setLoading(true);
     setAllClientData(undefined);
@@ -42,12 +120,16 @@ const Heipro = () => {
       const hasBusiness = !!business;
       const hasBoth = hasIndustry && hasBusiness;
 
-      const res = await getClientDetails(
-        hasBoth ? `${industry} ${business}` : hasIndustry ? industry : business,
-        `${city} ${state}`,
+      const res = await searchBusinesses(
+        city.toLowerCase(),
+        state.toLocaleLowerCase(),
+        industry.toLowerCase(),
       );
 
-      setLeads(res);
+      if (!!res) {
+        setLeads(res);
+      }
+
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -100,92 +182,59 @@ const Heipro = () => {
     }
   };
 
-  const industries = [
-    "Consulting",
-    "Healthcare",
-    "Dental",
-    "Construction",
-    "Photography",
-    "Beauty and Wellness",
-    "Finance and Insurance",
-    "Legal",
-    "Media and Entertainment",
-    "Non-Profit",
-    "Hospitality, Tourism, and Recreation",
-    "Food and Beverage",
-    "Fashion and Apparel",
-    "Lodging",
-    "Sports and Recreation",
-    "Home Improvement",
-    "Retail",
-    "Education",
-    "Information Technology",
-    "Real Estate and Property ",
-    "Residential Care",
-    "Digital Products",
-    "Entertainment and Leisure",
-    "Transportation and Logistics",
-    "Agriculture, Forestry and Fishing",
-    "Artificial Intelligence",
-    "Telecommunications",
-    "Utilities",
-    "E-commerce and Online Retail",
-    "Wholesale and Distribution",
-    "Manufacturing",
-    "Government and Public Administration",
-  ];
+  const industries = ["Amenity", "Office", "Craft", "Shop", "Tourism"];
 
   const states = [
-    "AL",
-    "AK",
-    "AZ",
-    "AR",
-    "CA",
-    "CO",
-    "CT",
-    "DE",
-    "FL",
-    "GA",
-    "HI",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "ME",
-    "MD",
-    "MA",
-    "MI",
-    "MN",
-    "MS",
-    "MO",
-    "MT",
-    "NE",
-    "NV",
-    "NH",
-    "NJ",
-    "NM",
-    "NY",
-    "NC",
-    "ND",
-    "OH",
-    "OK",
-    "OR",
-    "PA",
-    "RI",
-    "SC",
-    "SD",
-    "TN",
-    "TX",
-    "UT",
-    "VT",
-    "VA",
-    "WA",
-    "WV",
-    "WI",
-    "WY",
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming",
   ];
 
   const isIndustryActive = !!industry.length && !!city && !!state.length;
@@ -215,12 +264,12 @@ const Heipro = () => {
               </option>
             ))}
           </S.Select>
-          <div>or</div>
+          {/* <div>or</div>
           <S.Input
             type="text"
             placeholder="Enter Business Name"
             onChange={(e) => setInputField("business", e)}
-          />
+          /> */}
         </S.SearchWrapper>
         <S.SearchWrapper>
           <S.Input
@@ -239,9 +288,9 @@ const Heipro = () => {
         </S.SearchWrapper>
         <S.SearchWrapper>
           <S.Button onClick={fetchLeads} disabled={count < 3}>
-            Find Weak Marketing Leads
+            Find Marketing Leads
           </S.Button>
-          {!allClientData && (
+          {/* {!allClientData && (
             <S.Button
               onClick={getMultiLeads}
               disabled={!leads.length || triggerLoad}
@@ -264,7 +313,7 @@ const Heipro = () => {
             >
               Download CSV
             </CsvDownloadButton>
-          )}
+          )} */}
         </S.SearchWrapper>
       </div>
 
@@ -285,11 +334,17 @@ const Heipro = () => {
                   </a>
                 </div>
                 <div>
+                  <strong>Email:</strong> {lead.email}
+                </div>
+                <div>
                   <strong>Phone:</strong> {lead.phone}
                 </div>
-                <S.Button onClick={() => getLeadDetails(lead.website)}>
+                <div>
+                  <strong>Address:</strong> {lead.address}
+                </div>
+                {/* <S.Button onClick={() => getLeadDetails(lead.website)}>
                   View Details
-                </S.Button>
+                </S.Button> */}
               </S.Card>
             ))}
           {!leads.length && <div>No Leads</div>}

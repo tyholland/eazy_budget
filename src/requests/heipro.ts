@@ -1,9 +1,13 @@
 const api = process.env.REACT_APP_API;
 
-export const getClientDetails = async (industry: string, city: string) => {
+export const getClientDetails = async (
+  tagValue: string,
+  city: string,
+  state: string,
+) => {
   try {
     const clientResponse = await fetch(
-      `${api}/heipro?query=${industry}&location=${city}`,
+      `${api}/heipro?tagValue=${tagValue}&city=${city}&state=${state}`,
       {
         method: "GET",
       },

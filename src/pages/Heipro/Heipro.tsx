@@ -1,6 +1,13 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { trackError } from "../../functions/mixpanel.ts";
 import * as S from "./heipro.style.ts";
+import CsvDownloadButton from "react-json-to-csv";
+
+type Lead = {
+  phone: string;
+  name: string;
+  email: string;
+};
 
 const Heipro = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -9,6 +16,9 @@ const Heipro = () => {
   const [city, setCity] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [business, setBusiness] = useState<string>("");
+  const [allClientData, setAllClientData] = useState<Lead[] | undefined>(
+    undefined,
+  );
 
   const getCoordinates = async (city: string, state: string) => {
     const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
@@ -192,6 +202,22 @@ const Heipro = () => {
     count += 3;
   }
 
+  const getAllClientData = () => {
+    const leadData: Lead[] = [];
+    leads.forEach((item) => {
+      leadData.push({
+        phone: item.phone,
+        name: item.name,
+        email: item.email,
+      });
+    });
+    setAllClientData(leadData.length ? leadData : undefined);
+  };
+
+  useEffect(() => {
+    getAllClientData();
+  }, [leads]);
+
   return (
     <div>
       <h1>Lead Generation Tool</h1>
@@ -226,6 +252,15 @@ const Heipro = () => {
           <S.Button onClick={fetchLeads} disabled={count < 3}>
             Find Marketing Leads
           </S.Button>
+          {allClientData && (
+            <CsvDownloadButton
+              data={allClientData}
+              headers={["Phone", "Name", "Email"]}
+              filename="clientData"
+            >
+              Download CSV
+            </CsvDownloadButton>
+          )}
         </S.SearchWrapper>
       </div>
 

@@ -206,7 +206,7 @@ const Heipro = () => {
     const leadData: Lead[] = [];
     leads.forEach((item) => {
       leadData.push({
-        phone: item.phone,
+        phone: item.phone.replace("+1-", "").replace("+1", ""),
         name: item.name,
         email: item.email,
       });
